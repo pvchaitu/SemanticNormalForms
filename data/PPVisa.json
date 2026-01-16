@@ -1,0 +1,8 @@
+{
+    "//comment": "Sample payload simulating raw production data for normalization.",
+    "pan": "4111111111111111",
+    "exp": "12/26",
+    "cvv": "123",
+    "cardholder": "Alice Example",
+    "issuer": "Visa"
+}

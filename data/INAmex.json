@@ -1,0 +1,52 @@
+{
+    "//comment": "Aligned with ISO 20022 (Financial services messaging) and PCI-DSS requirements.",
+    "//source": "https://www.iso20022.org/iso-20022-message-definitions",
+    "schema_id": "INAmex_v1",
+    "entity": "PaymentCard",
+    "version": "v1.0",
+    "attributes": [
+        {
+            "name": "PrimaryAccountNumber",
+            "type": "string",
+            "aliases": [
+                "pan",
+                "cardNumber"
+            ],
+            "constraints": {
+                "pattern": "^[0-9]{15,16}$",
+                "description": "ISO/IEC 7812 standard PAN"
+            }
+        },
+        {
+            "name": "ExpirationDate",
+            "type": "string",
+            "aliases": [
+                "exp"
+            ],
+            "constraints": {
+                "pattern": "^(0[1-9]|1[0-2])\\/\\d{2}$"
+            }
+        },
+        {
+            "name": "CardVerificationValue",
+            "type": "string",
+            "aliases": [
+                "cvv",
+                "cid",
+                "securityCode"
+            ],
+            "constraints": {
+                "pattern": "^[0-9]{3,4}$"
+            }
+        },
+        {
+            "name": "CardHolderName",
+            "type": "string"
+        }
+    ],
+    "tags": [
+        "domain:payments",
+        "pci-scope:high"
+    ],
+    "created_at": "2025-01-01T00:00:00Z"
+}
