@@ -1,0 +1,10 @@
+{
+  "_comment": "Mastercard-style payload inspired by ISO 8583 fields. Spec overview: https://www.mastercard.us/en-us/business/issuers/get-support/iso-standards.html",
+  "primary_account_number": "541333XXXXXX1111",
+  "processing_code": "000000",
+  "transaction_amount": "7500",
+  "transmission_datetime": "0601123045",
+  "system_trace_audit_number": "123456",
+  "merchant_category_code": "5411",
+  "card_acceptor_id": "MERCHANT123"
+}

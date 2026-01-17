@@ -1,0 +1,12 @@
+{
+  "_comment": "Simplified ISO 20022-inspired credit transfer payload. Spec: https://www.iso20022.org/",
+  "msg_id": "MSG20250601ABC",
+  "end_to_end_id": "E2E123456",
+  "instd_amt": "10000.00",
+  "currency": "EUR",
+  "dbtr_nm": "John Doe",
+  "cdtr_nm": "Merchant Ltd",
+  "dbtr_acct": "DE89XXXX",
+  "cdtr_acct": "FR76YYYY",
+  "reqd_exctn_dt": "2025-06-02"
+}

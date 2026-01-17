@@ -1,0 +1,11 @@
+{
+  "_comment": "UPI payment payload aligned with NPCI UPI standard. Spec: https://www.npci.org.in/what-we-do/upi/product-overview",
+  "vpa": "user@upi",
+  "payer_account": "XXXXXXXX1234",
+  "payee_vpa": "merchant@upi",
+  "txn_id": "UPI20250601123456",
+  "txn_amount": "1500.00",
+  "currency": "INR",
+  "txn_timestamp": "2025-06-01T10:15:00Z",
+  "txn_status": "SUCCESS"
+}

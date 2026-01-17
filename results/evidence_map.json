@@ -1,0 +1,176 @@
+{
+  "//comment": [
+    {
+      "type": "nn",
+      "token": "ExpirationDate",
+      "score": 0.16843581199645996,
+      "source": "embedding_nn"
+    },
+    {
+      "type": "nn",
+      "token": "CardHolderName",
+      "score": 0.12160080671310425,
+      "source": "embedding_nn"
+    },
+    {
+      "type": "nn",
+      "token": "CardVerificationValue",
+      "score": 0.034928858280181885,
+      "source": "embedding_nn"
+    },
+    {
+      "type": "nn",
+      "token": "PrimaryAccountNumber",
+      "score": -0.13370144367218018,
+      "source": "embedding_nn"
+    }
+  ],
+  "pan": [
+    {
+      "type": "nn",
+      "token": "CardHolderName",
+      "score": 0.2427625060081482,
+      "source": "embedding_nn"
+    },
+    {
+      "type": "nn",
+      "token": "ExpirationDate",
+      "score": 0.18217509984970093,
+      "source": "embedding_nn"
+    },
+    {
+      "type": "nn",
+      "token": "CardVerificationValue",
+      "score": 0.170826256275177,
+      "source": "embedding_nn"
+    },
+    {
+      "type": "nn",
+      "token": "PrimaryAccountNumber",
+      "score": -0.07008576393127441,
+      "source": "embedding_nn"
+    },
+    {
+      "type": "cooccurrence",
+      "token": "cardNumber",
+      "score": 0.8,
+      "source": "payload_stats"
+    }
+  ],
+  "exp": [
+    {
+      "type": "nn",
+      "token": "ExpirationDate",
+      "score": 0.3906310200691223,
+      "source": "embedding_nn"
+    },
+    {
+      "type": "nn",
+      "token": "CardHolderName",
+      "score": 0.2084822654724121,
+      "source": "embedding_nn"
+    },
+    {
+      "type": "nn",
+      "token": "CardVerificationValue",
+      "score": 0.15249639749526978,
+      "source": "embedding_nn"
+    },
+    {
+      "type": "nn",
+      "token": "PrimaryAccountNumber",
+      "score": 0.06573814153671265,
+      "source": "embedding_nn"
+    }
+  ],
+  "cvv": [
+    {
+      "type": "nn",
+      "token": "CardHolderName",
+      "score": 0.23974132537841797,
+      "source": "embedding_nn"
+    },
+    {
+      "type": "nn",
+      "token": "CardVerificationValue",
+      "score": 0.23925304412841797,
+      "source": "embedding_nn"
+    },
+    {
+      "type": "nn",
+      "token": "ExpirationDate",
+      "score": 0.20502376556396484,
+      "source": "embedding_nn"
+    },
+    {
+      "type": "nn",
+      "token": "PrimaryAccountNumber",
+      "score": -0.03216826915740967,
+      "source": "embedding_nn"
+    }
+  ],
+  "cardholder": [
+    {
+      "type": "nn",
+      "token": "CardHolderName",
+      "score": 0.8917031288146973,
+      "source": "embedding_nn"
+    },
+    {
+      "type": "nn",
+      "token": "CardVerificationValue",
+      "score": 0.5773289799690247,
+      "source": "embedding_nn"
+    },
+    {
+      "type": "nn",
+      "token": "ExpirationDate",
+      "score": 0.19056177139282227,
+      "source": "embedding_nn"
+    },
+    {
+      "type": "nn",
+      "token": "PrimaryAccountNumber",
+      "score": -0.059271931648254395,
+      "source": "embedding_nn"
+    },
+    {
+      "type": "ontology",
+      "token": "CardHolderName",
+      "score": 1.0,
+      "source": "manual_fix"
+    },
+    {
+      "type": "type_match",
+      "token": "CardHolderName",
+      "score": 1.0,
+      "source": "schema_match"
+    }
+  ],
+  "issuer": [
+    {
+      "type": "nn",
+      "token": "CardHolderName",
+      "score": 0.21551305055618286,
+      "source": "embedding_nn"
+    },
+    {
+      "type": "nn",
+      "token": "ExpirationDate",
+      "score": 0.2023453712463379,
+      "source": "embedding_nn"
+    },
+    {
+      "type": "nn",
+      "token": "CardVerificationValue",
+      "score": 0.16097491979599,
+      "source": "embedding_nn"
+    },
+    {
+      "type": "nn",
+      "token": "PrimaryAccountNumber",
+      "score": -0.001003861427307129,
+      "source": "embedding_nn"
+    }
+  ]
+}

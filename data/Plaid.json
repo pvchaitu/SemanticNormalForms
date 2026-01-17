@@ -1,0 +1,12 @@
+{
+  "_comment": "Plaid-style open banking payload aligned with Plaid Auth & Transactions APIs. Spec: https://plaid.com/docs/api/products/auth/",
+  "account_id": "acc_123456789",
+  "routing_number": "011000015",
+  "account_number": "XXXX5678",
+  "account_type": "checking",
+  "balance_current": "15234.67",
+  "currency": "USD",
+  "transaction_id": "txn_987654321",
+  "transaction_amount": "249.99",
+  "transaction_date": "2025-06-01"
+}

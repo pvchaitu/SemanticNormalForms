@@ -1,0 +1,12 @@
+{
+  "_comment": "Stripe PaymentIntent-like payload. Spec: https://stripe.com/docs/api/payment_intents",
+  "payment_intent_id": "pi_3NABCXYZ",
+  "amount": 5000,
+  "currency": "usd",
+  "customer_id": "cus_LMN123",
+  "payment_method": "card",
+  "card_last4": "4242",
+  "card_brand": "visa",
+  "created": 1750000000,
+  "status": "succeeded"
+}
