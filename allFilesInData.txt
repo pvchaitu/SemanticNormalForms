@@ -1,0 +1,152 @@
+# --- Content from C:/research/SemanticNormalForms/data\INAmex.json ---
+{
+    "//comment": "Aligned with ISO 20022 (Financial services messaging) and PCI-DSS requirements.",
+    "//source": "https://www.iso20022.org/iso-20022-message-definitions",
+    "schema_id": "INAmex_v1",
+    "entity": "PaymentCard",
+    "version": "v1.0",
+    "attributes": [
+        {
+            "name": "PrimaryAccountNumber",
+            "type": "string",
+            "aliases": [
+                "pan",
+                "cardNumber"
+            ],
+            "constraints": {
+                "pattern": "^[0-9]{15,16}$",
+                "description": "ISO/IEC 7812 standard PAN"
+            }
+        },
+        {
+            "name": "ExpirationDate",
+            "type": "string",
+            "aliases": [
+                "exp"
+            ],
+            "constraints": {
+                "pattern": "^(0[1-9]|1[0-2])\\/\\d{2}$"
+            }
+        },
+        {
+            "name": "CardVerificationValue",
+            "type": "string",
+            "aliases": [
+                "cvv",
+                "cid",
+                "securityCode"
+            ],
+            "constraints": {
+                "pattern": "^[0-9]{3,4}$"
+            }
+        },
+        {
+            "name": "CardHolderName",
+            "type": "string"
+        }
+    ],
+    "tags": [
+        "domain:payments",
+        "pci-scope:high"
+    ],
+    "created_at": "2025-01-01T00:00:00Z"
+}
+
+# --- Content from C:/research/SemanticNormalForms/data\ISO20022.json ---
+{
+  "_comment": "Simplified ISO 20022-inspired credit transfer payload. Spec: https://www.iso20022.org/",
+  "msg_id": "MSG20250601ABC",
+  "end_to_end_id": "E2E123456",
+  "instd_amt": "10000.00",
+  "currency": "EUR",
+  "dbtr_nm": "John Doe",
+  "cdtr_nm": "Merchant Ltd",
+  "dbtr_acct": "DE89XXXX",
+  "cdtr_acct": "FR76YYYY",
+  "reqd_exctn_dt": "2025-06-02"
+}
+
+
+# --- Content from C:/research/SemanticNormalForms/data\Mastercard.json ---
+{
+  "_comment": "Mastercard-style payload inspired by ISO 8583 fields. Spec overview: https://www.mastercard.us/en-us/business/issuers/get-support/iso-standards.html",
+  "primary_account_number": "541333XXXXXX1111",
+  "processing_code": "000000",
+  "transaction_amount": "7500",
+  "transmission_datetime": "0601123045",
+  "system_trace_audit_number": "123456",
+  "merchant_category_code": "5411",
+  "card_acceptor_id": "MERCHANT123"
+}
+
+
+# --- Content from C:/research/SemanticNormalForms/data\Plaid.json ---
+{
+  "_comment": "Plaid-style open banking payload aligned with Plaid Auth & Transactions APIs. Spec: https://plaid.com/docs/api/products/auth/",
+  "account_id": "acc_123456789",
+  "routing_number": "011000015",
+  "account_number": "XXXX5678",
+  "account_type": "checking",
+  "balance_current": "15234.67",
+  "currency": "USD",
+  "transaction_id": "txn_987654321",
+  "transaction_amount": "249.99",
+  "transaction_date": "2025-06-01"
+}
+
+
+# --- Content from C:/research/SemanticNormalForms/data\PPVisa.json ---
+{
+    "//comment": "Sample payload simulating raw production data for normalization.",
+    "pan": "4111111111111111",
+    "exp": "12/26",
+    "cvv": "123",
+    "cardholder": "Alice Example",
+    "issuer": "Visa"
+}
+
+# --- Content from C:/research/SemanticNormalForms/data\Razorpay.json ---
+{
+  "_comment": "Razorpay payment payload aligned with Razorpay Payments API. Spec: https://razorpay.com/docs/api/payments/",
+  "razorpay_payment_id": "pay_KLMNOP12345",
+  "razorpay_order_id": "order_QWERTY6789",
+  "amount": 250000,
+  "currency": "INR",
+  "method": "upi",
+  "vpa": "customer@upi",
+  "email": "user@example.com",
+  "contact": "+919876543210",
+  "status": "captured",
+  "created_at": 1750001234
+}
+
+
+# --- Content from C:/research/SemanticNormalForms/data\Stripe.json ---
+{
+  "_comment": "Stripe PaymentIntent-like payload. Spec: https://stripe.com/docs/api/payment_intents",
+  "payment_intent_id": "pi_3NABCXYZ",
+  "amount": 5000,
+  "currency": "usd",
+  "customer_id": "cus_LMN123",
+  "payment_method": "card",
+  "card_last4": "4242",
+  "card_brand": "visa",
+  "created": 1750000000,
+  "status": "succeeded"
+}
+
+
+# --- Content from C:/research/SemanticNormalForms/data\UPI.json ---
+{
+  "_comment": "UPI payment payload aligned with NPCI UPI standard. Spec: https://www.npci.org.in/what-we-do/upi/product-overview",
+  "vpa": "user@upi",
+  "payer_account": "XXXXXXXX1234",
+  "payee_vpa": "merchant@upi",
+  "txn_id": "UPI20250601123456",
+  "txn_amount": "1500.00",
+  "currency": "INR",
+  "txn_timestamp": "2025-06-01T10:15:00Z",
+  "txn_status": "SUCCESS"
+}
+
+
