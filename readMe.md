@@ -1,102 +1,185 @@
-# ---
+# SDNF Unified Experiment (Real Embeddings + HNSW ANN)
 
-**SDNF Demo: Semantic Data Normal Forms and SRS Pipeline**
+This repo contains a **single-file, reproducible experiment** for **Semantic Data Normal Forms (SDNF)** aligned to the paper claims:
 
-**Version: 0.1.0-alpha**
+- **Real embeddings** via **Sentence-Transformers**
+- **Approximate Nearest Neighbor (ANN)** retrieval via **HNSW (hnswlib)**
+- **Evidence-gated schema evolution** (ECNF) with configurable evidence modes:
+  - `embed_only` (baseline)
+  - `vss` (Value Semantic Signature)
+  - `shape` (Shape-token embedding)
+  - `hybrid` (default: VSS + shape-token)
+- **JSON-driven ingestion** from `./data` (supports both schema-style and payload-style JSON)
 
-**Status: Functional Prototype / Research Artifact**
-
-This repository provides a hands-on implementation of the Semantic Data Normal Forms (SDNF) framework and the Semantic Relational Schema (SRS). It addresses the integrity, stability, and explainability challenges of AI-native databases by moving from structural constraints to semantic constraints.
-
-## ---
-
-**System Architecture and Workflow**
-
-The following flowchart illustrates the end-to-end pipeline, highlighting where specific files are utilized and how they implement the theoretical novelties of the SDNF framework.
-
-### **Pipeline Walkthrough**
-
-1. **Data Ingestion (schema\_ingest.py)**:  
-   * Validates raw payloads against ISO 20022 and PCI-DSS standards.  
-   * Derives a draft schema, ensuring Entity Embedding Normal Form (EENF) readiness.  
-2. **Semantic Embedding (embedding\_utils.py)**:  
-   * **Novelty**: Implements Multi-level Embeddings (Fine-grained and Abstract levels).  
-   * **Privacy**: Injects Gaussian Differential Privacy (DP) noise into sensitive fields like PAN to prevent vector reconstruction.  
-3. **AANF Enforcement (semantic\_merge.py)**:  
-   * **Novelty**: Uses Evidence Sets (ECNF) to merge aliases based on threshold m\_min.  
-4. **CMNF Contextualization (cmnf.py)**:  
-   * **Novelty**: Learns Context Modulation Normal Form (CMNF) projections.  
-   * **Orthogonality Check**: Enforces a penalty to ensure different contexts remain orthogonal.  
-5. **Persistence and Audit (db\_utils.py)**:  
-   * Stores merge decisions and projection matrices in a Lineage Table for explainability.  
-6. **Visualization (visualize.py)**:  
-   * Generates t-SNE plots comparing original vs. context-projected embeddings.
-
-## ---
-
-**Quick Start**
-
-### **1\. Setup Virtual Environment**
-
-It is highly recommended to use a virtual environment to manage the sentence-transformers and numpy dependencies.
-
-**On Unix/macOS:**
-
-Bash
-
-python3 \-m venv venv  
-source venv/bin/activate
-
-**On Windows:**
-
-Bash
-
-python \-m venv venv  
-.\\venv\\Scripts\\activate
-
-### **2\. Install Requirements**
-
-Once the environment is active, install the necessary research libraries:
-
-Bash
-
-pip install \-r requirements.txt
-
-### **3\. Run Demo**
-
-Execute the main research script to view the SRS evolution and SDNF compliance table:
-
-Bash
-
-python demo.py
-
-*Note: The demo will log detailed debug information, including EENF variance and CMNF orthogonality checks.*
-
-## ---
-
-**Contribution Section**
-
-We welcome contributions that extend the SDNF theory or improve implementation efficiency.
-
-* **D-BNF Implementation**: Help implement Drift-Bounded Normal Form logic to detect semantic shift.  
-* **Optimization**: We welcome pull requests for approximate orthogonality using Locality Sensitive Hashing (LSH).  
-* **Standards Mapping**: Help map more JSON attributes to ISO 20022 or FHIR standards.
-
-## ---
-
-**Standards Reference**
-
-* **ISO 20022**: Used for naming conventions in INAmex.json.  
-* **PCI-DSS**: Principles for PII handling and DP noise applied in embedding\_utils.py.  
-* **IEEE SDNF Framework**: Companion code to "Semantic Data Normal Forms: A Framework for Embedding-Native Schema Integrity".
-
-## ---
-
-**Troubleshooting and Debugging**
-
-* **File Not Found**: Ensure INAmex.json and PPVisa.json are in the root or data/ folder.  
-* **ImportError**: If sentence-transformers is missing, ensure your virtual environment is active and requirements are installed.  
-* **Visualization Failures**: Ensure matplotlib and scikit-learn are installed to generate t-SNE plots.
+> **Main script:** `unified_sdnf_experiment_hybrid_v1.py`
 
 ---
 
+## What the experiment does
+
+1. **Bootstraps a canonical schema** from `data/INAmex.json` if present (otherwise first JSON file).
+2. Builds **multi-level attribute name embeddings** per the SDNF/SRS narrative:
+   - *fine:* `encode(name)`
+   - *abstract:* `encode(normalize(name))`
+   - *contextual:* `encode(f"{name} in {context} context")`
+   - concatenate + L2 normalize
+3. Builds an **HNSW index** over canonical attribute embeddings.
+4. Ingests each JSON file and for each new field:
+   - retrieves top ANN candidate(s)
+   - computes evidence based on `--evidence_mode`
+   - applies **ECNF gating**: `merge_auto` vs `merge_pending` vs `create`
+5. Optional **DBNF drift test** (if `--drift_model` is provided).
+6. Prints **concise logs**: per-file ingest summary + final metrics summary.
+
+---
+
+## Repository layout
+
+- `unified_sdnf_experiment_hybrid_v1.py` — the unified experiment (single file)
+- `data/` — JSON artifacts used by the experiment
+- `requirements.txt` — minimal dependencies to run the experiment
+
+---
+
+## Quick start
+
+### 1) Create & activate a virtual environment
+
+**Linux/macOS**
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
+
+**Windows (PowerShell)**
+```powershell
+python -m venv venv
+.\venv\Scripts\Activate.ps1
+```
+
+### 2) Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+## How to run
+
+### Run default (recommended): **hybrid evidence**
+
+```bash
+python unified_sdnf_experiment_hybrid_v1.py --data_dir ./data --model all-MiniLM-L6-v2 --contexts Payments Risk
+```
+
+### Compare modes quickly
+
+Baseline (**embedding-only**):
+```bash
+python unified_sdnf_experiment_hybrid_v1.py --data_dir ./data --evidence_mode embed_only
+```
+
+Value Semantic Signature (VSS):
+```bash
+python unified_sdnf_experiment_hybrid_v1.py --data_dir ./data --evidence_mode vss
+```
+
+Shape-token embedding evidence:
+```bash
+python unified_sdnf_experiment_hybrid_v1.py --data_dir ./data --evidence_mode shape
+```
+
+Hybrid (default):
+```bash
+python unified_sdnf_experiment_hybrid_v1.py --data_dir ./data --evidence_mode hybrid
+```
+
+### Drift test (DBNF simulation)
+
+Use a second embedding model to simulate a model upgrade and trigger drift detection:
+```bash
+python unified_sdnf_experiment_hybrid_v1.py --data_dir ./data --model all-MiniLM-L6-v2 --drift_model all-mpnet-base-v2
+```
+
+### More diagnostics
+
+Increase verbosity:
+```bash
+python unified_sdnf_experiment_hybrid_v1.py --data_dir ./data --log_level DEBUG
+```
+
+Limit runtime for quick iteration:
+```bash
+python unified_sdnf_experiment_hybrid_v1.py --data_dir ./data --max_files 3 --max_fields 20
+```
+
+---
+
+## Evidence modes (what changes)
+
+All modes use **ANN retrieval** over **real embeddings** to propose merge candidates.
+
+- `embed_only`: uses only embedding similarity (baseline; expect more false merges).
+- `vss`: adds **Value Semantic Signature** evidence derived from values (domain-agnostic numeric signature).
+- `shape`: adds **shape-token embedding** evidence derived from values (embeds shape tokens, not raw values).
+- `hybrid`: combines `vss` + `shape` (recommended; best precision/recall trade-off in most cases).
+
+> **Important:** VSS/shape evidence requires **payload-style JSON** (values present). For schema-only JSON (e.g., files that only define attribute metadata), value evidence may be missing. The script prints guidance if value evidence is missing for a large fraction of fields.
+
+---
+
+## Data folder expectations
+
+The experiment supports two JSON styles:
+
+### 1) Schema-style JSON
+Example structure (contains an `attributes` list):
+```json
+{
+  "schema_id": "INAmex_v1",
+  "entity": "PaymentCard",
+  "attributes": [
+    {"name": "PrimaryAccountNumber", "aliases": ["pan", "cardNumber"]},
+    {"name": "ExpirationDate", "aliases": ["exp"]}
+  ]
+}
+```
+
+### 2) Payload-style JSON
+Example structure (flat dict of fields):
+```json
+{
+  "pan": "4111111111111111",
+  "exp": "12/26",
+  "cvv": "123"
+}
+```
+
+---
+
+## Output (what you’ll see)
+
+At `INFO` level, the script prints:
+
+- Calibrated taus (EENF, AANF, DBNF)
+- HNSW index build summary
+- Per-file ingestion summary (`fields`, `merges`, `pending`, `new`)
+- DBNF drift summary (if enabled)
+- Evidence-availability guidance (if value evidence is often missing)
+- Final summary (`canon`, `aliases_total`, `redundancy_reduction`, `merges`, `pending`, `forks`)
+- Up to 5 example merges
+
+---
+
+## Reproducibility tips
+
+- Prefer running with a fixed environment (venv / container)
+- Use `--max_files` and `--max_fields` to iterate quickly
+- Keep the `data/` set consistent across runs when reporting numbers in the paper
+
+---
+
+## License / Research note
+
+This is a research artifact intended for experimentation and reproducibility. You should avoid embedding or logging raw sensitive values in production environments.
