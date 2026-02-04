@@ -16,7 +16,7 @@ def load_json_file(filename: str):
         if os.path.exists(path):
             with open(path, "r", encoding="utf-8") as f:
                 return json.load(f)
-    logger.error(f"File not found: {filename}")
+    logger.warning(f"File not found: {filename} (synth will be used by demo)")
     return None
 
 

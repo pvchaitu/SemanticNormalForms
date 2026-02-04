@@ -1,109 +1,83 @@
 # embedding_utils.py
+"""
+Multi-level deterministic embedding model implementing Eq 3.2 with regeneration support.
+
+Emb(p, c) = concat(Emb_fine(p, c), Emb_abstract(p), Emb_contextual(p, c))
+
+Supports deterministic regenerations (simulate repeated embedding calls) for EENF.
+"""
+
+from typing import List, Optional, Tuple
 import numpy as np
-import logging
-from typing import List, Optional
-
-logger = logging.getLogger("sdnf.embeddings")
-
-# Try to import sentence-transformers but allow graceful fallback
-try:
-    from sentence_transformers import SentenceTransformer
-    ST_AVAILABLE = True
-except Exception:
-    ST_AVAILABLE = False
-
-# Deterministic RNG for reproducibility if no transformer is available
-GLOBAL_RNG = np.random.default_rng(42)
-
+import hashlib
 
 class EmbeddingModel:
-    """
-    Encapsulates embedding generation used in SDNF experiments.
+    def __init__(self,
+                 fine_dim: int = 128,
+                 abstract_dim: int = 64,
+                 contextual_dim: int = 64,
+                 regen_jitter: float = 1e-3):
+        self.fine_dim = fine_dim
+        self.abstract_dim = abstract_dim
+        self.contextual_dim = contextual_dim
+        self.dim = fine_dim + abstract_dim + contextual_dim
+        self.regen_jitter = regen_jitter
 
-    - If sentence-transformers is available, uses the specified model (recommended).
-    - Otherwise falls back to a deterministic, reproducible random projection
-      embedding (useful for unit tests and CI) that is stable across runs
-      given the same seed.
+    def _seed_from_text(self, text: str, salt: str = "") -> int:
+        h = hashlib.sha256((text + salt).encode("utf-8")).digest()
+        return int.from_bytes(h[:8], "little") & 0xFFFFFFFF
 
-    NOVELTY NOTE: We preserve the multi-level embedding idea by allowing callers
-    to later compose fine/abstract/contextual subvectors. Here we provide the
-    base textual encoder; multi-level assembly is performed by the pipeline.
-    """
+    def _pseudo_vector(self, text: str, dim: int, salt: str = "", regen_idx: Optional[int] = None) -> np.ndarray:
+        seed = self._seed_from_text(text, salt)
+        if regen_idx is not None:
+            seed = (seed ^ (regen_idx * 0x9e3779b1)) & 0xFFFFFFFF
+        rng = np.random.default_rng(seed)
+        v = rng.normal(size=(dim,))
+        n = np.linalg.norm(v) + 1e-12
+        return (v / n).astype(np.float32)
 
-    def __init__(self, model_name: str = "all-MiniLM-L6-v2", dim: int = 384):
-        self.dim = dim
-        if ST_AVAILABLE:
-            logger.info(f"Loading SentenceTransformer model: {model_name}")
-            try:
-                self.model = SentenceTransformer(model_name)
-                # If model returns different dim than requested, adapt
-                emb_dim = self.model.get_sentence_embedding_dimension()
-                if emb_dim != dim:
-                    logger.warning(f"Model embedding dim {emb_dim} != requested {dim}. Using {emb_dim}.")
-                    self.dim = emb_dim
-            except Exception as e:
-                logger.exception("Failed to load sentence-transformers model. Falling back to RNG embeddings.")
-                self.model = None
-                self._seed = 42
-        else:
-            logger.warning("sentence-transformers not available; using deterministic random embeddings.")
-            self.model = None
-            self._seed = 42
-
-    def encode(self, texts: List[str]) -> np.ndarray:
+    def encode(self, tokens: List[str], context: Optional[str] = None, regen_idx: Optional[int] = None) -> np.ndarray:
         """
-        Return embeddings shaped (len(texts), dim).
-
-        - Normalizes (L2) the output so cosine similarity is valid.
-        - Deterministic fallback if real model unavailable.
+        Encode tokens into concatenated embeddings. If regen_idx is provided, deterministic
+        regeneration variation is applied to simulate repeated embedding calls.
         """
-        if self.model is not None:
-            emb = self.model.encode(texts, convert_to_numpy=True, show_progress_bar=False)
-            emb = np.asarray(emb, dtype=np.float32)
-        else:
-            # deterministic hash-based pseudo-embedding fallback
-            emb = np.stack([self._pseudo_embed(t) for t in texts], axis=0)
+        out = []
+        ctx = context or "global"
+        for t in tokens:
+            fine = self._pseudo_vector(f"LEX:{t}:{ctx}", self.fine_dim, salt="fine", regen_idx=regen_idx)
+            abstract = self._pseudo_vector(f"ABS:{t}", self.abstract_dim, salt="abstract", regen_idx=regen_idx)
+            contextual = self._pseudo_vector(f"CTX:{ctx}:{t}", self.contextual_dim, salt="contextual", regen_idx=regen_idx)
+            emb = np.concatenate([fine, abstract, contextual], axis=0)
+            # small deterministic jitter for regeneration realism
+            if regen_idx is not None:
+                jitter = (regen_idx % 7) * self.regen_jitter
+                emb = emb + jitter * np.sign(emb)
+            out.append(emb)
+        return np.stack(out, axis=0)
 
-        # L2 normalize per-row (important for cosine sim)
-        norms = np.linalg.norm(emb, axis=1, keepdims=True) + 1e-12
-        emb = emb / norms
-        return emb
-
-    def _pseudo_embed(self, text: str) -> np.ndarray:
+    def regenerations(self, token: str, context: Optional[str], G: int) -> np.ndarray:
         """
-        Deterministic pseudo-embedding based on hashed seed.
-        Useful for unit tests / CI when transformer is not available.
+        Return G regenerations for token as an array (G x dim).
         """
-        # Create repeatable seed per text
-        h = abs(hash(text)) % (2 ** 31 - 1)
-        rng = np.random.default_rng(h)
-        vec = rng.normal(0, 1.0, size=(self.dim,))
-        return vec.astype(np.float32)
+        reps = [self.encode([token], context=context, regen_idx=i)[0] for i in range(G)]
+        return np.stack(reps, axis=0)
 
+    def split_components(self, emb: np.ndarray) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
+        fine = emb[:self.fine_dim]
+        abstract = emb[self.fine_dim:self.fine_dim + self.abstract_dim]
+        contextual = emb[self.fine_dim + self.abstract_dim:]
+        return fine, abstract, contextual
 
-def add_gaussian_dp_noise(vec: np.ndarray, epsilon: Optional[float] = 1.0, delta: Optional[float] = 1e-5) -> np.ndarray:
-    """
-    Add Gaussian DP noise to an embedding vector.
-
-    We use the standard approximate Gaussian mechanism calibration:
-        sigma = c * sensitivity / epsilon,
-    where c depends on delta. For simplicity and reproducibility we use:
-        sigma = sqrt(2 * log(1.25/delta)) / epsilon
-
-    Notes:
-    - Embeddings should be pre-normalized (L2) before adding noise if desired.
-    - Caller should re-normalize after adding noise if cosine similarity is used.
-    - This is a pragmatic calibration; for production, an audited DP library is recommended.
-
-    Returns the noisy vector (same shape).
-    """
-    if epsilon is None or epsilon <= 0:
-        raise ValueError("epsilon must be positive for DP noise")
-    c = np.sqrt(2 * np.log(1.25 / (delta + 1e-30)))
-    sigma = (c / epsilon)  # sensitivity assumed 1 for normalized embeddings
-    logger.debug(f"Applying Gaussian DP noise: epsilon={epsilon}, delta={delta}, sigma={sigma:.6f}")
-    noise = np.random.default_rng(42).normal(0, sigma, size=vec.shape)
-    noisy = vec + noise
-    # Re-normalize so downstream cosine sims behave sensibly
-    noisy = noisy / (np.linalg.norm(noisy) + 1e-12)
-    return noisy.astype(np.float32)
+    def component_similarity(self, a: np.ndarray, b: np.ndarray) -> dict:
+        def cos(u, v):
+            nu = np.linalg.norm(u) + 1e-12
+            nv = np.linalg.norm(v) + 1e-12
+            return float(np.dot(u, v) / (nu * nv))
+        fa, aa, ca = self.split_components(a)
+        fb, ab, cb = self.split_components(b)
+        return {
+            "fine": cos(fa, fb),
+            "abstract": cos(aa, ab),
+            "contextual": cos(ca, cb),
+            "global": cos(a, b)
+        }

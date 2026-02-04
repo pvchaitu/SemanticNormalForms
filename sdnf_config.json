@@ -1,0 +1,68 @@
+{
+  "EENF": {
+    "tau": 0.01,
+    "calibration_quantile": 0.95,
+    "regenerations": 10,
+    "_note": "EENF uses multiple regenerations per entity to estimate embedding variance."
+  },
+  "AANF": {
+    "tau": 0.90,
+    "calibration_quantile": 0.99,
+    "require_ontology_match": true,
+    "_note": "AANF requires high sim and ontology/evidence signals to declare aliases."
+  },
+  "CMNF": {
+    "tau": 0.05,
+    "calibration_quantile": 0.95,
+    "orthogonalize_iters": 3,
+    "_note": "CMNF contamination bound; orthogonalize target projection iteratively."
+  },
+  "DBNF": {
+    "global_tau": 0.25,
+    "calibration_quantile": 0.90,
+    "adaptive_multiplier": 2.5,
+    "min_alias_count": 3,
+    "_note": "Per-attribute tau = max(global_tau, adaptive_multiplier * sqrt(variance))."
+  },
+  "ECNF": {
+    "m_min": 3,
+    "score_threshold": 0.60,
+    "strong_score_threshold": 0.78,
+    "require_distinct_signals": 2,
+    "_note": "Per-merge evidence rule; requires multi-signal diversity for permissive auto-merge."
+  },
+  "RRNF": {
+    "tau": 0.70
+  },
+  "PONF": {
+    "tau": 0.10
+  },
+  "decision_policy": {
+    "dbnf_fail_fraction": 0.6,
+    "dbnf_median_factor": 2.5,
+    "auto_merge_min_score": 0.80,
+    "auto_merge_min_count": 4,
+    "canary_fraction": 0.05
+  },
+  "ontology": {
+    "payment_roots": ["payment:account", "payment:cvv", "payment:expiry"],
+    "mappings": {
+      "pan": "payment:account",
+      "card": "payment:account",
+      "acct": "payment:account",
+      "account": "payment:account",
+      "cvv": "payment:cvv",
+      "cid": "payment:cvv",
+      "exp": "payment:expiry",
+      "expiration": "payment:expiry"
+    }
+  },
+  "heuristics": {
+    "token_patterns": ["pan", "card", "acct", "account", "cvv", "exp", "amount", "currency", "vpa", "txn"],
+    "pan_regex": "^[0-9]{12,19}$"
+  },
+  "random": {
+    "seed": 1234,
+    "drift_noise_scale": 0.02
+  }
+}
