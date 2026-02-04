@@ -1,0 +1,10 @@
+{
+  "primary_account_number": "5387262473178108",
+  "processing_code": "000000",
+  "transaction_amount": "121.11",
+  "transaction_currency": "INR",
+  "expiry": "03/32",
+  "securityCode": "773",
+  "cardholder": "Meera Sharma",
+  "merchant": "CafeMocha"
+}

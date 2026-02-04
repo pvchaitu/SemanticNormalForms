@@ -1,0 +1,10 @@
+{
+  "primary_account_number": "5751079911838425",
+  "processing_code": "000000",
+  "transaction_amount": "564.31",
+  "transaction_currency": "USD",
+  "expiry": "05/28",
+  "securityCode": "784",
+  "cardholder": "Vikram Singh",
+  "merchant": "BigBazaar"
+}

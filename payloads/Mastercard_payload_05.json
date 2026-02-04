@@ -1,0 +1,10 @@
+{
+  "primary_account_number": "5841241182449353",
+  "processing_code": "000000",
+  "transaction_amount": "2163.64",
+  "transaction_currency": "USD",
+  "expiry": "05/26",
+  "securityCode": "164",
+  "cardholder": "Asha Sharma",
+  "merchant": "Flipkart"
+}

@@ -1,0 +1,10 @@
+{
+  "payment_id": "pay_778998",
+  "amount": "2796.01",
+  "currency": "INR",
+  "method": "upi",
+  "cardNumber": "5193149190586518",
+  "exp": "08/27",
+  "cvv": "657",
+  "customer_name": "Neha Iyer"
+}

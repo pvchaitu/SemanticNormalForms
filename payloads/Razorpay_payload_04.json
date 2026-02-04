@@ -1,0 +1,10 @@
+{
+  "payment_id": "pay_421517",
+  "amount": "2060.29",
+  "currency": "INR",
+  "method": "card",
+  "cardNumber": "5634957885685574",
+  "exp": "12/29",
+  "cvv": "518",
+  "customer_name": "Neha Patel"
+}

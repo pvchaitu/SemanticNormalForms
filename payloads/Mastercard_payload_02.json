@@ -1,0 +1,10 @@
+{
+  "primary_account_number": "5606474687234309",
+  "processing_code": "000000",
+  "transaction_amount": "4442.07",
+  "transaction_currency": "USD",
+  "expiry": "01/26",
+  "securityCode": "978",
+  "cardholder": "Pooja Khan",
+  "merchant": "BigBazaar"
+}

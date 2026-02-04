@@ -1,0 +1,10 @@
+{
+  "payment_id": "pay_886931",
+  "amount": "3807.72",
+  "currency": "INR",
+  "method": "netbanking",
+  "cardNumber": "5849877694531473",
+  "exp": "11/32",
+  "cvv": "507",
+  "customer_name": "Arjun Khan"
+}

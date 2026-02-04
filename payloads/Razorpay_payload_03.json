@@ -1,0 +1,10 @@
+{
+  "payment_id": "pay_612311",
+  "amount": "4549.97",
+  "currency": "INR",
+  "method": "card",
+  "cardNumber": "3435454948083136",
+  "exp": "12/33",
+  "cvv": "770",
+  "customer_name": "Ravi Nair"
+}

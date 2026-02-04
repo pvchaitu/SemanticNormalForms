@@ -1,0 +1,10 @@
+{
+  "payment_id": "pay_232731",
+  "amount": "2248.05",
+  "currency": "INR",
+  "method": "card",
+  "cardNumber": "5749894134352408",
+  "exp": "09/30",
+  "cvv": "271",
+  "customer_name": "Asha Mehta"
+}
