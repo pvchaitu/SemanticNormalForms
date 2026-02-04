@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""unified_sdnf_experiment_hybrid_v7.py
+"""unified_sdnf_experiment_hybrid_v8.py
 
-SDNF Unified Experiment (v7)
+SDNF Unified Experiment (v8)
 
 Polish added (requested):
 - In --evidence_mode all comparison table, include EENF/CMNF/DBNF actual vs tau (a/t) columns.
@@ -16,9 +16,9 @@ Dependencies:
   pip install -U sentence-transformers hnswlib numpy
 
 What we run:
-python unified_sdnf_experiment_hybrid_v7.py
-python unified_sdnf_experiment_hybrid_v7.py --evidence_mode all
-python unified_sdnf_experiment_hybrid_v7.py --evidence_mode all --drift_model all-mpnet-base-v2
+python unified_sdnf_experiment_hybrid_v8.py
+python unified_sdnf_experiment_hybrid_v8.py --evidence_mode all
+python unified_sdnf_experiment_hybrid_v8.py --evidence_mode all --drift_model all-mpnet-base-v2
 
 """
 
@@ -29,7 +29,7 @@ import math
 import os
 import re
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, UTC
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
@@ -834,6 +834,8 @@ class SDNFExperiment:
                     ontology=ontology_root(derived_name),
                 )
                 self._ensure_alias_embeddings(ca2)
+                # bootstrap value prototypes for new canonical when payload values exist
+                self.update_value_state(ca2, derived_value)
                 self.canon[derived_name] = ca2
                 self.lineage.append({"action": "create", "to": derived_name, "source": source})
                 creates += 1
@@ -853,6 +855,7 @@ class SDNFExperiment:
         self.ingest_names(names, payload=payload, source=path.name)
 
     def report(self, run_cfg: Dict[str, Any]):
+        """Print consolidated tables with ExpectedEvent reasoning for PASS/FAIL/DETECTED."""
         cfg_rows = []
         for k in [
             "timestamp", "evidence_mode", "model", "drift_model", "contexts", "promote_sources", "promote_hits",
@@ -865,17 +868,20 @@ class SDNFExperiment:
         cfg_rows += [["canon_final", len(self.canon)], ["aliases_total", total_aliases], ["redundancy_reduction", pct(reduction)]]
         logger.info("\n" + render_table(["Option", "Value"], cfg_rows, title="RUN CONFIGURATION"))
 
-        # compute actuals
+        # ---------------- SDNF validations (distribution-consistent) ----------------
+        # EENF: compare q95(var) to tau (tau is calibrated as quantile)
         regs = []
-        for n in list(self.canon.keys())[: min(40, len(self.canon))]:
+        for n in list(self.canon.keys())[: min(60, len(self.canon))]:
             r = self.embedder.regenerations(n, context=self.canon[n].context, G=10)
             regs.append(float(np.mean(np.var(r, axis=0))))
-        eenf_actual = max(regs) if regs else 0.0
+        eenf_q95 = float(np.quantile(np.array(regs), 0.95)) if regs else 0.0
+        eenf_max = max(regs) if regs else 0.0
         eenf_tau = float(self.tau_eenf or 0.0)
-        eenf_pass = eenf_actual <= eenf_tau
+        eenf_pass = eenf_q95 <= eenf_tau
 
+        # CMNF: mean overlap <= tau
         if len(self.contexts) > 1 and len(self.canon) > 0:
-            sample = list(self.canon.keys())[: min(80, len(self.canon))]
+            sample = list(self.canon.keys())[: min(120, len(self.canon))]
             Xp = self.embedder.embed_many(sample, context=self.contexts[0])
             Xr = self.embedder.embed_many(sample, context=self.contexts[1])
             Wp = learn_pca_projection(Xp, k=64)
@@ -887,65 +893,208 @@ class SDNFExperiment:
         cmnf_tau = float(self.tau_cmnf or 0.0)
         cmnf_pass = cmnf_actual <= cmnf_tau
 
-        if self.drift_embedder and len(self.canon) > 0:
-            sample = list(self.canon.keys())[: min(60, len(self.canon))]
+        # DBNF: drift detector
+        drift_enabled = self.drift_embedder is not None
+        drift_alignment_used = self.drift_map is not None
+        top_drift = []
+        if drift_enabled and len(self.canon) > 0:
+            sample = list(self.canon.keys())[: min(120, len(self.canon))]
             drifts = []
             for t in sample:
                 a = self.embedder.embed(t, self.canon[t].context)
                 b = self.drift_embedder.embed(t, self.canon[t].context)
                 if self.drift_map is not None:
                     b = apply_linear_map(b, self.drift_map)
-                drifts.append(l2_dist(a, b))
-            dbnf_actual = max(drifts) if drifts else 0.0
+                drifts.append((t, l2_dist(a, b)))
+            drifts_sorted = sorted(drifts, key=lambda x: x[1], reverse=True)
+            dbnf_actual = float(drifts_sorted[0][1]) if drifts_sorted else 0.0
+            top_drift = drifts_sorted[:5]
         else:
             dbnf_actual = 0.0
         dbnf_tau = float(self.tau_dbnf or 0.0)
-        dbnf_pass = True if not self.drift_embedder else (dbnf_actual <= dbnf_tau)
+        dbnf_detected = drift_enabled and (dbnf_actual > dbnf_tau)
+        dbnf_pass = (not drift_enabled) or (dbnf_actual <= dbnf_tau)
 
+        # AANF: sanity check merges respect tau
         merges = [e for e in self.lineage if e.get("action") == "merge_auto"]
         aanf_tau = float(self.tau_aanf or 0.0)
         min_merge_sim = min((float(e.get("sim", 0.0)) for e in merges), default=None)
         aanf_pass = (min_merge_sim is None) or (min_merge_sim >= aanf_tau)
 
+        # ECNF: minimum evidence signals among merges
         min_sig = min((int(e.get("ecnf", {}).get("signals", 0)) for e in merges), default=None)
         ecnf_expected = 3 if self.evidence_mode == "embed_only" else self.m_min_default
         ecnf_pass = (min_sig is None) or (min_sig >= ecnf_expected)
 
-        nf_rows = [
-            ["EENF", "max_var <= tau", f"{eenf_actual:.6f}", f"{eenf_tau:.6f}", "PASS" if eenf_pass else "FAIL"],
-            ["AANF", "min_merge_sim >= tau", "NA" if min_merge_sim is None else f"{min_merge_sim:.3f}", f"{aanf_tau:.3f}", "PASS" if aanf_pass else "FAIL"],
-            ["CMNF", "mean_overlap <= tau", f"{cmnf_actual:.6f}", f"{cmnf_tau:.3f}", "PASS" if cmnf_pass else "FAIL"],
-            ["DBNF", "max_drift <= tau", f"{dbnf_actual:.6f}", f"{dbnf_tau:.3f}", "PASS" if dbnf_pass else "FAIL"],
-            ["ECNF", "min_signals >= m_min", "NA" if min_sig is None else str(min_sig), str(ecnf_expected), "PASS" if ecnf_pass else "FAIL"],
-            ["RRNF", "(not exercised)", "NA", "NA", "INFO"],
-            ["PONF", "(not exercised)", "NA", "NA", "INFO"],
-        ]
-        logger.info("\n" + render_table(["NormalForm", "Rule", "Actual", "Expected", "Status"], nf_rows, title="SDNF VALIDATION SUMMARY"))
+        # ExpectedEvent + Notes
+        nf_rows = []
 
+        # EENF row
+        eenf_status = "PASS" if eenf_pass else "FAIL"
+        nf_rows.append([
+            "EENF",
+            "q95(var) <= tau",
+            f"q95={eenf_q95:.6f}; max={eenf_max:.6f}",
+            f"tau={eenf_tau:.6f}",
+            eenf_status,
+            "No" if not eenf_pass else "",
+            "Attention: observed embedding instability exceeds calibrated τ_EENF; consider recalibration set, increasing G, or stabilizing prompts/model." if not eenf_pass else "",
+        ])
+
+        # AANF row
+        aanf_status = "PASS" if aanf_pass else "FAIL"
+        nf_rows.append([
+            "AANF",
+            "min_merge_sim >= tau",
+            "NA" if min_merge_sim is None else f"{min_merge_sim:.3f}",
+            f"tau={aanf_tau:.3f}",
+            aanf_status,
+            "" if aanf_pass else "No",
+            "Attention: at least one merge occurred below τ_AANF; review AANF gating/merge thresholding." if not aanf_pass else "",
+        ])
+
+        # CMNF row
+        cmnf_status = "PASS" if cmnf_pass else "FAIL"
+        nf_rows.append([
+            "CMNF",
+            "mean_overlap <= tau",
+            f"{cmnf_actual:.6f}",
+            f"tau={cmnf_tau:.3f}",
+            cmnf_status,
+            "" if cmnf_pass else "No",
+            "Attention: context leakage exceeds τ_CMNf; increase orthogonalization iters or refine context prompts." if not cmnf_pass else "",
+        ])
+
+        # DBNF row
+        if not drift_enabled:
+            nf_rows.append([
+                "DBNF",
+                "(drift model not enabled)",
+                f"{dbnf_actual:.6f}",
+                f"tau={dbnf_tau:.3f}",
+                "PASS",
+                "",
+                "",
+            ])
+        else:
+            dbnf_status = "PASS" if dbnf_pass else "FAIL"
+            expected_event = "Yes" if (not dbnf_pass) else ""
+            note = "ExpectedEvent: drift simulation enabled via --drift_model; drift detection indicates candidate schema fork/versioning." if (not dbnf_pass) else ""
+            nf_rows.append([
+                "DBNF",
+                "max_drift <= tau",
+                f"{dbnf_actual:.6f}" + (" (aligned)" if drift_alignment_used else ""),
+                f"tau={dbnf_tau:.3f}",
+                dbnf_status,
+                expected_event,
+                note,
+            ])
+
+        # ECNF row
+        ecnf_status = "PASS" if ecnf_pass else "FAIL"
+        nf_rows.append([
+            "ECNF",
+            "min_signals >= m_min",
+            "NA" if min_sig is None else str(min_sig),
+            f"m_min={ecnf_expected}",
+            ecnf_status,
+            "" if ecnf_pass else "No",
+            "Attention: evidence diversity below m_min; adjust weights or require more evidence before auto-merge." if not ecnf_pass else "",
+        ])
+
+        # RRNF/PONF placeholders
+        nf_rows.append(["RRNF", "(not exercised)", "NA", "NA", "INFO", "", ""])
+        nf_rows.append(["PONF", "(not exercised)", "NA", "NA", "INFO", "", ""])
+
+        logger.info("\n" + render_table(
+            ["NormalForm", "Rule", "Actual", "Expected", "Status", "ExpectedEvent", "Notes"],
+            nf_rows,
+            title="SDNF VALIDATION SUMMARY"
+        ))
+
+        # ---------------- SRS ingest summary ----------------
         merge_rows = []
         for src, st in sorted(self.source_stats.items()):
             merge_rows.append([src, st.get("merges", 0), st.get("pending", 0), st.get("promoted", 0), st.get("new", 0)])
         if merge_rows:
             logger.info("\n" + render_table(["Source", "Merges", "Pending", "Promoted", "New"], merge_rows, title="SRS INGEST SUMMARY (PER SOURCE)"))
 
+        # Evidence availability
         total_ev = self.value_evidence_available + self.value_evidence_missing
         frac_missing = (self.value_evidence_missing / total_ev) if total_ev else 0.0
         ev_rows = [["value_evidence_available", self.value_evidence_available], ["value_evidence_missing", self.value_evidence_missing], ["missing_fraction", pct(frac_missing)]]
         logger.info("\n" + render_table(["Metric", "Value"], ev_rows, title="EVIDENCE AVAILABILITY"))
 
+        # Drift pinpointing
+        if drift_enabled:
+            if top_drift:
+                drift_rows = [[name, f"{dist:.6f}"] for name, dist in top_drift]
+                logger.info("\n" + render_table(["TopDriftAttribute", "drift"], drift_rows, title="DBNF DRIFT HOTSPOTS (Top-5)") )
+            if dbnf_detected:
+                logger.warning("DBNF: drift detected above τ; ExpectedEvent=Yes when using --drift_model. Action: fork/version top-drift attributes.")
+
+        # Guidance / alignment hints
         if not eenf_pass:
-            logger.warning("EENF FAIL: instability > tau. Consider increasing regenerations G or stabilizing prompts/model.")
-        if not cmnf_pass:
-            logger.warning("CMNF FAIL: context overlap > tau. Consider increasing orthogonalization iters or refining context prompts.")
-        if self.drift_embedder and (not dbnf_pass):
-            logger.warning("DBNF FAIL: drift > tau. Consider forking schema versions for high-drift attributes.")
+            logger.warning("EENF Attention: τ_EENF was calibrated on a sample; the post-ingest q95 variance exceeded it. Consider calibrating on the full canonical set or increasing G for more stable estimates.")
         if (self.evidence_mode in ("vss", "shape", "hybrid")) and frac_missing > 0.5:
-            logger.warning("Value evidence missing for many fields. Ensure payload JSONs exist in payloads_dir.")
+            logger.warning("Value evidence missing for many fields. Add more payload-style JSONs to activate VSS/shape validators.")
+
 
 
 # -----------------------------
 # Multi-run helper (evidence_mode=all)
 # -----------------------------
+
+def _compute_nf_metrics(exp: SDNFExperiment) -> Dict[str, Any]:
+    # EENF distribution stats
+    regs = []
+    for n in list(exp.canon.keys())[: min(60, len(exp.canon))]:
+        r = exp.embedder.regenerations(n, context=exp.canon[n].context, G=10)
+        regs.append(float(np.mean(np.var(r, axis=0))))
+    eenf_q95 = float(np.quantile(np.array(regs), 0.95)) if regs else 0.0
+    eenf_max = max(regs) if regs else 0.0
+
+    # CMNF mean overlap
+    if len(exp.contexts) > 1 and len(exp.canon) > 0:
+        sample = list(exp.canon.keys())[: min(120, len(exp.canon))]
+        Xp = exp.embedder.embed_many(sample, context=exp.contexts[0])
+        Xr = exp.embedder.embed_many(sample, context=exp.contexts[1])
+        Wp = learn_pca_projection(Xp, k=64)
+        Wr = orthogonalize_against(learn_pca_projection(Xr, k=64), Wp, iters=3)
+        overlaps = [float(np.dot(project(Wp, exp.embedder.embed(t, exp.contexts[0])), project(Wr, exp.embedder.embed(t, exp.contexts[1])))) for t in sample]
+        cmnf_mean = float(np.mean(overlaps)) if overlaps else 0.0
+    else:
+        cmnf_mean = 0.0
+
+    # DBNF drift
+    drift_enabled = exp.drift_embedder is not None
+    drift_alignment_used = exp.drift_map is not None
+    top_drift = []
+    if drift_enabled and len(exp.canon) > 0:
+        sample = list(exp.canon.keys())[: min(120, len(exp.canon))]
+        drifts = []
+        for t in sample:
+            a = exp.embedder.embed(t, exp.canon[t].context)
+            b = exp.drift_embedder.embed(t, exp.canon[t].context)
+            if exp.drift_map is not None:
+                b = apply_linear_map(b, exp.drift_map)
+            drifts.append((t, l2_dist(a, b)))
+        drifts_sorted = sorted(drifts, key=lambda x: x[1], reverse=True)
+        dbnf_max = float(drifts_sorted[0][1]) if drifts_sorted else 0.0
+        top_drift = drifts_sorted[:5]
+    else:
+        dbnf_max = 0.0
+
+    return {
+        "EENF_q95": eenf_q95,
+        "EENF_max": eenf_max,
+        "CMNF_mean": cmnf_mean,
+        "DBNF_max": dbnf_max,
+        "drift_enabled": drift_enabled,
+        "drift_alignment_used": drift_alignment_used,
+        "top_drift": top_drift,
+    }
+
 
 def run_single(args, evidence_mode: str) -> Dict[str, Any]:
     exp = SDNFExperiment(
@@ -1001,38 +1150,7 @@ def run_single(args, evidence_mode: str) -> Dict[str, Any]:
     total_ev = exp.value_evidence_available + exp.value_evidence_missing
     missing_frac = (exp.value_evidence_missing / total_ev) if total_ev else 0.0
 
-    # EENF actual/tau
-    regs = []
-    for n in list(exp.canon.keys())[: min(40, len(exp.canon))]:
-        r = exp.embedder.regenerations(n, context=exp.canon[n].context, G=10)
-        regs.append(float(np.mean(np.var(r, axis=0))))
-    eenf_actual = max(regs) if regs else 0.0
-
-    # CMNF actual/tau
-    if len(exp.contexts) > 1 and len(exp.canon) > 0:
-        sample = list(exp.canon.keys())[: min(80, len(exp.canon))]
-        Xp = exp.embedder.embed_many(sample, context=exp.contexts[0])
-        Xr = exp.embedder.embed_many(sample, context=exp.contexts[1])
-        Wp = learn_pca_projection(Xp, k=64)
-        Wr = orthogonalize_against(learn_pca_projection(Xr, k=64), Wp, iters=3)
-        overlaps = [float(np.dot(project(Wp, exp.embedder.embed(t, exp.contexts[0])), project(Wr, exp.embedder.embed(t, exp.contexts[1])))) for t in sample]
-        cmnf_actual = float(np.mean(overlaps)) if overlaps else 0.0
-    else:
-        cmnf_actual = 0.0
-
-    # DBNF actual/tau
-    if exp.drift_embedder and len(exp.canon) > 0:
-        sample = list(exp.canon.keys())[: min(60, len(exp.canon))]
-        drifts = []
-        for t in sample:
-            a = exp.embedder.embed(t, exp.canon[t].context)
-            b = exp.drift_embedder.embed(t, exp.canon[t].context)
-            if exp.drift_map is not None:
-                b = apply_linear_map(b, exp.drift_map)
-            drifts.append(l2_dist(a, b))
-        dbnf_actual = max(drifts) if drifts else 0.0
-    else:
-        dbnf_actual = None
+    nf = _compute_nf_metrics(exp)
 
     return {
         "mode": evidence_mode,
@@ -1044,12 +1162,16 @@ def run_single(args, evidence_mode: str) -> Dict[str, Any]:
         "reduction": reduction,
         "aanf_tau": float(exp.tau_aanf or 0.0),
         "missingV": missing_frac,
-        "EENF_actual": float(eenf_actual),
+        "EENF_q95": nf["EENF_q95"],
+        "EENF_max": nf["EENF_max"],
         "EENF_tau": float(exp.tau_eenf or 0.0),
-        "CMNF_actual": float(cmnf_actual),
+        "CMNF_mean": nf["CMNF_mean"],
         "CMNF_tau": float(exp.tau_cmnf or 0.0),
-        "DBNF_actual": (None if dbnf_actual is None else float(dbnf_actual)),
-        "DBNF_tau": (None if not exp.drift_embedder else float(exp.tau_dbnf or 0.0)),
+        "DBNF_max": nf["DBNF_max"],
+        "DBNF_tau": (None if not nf["drift_enabled"] else float(exp.tau_dbnf or 0.0)),
+        "drift_enabled": nf["drift_enabled"],
+        "drift_alignment_used": nf["drift_alignment_used"],
+        "top_drift": nf["top_drift"],
     }
 
 
@@ -1057,6 +1179,7 @@ def run_all_modes(args):
     modes = ["embed_only", "vss", "shape", "hybrid"]
     results = [run_single(args, m) for m in modes]
 
+    # Table 1: evidence-mode comparison
     rows = []
     for r in results:
         rows.append([
@@ -1068,17 +1191,52 @@ def run_all_modes(args):
             r["aliases"],
             pct(r["reduction"]),
             f"{r['aanf_tau']:.3f}",
-            f"{r['EENF_actual']:.6f}/{r['EENF_tau']:.6f}",
-            f"{r['CMNF_actual']:.6f}/{r['CMNF_tau']:.3f}",
-            ("NA" if args.drift_model is None else f"{(r['DBNF_actual'] or 0.0):.6f}/{(r['DBNF_tau'] or 0.0):.3f}"),
+            f"q95={r['EENF_q95']:.6f}; max={r['EENF_max']:.6f}; tau={r['EENF_tau']:.6f}",
+            f"mean={r['CMNF_mean']:.6f}; tau={r['CMNF_tau']:.3f}",
+            ("NA" if args.drift_model is None else f"max={r['DBNF_max']:.6f}; tau={r['DBNF_tau']:.3f}"),
             pct(r["missingV"]),
         ])
 
     logger.info("\n" + render_table(
-        ["mode", "merges", "pending", "promoted", "canon", "aliases", "redundancy", "AANF_tau", "EENF a/t", "CMNF a/t", "DBNF a/t", "missingV"],
+        ["mode", "merges", "pending", "promoted", "canon", "aliases", "redundancy", "AANF_tau", "EENF (q95/max/tau)", "CMNF (mean/tau)", "DBNF (max/tau)", "missingV"],
         rows,
         title="EVIDENCE MODE COMPARISON (all)"
     ))
+
+    # Table 2: normal-forms summary per mode with ExpectedEvent
+    nf_rows = []
+    for r in results:
+        eenf_pass = r['EENF_q95'] <= r['EENF_tau']
+        cmnf_pass = r['CMNF_mean'] <= r['CMNF_tau']
+        if args.drift_model is None:
+            dbnf_status = "NA"
+            dbnf_expected = ""
+        else:
+            detected = r['DBNF_max'] > (r['DBNF_tau'] or 0.0)
+            dbnf_status = "FAIL" if detected else "PASS"
+            dbnf_expected = "Yes" if detected else ""
+        nf_rows.append([
+            r['mode'],
+            "PASS" if eenf_pass else "FAIL",
+            "PASS" if cmnf_pass else "FAIL",
+            dbnf_status,
+            ("" if (eenf_pass and cmnf_pass and (dbnf_status in ("PASS","NA"))) else "See Notes below"),
+        ])
+
+    logger.info("\n" + render_table(
+        ["mode", "EENF", "CMNF", "DBNF", "Notes"],
+        nf_rows,
+        title="NORMAL FORMS SUMMARY (all)"
+    ))
+
+    # ExpectedEvent explanations (compact)
+    if args.drift_model is not None:
+        # Print drift hotspots from hybrid run if present
+        hy = next((x for x in results if x['mode']=="hybrid"), None)
+        if hy and hy.get('top_drift'):
+            drift_rows = [[name, f"{dist:.6f}"] for name, dist in hy['top_drift']]
+            logger.info("\n" + render_table(["TopDriftAttribute (hybrid)", "drift"], drift_rows, title="DBNF DRIFT HOTSPOTS (Top-5, hybrid)") )
+            logger.warning("DBNF FAIL under --drift_model is typically an ExpectedEvent (drift simulation). Use hotspot list to decide which canonical attributes to fork/version.")
 
 
 def main():
@@ -1181,7 +1339,7 @@ Promotion knobs:
                 logger.warning("DBNF: drift_model dim (%d) != base dim (%d). Learned alignment map (post-ingest).", B.shape[1], A.shape[1])
 
     run_cfg = {
-        "timestamp": datetime.utcnow().isoformat() + "Z",
+        "timestamp": datetime.now(UTC).isoformat().replace("+00:00","Z"),
         "evidence_mode": args.evidence_mode,
         "model": args.model,
         "drift_model": args.drift_model,

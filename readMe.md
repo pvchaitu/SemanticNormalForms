@@ -6,7 +6,7 @@ This repo contains a **single-file, reproducible experiment** for **Semantic Dat
 - **Evidence-gated schema evolution (ECNF)** with multiple evidence modes
 - **Schema + payload ingestion** from local folders (`data/` and `payloads/`)
 
-> **Main script (latest):** `unified_sdnf_experiment_hybrid_v7.py`
+> **Main script (latest):** `unified_sdnf_experiment_hybrid_v8.py`
 
 ---
 
@@ -36,7 +36,7 @@ This repo contains a **single-file, reproducible experiment** for **Semantic Dat
 
 ## Repository layout
 
-- `unified_sdnf_experiment_hybrid_v7.py` — unified experiment (single file)
+- `unified_sdnf_experiment_hybrid_v8.py` — unified experiment (single file)
 - `data/` — schema JSON artifacts
 - `payloads/` — payload JSON artifacts (values present; used by VSS/shape)
 - `requirements.txt` — dependencies
@@ -71,35 +71,35 @@ pip install -r requirements.txt
 ### Default run (recommended)
 Runs `hybrid` mode using defaults (`data/`, `payloads/`):
 ```bash
-python unified_sdnf_experiment_hybrid_v7.py
+python unified_sdnf_experiment_hybrid_v8.py
 ```
 
 ### Specify folders explicitly
 ```bash
-python unified_sdnf_experiment_hybrid_v7.py --data_dir ./data --payloads_dir ./payloads
+python unified_sdnf_experiment_hybrid_v8.py --data_dir ./data --payloads_dir ./payloads
 ```
 
 ### Compare all evidence modes (prints a comparison table)
 ```bash
-python unified_sdnf_experiment_hybrid_v7.py --evidence_mode all
+python unified_sdnf_experiment_hybrid_v8.py --evidence_mode all
 ```
 
 ### Drift test (DBNF simulation)
 Use a second embedding model to simulate a model upgrade:
 ```bash
-python unified_sdnf_experiment_hybrid_v7.py --drift_model all-mpnet-base-v2
+python unified_sdnf_experiment_hybrid_v8.py --drift_model all-mpnet-base-v2
 ```
 
 ### Quiet/noisy console logs
 By default, external HuggingFace/HTTP INFO noise is suppressed.
 To show it:
 ```bash
-python unified_sdnf_experiment_hybrid_v7.py --show_external
+python unified_sdnf_experiment_hybrid_v8.py --show_external
 ```
 
 ### Limit runtime for quick iteration
 ```bash
-python unified_sdnf_experiment_hybrid_v7.py --max_schema_files 3 --max_payload_files 10 --max_fields 20
+python unified_sdnf_experiment_hybrid_v8.py --max_schema_files 3 --max_payload_files 10 --max_fields 20
 ```
 
 ---
@@ -108,7 +108,7 @@ python unified_sdnf_experiment_hybrid_v7.py --max_schema_files 3 --max_payload_f
 
 Run this anytime:
 ```bash
-python unified_sdnf_experiment_hybrid_v7.py --help
+python unified_sdnf_experiment_hybrid_v8.py --help
 ```
 
 Key options:
