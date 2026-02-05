@@ -1,5 +1,6 @@
-C:\research\SemanticNormalForms>python unified_sdnf_experiment_hybrid_v7.py --evidence_mode all
-INFO | Calibrated taus | EENF=0.000129 | AANF=0.650 | CMNF=0.100 | DBNF=0.250
+C:\research\SemanticNormalForms>python unified_sdnf_experiment_hybrid_v8.py --evidence_mode all  --drift_model all-mpnet-base-v2
+WARNING | DBNF: drift_model dim (2304) != base dim (1152). Learned alignment map.
+INFO | Calibrated taus | EENF=0.000129 | AANF=0.650 | CMNF=0.100 | DBNF=0.150
 INFO | Bootstrapped INAmex.json | canon=4
 INFO | Ingested ISO20022.json          | merges= 0 | pending= 0 | promoted= 0 | new= 9
 INFO | Ingested Mastercard.json        | merges= 1 | pending= 0 | promoted= 0 | new= 6
@@ -48,7 +49,8 @@ INFO | Ingested UPI_payload_02.json    | merges= 3 | pending= 0 | promoted= 0 | 
 INFO | Ingested UPI_payload_03.json    | merges= 3 | pending= 0 | promoted= 0 | new= 0
 INFO | Ingested UPI_payload_04.json    | merges= 3 | pending= 0 | promoted= 0 | new= 0
 INFO | Ingested UPI_payload_05.json    | merges= 3 | pending= 0 | promoted= 0 | new= 0
-INFO | Calibrated taus | EENF=0.000129 | AANF=0.650 | CMNF=0.100 | DBNF=0.250
+WARNING | DBNF: drift_model dim (2304) != base dim (1152). Learned alignment map.
+INFO | Calibrated taus | EENF=0.000129 | AANF=0.650 | CMNF=0.100 | DBNF=0.150
 INFO | Bootstrapped INAmex.json | canon=4
 INFO | Ingested ISO20022.json          | merges= 0 | pending= 0 | promoted= 0 | new= 9
 INFO | Ingested Mastercard.json        | merges= 1 | pending= 0 | promoted= 0 | new= 6
@@ -97,7 +99,8 @@ INFO | Ingested UPI_payload_02.json    | merges= 3 | pending= 0 | promoted= 0 | 
 INFO | Ingested UPI_payload_03.json    | merges= 3 | pending= 0 | promoted= 0 | new= 0
 INFO | Ingested UPI_payload_04.json    | merges= 3 | pending= 0 | promoted= 0 | new= 0
 INFO | Ingested UPI_payload_05.json    | merges= 3 | pending= 0 | promoted= 0 | new= 0
-INFO | Calibrated taus | EENF=0.000129 | AANF=0.650 | CMNF=0.100 | DBNF=0.250
+WARNING | DBNF: drift_model dim (2304) != base dim (1152). Learned alignment map.
+INFO | Calibrated taus | EENF=0.000129 | AANF=0.650 | CMNF=0.100 | DBNF=0.150
 INFO | Bootstrapped INAmex.json | canon=4
 INFO | Ingested ISO20022.json          | merges= 0 | pending= 0 | promoted= 0 | new= 9
 INFO | Ingested Mastercard.json        | merges= 1 | pending= 0 | promoted= 0 | new= 6
@@ -146,7 +149,8 @@ INFO | Ingested UPI_payload_02.json    | merges= 3 | pending= 0 | promoted= 0 | 
 INFO | Ingested UPI_payload_03.json    | merges= 3 | pending= 0 | promoted= 0 | new= 0
 INFO | Ingested UPI_payload_04.json    | merges= 3 | pending= 0 | promoted= 0 | new= 0
 INFO | Ingested UPI_payload_05.json    | merges= 3 | pending= 0 | promoted= 0 | new= 0
-INFO | Calibrated taus | EENF=0.000129 | AANF=0.650 | CMNF=0.100 | DBNF=0.250
+WARNING | DBNF: drift_model dim (2304) != base dim (1152). Learned alignment map.
+INFO | Calibrated taus | EENF=0.000129 | AANF=0.650 | CMNF=0.100 | DBNF=0.150
 INFO | Bootstrapped INAmex.json | canon=4
 INFO | Ingested ISO20022.json          | merges= 0 | pending= 0 | promoted= 0 | new= 9
 INFO | Ingested Mastercard.json        | merges= 1 | pending= 0 | promoted= 0 | new= 6
@@ -197,11 +201,33 @@ INFO | Ingested UPI_payload_04.json    | merges= 3 | pending= 0 | promoted= 0 | 
 INFO | Ingested UPI_payload_05.json    | merges= 3 | pending= 0 | promoted= 0 | new= 0
 INFO |
 EVIDENCE MODE COMPARISON (all)
-+------------+--------+---------+----------+-------+---------+------------+----------+-------------------+-----------------+----------+----------+
-| mode       | merges | pending | promoted | canon | aliases | redundancy | AANF_tau | EENF a/t          | CMNF a/t        | DBNF a/t | missingV |
-+============+========+=========+==========+=======+=========+============+==========+===================+=================+==========+==========+
-| embed_only | 136    | 0       | 0        | 49    | 80      | 38.7%      | 0.650    | 0.000176/0.000129 | -0.023395/0.100 | NA       | 0.0%     |
-| vss        | 136    | 0       | 0        | 49    | 80      | 38.7%      | 0.650    | 0.000176/0.000129 | -0.023395/0.100 | NA       | 27.6%    |
-| shape      | 136    | 0       | 0        | 49    | 80      | 38.7%      | 0.650    | 0.000176/0.000129 | -0.023395/0.100 | NA       | 27.6%    |
-| hybrid     | 136    | 0       | 0        | 49    | 80      | 38.7%      | 0.650    | 0.000176/0.000129 | -0.023395/0.100 | NA       | 27.6%    |
-+------------+--------+---------+----------+-------+---------+------------+----------+-------------------+-----------------+----------+----------+
++------------+--------+---------+----------+-------+---------+------------+----------+------------------------------------------+---------------------------+-------------------------+----------+
+| mode       | merges | pending | promoted | canon | aliases | redundancy | AANF_tau | EENF (q95/max/tau)                       | CMNF (mean/tau)           | DBNF (max/tau)          | missingV |
++============+========+=========+==========+=======+=========+============+==========+==========================================+===========================+=========================+==========+
+| embed_only | 136    | 0       | 0        | 49    | 80      | 38.7%      | 0.650    | q95=0.000128; max=0.000176; tau=0.000129 | mean=-0.023395; tau=0.100 | max=0.885054; tau=0.150 | 0.0%     |
+| vss        | 136    | 0       | 0        | 49    | 80      | 38.7%      | 0.650    | q95=0.000128; max=0.000176; tau=0.000129 | mean=-0.023395; tau=0.100 | max=0.885054; tau=0.150 | 27.6%    |
+| shape      | 136    | 0       | 0        | 49    | 80      | 38.7%      | 0.650    | q95=0.000128; max=0.000176; tau=0.000129 | mean=-0.023395; tau=0.100 | max=0.885054; tau=0.150 | 27.6%    |
+| hybrid     | 136    | 0       | 0        | 49    | 80      | 38.7%      | 0.650    | q95=0.000128; max=0.000176; tau=0.000129 | mean=-0.023395; tau=0.100 | max=0.885054; tau=0.150 | 27.6%    |
++------------+--------+---------+----------+-------+---------+------------+----------+------------------------------------------+---------------------------+-------------------------+----------+
+INFO |
+NORMAL FORMS SUMMARY (all)
++------------+------+------+------+-----------------+
+| mode       | EENF | CMNF | DBNF | Notes           |
++============+======+======+======+=================+
+| embed_only | PASS | PASS | FAIL | See Notes below |
+| vss        | PASS | PASS | FAIL | See Notes below |
+| shape      | PASS | PASS | FAIL | See Notes below |
+| hybrid     | PASS | PASS | FAIL | See Notes below |
++------------+------+------+------+-----------------+
+INFO |
+DBNF DRIFT HOTSPOTS (Top-5, hybrid)
++----------------------------+----------+
+| TopDriftAttribute (hybrid) | drift    |
++============================+==========+
+| description                | 0.885054 |
+| iso_currency_code          | 0.731825 |
+| acct_num                   | 0.725805 |
+| payer_name                 | 0.430931 |
+| //comment                  | 0.000001 |
++----------------------------+----------+
+WARNING | DBNF FAIL under --drift_model is typically an ExpectedEvent (drift simulation). Use hotspot list to decide which canonical attributes to fork/version.

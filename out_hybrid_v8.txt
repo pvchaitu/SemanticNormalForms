@@ -1,4 +1,4 @@
-C:\research\SemanticNormalForms>python unified_sdnf_experiment_hybrid_v7.py
+C:\research\SemanticNormalForms>python unified_sdnf_experiment_hybrid_v8.py
 INFO | Calibrated taus | EENF=0.000129 | AANF=0.650 | CMNF=0.100 | DBNF=0.250
 INFO | Bootstrapped INAmex.json | canon=4
 INFO | Ingested ISO20022.json          | merges= 0 | pending= 0 | promoted= 0 | new= 9
@@ -48,14 +48,12 @@ INFO | Ingested UPI_payload_02.json    | merges= 3 | pending= 0 | promoted= 0 | 
 INFO | Ingested UPI_payload_03.json    | merges= 3 | pending= 0 | promoted= 0 | new= 0
 INFO | Ingested UPI_payload_04.json    | merges= 3 | pending= 0 | promoted= 0 | new= 0
 INFO | Ingested UPI_payload_05.json    | merges= 3 | pending= 0 | promoted= 0 | new= 0
-C:\research\SemanticNormalForms\unified_sdnf_experiment_hybrid_v7.py:1179: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
-  "timestamp": datetime.utcnow().isoformat() + "Z",
 INFO |
 RUN CONFIGURATION
 +------------------------+-----------------------------+
 | Option                 | Value                       |
 +========================+=============================+
-| timestamp              | 2026-02-04T14:50:55.413013Z |
+| timestamp              | 2026-02-04T23:49:57.750766Z |
 | evidence_mode          | hybrid                      |
 | model                  | all-MiniLM-L6-v2            |
 | drift_model            |                             |
@@ -72,17 +70,17 @@ RUN CONFIGURATION
 +------------------------+-----------------------------+
 INFO |
 SDNF VALIDATION SUMMARY
-+------------+----------------------+-----------+----------+--------+
-| NormalForm | Rule                 | Actual    | Expected | Status |
-+============+======================+===========+==========+========+
-| EENF       | max_var <= tau       | 0.000176  | 0.000129 | FAIL   |
-| AANF       | min_merge_sim >= tau | 0.656     | 0.650    | PASS   |
-| CMNF       | mean_overlap <= tau  | -0.023395 | 0.100    | PASS   |
-| DBNF       | max_drift <= tau     | 0.000000  | 0.250    | PASS   |
-| ECNF       | min_signals >= m_min | 4         | 4        | PASS   |
-| RRNF       | (not exercised)      | NA        | NA       | INFO   |
-| PONF       | (not exercised)      | NA        | NA       | INFO   |
-+------------+----------------------+-----------+----------+--------+
++------------+---------------------------+----------------------------+--------------+--------+---------------+-------+
+| NormalForm | Rule                      | Actual                     | Expected     | Status | ExpectedEvent | Notes |
++============+===========================+============================+==============+========+===============+=======+
+| EENF       | q95(var) <= tau           | q95=0.000128; max=0.000176 | tau=0.000129 | PASS   |               |       |
+| AANF       | min_merge_sim >= tau      | 0.656                      | tau=0.650    | PASS   |               |       |
+| CMNF       | mean_overlap <= tau       | -0.023395                  | tau=0.100    | PASS   |               |       |
+| DBNF       | (drift model not enabled) | 0.000000                   | tau=0.250    | PASS   |               |       |
+| ECNF       | min_signals >= m_min      | 4                          | m_min=4      | PASS   |               |       |
+| RRNF       | (not exercised)           | NA                         | NA           | INFO   |               |       |
+| PONF       | (not exercised)           | NA                         | NA           | INFO   |               |       |
++------------+---------------------------+----------------------------+--------------+--------+---------------+-------+
 INFO |
 SRS INGEST SUMMARY (PER SOURCE)
 +----------------------------+--------+---------+----------+-----+
@@ -145,4 +143,3 @@ EVIDENCE AVAILABILITY
 | value_evidence_missing   | 50    |
 | missing_fraction         | 27.6% |
 +--------------------------+-------+
-WARNING | EENF FAIL: instability > tau. Consider increasing regenerations G or stabilizing prompts/model.

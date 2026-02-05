@@ -1,0 +1,217 @@
+C:\research\SemanticNormalForms>python unified_sdnf_experiment_hybrid_v8.py --evidence_mode all
+INFO | Calibrated taus | EENF=0.000129 | AANF=0.650 | CMNF=0.100 | DBNF=0.250
+INFO | Bootstrapped INAmex.json | canon=4
+INFO | Ingested ISO20022.json          | merges= 0 | pending= 0 | promoted= 0 | new= 9
+INFO | Ingested Mastercard.json        | merges= 1 | pending= 0 | promoted= 0 | new= 6
+INFO | Ingested Plaid.json             | merges= 4 | pending= 0 | promoted= 0 | new= 3
+INFO | Ingested PPVisa.json            | merges= 2 | pending= 0 | promoted= 0 | new= 4
+INFO | Ingested Razorpay.json          | merges= 0 | pending= 0 | promoted= 0 | new= 9
+INFO | Ingested Stripe.json            | merges= 2 | pending= 0 | promoted= 0 | new= 4
+INFO | Ingested UPI.json               | merges= 2 | pending= 0 | promoted= 0 | new= 4
+INFO | Ingested INAmex_payload_01.json | merges= 2 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested INAmex_payload_02.json | merges= 2 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested INAmex_payload_03.json | merges= 2 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested INAmex_payload_04.json | merges= 2 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested INAmex_payload_05.json | merges= 2 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested ISO20022_payload_01.json | merges= 0 | pending= 0 | promoted= 0 | new= 1
+INFO | Ingested ISO20022_payload_02.json | merges= 0 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested ISO20022_payload_03.json | merges= 0 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested ISO20022_payload_04.json | merges= 0 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested ISO20022_payload_05.json | merges= 0 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested Mastercard_payload_01.json | merges= 5 | pending= 0 | promoted= 0 | new= 1
+INFO | Ingested Mastercard_payload_02.json | merges= 5 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested Mastercard_payload_03.json | merges= 5 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested Mastercard_payload_04.json | merges= 5 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested Mastercard_payload_05.json | merges= 5 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested Plaid_payload_01.json  | merges= 4 | pending= 0 | promoted= 0 | new= 1
+INFO | Ingested Plaid_payload_02.json  | merges= 4 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested Plaid_payload_03.json  | merges= 4 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested Plaid_payload_04.json  | merges= 4 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested Plaid_payload_05.json  | merges= 4 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested PPVisa_payload_01.json | merges= 3 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested PPVisa_payload_02.json | merges= 3 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested PPVisa_payload_03.json | merges= 3 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested PPVisa_payload_04.json | merges= 3 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested PPVisa_payload_05.json | merges= 3 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested Razorpay_payload_01.json | merges= 4 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested Razorpay_payload_02.json | merges= 4 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested Razorpay_payload_03.json | merges= 4 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested Razorpay_payload_04.json | merges= 4 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested Razorpay_payload_05.json | merges= 4 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested Stripe_payload_01.json | merges= 4 | pending= 0 | promoted= 0 | new= 2
+INFO | Ingested Stripe_payload_02.json | merges= 4 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested Stripe_payload_03.json | merges= 4 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested Stripe_payload_04.json | merges= 4 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested Stripe_payload_05.json | merges= 4 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested UPI_payload_01.json    | merges= 3 | pending= 0 | promoted= 0 | new= 1
+INFO | Ingested UPI_payload_02.json    | merges= 3 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested UPI_payload_03.json    | merges= 3 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested UPI_payload_04.json    | merges= 3 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested UPI_payload_05.json    | merges= 3 | pending= 0 | promoted= 0 | new= 0
+INFO | Calibrated taus | EENF=0.000129 | AANF=0.650 | CMNF=0.100 | DBNF=0.250
+INFO | Bootstrapped INAmex.json | canon=4
+INFO | Ingested ISO20022.json          | merges= 0 | pending= 0 | promoted= 0 | new= 9
+INFO | Ingested Mastercard.json        | merges= 1 | pending= 0 | promoted= 0 | new= 6
+INFO | Ingested Plaid.json             | merges= 4 | pending= 0 | promoted= 0 | new= 3
+INFO | Ingested PPVisa.json            | merges= 2 | pending= 0 | promoted= 0 | new= 4
+INFO | Ingested Razorpay.json          | merges= 0 | pending= 0 | promoted= 0 | new= 9
+INFO | Ingested Stripe.json            | merges= 2 | pending= 0 | promoted= 0 | new= 4
+INFO | Ingested UPI.json               | merges= 2 | pending= 0 | promoted= 0 | new= 4
+INFO | Ingested INAmex_payload_01.json | merges= 2 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested INAmex_payload_02.json | merges= 2 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested INAmex_payload_03.json | merges= 2 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested INAmex_payload_04.json | merges= 2 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested INAmex_payload_05.json | merges= 2 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested ISO20022_payload_01.json | merges= 0 | pending= 0 | promoted= 0 | new= 1
+INFO | Ingested ISO20022_payload_02.json | merges= 0 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested ISO20022_payload_03.json | merges= 0 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested ISO20022_payload_04.json | merges= 0 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested ISO20022_payload_05.json | merges= 0 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested Mastercard_payload_01.json | merges= 5 | pending= 0 | promoted= 0 | new= 1
+INFO | Ingested Mastercard_payload_02.json | merges= 5 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested Mastercard_payload_03.json | merges= 5 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested Mastercard_payload_04.json | merges= 5 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested Mastercard_payload_05.json | merges= 5 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested Plaid_payload_01.json  | merges= 4 | pending= 0 | promoted= 0 | new= 1
+INFO | Ingested Plaid_payload_02.json  | merges= 4 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested Plaid_payload_03.json  | merges= 4 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested Plaid_payload_04.json  | merges= 4 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested Plaid_payload_05.json  | merges= 4 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested PPVisa_payload_01.json | merges= 3 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested PPVisa_payload_02.json | merges= 3 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested PPVisa_payload_03.json | merges= 3 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested PPVisa_payload_04.json | merges= 3 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested PPVisa_payload_05.json | merges= 3 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested Razorpay_payload_01.json | merges= 4 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested Razorpay_payload_02.json | merges= 4 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested Razorpay_payload_03.json | merges= 4 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested Razorpay_payload_04.json | merges= 4 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested Razorpay_payload_05.json | merges= 4 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested Stripe_payload_01.json | merges= 4 | pending= 0 | promoted= 0 | new= 2
+INFO | Ingested Stripe_payload_02.json | merges= 4 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested Stripe_payload_03.json | merges= 4 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested Stripe_payload_04.json | merges= 4 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested Stripe_payload_05.json | merges= 4 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested UPI_payload_01.json    | merges= 3 | pending= 0 | promoted= 0 | new= 1
+INFO | Ingested UPI_payload_02.json    | merges= 3 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested UPI_payload_03.json    | merges= 3 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested UPI_payload_04.json    | merges= 3 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested UPI_payload_05.json    | merges= 3 | pending= 0 | promoted= 0 | new= 0
+INFO | Calibrated taus | EENF=0.000129 | AANF=0.650 | CMNF=0.100 | DBNF=0.250
+INFO | Bootstrapped INAmex.json | canon=4
+INFO | Ingested ISO20022.json          | merges= 0 | pending= 0 | promoted= 0 | new= 9
+INFO | Ingested Mastercard.json        | merges= 1 | pending= 0 | promoted= 0 | new= 6
+INFO | Ingested Plaid.json             | merges= 4 | pending= 0 | promoted= 0 | new= 3
+INFO | Ingested PPVisa.json            | merges= 2 | pending= 0 | promoted= 0 | new= 4
+INFO | Ingested Razorpay.json          | merges= 0 | pending= 0 | promoted= 0 | new= 9
+INFO | Ingested Stripe.json            | merges= 2 | pending= 0 | promoted= 0 | new= 4
+INFO | Ingested UPI.json               | merges= 2 | pending= 0 | promoted= 0 | new= 4
+INFO | Ingested INAmex_payload_01.json | merges= 2 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested INAmex_payload_02.json | merges= 2 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested INAmex_payload_03.json | merges= 2 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested INAmex_payload_04.json | merges= 2 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested INAmex_payload_05.json | merges= 2 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested ISO20022_payload_01.json | merges= 0 | pending= 0 | promoted= 0 | new= 1
+INFO | Ingested ISO20022_payload_02.json | merges= 0 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested ISO20022_payload_03.json | merges= 0 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested ISO20022_payload_04.json | merges= 0 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested ISO20022_payload_05.json | merges= 0 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested Mastercard_payload_01.json | merges= 5 | pending= 0 | promoted= 0 | new= 1
+INFO | Ingested Mastercard_payload_02.json | merges= 5 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested Mastercard_payload_03.json | merges= 5 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested Mastercard_payload_04.json | merges= 5 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested Mastercard_payload_05.json | merges= 5 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested Plaid_payload_01.json  | merges= 4 | pending= 0 | promoted= 0 | new= 1
+INFO | Ingested Plaid_payload_02.json  | merges= 4 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested Plaid_payload_03.json  | merges= 4 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested Plaid_payload_04.json  | merges= 4 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested Plaid_payload_05.json  | merges= 4 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested PPVisa_payload_01.json | merges= 3 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested PPVisa_payload_02.json | merges= 3 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested PPVisa_payload_03.json | merges= 3 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested PPVisa_payload_04.json | merges= 3 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested PPVisa_payload_05.json | merges= 3 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested Razorpay_payload_01.json | merges= 4 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested Razorpay_payload_02.json | merges= 4 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested Razorpay_payload_03.json | merges= 4 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested Razorpay_payload_04.json | merges= 4 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested Razorpay_payload_05.json | merges= 4 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested Stripe_payload_01.json | merges= 4 | pending= 0 | promoted= 0 | new= 2
+INFO | Ingested Stripe_payload_02.json | merges= 4 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested Stripe_payload_03.json | merges= 4 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested Stripe_payload_04.json | merges= 4 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested Stripe_payload_05.json | merges= 4 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested UPI_payload_01.json    | merges= 3 | pending= 0 | promoted= 0 | new= 1
+INFO | Ingested UPI_payload_02.json    | merges= 3 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested UPI_payload_03.json    | merges= 3 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested UPI_payload_04.json    | merges= 3 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested UPI_payload_05.json    | merges= 3 | pending= 0 | promoted= 0 | new= 0
+INFO | Calibrated taus | EENF=0.000129 | AANF=0.650 | CMNF=0.100 | DBNF=0.250
+INFO | Bootstrapped INAmex.json | canon=4
+INFO | Ingested ISO20022.json          | merges= 0 | pending= 0 | promoted= 0 | new= 9
+INFO | Ingested Mastercard.json        | merges= 1 | pending= 0 | promoted= 0 | new= 6
+INFO | Ingested Plaid.json             | merges= 4 | pending= 0 | promoted= 0 | new= 3
+INFO | Ingested PPVisa.json            | merges= 2 | pending= 0 | promoted= 0 | new= 4
+INFO | Ingested Razorpay.json          | merges= 0 | pending= 0 | promoted= 0 | new= 9
+INFO | Ingested Stripe.json            | merges= 2 | pending= 0 | promoted= 0 | new= 4
+INFO | Ingested UPI.json               | merges= 2 | pending= 0 | promoted= 0 | new= 4
+INFO | Ingested INAmex_payload_01.json | merges= 2 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested INAmex_payload_02.json | merges= 2 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested INAmex_payload_03.json | merges= 2 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested INAmex_payload_04.json | merges= 2 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested INAmex_payload_05.json | merges= 2 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested ISO20022_payload_01.json | merges= 0 | pending= 0 | promoted= 0 | new= 1
+INFO | Ingested ISO20022_payload_02.json | merges= 0 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested ISO20022_payload_03.json | merges= 0 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested ISO20022_payload_04.json | merges= 0 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested ISO20022_payload_05.json | merges= 0 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested Mastercard_payload_01.json | merges= 5 | pending= 0 | promoted= 0 | new= 1
+INFO | Ingested Mastercard_payload_02.json | merges= 5 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested Mastercard_payload_03.json | merges= 5 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested Mastercard_payload_04.json | merges= 5 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested Mastercard_payload_05.json | merges= 5 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested Plaid_payload_01.json  | merges= 4 | pending= 0 | promoted= 0 | new= 1
+INFO | Ingested Plaid_payload_02.json  | merges= 4 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested Plaid_payload_03.json  | merges= 4 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested Plaid_payload_04.json  | merges= 4 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested Plaid_payload_05.json  | merges= 4 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested PPVisa_payload_01.json | merges= 3 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested PPVisa_payload_02.json | merges= 3 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested PPVisa_payload_03.json | merges= 3 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested PPVisa_payload_04.json | merges= 3 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested PPVisa_payload_05.json | merges= 3 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested Razorpay_payload_01.json | merges= 4 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested Razorpay_payload_02.json | merges= 4 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested Razorpay_payload_03.json | merges= 4 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested Razorpay_payload_04.json | merges= 4 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested Razorpay_payload_05.json | merges= 4 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested Stripe_payload_01.json | merges= 4 | pending= 0 | promoted= 0 | new= 2
+INFO | Ingested Stripe_payload_02.json | merges= 4 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested Stripe_payload_03.json | merges= 4 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested Stripe_payload_04.json | merges= 4 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested Stripe_payload_05.json | merges= 4 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested UPI_payload_01.json    | merges= 3 | pending= 0 | promoted= 0 | new= 1
+INFO | Ingested UPI_payload_02.json    | merges= 3 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested UPI_payload_03.json    | merges= 3 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested UPI_payload_04.json    | merges= 3 | pending= 0 | promoted= 0 | new= 0
+INFO | Ingested UPI_payload_05.json    | merges= 3 | pending= 0 | promoted= 0 | new= 0
+INFO |
+EVIDENCE MODE COMPARISON (all)
++------------+--------+---------+----------+-------+---------+------------+----------+------------------------------------------+---------------------------+----------------+----------+
+| mode       | merges | pending | promoted | canon | aliases | redundancy | AANF_tau | EENF (q95/max/tau)                       | CMNF (mean/tau)           | DBNF (max/tau) | missingV |
++============+========+=========+==========+=======+=========+============+==========+==========================================+===========================+================+==========+
+| embed_only | 136    | 0       | 0        | 49    | 80      | 38.7%      | 0.650    | q95=0.000128; max=0.000176; tau=0.000129 | mean=-0.023395; tau=0.100 | NA             | 0.0%     |
+| vss        | 136    | 0       | 0        | 49    | 80      | 38.7%      | 0.650    | q95=0.000128; max=0.000176; tau=0.000129 | mean=-0.023395; tau=0.100 | NA             | 27.6%    |
+| shape      | 136    | 0       | 0        | 49    | 80      | 38.7%      | 0.650    | q95=0.000128; max=0.000176; tau=0.000129 | mean=-0.023395; tau=0.100 | NA             | 27.6%    |
+| hybrid     | 136    | 0       | 0        | 49    | 80      | 38.7%      | 0.650    | q95=0.000128; max=0.000176; tau=0.000129 | mean=-0.023395; tau=0.100 | NA             | 27.6%    |
++------------+--------+---------+----------+-------+---------+------------+----------+------------------------------------------+---------------------------+----------------+----------+
+INFO |
+NORMAL FORMS SUMMARY (all)
++------------+------+------+------+-------+
+| mode       | EENF | CMNF | DBNF | Notes |
++============+======+======+======+=======+
+| embed_only | PASS | PASS | NA   |       |
+| vss        | PASS | PASS | NA   |       |
+| shape      | PASS | PASS | NA   |       |
+| hybrid     | PASS | PASS | NA   |       |
++------------+------+------+------+-------+
