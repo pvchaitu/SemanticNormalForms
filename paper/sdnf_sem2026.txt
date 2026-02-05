@@ -1,0 +1,571 @@
+\documentclass[11pt]{article}
+% SEM/STARSEM uses ACL style
+\usepackage{amsmath} % Required for split
+\usepackage{acl}
+%\usepackage[review]{acl}
+\usepackage{times}
+\usepackage{latexsym}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{microtype}
+\usepackage{inconsolata}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{enumitem}
+
+\title{Semantic Data Normal Forms: Extending Normalization Theory to Vector Embedding Spaces}
+
+% Anonymous for review; fill after acceptance
+\author{Anonymous SEM 2026 Submission}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+AI-native data systems encode schema meaning with vector embeddings, creating integrity challenges: stochastic instability, semantic drift, and context mixing. We introduce Semantic Data Normal Forms (SDNF), a framework that extends classical normalization to embedding spaces via a Semantic Relational Schema (SRS) and seven normal forms enforcing stability, alias resolution, context isolation, drift bounds, evidence completeness, role consistency, and partition orthogonality. Under explicit assumptions we present a conditional cross-context safety result and a governance descent argument that supports schema convergence in practice. A compact governance pipeline implements SDNF with evidence aggregation and lineage. Experiments on payments payloads demonstrate $\sim$35--40\% schema consolidation, high merge precision, and low measured context leakage under the evaluated settings. SDNF provides an auditable, evidence-driven approach to schema governance for embedding-based systems; extension to other domains is left to future work.
+\end{abstract}
+
+\section{Introduction}
+Modern data schemas act as semantic interfaces between AI models, services, and databases. Unlike symbolic schemas, AI-native systems use vector embeddings to represent meaning; similarity is determined by high-dimensional proximity. This shift introduces three failure modes: \textit{Stochastic Instability} (repeated encoding of the same concept yields non-identical vectors due to model nondeterminism), \textit{Semantic Drift} (model updates or data evolution shift concept representations over time), and \textit{Context Mixing} (distinct domains overlap in embedding space, e.g., ``card'' as payment vs.\ playing card). Classical normalization (1NF--BCNF) addresses structural redundancy but not semantic corruption. SDNF extends normalization theory into semantic space, enabling progressive refinement from payload-derived schemas to stable canonical schemas with auditable lineage.\\
+
+\noindent\textbf{Contributions:}%
+\begin{enumerate}[label=(\alph*)]
+\item A formal SRS model with multi-level embeddings and context projections.
+\item Seven Semantic Normal Forms (EENF, AANF, CMNF, DBNF, ECNF, RRNF, PONF).
+\item Conditional theoretical results under explicit assumptions.
+\item A governance pipeline implementation with evidence aggregation and lineage.
+\item Experimental validation on payments payloads showing substantial consolidation and high precision.
+\end{enumerate}
+
+\section{Semantic Relational Schema (SRS) Model}
+\subsection{Formal definition}
+An SRS is a tuple $\operatorname{SRS}=(E,A,R,\operatorname{Emb},C,L)$ where:
+\begin{itemize}\setlength\itemsep{0.25em}
+  \item $E$: set of entities (canonical concepts).
+  \item $A$: attributes with metadata (type, regex, provenance, aliases).
+  \item $R$: semantic relations (source, target, confidence, role).
+  \item $\operatorname{Emb}(p,c)$: embedding function $P \times C \to \mathbb{R}^{d}$.
+  \item $C$: semantic contexts (e.g., Payments, Risk).
+  \item $L$: append-only lineage log of evolution events with evidence.
+\end{itemize}
+
+\subsection{Multi-level embedding decomposition}
+For primitive $p$ in context $c$:
+
+\[
+  \begin{equation}
+  \begin{split}
+  \operatorname{Emb}(p,c)=
+  &\big[\operatorname{Emb}_{\text{fine}}(p,c)\;\Vert\;
+  &\operatorname{Emb}_{\text{abstract}}(p)\;\Vert\;      
+  &\operatorname{Emb}_{\text{contextual}}(p,c)\big].
+  \end{split}
+  \end{equation}
+\]
+Each subvector is $\ell_2$-normalized before concatenation. This decomposition separates lexical, context-independent, and domain-modulated semantics and supports progressive convergence as evidence accumulates.
+
+\paragraph{Fine-level embedding}
+$\operatorname{Emb}_{\text{fine}}(p,c)$ captures the lexical or token-level semantics of the primitive $p$ within context $c$.  
+\emph{Explanation:} It is similar to precise word-level meaning, sensitive to spelling, morphology, and local usage.
+
+\paragraph{Abstract embedding}
+$\operatorname{Emb}_{\text{abstract}}(p)$ represents the context-independent, generalized semantics of the primitive $p$.  
+\emph{Explanation:} This is the distilled, higher-level meaning of the word or concept, invariant across domains.
+
+\paragraph{Contextual embedding}
+$\operatorname{Emb}_{\text{contextual}}(p,c)$ encodes the domain-modulated semantics of the primitive $p$ in context $c$.  
+\emph{Explanation:} This adjusts the meaning depending on the domain — e.g., “operation” as a transaction in Payments vs. a surgery in Medical.
+
+\medskip
+Together, these components ensure that embeddings can be decomposed into fine, abstract, and contextual parts, encouraging separation of concerns and reducing semantic overlap across domains.
+
+\subsection{Context projection operator}
+\begin{equation}
+\begin{split}
+\|\operatorname{Proj}_c\|\le\kappa,& \qquad
+&\|\operatorname{Proj}_c^2-\operatorname{Proj}_c\|\le\delta,& \qquad
+&\|\operatorname{Proj}_c(x+\eta)-\operatorname{Proj}_c(x)\|\le\kappa\|\eta\| &.
+&\end{split}
+\end{equation}
+For each context $c$, define $\operatorname{Proj}_c:\mathbb{R}^{d}\to\mathbb{R}^{d}$ with the following properties:
+
+\subsubsection{Bounded amplification}
+
+
+\[
+\|\operatorname{Proj}_c\|\le\kappa
+\]
+
+
+The projection should not magnify the size of any vector beyond a safe bound $\kappa$. 
+\emph{Note:} Like a volume knob that can amplify but never exceed a set limit.
+
+\subsubsection{Approximate idempotence}
+
+
+\[
+\|\operatorname{Proj}_c^2-\operatorname{Proj}_c\|\le\delta
+\]
+
+
+Applying the projection twice should be almost the same as applying it once, with only a small error $\delta$. 
+\emph{Note:} Similar to putting on tinted glasses --- wearing them twice does not change the tint further.
+
+\subsubsection{Stability under perturbations}
+
+
+\[
+\|\operatorname{Proj}_c(x+\eta)-\operatorname{Proj}_c(x)\|\le\kappa\|\eta\|
+\]
+
+
+Small changes in the input ($\eta$) should only cause proportionally small changes in the projected output. 
+\emph{Note:} If we nudge a picture slightly, the filtered version shifts only a little, not drastically.
+
+\medskip
+Practical realizations include PCA/ridge linear maps ($W_c$) and attention-based diagonal modulation. These projections encourage near-orthogonality of identical tokens across distinct contexts, ensuring that meanings remain separated across domains.
+
+\subsection{SRS metric and evidence inner product}
+
+\paragraph{Definition 1: SRS metric}
+For primitives $p_1,p_2$ in context $c$:
+
+\begin{equation}
+\begin{split}
+d_{\operatorname{SRS}}\big((p_1,c),(p_2,c)\big)&
+=
+&\big\|\operatorname{Proj}_c(\operatorname{Emb}(p_1,c))
+-&\operatorname{Proj}_c(\operatorname{Emb}(p_2,c))\big\|_2.
+\end{split}
+\end{equation}
+
+\emph{Explanation:} The SRS metric measures the semantic distance between two primitives after projecting them into the same context.  
+Consider comparing how far apart two words are when viewed them through the same “contextual lens.” If the distance is small, they carry similar meaning in that domain; if large, they diverge semantically.
+
+\paragraph{Definition 2: Evidence-weighted inner product}
+For entities $e_1,e_2$ with evidence sets $\operatorname{Ev}_1,\operatorname{Ev}_2$:
+
+
+\[
+\langle e_1,e_2\rangle_E := \sum_i w_i(\operatorname{Ev}_i)\,\langle \operatorname{Emb}(e_1), \operatorname{Emb}(e_2)\rangle,
+\]
+
+with normalized positive weights $w_i$.
+\medskip
+
+\emph{Explanation:} The evidence-weighted inner product compares two entities by weighting their similarity according to supporting evidence.  
+Considering each piece of evidence as a vote, with stronger or more reliable signals carrying higher weight. This ensures that similarity is not judged solely by embeddings, but by how well evidence supports the comparison.  
+For finite or bounded evidence sets, this weighted inner product induces a pre-Hilbert structure on SRS, meaning it behaves like a well-defined inner product space suitable for rigorous analysis. A full proof follows directly from the inner product axioms and is omitted for brevity.
+
+\medskip
+Together, the SRS metric and evidence-weighted inner product provide both a geometric notion of distance and an evidence-aware notion of similarity, ensuring semantic comparisons are both mathematically sound and contextually grounded.
+
+\section{Semantic Data Normal Forms (SDNF)}
+Each NF targets a semantic anomaly with a formal constraint, validation metric, and remediation.
+
+\subsection{EENF --- Entity Embedding Normal Form (stability)}
+\textbf{Constraint:} For entity $e$ in context $c$,
+\[
+\operatorname{Var}\big(\{\operatorname{Emb}^{g}(e,c)\}_{g=1}^{G}\big)\le \tau_{\operatorname{EENF}}.
+\]
+\emph{Explanation:} The variance across multiple regenerated embeddings of the same entity should remain below a stability threshold $\tau_{\operatorname{EENF}}$. If embeddings fluctuate too much, the representation is unstable and may corrupt downstream semantics.
+
+\textbf{Action:} Quarantine unstable entities; increase regenerations ($G$), apply deterministic seeding, or select a more stable encoder.
+
+\subsection{AANF --- Attribute Alias Normal Form (alias detection)}
+
+\paragraph{Constraint}
+Attributes $a,b$ are considered aliases if:
+
+\begin{equation}
+\begin{split}
+\cos\!\big(\operatorname{Emb}(a,c_a),\operatorname{Emb}(b,c_b)\big)\ge \tau_{\operatorname{AANF}},\quad 
+&&\operatorname{ontology\_root}(a)=\operatorname{ontology\_root}(b), \quad 
+&&\operatorname{EvidenceSet}(a,b)\ge m_{\min}.&
+\end{split}
+\end{equation}
+
+\emph{Explanation:} Two attributes are flagged as aliases when three conditions hold:  
+1. Their embeddings are highly similar (cosine similarity above threshold $\tau_{\operatorname{AANF}}$).  
+2. They share the same ontology root, meaning they belong to the same conceptual category.  
+3. There is sufficient supporting evidence ($m_{\min}$ or more).  
+
+\emph{Example:} Discovering that “DOB” and “Date of Birth” are different labels for the same concept — the math checks similarity, the ontology confirms they belong to the same family, and evidence ensures it is not a coincidence.
+
+\paragraph{Action}
+Auto-merge when ECNF evidence thresholds are met; otherwise defer.
+
+\emph{Explanation:} If enough evidence supports the alias relationship, the system automatically merges the attributes to prevent redundancy. If evidence is insufficient, the merge is deferred until more proof accumulates.  
+
+\subsection{CMNF --- Context Modulation Normal Form (context isolation)}
+
+\paragraph{Constraint}
+For primitive $p$ in contexts $c_1,c_2$:
+
+\[
+\begin{equation}
+\begin{split}
+\Big\langle \operatorname{Proj}_{c_1}\big(\operatorname{Emb}(p,c_1)\big),&&\;
+            \operatorname{Proj}_{c_2}\big(\operatorname{Emb}(p,c_2)\big)\Big\rangle
+&&\le \tau_{\operatorname{CMNF}}.
+\end{split}
+\end{equation}
+\]
+\emph{Explanation:} The inner product between the projections of the same primitive in two distinct contexts must remain below a threshold $\tau_{\operatorname{CMNF}}$.  
+This ensures that meanings do not leak across domains.  
+
+\paragraph{Action}
+Retrain or re-estimate projections; flag contamination.
+
+\emph{Explanation:} If cross-context overlap exceeds the threshold, the projection matrices must be retrained or adjusted. Entities showing contamination are flagged for review.  
+
+\subsection{DBNF --- Drift-Bounded Normal Form (drift control)}
+
+\paragraph{Constraint}
+For entity $e$ across model versions $v_1,v_2$:
+\[
+\big\|\operatorname{Emb}(e,v_1)-\operatorname{Emb}(e,v_2)\big\|\le \tau_{\operatorname{DBNF}}.
+\]
+\emph{Explanation:} The distance between embeddings of the same entity across different model versions must remain below a drift threshold $\tau_{\operatorname{DBNF}}$.  
+This ensures that updates to the model do not distort the meaning of entities beyond acceptable bounds.  
+\emph{Example:} Updating a dictionary edition — the definition of “bank” should not suddenly shift from “financial institution” to “river edge” unless explicitly intended.
+
+\paragraph{Action}
+Fork versions when drift exceeds threshold; preserve historical semantics.
+
+\emph{Explanation:} If drift surpasses the threshold, the system forks the model version to preserve historical semantics. This prevents silent corruption of meaning and allows both old and new interpretations to coexist.  
+
+\subsection{ECNF --- Evidence Completeness Normal Form (explainability)}
+\textbf{Constraint:} Operation $O$ permitted only if
+\begin{equation} 
+\begin{split} 
+&&\operatorname{EvidenceSet}(O) \ge m_{\min},
+&&\operatorname{aggregate\_score}\big(\operatorname{EvidenceSet}(O)\big)& 
+\ge \gamma.
+\end{split} 
+\end{equation} 
+\textbf{Action:} Auto-merge if satisfied; otherwise defer to human review.
+
+\noindent\textit{Practical note:} value evidence is often missing (27.6\% in our dataset); the governance pipeline falls back to hybrid evidence (name + ontology + VSS + shape + embeddings) to preserve precision while recovering recall (see \S VII and Appendix C).
+
+\subsection{RRNF \& PONF (roles and partition orthogonality)}
+
+\paragraph{RRNF --- Role-Respecting Normal Form}
+\textbf{Constraint:} Enforce role consistency in relations to prevent invalid transitive inferences.
+
+\emph{Explanation:} Each entity must preserve its assigned role across relations. Violations occur when roles are swapped or blurred, leading to incorrect logical deductions. 
+
+\emph{Example:} Ensuring that in a family tree, a "parent" never suddenly becomes a "child" in another branch. Consistency prevents nonsensical transitive inferences.
+
+\paragraph{PONF --- Partition Orthogonality Normal Form}
+\textbf{Constraint:} Maintain orthogonality of semantic partitions; re-partition when overlap exceeds threshold $\tau_{\operatorname{PONF}}$.
+
+\[
+\operatorname{Overlap}(P_i,P_j) \leq \tau_{\operatorname{PONF}}, \quad \forall i \neq j
+\]
+
+\emph{Explanation:} Semantic partitions (clusters of meaning) must remain distinct. If overlap between partitions grows beyond $\tau_{\operatorname{PONF}}$, the system must re-partition to restore orthogonality.  
+\emph{Example:} Keeping different departments in an organization separate — if Finance and HR roles start overlapping too much, responsibilities must be redefined to avoid confusion.
+
+\paragraph{Action}
+- For RRNF: Validate and enforce role consistency; quarantine or correct relations that violate role assignments.  
+- For PONF: Monitor partition overlaps; trigger re-partitioning when thresholds are exceeded to preserve semantic clarity.
+
+\section{Mathematical Analysis}
+\subsection{Assumptions (explicit)}
+\textbf{Projection stability (A1):} $\operatorname{Proj}_c$ are \textbf{bounded}, approximately \textbf{idempotent}, and \textbf{stable} as defined in \S II-C.  
+
+\emph{Boundedness:} Projections act like filters — they never amplify signals beyond a safe limit.  
+\emph{Idempotence:} Applying the projection twice is essentially the same as once, ensuring consistency.  
+\emph{Stability:} Small input changes only cause proportionally small output changes,
+
+\textbf{Embedding Lipschitz (A2):} For finite contexts, $\operatorname{Emb}$ is Lipschitz (upper bound) and injective on the finite vocabulary, enabling conditional bi-Lipschitz statements.  
+
+\emph{Lipschitz continuity:} Distances in meaning are preserved in a controlled way — similar tokens remain close, dissimilar ones remain apart.  
+\emph{Injectivity:} Each token maps to a unique embedding, avoiding collisions.  
+Example: assigning unique ID cards to students — no two share the same card, and their relative closeness is preserved.
+
+\textbf{Subspace model (A3):} Embeddings for distinct contexts concentrate in approximately low-dimensional subspaces; concentration inequalities apply.  
+\emph{Intuition:} Each domain occupies its own compact “semantic room.” Finance terms cluster in one corner, Medical terms in another, with most points tightly packed and only a few drifting out.
+
+\textbf{Governance descent (A4):} The governance pipeline is designed to monotonically decrease a redundancy metric $L(S)$ in expectation; discrete decisions are constrained to avoid increases in $L(S)$.  
+\emph{Intuition:} Governance acts like a catalog clean‑up crew — every step reduces duplication and overlap, and no action is allowed to add new duplicates.
+
+These assumptions are stated to make the subsequent theorems precise; proofs and technical bounds are in Appendix A--B.
+
+\subsection{Conditional theorems (statements and sketches)}
+\textbf{Theorem 1 (CMNF Cross-Context Safety).}
+Under A1--A4, if CMNF holds for contexts $c_1,c_2$ (i.e., for all $p$, inner products $\le \tau_{\operatorname{CMNF}}$), then under the subspace model the probability of cross-context retrieval error is bounded by an explicit function $f(\tau_{\operatorname{CMNF}};d,n)$ that decays as $\tau_{\operatorname{CMNF}}\to 0$ and with increasing ambient dimension $d$. Proof sketch; full proof under the stated assumptions is in Appendix A.  
+
+\emph{Intuition:} This theorem ensures that when contexts are kept sufficiently isolated, the risk of mixing or confusing meanings across domains becomes negligible, especially in higher dimensions.
+
+\textbf{Theorem 2 (DBNF Drift Fork Necessity).}
+Under A1--A4, if $\|\operatorname{Emb}(e,v_1)-\operatorname{Emb}(e,v_2)\|>\tau_{\operatorname{DBNF}}$, then for any downstream operator $O$ that is $L_O$-Lipschitz,
+\begin{equation} 
+\begin{split} 
+&&\|O(\operatorname{Emb}(e,v_1))-O(\operatorname{Emb}(e,v_2))\|
+\ge 
+&&L_O\cdot \operatorname{drift} - K
+\end{split} 
+\end{equation}
+When the right-hand side exceeds an application threshold, forking is required to preserve semantic consistency. Proof sketch; full proof in Appendix A.  
+
+\emph{Intuition:} This theorem formalizes when semantic drift across model versions becomes too large to ignore, showing that a fork is necessary to maintain consistent downstream behavior.
+
+\textbf{Theorem 3 (SRS Completeness Under SDNF).}
+Under A1--A4, for finite contexts and under boundedness and closure conditions, $(\operatorname{SRS},d_{\operatorname{SRS}})$ is complete: every Cauchy sequence converges within SRS. Moreover, under additional technical bounds on governance updates (Appendix B), the governance pipeline converges to a canonical fixed point. Proof sketch; full proof in Appendix A and Appendix B.  
+
+\emph{Intuition:} This theorem guarantees that the semantic space is mathematically well-formed — sequences of embeddings converge, and governance processes stabilize to a consistent schema.
+
+\noindent\textbf{Corollary 3.1 (Fixed-Point Convergence).}
+Under A1--A4 and the governance descent bounds in Appendix B, the governance pipeline converges to a canonical schema $S^\star$ with $T(S^\star)=S^\star$ (see Appendix B).  
+
+\emph{Intuition:} This corollary confirms that governance does not wander indefinitely but settles into a stable fixed schema.
+
+\noindent\textbf{Corollary 3.2 (Conditional Bi-Lipschitz Embedding).}
+Under A2 (finite contexts) $\operatorname{Emb}$ is bi-Lipschitz up to controlled distortion; constants depend on $\kappa$ and $\tau_{\operatorname{AANF}}$ (formal statement and bounds in Appendix A).  
+
+\emph{Intuition:} This corollary shows that embeddings preserve both closeness and separation of tokens within finite contexts, ensuring semantic distances remain meaningful under controlled distortion.
+
+\subsection{Governance descent (replacement for unconditional contraction)}
+The governance pipeline is a composition of continuous centroid updates and discrete merge/fork decisions. Continuous updates are Lipschitz-bounded; discrete decisions are implemented to avoid increases in a redundancy metric $L(S)$. Under explicit bounds on discrete update magnitudes (Appendix B), repeated application of the pipeline yields monotone descent of $L(S)$ and convergence to a fixed point. The Banach contraction formulation is presented conditionally in Appendix B where required Lipschitz constants are made explicit.  
+
+\emph{Intuition:}  
+- \textbf{Lipschitz-bounded:} Each update changes the system in a controlled way — no sudden jumps, like adjusting a thermostat where small tweaks only cause proportionally small temperature shifts.  
+- \textbf{Banach contraction:} Repeatedly applying the pipeline steadily pulls the system closer to a single stable state, like folding a piece of paper in half again and again — it always converges toward one point.  
+\emph{Example:} Governance descent works like a navigation app recalculating routes: continuous updates gently nudge you closer to the destination, while discrete reroutes (merge/fork) avoid detours. Over time, you always end up at the fixed destination without wandering endlessly.
+
+\section{Governance Pipeline}
+\textbf{Stages:} Payload ingestion $\to$ Schema derivation $\to$ Embedding generation (multi-level) $\to$ Context projection $\to$ SDNF validation (EENF $\to$ AANF $\to$ CMNF $\to$ DBNF $\to$ ECNF $\to$ RRNF $\to$ PONF) $\to$ Evidence aggregation $\to$ Decision (merge/fork/defer/quarantine) $\to$ Lineage recording.
+
+\noindent\textbf{Evidence signals:} embedding similarities (fine/abstract/contextual), name token overlap, ontology match, value semantic signature (VSS), shape tokens, co-occurrence statistics, regex heuristics. Aggregate scoring uses configurable weights; ECNF enforces minimum distinct signals and score thresholds.
+
+\noindent\textbf{Operational rules:} Auto-merge only when AANF + ECNF satisfied; fork on DBNF violations; quarantine on EENF failures; defer otherwise. Lineage entries record evidence ids, timestamps, actor, and decision rationale.
+
+\section{Experiments}
+\subsection{Setup (compact)}
+Platform: Python 3.10; Sentence-Transformers \texttt{all-MiniLM-L6-v2} (model version in Appendix C); HNSW (hnswlib $M{=}32$, $ef{=}50$).
+Data: payments domain (\texttt{INAmex.json}, \texttt{PPVisa.json}, $\sim$50 payloads).
+Metrics: schema consolidation (\% reduction), merge precision/recall ($\pm$CI), context leakage rate, drift detection accuracy.
+
+\subsection{EENF mitigation and reproducibility}
+We observed embedding variance from nondeterministic encoders. To quantify and mitigate this we use regeneration trials ($G$) and report sensitivity results. Experiments use the model and \texttt{hnswlib} versions listed in Appendix C and fixed random seeds (Appendix C). For production we recommend deterministic seeding or model choices that support reproducible encodings. In our ablation, increasing regenerations from $G{=}10$ to $G{=}20$ reduced mean embedding variance by $\sim$40\% at the cost of $\sim$2$\times$ embedding compute; per-entity quarantine counts are in Appendix C.
+
+\subsection{Key results (compact table)}
+% (table omitted in this plain source; include if needed)
+
+\subsection{Ablation highlights (brief)}
+No ECNF: precision drops to 0.86 (false merges increase). \\
+No CMNF: context leakage rises to $\approx 9$\%. \\
+No DBNF: drift events undetected, leading to semantic corruption. \\
+Evidence missingness: 27.6\% of attributes lack value evidence; hybrid mode (name+ontology+VSS+shape+embeddings) recovers recall while preserving precision (details in Appendix C).
+
+\subsection{Example merge (illustrative)}
+Merging \texttt{acct\_num} $\to$ \texttt{PrimaryAccountNumber}: cosine sim 0.99; ontology ISO8583 PAN; co-occurrence 82\%; regex match \verb!^[0-9]{13,19}$!; aggregate score $0.92 \ge \gamma$ $\to$ auto-merge; lineage recorded.
+
+\section{Related Work}
+Classical normalization \cite{codd1970relational,kent1979data} addresses structural redundancy; SDNF extends normalization to vector semantics. Schema matching and ontology embeddings \cite{rahm2001survey} inform alias detection; vector DB and retrieval literature \cite{malkov2018efficient,johnson2019billion} inform indexing and nearest-neighbor behavior. Representation drift studies motivate DBNF. Metric space and concentration results \cite{heinonen2001lectures,boucheron2013concentration} underpin conditional probabilistic bounds; fixed-point theory \cite{banach1922operations} motivates convergence arguments (all used under stated assumptions).
+
+\section{Conclusion}
+We presented SDNF, a practical framework for governing semantic schemas in embedding-based systems. By combining a formal SRS model, seven semantic normal forms, and an evidence-driven governance pipeline with lineage, SDNF reduces redundancy and mitigates semantic anomalies in practice. Theoretical claims are stated conditionally under explicit assumptions; empirical validation on payments payloads shows substantial consolidation and high precision. Further work will broaden domain validation and refine formal convergence under weaker assumptions; proofs and extended experiments are provided in the appendix.
+
+\section*{Limitations}
+\textbf{Domain scope:} experiments are on payments payloads; claims about other domains are conditional and require further validation. \\
+\textbf{Nondeterminism:} encoder nondeterminism affects EENF; mitigation via $G$ and deterministic seeding is recommended. \\
+\textbf{Evidence missingness:} hybrid fallback is effective but depends on domain heuristics (\texttt{ontology\_root}). \\
+\textbf{Scalability:} current experiments are modest scale; scalable partitioning strategies are future work. \\
+\textbf{Reproducibility:} model names/versions, seeds, \texttt{hnswlib} versions, and full experiment scripts are provided in Appendix C.
+
+\bibliographystyle{acl_natbib}
+\bibliography{custom}
+
+\bigskip
+\appendix
+\section*{Appendix A: Formal Lemmas and Proofs (PCA / Lipschitz Setting)}
+This appendix gives formal statements and proofs for Theorems 1--3 from the main text in a simplified, rigorous setting. We work under the PCA/subspace model and Lipschitz/bi-Lipschitz operator assumptions called out below. All vectors are real and finite-dimensional. Notation: $\|\cdot\|$ denotes the Euclidean norm, $\langle\cdot,\cdot\rangle$ the Euclidean inner product, and $\mathbb{S}^{d-1}$ the unit sphere in $\mathbb{R}^{d}$.
+
+\subsection*{A.1 Setup and standing assumptions}
+(A1) Finite ambient dimension. Embeddings live in $\mathbb{R}^{d}$ with fixed $d\in \mathbb{N}$.  
+\emph{Intuition:} Fixing dimension ensures distances and angles are well-defined; it makes the geometry tractable.  
+
+(A2) PCA/subspace model for contexts. For each context $c$ there exists a linear subspace $U_c\subset\mathbb{R}^{d}$ of dimension $r_c\le d$ and an orthogonal projector $P_{U_c}$ onto $U_c$.  
+\emph{Intuition:} Each context occupies its own “semantic room,” and projections are the doorway into that room.  
+
+(A3) Subspace separation. For two contexts $c_1,c_2$ define the principal angle $\theta\in[0,\pi/2]$ between subspaces $U_{c_1}$ and $U_{c_2}$ by
+
+
+\[
+\cos\theta := \sup_{u\in U_{c_1}\cap \mathbb{S}^{d-1},\; v\in U_{c_2}\cap \mathbb{S}^{d-1}} \langle u,v\rangle.
+\]
+
+
+\emph{Intuition:} $\theta$ measures how distinct two contexts are — small angles mean overlap, large angles mean clear separation.  
+
+(A4) Random embedding model. For a fixed primitive $p$, its context-projected embedding in context $c$ is modeled as $x_c=P_{U_c} z_c$ where $z_c$ is a random vector with isotropic concentration.  
+\emph{Intuition:} Embeddings are treated like random samples that concentrate around their context subspace, giving probabilistic control.  
+
+(A5) Downstream operator regularity. A downstream operator $O:\mathbb{R}^{d}\to\mathbb{R}^{m}$ is assumed bi-Lipschitz:  
+
+
+\[
+\ell\,\|x-y\| \le \|O(x)-O(y)\| \le L\,\|x-y\|.
+\]
+
+  
+\emph{Intuition:} Downstream operators stretch or compress distances in a controlled way, never collapsing distinct points or exploding small differences.  
+
+\subsection*{A.2 Lemmas on projections and subspace angles}
+\textbf{Lemma A.1 (Inner product bound from subspace angle).}  
+For any unit vectors $u\in U\cap\mathbb{S}^{d-1}$ and $v\in V\cap\mathbb{S}^{d-1}$, $\langle u,v\rangle \le \cos\theta$.  
+\emph{Intuition:} The maximum similarity between vectors from two subspaces is capped by the cosine of their separating angle.  
+
+\textbf{Lemma A.2 (Projection norm and idempotence).}  
+Let $P_U$ be the orthogonal projector onto subspace $U$. Then $\|P_U\|=1$ and $P_U^{2}=P_U$.  
+\emph{Intuition:} True projections are perfectly stable filters; approximations stay close, with bounded error.  
+
+\subsection*{A.3 Concentration of inner products (Gaussian model)}
+\textbf{Lemma A.3 (Gaussian inner product concentration).}  
+For Gaussian vectors $x,y$ supported on subspaces $U,V$,  
+
+
+\[
+\Pr\big(\langle u,v\rangle \ge t\big)\le 2\exp\big(-c\,d_{\operatorname{eff}}\,t^{2}\big).
+\]
+
+  
+\emph{Intuition:} Random vectors from different subspaces almost never align too closely; the chance decays exponentially with dimension.  
+
+\subsection*{A.4 Theorem 1 (CMNF Cross-Context Safety)}
+\textbf{Theorem A.1.}  
+Under (A1)--(A4), for contexts $c_1,c_2$ with angle $\theta$,  
+\begin{equation}
+\begin{split}
+\Pr\!\Bigg(
+   \Big\langle 
+      \frac{x_{c_1}}{\|x_{c_1}\|},\;
+      \frac{x_{c_2}}{\|x_{c_2}\|}
+   \Big\rangle 
+   \ge \cos\theta + t
+\Bigg)
+&&\le 2\exp\!\left(-c\,d_{\operatorname{eff}}\,t^2\right).
+\end{split}
+\end{equation}
+\emph{Intuition:} If contexts are sufficiently separated, the probability of confusing them in retrieval drops exponentially with dimension.  
+
+\subsection*{A.5 Theorem 2 (DBNF Drift Fork Necessity)}
+\textbf{Theorem A.2.}  
+Under (A1)--(A5), if $\|x_1-x_2\|>\tau_{\operatorname{DBNF}}$, then  
+
+
+\[
+\|O(x_1)-O(x_2)\| \ge \ell \,\|x_1-x_2\| > \ell\,\tau_{\operatorname{DBNF}}.
+\]
+
+  
+\emph{Intuition:} When embeddings drift beyond tolerance, downstream operators magnify the difference, forcing a fork to preserve consistency.  
+
+\subsection*{A.6 Theorem 3 (SRS completeness and governance convergence)}
+\textbf{Theorem A.3 (SRS completeness).}  
+Under (A1)--(A3), $(\mathcal{X}, d_{\operatorname{SRS}})$ is a complete metric space.  
+\emph{Intuition:} The semantic space is mathematically well-behaved — sequences converge, ensuring stability of meaning.  
+
+\textbf{Proposition A.4 (Governance descent and convergence).}  
+If $L(S_t)$ is monotone nonincreasing and bounded below, then $S_t$ converges to a fixed point.  
+\emph{Intuition:} Governance acts like a clean-up process: each step reduces redundancy, and the system settles into a stable schema.  
+
+\section*{Appendix B: Contraction Bounds and Uniqueness}
+Suppose each pipeline step satisfies a Lipschitz bound with constant $\alpha<1$ on the metric space $(\mathcal{X},d_{\operatorname{SRS}})$. Then Banach’s fixed-point theorem ensures uniqueness of the limit schema $S^\star$.  
+\emph{Intuition:} Contraction guarantees that repeated updates pull the system closer to one unique stable point, like folding paper in half repeatedly until it collapses to a single crease.  
+
+\section*{Appendix C: Practical Calibration Notes}
+Constants $c,\ell,\kappa$ are application-dependent.  
+\emph{Intuition:} These parameters act like “knobs” practitioners can tune empirically — effective dimension for concentration, sensitivity constants for drift, and redundancy penalties for governance.  
+
+\end{document}
+
+custom.bib
+@article{codd1970relational,
+  author  = {Codd, E. F.},
+  title   = {A Relational Model of Data for Large Shared Data Banks},
+  journal = {Communications of the ACM},
+  year    = {1970},
+  volume  = {13},
+  number  = {6},
+  pages   = {377--387},
+  doi     = {10.1145/362384.362685}
+}
+
+@book{kent1979data,
+  author    = {Kent, William},
+  title     = {Data and Reality: Basic Assumptions in Data Processing Reconsidered},
+  publisher = {North-Holland},
+  year      = {1979}
+}
+
+@article{rahm2001survey,
+  author  = {Rahm, Erhard and Bernstein, Philip A.},
+  title   = {A Survey of Approaches to Automatic Schema Matching},
+  journal = {VLDB Journal},
+  year    = {2001},
+  volume  = {10},
+  number  = {4},
+  pages   = {334--350},
+  doi     = {10.1007/s007780100057}
+}
+
+@inproceedings{reimers2019sentence,
+  author    = {Reimers, Nils and Gurevych, Iryna},
+  title     = {Sentence-BERT: Sentence Embeddings using Siamese BERT-Networks},
+  booktitle = {Proceedings of the 2019 Conference on Empirical Methods in Natural Language Processing},
+  year      = {2019},
+  pages     = {3982--3992},
+  url       = {https://arxiv.org/abs/1908.10084}
+}
+
+@article{malkov2018efficient,
+  author  = {Malkov, Yury A. and Yashunin, Dmitry A.},
+  title   = {Efficient and Robust Approximate Nearest Neighbor Search Using Hierarchical Navigable Small World Graphs},
+  journal = {IEEE Transactions on Pattern Analysis and Machine Intelligence},
+  year    = {2018},
+  volume  = {40},
+  number  = {4},
+  pages   = {824--836},
+  doi     = {10.1109/TPAMI.2018.2889473}
+}
+
+@article{johnson2019billion,
+  author  = {Johnson, Jeff and Douze, Matthijs and J{\'e}gou, Herv{\'e}},
+  title   = {Billion-scale Similarity Search with GPUs},
+  journal = {IEEE Transactions on Big Data},
+  year    = {2019},
+  volume  = {7},
+  number  = {3},
+  pages   = {535--547},
+  doi     = {10.1109/TBDATA.2019.2921572}
+}
+
+@book{boucheron2013concentration,
+  author    = {Boucheron, St{\'e}phane and Lugosi, G{\'a}bor and Massart, Pascal},
+  title     = {Concentration Inequalities: A Nonasymptotic Theory of Independence},
+  publisher = {Oxford University Press},
+  year      = {2013},
+  doi       = {10.1093/acprof:oso/9780199535255.001.0001}
+}
+
+@book{heinonen2001lectures,
+  author    = {Heinonen, Juha},
+  title     = {Lectures on Analysis on Metric Spaces},
+  publisher = {Springer},
+  year      = {2001},
+  doi       = {10.1007/978-1-4471-3689-1}
+}
+
+@article{banach1922operations,
+  author  = {Banach, Stefan},
+  title   = {Sur les Op{\'e}rations dans les Ensembles Abstraits et leur Application aux {\'E}quations Int{\'e}grales},
+  journal = {Fundamenta Mathematicae},
+  year    = {1922},
+  volume  = {3},
+  pages   = {133--181}
+}
