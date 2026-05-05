@@ -1,4 +1,4 @@
-# SDNF Unified Experiment (Reviewer-Grade Audit Harness - v9)
+# SDNF Unified Experiment (Reviewer-Grade Audit Harness - v10)
 
 This repository contains a **single-file, reproducible experiment** for validating:
 
@@ -8,9 +8,9 @@ This repository contains a **single-file, reproducible experiment** for validati
 
 ---
 
-## What makes v9 different
+## What makes v10 different
 
-Version 9 is a **reviewer-grade audit harness**, designed to:
+Version 10 is a **reviewer-grade audit harness**, designed to:
 
 - Compute all metrics from observed data
 - Validate claims with `PASS`, `FAIL`, or `NOT MEASURABLE`
@@ -55,7 +55,7 @@ Each normal form is reported with observed values, expected thresholds, and a st
 
 ### 3. Claim Verification Engine
 
-The v9 harness prints reviewer-facing tables for:
+The v10 harness prints reviewer-facing tables for:
 
 - Schema reduction percentage
 - Precision / Recall / F1
@@ -129,7 +129,7 @@ When drift ground truth is provided, the script compares DBNF drift hotspots aga
 ## Repository Structure
 
 ```text
-unified_sdnf_experiment_hybrid_v9.py   # Main reviewer-grade experiment harness
+unified_sdnf_experiment_hybrid_v10.py   # Main reviewer-grade experiment harness
 readMe.md                              # This file
 requirements.txt                       # Python dependencies
 data/                                  # Schema JSON files
@@ -171,7 +171,7 @@ pip install -r requirements.txt
 ### Default hybrid SDNF run
 
 ```bash
-python unified_sdnf_experiment_hybrid_v9.py
+python unified_sdnf_experiment_hybrid_v10.py
 ```
 
 ---
@@ -179,7 +179,7 @@ python unified_sdnf_experiment_hybrid_v9.py
 ### Run all reviewer-grade modes and ablations
 
 ```bash
-python unified_sdnf_experiment_hybrid_v9.py \
+python unified_sdnf_experiment_hybrid_v10.py \
   --evidence_mode all
 ```
 
@@ -188,7 +188,7 @@ python unified_sdnf_experiment_hybrid_v9.py \
 ### Run with alias ground truth validation
 
 ```bash
-python unified_sdnf_experiment_hybrid_v9.py \
+python unified_sdnf_experiment_hybrid_v10.py \
   --evidence_mode hybrid \
   --ground_truth_aliases ground_truth_aliases.json
 ```
@@ -198,7 +198,7 @@ python unified_sdnf_experiment_hybrid_v9.py \
 ### Run full audit with alias ground truth, drift ground truth, pair trace, EENF sweep, and timing
 
 ```bash
-python unified_sdnf_experiment_hybrid_v9.py \
+python unified_sdnf_experiment_hybrid_v10.py \
   --evidence_mode all \
   --ground_truth_aliases ground_truth_aliases.json \
   --drift_ground_truth drift_ground_truth.json \
@@ -212,7 +212,7 @@ python unified_sdnf_experiment_hybrid_v9.py \
 ### Run DBNF drift simulation using a second embedding model
 
 ```bash
-python unified_sdnf_experiment_hybrid_v9.py \
+python unified_sdnf_experiment_hybrid_v10.py \
   --evidence_mode all \
   --drift_model all-mpnet-base-v2 \
   --drift_ground_truth drift_ground_truth.json
@@ -223,14 +223,14 @@ python unified_sdnf_experiment_hybrid_v9.py \
 ### Run pairwise explainability trace
 
 ```bash
-python unified_sdnf_experiment_hybrid_v9.py \
+python unified_sdnf_experiment_hybrid_v10.py \
   --trace_pair acct_num PrimaryAccountNumber
 ```
 
 Multiple trace pairs can be supplied by repeating `--trace_pair`:
 
 ```bash
-python unified_sdnf_experiment_hybrid_v9.py \
+python unified_sdnf_experiment_hybrid_v10.py \
   --trace_pair acct_num PrimaryAccountNumber \
   --trace_pair txn_amount amount
 ```
@@ -240,7 +240,7 @@ python unified_sdnf_experiment_hybrid_v9.py \
 ### Run EENF stability-latency sweep
 
 ```bash
-python unified_sdnf_experiment_hybrid_v9.py \
+python unified_sdnf_experiment_hybrid_v10.py \
   --eenf_g_sweep 1,10,20
 ```
 
@@ -249,7 +249,7 @@ python unified_sdnf_experiment_hybrid_v9.py \
 ### Run timing instrumentation
 
 ```bash
-python unified_sdnf_experiment_hybrid_v9.py \
+python unified_sdnf_experiment_hybrid_v10.py \
   --measure_timing
 ```
 
