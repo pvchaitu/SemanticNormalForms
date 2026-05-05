@@ -1,20 +1,23 @@
-# Minimal dependencies for unified_sdnf_experiment_hybrid_v7.py
+# Core dependencies for unified_sdnf_experiment_hybrid_v9.py
 
 numpy>=1.23
+
+# Embeddings (optional but recommended)
 sentence-transformers>=2.2.2
+
+# ANN (optional; falls back if unavailable)
 hnswlib>=0.8.0
 
-# Common transitive deps (kept explicit for smoother installs)
+# Common transitive dependencies (kept explicit for stability)
 torch
 transformers
 huggingface-hub
 
-# Optional (only if you extend the project for analysis/plots)
-# pandas>=1.5
-# matplotlib>=3.6
-# scipy>=1.9
-# tqdm>=4.65
-# tabulate>=0.9.0
-# jsonschema>=4.17.0
-# scikit-learn>=1.2
-# umap-learn>=0.5.3
+# Optional (only for extensions / analysis / visualization)
+pandas>=1.5
+matplotlib>=3.6
+scipy>=1.9
+tqdm>=4.65
+tabulate>=0.9.0
+scikit-learn>=1.2
+umap-learn>=0.5.3
