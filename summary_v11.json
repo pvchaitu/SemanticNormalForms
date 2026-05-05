@@ -1,0 +1,1429 @@
+{
+  "run_configuration": {
+    "data_dir": "data",
+    "payloads_dir": "payloads",
+    "evidence_mode": "all",
+    "model": "all-MiniLM-L6-v2",
+    "drift_model": "None",
+    "ground_truth_aliases": "ground_truth_aliases.json",
+    "ground_truth_closed_world": "False",
+    "drift_ground_truth": "drift_ground_truth.json",
+    "controlled_drift_json": "None",
+    "drift_eval_mode": "exploratory",
+    "strict_paper_reproduction": "False",
+    "trace_pair": "[['acct_num', 'PrimaryAccountNumber'], ['primary_account_number', 'account_number']]",
+    "eenf_g_sweep": "1,10,20",
+    "eenf_repeats": "20",
+    "measure_timing": "True",
+    "context": "Payments Risk",
+    "seed": "42",
+    "tau_eenf": "0.000129",
+    "tau_aanf": "0.65",
+    "tau_cmnf": "0.1",
+    "tau_dbnf": "0.25",
+    "tau_dbnf_drift": "0.15",
+    "gamma": "0.7",
+    "m_min": "4",
+    "drift_top_k": "10",
+    "export_decisions": "decisions_v11.csv",
+    "export_predicted_pairs": "predicted_pairs_v11.json",
+    "export_false_positives": "false_positives_v11.csv",
+    "export_false_negatives": "false_negatives_v11.csv",
+    "export_ground_truth_template": "ground_truth_aliases_template_v11.json",
+    "export_summary_json": "summary_v11.json"
+  },
+  "dataset_summary": {
+    "schema_files_ingested": 8,
+    "payload_files_ingested": 40,
+    "raw_attribute_records": 90,
+    "distinct_attribute_names": 57,
+    "value_evidence_available": 57,
+    "value_evidence_missing": 0,
+    "missing_fraction": 0.0
+  },
+  "normal_form_summary": [
+    [
+      "embed_only_baseline",
+      "EENF",
+      "q95(var) <= tau",
+      "q95=8.413e-06; max=8.561e-06",
+      "tau=0.000129",
+      "PASS",
+      "PASS"
+    ],
+    [
+      "embed_only_baseline",
+      "AANF",
+      "min_merge_sim >= tau",
+      "0.6500",
+      "tau=0.65",
+      "PASS",
+      "PASS"
+    ],
+    [
+      "embed_only_baseline",
+      "CMNF",
+      "single context; cross-context CMNF not exercised",
+      "NA",
+      "tau=0.1",
+      "NA",
+      "NA_SINGLE_CONTEXT"
+    ],
+    [
+      "embed_only_baseline",
+      "ECNF",
+      "min_signals >= m_min",
+      2,
+      "m_min=4",
+      "FAIL",
+      "FAIL"
+    ],
+    [
+      "embed_only_baseline",
+      "DBNF",
+      "drift model / controlled drift evaluation",
+      "see DBNF tables",
+      "tau=NA",
+      "NOT_EXERCISED",
+      "NOT_EXERCISED"
+    ],
+    [
+      "embed_only_baseline",
+      "RRNF",
+      "role consistency",
+      "info only",
+      "NA",
+      "INFO",
+      "INFO_ONLY"
+    ],
+    [
+      "embed_only_baseline",
+      "PONF",
+      "partition orthogonality",
+      "info only",
+      "NA",
+      "INFO",
+      "INFO_ONLY"
+    ],
+    [
+      "sdnf_hybrid",
+      "EENF",
+      "q95(var) <= tau",
+      "q95=8.413e-06; max=8.561e-06",
+      "tau=0.000129",
+      "PASS",
+      "PASS"
+    ],
+    [
+      "sdnf_hybrid",
+      "AANF",
+      "min_merge_sim >= tau",
+      "0.6535",
+      "tau=0.65",
+      "PASS",
+      "PASS"
+    ],
+    [
+      "sdnf_hybrid",
+      "CMNF",
+      "single context; cross-context CMNF not exercised",
+      "NA",
+      "tau=0.1",
+      "NA",
+      "NA_SINGLE_CONTEXT"
+    ],
+    [
+      "sdnf_hybrid",
+      "ECNF",
+      "min_signals >= m_min",
+      4,
+      "m_min=4",
+      "PASS",
+      "PASS"
+    ],
+    [
+      "sdnf_hybrid",
+      "DBNF",
+      "drift model / controlled drift evaluation",
+      "see DBNF tables",
+      "tau=NA",
+      "NOT_EXERCISED",
+      "NOT_EXERCISED"
+    ],
+    [
+      "sdnf_hybrid",
+      "RRNF",
+      "role consistency",
+      "info only",
+      "NA",
+      "INFO",
+      "INFO_ONLY"
+    ],
+    [
+      "sdnf_hybrid",
+      "PONF",
+      "partition orthogonality",
+      "info only",
+      "NA",
+      "INFO",
+      "INFO_ONLY"
+    ],
+    [
+      "no_ecnf",
+      "EENF",
+      "q95(var) <= tau",
+      "q95=8.413e-06; max=8.561e-06",
+      "tau=0.000129",
+      "PASS",
+      "PASS"
+    ],
+    [
+      "no_ecnf",
+      "AANF",
+      "min_merge_sim >= tau",
+      "0.6500",
+      "tau=0.65",
+      "PASS",
+      "PASS"
+    ],
+    [
+      "no_ecnf",
+      "CMNF",
+      "single context; cross-context CMNF not exercised",
+      "NA",
+      "tau=0.1",
+      "NA",
+      "NA_SINGLE_CONTEXT"
+    ],
+    [
+      "no_ecnf",
+      "ECNF",
+      "min_signals >= m_min",
+      2,
+      "m_min=4",
+      "FAIL",
+      "FAIL"
+    ],
+    [
+      "no_ecnf",
+      "DBNF",
+      "drift model / controlled drift evaluation",
+      "see DBNF tables",
+      "tau=NA",
+      "NOT_EXERCISED",
+      "NOT_EXERCISED"
+    ],
+    [
+      "no_ecnf",
+      "RRNF",
+      "role consistency",
+      "info only",
+      "NA",
+      "INFO",
+      "INFO_ONLY"
+    ],
+    [
+      "no_ecnf",
+      "PONF",
+      "partition orthogonality",
+      "info only",
+      "NA",
+      "INFO",
+      "INFO_ONLY"
+    ],
+    [
+      "no_cmnf",
+      "EENF",
+      "q95(var) <= tau",
+      "q95=8.413e-06; max=8.561e-06",
+      "tau=0.000129",
+      "PASS",
+      "PASS"
+    ],
+    [
+      "no_cmnf",
+      "AANF",
+      "min_merge_sim >= tau",
+      "0.6535",
+      "tau=0.65",
+      "PASS",
+      "PASS"
+    ],
+    [
+      "no_cmnf",
+      "CMNF",
+      "single context; cross-context CMNF not exercised",
+      "NA",
+      "tau=0.1",
+      "NA",
+      "NA_SINGLE_CONTEXT"
+    ],
+    [
+      "no_cmnf",
+      "ECNF",
+      "min_signals >= m_min",
+      4,
+      "m_min=4",
+      "PASS",
+      "PASS"
+    ],
+    [
+      "no_cmnf",
+      "DBNF",
+      "drift model / controlled drift evaluation",
+      "see DBNF tables",
+      "tau=NA",
+      "NOT_EXERCISED",
+      "NOT_EXERCISED"
+    ],
+    [
+      "no_cmnf",
+      "RRNF",
+      "role consistency",
+      "info only",
+      "NA",
+      "INFO",
+      "INFO_ONLY"
+    ],
+    [
+      "no_cmnf",
+      "PONF",
+      "partition orthogonality",
+      "info only",
+      "NA",
+      "INFO",
+      "INFO_ONLY"
+    ],
+    [
+      "no_dbnf",
+      "EENF",
+      "q95(var) <= tau",
+      "q95=8.413e-06; max=8.561e-06",
+      "tau=0.000129",
+      "PASS",
+      "PASS"
+    ],
+    [
+      "no_dbnf",
+      "AANF",
+      "min_merge_sim >= tau",
+      "0.6535",
+      "tau=0.65",
+      "PASS",
+      "PASS"
+    ],
+    [
+      "no_dbnf",
+      "CMNF",
+      "single context; cross-context CMNF not exercised",
+      "NA",
+      "tau=0.1",
+      "NA",
+      "NA_SINGLE_CONTEXT"
+    ],
+    [
+      "no_dbnf",
+      "ECNF",
+      "min_signals >= m_min",
+      4,
+      "m_min=4",
+      "PASS",
+      "PASS"
+    ],
+    [
+      "no_dbnf",
+      "DBNF",
+      "drift model / controlled drift evaluation",
+      "see DBNF tables",
+      "tau=NA",
+      "NOT_EXERCISED",
+      "NOT_EXERCISED"
+    ],
+    [
+      "no_dbnf",
+      "RRNF",
+      "role consistency",
+      "info only",
+      "NA",
+      "INFO",
+      "INFO_ONLY"
+    ],
+    [
+      "no_dbnf",
+      "PONF",
+      "partition orthogonality",
+      "info only",
+      "NA",
+      "INFO",
+      "INFO_ONLY"
+    ],
+    [
+      "no_value_evidence",
+      "EENF",
+      "q95(var) <= tau",
+      "q95=8.413e-06; max=8.561e-06",
+      "tau=0.000129",
+      "PASS",
+      "PASS"
+    ],
+    [
+      "no_value_evidence",
+      "AANF",
+      "min_merge_sim >= tau",
+      "NA",
+      "tau=0.65",
+      "NA",
+      "NOT_EXERCISED"
+    ],
+    [
+      "no_value_evidence",
+      "CMNF",
+      "single context; cross-context CMNF not exercised",
+      "NA",
+      "tau=0.1",
+      "NA",
+      "NA_SINGLE_CONTEXT"
+    ],
+    [
+      "no_value_evidence",
+      "ECNF",
+      "min_signals >= m_min",
+      0,
+      "m_min=4",
+      "NA",
+      "NOT_EXERCISED"
+    ],
+    [
+      "no_value_evidence",
+      "DBNF",
+      "drift model / controlled drift evaluation",
+      "see DBNF tables",
+      "tau=NA",
+      "NOT_EXERCISED",
+      "NOT_EXERCISED"
+    ],
+    [
+      "no_value_evidence",
+      "RRNF",
+      "role consistency",
+      "info only",
+      "NA",
+      "INFO",
+      "INFO_ONLY"
+    ],
+    [
+      "no_value_evidence",
+      "PONF",
+      "partition orthogonality",
+      "info only",
+      "NA",
+      "INFO",
+      "INFO_ONLY"
+    ],
+    [
+      "vss_only",
+      "EENF",
+      "q95(var) <= tau",
+      "q95=8.413e-06; max=8.561e-06",
+      "tau=0.000129",
+      "PASS",
+      "PASS"
+    ],
+    [
+      "vss_only",
+      "AANF",
+      "min_merge_sim >= tau",
+      "0.4084",
+      "tau=0.65",
+      "FAIL",
+      "FAIL"
+    ],
+    [
+      "vss_only",
+      "CMNF",
+      "single context; cross-context CMNF not exercised",
+      "NA",
+      "tau=0.1",
+      "NA",
+      "NA_SINGLE_CONTEXT"
+    ],
+    [
+      "vss_only",
+      "ECNF",
+      "min_signals >= m_min",
+      1,
+      "m_min=4",
+      "FAIL",
+      "FAIL"
+    ],
+    [
+      "vss_only",
+      "DBNF",
+      "drift model / controlled drift evaluation",
+      "see DBNF tables",
+      "tau=NA",
+      "NOT_EXERCISED",
+      "NOT_EXERCISED"
+    ],
+    [
+      "vss_only",
+      "RRNF",
+      "role consistency",
+      "info only",
+      "NA",
+      "INFO",
+      "INFO_ONLY"
+    ],
+    [
+      "vss_only",
+      "PONF",
+      "partition orthogonality",
+      "info only",
+      "NA",
+      "INFO",
+      "INFO_ONLY"
+    ],
+    [
+      "shape_only",
+      "EENF",
+      "q95(var) <= tau",
+      "q95=8.413e-06; max=8.561e-06",
+      "tau=0.000129",
+      "PASS",
+      "PASS"
+    ],
+    [
+      "shape_only",
+      "AANF",
+      "min_merge_sim >= tau",
+      "0.4084",
+      "tau=0.65",
+      "FAIL",
+      "FAIL"
+    ],
+    [
+      "shape_only",
+      "CMNF",
+      "single context; cross-context CMNF not exercised",
+      "NA",
+      "tau=0.1",
+      "NA",
+      "NA_SINGLE_CONTEXT"
+    ],
+    [
+      "shape_only",
+      "ECNF",
+      "min_signals >= m_min",
+      2,
+      "m_min=4",
+      "FAIL",
+      "FAIL"
+    ],
+    [
+      "shape_only",
+      "DBNF",
+      "drift model / controlled drift evaluation",
+      "see DBNF tables",
+      "tau=NA",
+      "NOT_EXERCISED",
+      "NOT_EXERCISED"
+    ],
+    [
+      "shape_only",
+      "RRNF",
+      "role consistency",
+      "info only",
+      "NA",
+      "INFO",
+      "INFO_ONLY"
+    ],
+    [
+      "shape_only",
+      "PONF",
+      "partition orthogonality",
+      "info only",
+      "NA",
+      "INFO",
+      "INFO_ONLY"
+    ],
+    [
+      "name_ontology_only",
+      "EENF",
+      "q95(var) <= tau",
+      "q95=8.413e-06; max=8.561e-06",
+      "tau=0.000129",
+      "PASS",
+      "PASS"
+    ],
+    [
+      "name_ontology_only",
+      "AANF",
+      "min_merge_sim >= tau",
+      "0.5787",
+      "tau=0.65",
+      "FAIL",
+      "FAIL"
+    ],
+    [
+      "name_ontology_only",
+      "CMNF",
+      "single context; cross-context CMNF not exercised",
+      "NA",
+      "tau=0.1",
+      "NA",
+      "NA_SINGLE_CONTEXT"
+    ],
+    [
+      "name_ontology_only",
+      "ECNF",
+      "min_signals >= m_min",
+      6,
+      "m_min=4",
+      "PASS",
+      "PASS"
+    ],
+    [
+      "name_ontology_only",
+      "DBNF",
+      "drift model / controlled drift evaluation",
+      "see DBNF tables",
+      "tau=NA",
+      "NOT_EXERCISED",
+      "NOT_EXERCISED"
+    ],
+    [
+      "name_ontology_only",
+      "RRNF",
+      "role consistency",
+      "info only",
+      "NA",
+      "INFO",
+      "INFO_ONLY"
+    ],
+    [
+      "name_ontology_only",
+      "PONF",
+      "partition orthogonality",
+      "info only",
+      "NA",
+      "INFO",
+      "INFO_ONLY"
+    ],
+    [
+      "hybrid",
+      "EENF",
+      "q95(var) <= tau",
+      "q95=8.413e-06; max=8.561e-06",
+      "tau=0.000129",
+      "PASS",
+      "PASS"
+    ],
+    [
+      "hybrid",
+      "AANF",
+      "min_merge_sim >= tau",
+      "0.6535",
+      "tau=0.65",
+      "PASS",
+      "PASS"
+    ],
+    [
+      "hybrid",
+      "CMNF",
+      "single context; cross-context CMNF not exercised",
+      "NA",
+      "tau=0.1",
+      "NA",
+      "NA_SINGLE_CONTEXT"
+    ],
+    [
+      "hybrid",
+      "ECNF",
+      "min_signals >= m_min",
+      4,
+      "m_min=4",
+      "PASS",
+      "PASS"
+    ],
+    [
+      "hybrid",
+      "DBNF",
+      "drift model / controlled drift evaluation",
+      "see DBNF tables",
+      "tau=NA",
+      "NOT_EXERCISED",
+      "NOT_EXERCISED"
+    ],
+    [
+      "hybrid",
+      "RRNF",
+      "role consistency",
+      "info only",
+      "NA",
+      "INFO",
+      "INFO_ONLY"
+    ],
+    [
+      "hybrid",
+      "PONF",
+      "partition orthogonality",
+      "info only",
+      "NA",
+      "INFO",
+      "INFO_ONLY"
+    ]
+  ],
+  "alias_eval_summary": {
+    "embed_only_baseline": {
+      "mode": "embed_only_baseline",
+      "predicted_pairs_count": 682,
+      "true_pairs_count": 6,
+      "tp": 4,
+      "fp": 678,
+      "fn": 2,
+      "precision": null,
+      "recall": 0.6666666666666666,
+      "f1": null,
+      "labeled_precision": 0.005865102639296188,
+      "evaluated_against_closed_world": false,
+      "ground_truth_coverage_warning": "Ground truth is not declared closed-world; unlabeled predicted pairs may require review. Precision is labeled_precision only.",
+      "measurable": true
+    },
+    "sdnf_hybrid": {
+      "mode": "sdnf_hybrid",
+      "predicted_pairs_count": 25,
+      "true_pairs_count": 6,
+      "tp": 4,
+      "fp": 21,
+      "fn": 2,
+      "precision": null,
+      "recall": 0.6666666666666666,
+      "f1": null,
+      "labeled_precision": 0.16,
+      "evaluated_against_closed_world": false,
+      "ground_truth_coverage_warning": "Ground truth is not declared closed-world; unlabeled predicted pairs may require review. Precision is labeled_precision only.",
+      "measurable": true
+    },
+    "no_ecnf": {
+      "mode": "no_ecnf",
+      "predicted_pairs_count": 682,
+      "true_pairs_count": 6,
+      "tp": 4,
+      "fp": 678,
+      "fn": 2,
+      "precision": null,
+      "recall": 0.6666666666666666,
+      "f1": null,
+      "labeled_precision": 0.005865102639296188,
+      "evaluated_against_closed_world": false,
+      "ground_truth_coverage_warning": "Ground truth is not declared closed-world; unlabeled predicted pairs may require review. Precision is labeled_precision only.",
+      "measurable": true
+    },
+    "no_cmnf": {
+      "mode": "no_cmnf",
+      "predicted_pairs_count": 25,
+      "true_pairs_count": 6,
+      "tp": 4,
+      "fp": 21,
+      "fn": 2,
+      "precision": null,
+      "recall": 0.6666666666666666,
+      "f1": null,
+      "labeled_precision": 0.16,
+      "evaluated_against_closed_world": false,
+      "ground_truth_coverage_warning": "Ground truth is not declared closed-world; unlabeled predicted pairs may require review. Precision is labeled_precision only.",
+      "measurable": true
+    },
+    "no_dbnf": {
+      "mode": "no_dbnf",
+      "predicted_pairs_count": 25,
+      "true_pairs_count": 6,
+      "tp": 4,
+      "fp": 21,
+      "fn": 2,
+      "precision": null,
+      "recall": 0.6666666666666666,
+      "f1": null,
+      "labeled_precision": 0.16,
+      "evaluated_against_closed_world": false,
+      "ground_truth_coverage_warning": "Ground truth is not declared closed-world; unlabeled predicted pairs may require review. Precision is labeled_precision only.",
+      "measurable": true
+    },
+    "no_value_evidence": {
+      "mode": "no_value_evidence",
+      "predicted_pairs_count": 0,
+      "true_pairs_count": 6,
+      "tp": 0,
+      "fp": 0,
+      "fn": 6,
+      "precision": null,
+      "recall": 0.0,
+      "f1": null,
+      "labeled_precision": 0.0,
+      "evaluated_against_closed_world": false,
+      "ground_truth_coverage_warning": "Ground truth is not declared closed-world; unlabeled predicted pairs may require review. Precision is labeled_precision only.",
+      "measurable": true
+    },
+    "vss_only": {
+      "mode": "vss_only",
+      "predicted_pairs_count": 1605,
+      "true_pairs_count": 6,
+      "tp": 5,
+      "fp": 1600,
+      "fn": 1,
+      "precision": null,
+      "recall": 0.8333333333333334,
+      "f1": null,
+      "labeled_precision": 0.003115264797507788,
+      "evaluated_against_closed_world": false,
+      "ground_truth_coverage_warning": "Ground truth is not declared closed-world; unlabeled predicted pairs may require review. Precision is labeled_precision only.",
+      "measurable": true
+    },
+    "shape_only": {
+      "mode": "shape_only",
+      "predicted_pairs_count": 926,
+      "true_pairs_count": 6,
+      "tp": 5,
+      "fp": 921,
+      "fn": 1,
+      "precision": null,
+      "recall": 0.8333333333333334,
+      "f1": null,
+      "labeled_precision": 0.005399568034557235,
+      "evaluated_against_closed_world": false,
+      "ground_truth_coverage_warning": "Ground truth is not declared closed-world; unlabeled predicted pairs may require review. Precision is labeled_precision only.",
+      "measurable": true
+    },
+    "name_ontology_only": {
+      "mode": "name_ontology_only",
+      "predicted_pairs_count": 7,
+      "true_pairs_count": 6,
+      "tp": 1,
+      "fp": 6,
+      "fn": 5,
+      "precision": null,
+      "recall": 0.16666666666666666,
+      "f1": null,
+      "labeled_precision": 0.14285714285714285,
+      "evaluated_against_closed_world": false,
+      "ground_truth_coverage_warning": "Ground truth is not declared closed-world; unlabeled predicted pairs may require review. Precision is labeled_precision only.",
+      "measurable": true
+    },
+    "hybrid": {
+      "mode": "hybrid",
+      "predicted_pairs_count": 25,
+      "true_pairs_count": 6,
+      "tp": 4,
+      "fp": 21,
+      "fn": 2,
+      "precision": null,
+      "recall": 0.6666666666666666,
+      "f1": null,
+      "labeled_precision": 0.16,
+      "evaluated_against_closed_world": false,
+      "ground_truth_coverage_warning": "Ground truth is not declared closed-world; unlabeled predicted pairs may require review. Precision is labeled_precision only.",
+      "measurable": true
+    }
+  },
+  "leakage_eval_summary": {
+    "embed_only_baseline": {
+      "mode": "embed_only_baseline",
+      "leakage_count": 306,
+      "predicted_merge_count": 1270,
+      "leakage_rate": 0.2409448818897638,
+      "examples": [
+        "comment <-> name (ontology)",
+        "comment <-> currency (ontology/explicit_negative)",
+        "comment <-> transaction amount (ontology/explicit_negative)",
+        "comment <-> currency (ontology/explicit_negative)",
+        "comment <-> transaction amount (ontology/explicit_negative)"
+      ]
+    },
+    "sdnf_hybrid": {
+      "mode": "sdnf_hybrid",
+      "leakage_count": 0,
+      "predicted_merge_count": 78,
+      "leakage_rate": 0.0,
+      "examples": []
+    },
+    "no_ecnf": {
+      "mode": "no_ecnf",
+      "leakage_count": 306,
+      "predicted_merge_count": 1270,
+      "leakage_rate": 0.2409448818897638,
+      "examples": [
+        "comment <-> name (ontology)",
+        "comment <-> currency (ontology/explicit_negative)",
+        "comment <-> transaction amount (ontology/explicit_negative)",
+        "comment <-> currency (ontology/explicit_negative)",
+        "comment <-> transaction amount (ontology/explicit_negative)"
+      ]
+    },
+    "no_cmnf": {
+      "mode": "no_cmnf",
+      "leakage_count": 0,
+      "predicted_merge_count": 78,
+      "leakage_rate": 0.0,
+      "examples": []
+    },
+    "no_dbnf": {
+      "mode": "no_dbnf",
+      "leakage_count": 0,
+      "predicted_merge_count": 78,
+      "leakage_rate": 0.0,
+      "examples": []
+    },
+    "no_value_evidence": {
+      "mode": "no_value_evidence",
+      "leakage_count": 0,
+      "predicted_merge_count": 0,
+      "leakage_rate": 0.0,
+      "examples": []
+    },
+    "vss_only": {
+      "mode": "vss_only",
+      "leakage_count": 665,
+      "predicted_merge_count": 2850,
+      "leakage_rate": 0.23333333333333334,
+      "examples": [
+        "comment <-> name (ontology)",
+        "comment <-> instd amount (ontology)",
+        "comment <-> currency (ontology/explicit_negative)",
+        "comment <-> debtor name (ontology)",
+        "comment <-> creditor name (ontology)"
+      ]
+    },
+    "shape_only": {
+      "mode": "shape_only",
+      "leakage_count": 307,
+      "predicted_merge_count": 1631,
+      "leakage_rate": 0.1882280809319436,
+      "examples": [
+        "comment <-> name (ontology)",
+        "comment <-> currency (ontology/explicit_negative)",
+        "comment <-> debtor name (ontology)",
+        "comment <-> creditor name (ontology)",
+        "comment <-> debtor account (ontology)"
+      ]
+    },
+    "name_ontology_only": {
+      "mode": "name_ontology_only",
+      "leakage_count": 0,
+      "predicted_merge_count": 46,
+      "leakage_rate": 0.0,
+      "examples": []
+    },
+    "hybrid": {
+      "mode": "hybrid",
+      "leakage_count": 0,
+      "predicted_merge_count": 78,
+      "leakage_rate": 0.0,
+      "examples": []
+    }
+  },
+  "table2_reproduction": [
+    [
+      "embed_only_baseline",
+      "98.2%",
+      "NOT MEASURABLE",
+      "66.7%",
+      "NOT MEASURABLE",
+      "24.1%",
+      1,
+      57,
+      "FAIL;GROUND TRUTH INCOMPLETE;GROUND TRUTH INCOMPLETE;FAIL"
+    ],
+    [
+      "sdnf_hybrid",
+      "28.1%",
+      "NOT MEASURABLE",
+      "66.7%",
+      "NOT MEASURABLE",
+      "0.0%",
+      41,
+      57,
+      "FAIL;GROUND TRUTH INCOMPLETE;GROUND TRUTH INCOMPLETE;FAIL"
+    ],
+    [
+      "no_ecnf",
+      "98.2%",
+      "NOT MEASURABLE",
+      "66.7%",
+      "NOT MEASURABLE",
+      "24.1%",
+      1,
+      57,
+      "FAIL;NA;NA;NA"
+    ],
+    [
+      "no_cmnf",
+      "28.1%",
+      "NOT MEASURABLE",
+      "66.7%",
+      "NOT MEASURABLE",
+      "0.0%",
+      41,
+      57,
+      "FAIL;NA;NA;NA"
+    ],
+    [
+      "no_dbnf",
+      "28.1%",
+      "NOT MEASURABLE",
+      "66.7%",
+      "NOT MEASURABLE",
+      "0.0%",
+      41,
+      57,
+      "FAIL;NA;NA;NA"
+    ],
+    [
+      "no_value_evidence",
+      "0.0%",
+      "NOT MEASURABLE",
+      "0.0%",
+      "NOT MEASURABLE",
+      "0.0%",
+      57,
+      57,
+      "FAIL;NA;NA;NA"
+    ],
+    [
+      "vss_only",
+      "98.2%",
+      "NOT MEASURABLE",
+      "83.3%",
+      "NOT MEASURABLE",
+      "23.3%",
+      1,
+      57,
+      "FAIL;NA;NA;NA"
+    ],
+    [
+      "shape_only",
+      "98.2%",
+      "NOT MEASURABLE",
+      "83.3%",
+      "NOT MEASURABLE",
+      "18.8%",
+      1,
+      57,
+      "FAIL;NA;NA;NA"
+    ],
+    [
+      "name_ontology_only",
+      "1.8%",
+      "NOT MEASURABLE",
+      "16.7%",
+      "NOT MEASURABLE",
+      "0.0%",
+      56,
+      57,
+      "FAIL;NA;NA;NA"
+    ],
+    [
+      "hybrid",
+      "28.1%",
+      "NOT MEASURABLE",
+      "66.7%",
+      "NOT MEASURABLE",
+      "0.0%",
+      41,
+      57,
+      "FAIL;GROUND TRUTH INCOMPLETE;GROUND TRUTH INCOMPLETE;FAIL"
+    ]
+  ],
+  "current_run_empirical_table": [
+    [
+      "embed_only_baseline",
+      682,
+      1,
+      57,
+      "98.2%",
+      "labeled_precision",
+      "0.6%",
+      "66.7%",
+      "NOT MEASURABLE",
+      "24.1%",
+      "ground truth incomplete; review unlabeled predicted pairs"
+    ],
+    [
+      "sdnf_hybrid",
+      25,
+      41,
+      57,
+      "28.1%",
+      "labeled_precision",
+      "16.0%",
+      "66.7%",
+      "NOT MEASURABLE",
+      "0.0%",
+      "ground truth incomplete; review unlabeled predicted pairs"
+    ],
+    [
+      "no_ecnf",
+      682,
+      1,
+      57,
+      "98.2%",
+      "labeled_precision",
+      "0.6%",
+      "66.7%",
+      "NOT MEASURABLE",
+      "24.1%",
+      "ground truth incomplete; review unlabeled predicted pairs"
+    ],
+    [
+      "no_cmnf",
+      25,
+      41,
+      57,
+      "28.1%",
+      "labeled_precision",
+      "16.0%",
+      "66.7%",
+      "NOT MEASURABLE",
+      "0.0%",
+      "ground truth incomplete; review unlabeled predicted pairs"
+    ],
+    [
+      "no_dbnf",
+      25,
+      41,
+      57,
+      "28.1%",
+      "labeled_precision",
+      "16.0%",
+      "66.7%",
+      "NOT MEASURABLE",
+      "0.0%",
+      "ground truth incomplete; review unlabeled predicted pairs"
+    ],
+    [
+      "no_value_evidence",
+      0,
+      57,
+      57,
+      "0.0%",
+      "labeled_precision",
+      "0.0%",
+      "0.0%",
+      "NOT MEASURABLE",
+      "0.0%",
+      "ground truth incomplete; review unlabeled predicted pairs"
+    ],
+    [
+      "vss_only",
+      1605,
+      1,
+      57,
+      "98.2%",
+      "labeled_precision",
+      "0.3%",
+      "83.3%",
+      "NOT MEASURABLE",
+      "23.3%",
+      "ground truth incomplete; review unlabeled predicted pairs"
+    ],
+    [
+      "shape_only",
+      926,
+      1,
+      57,
+      "98.2%",
+      "labeled_precision",
+      "0.5%",
+      "83.3%",
+      "NOT MEASURABLE",
+      "18.8%",
+      "ground truth incomplete; review unlabeled predicted pairs"
+    ],
+    [
+      "name_ontology_only",
+      7,
+      56,
+      57,
+      "1.8%",
+      "labeled_precision",
+      "14.3%",
+      "16.7%",
+      "NOT MEASURABLE",
+      "0.0%",
+      "ground truth incomplete; review unlabeled predicted pairs"
+    ],
+    [
+      "hybrid",
+      25,
+      41,
+      57,
+      "28.1%",
+      "labeled_precision",
+      "16.0%",
+      "66.7%",
+      "NOT MEASURABLE",
+      "0.0%",
+      "ground truth incomplete; review unlabeled predicted pairs"
+    ]
+  ],
+  "eenf_sweep": [
+    {
+      "G": 1,
+      "mean_variance": 8.50505894050002e-06,
+      "q95_variance": 8.729046794542227e-06,
+      "max_variance": 8.808638085611165e-06,
+      "variance_reduction_vs_G1": 0.0,
+      "encoding_time_sec": 15.80125819999921,
+      "overhead_vs_G1": 1.0,
+      "claim_status": "NA",
+      "recommended_action": "not a paper claim",
+      "note": ""
+    },
+    {
+      "G": 10,
+      "mean_variance": 8.466526348153517e-07,
+      "q95_variance": 8.675160017901362e-07,
+      "max_variance": 8.886951832209888e-07,
+      "variance_reduction_vs_G1": 0.9004530549713539,
+      "encoding_time_sec": 16.26203429999987,
+      "overhead_vs_G1": 1.0291607221506374,
+      "claim_status": "FAIL",
+      "recommended_action": "revise paper claim to measured value",
+      "note": ""
+    },
+    {
+      "G": 20,
+      "mean_variance": 4.2404312997253634e-07,
+      "q95_variance": 4.3242181391178747e-07,
+      "max_variance": 4.3946843675257696e-07,
+      "variance_reduction_vs_G1": 0.95014224675701,
+      "encoding_time_sec": 16.606493499999488,
+      "overhead_vs_G1": 1.0509602013844896,
+      "claim_status": "FAIL",
+      "recommended_action": "revise paper claim to measured value",
+      "note": ""
+    }
+  ],
+  "timing_summary": [
+    [
+      "embed_only_baseline",
+      2850,
+      0.18744736841765922,
+      0.1549213672970246,
+      0.35202636848592656,
+      0.45489536839707806,
+      3.328371368055773
+    ],
+    [
+      "sdnf_hybrid",
+      2850,
+      0.18783880702374098,
+      0.1559338247706795,
+      0.3543438257101546,
+      0.45698682337292423,
+      0.9058338241620253
+    ],
+    [
+      "no_ecnf",
+      2850,
+      0.18781933332400258,
+      0.15488940299850615,
+      0.3498794031803665,
+      0.4546614025786219,
+      4.531439405233087
+    ],
+    [
+      "no_cmnf",
+      2850,
+      0.18681192983773112,
+      0.15588715681364543,
+      0.35584715773215414,
+      0.4560531585571366,
+      0.5776371558909376
+    ],
+    [
+      "no_dbnf",
+      2850,
+      0.24788428068476553,
+      0.15683603487368122,
+      0.35314103497320903,
+      0.45784603489473236,
+      165.6167360370072
+    ],
+    [
+      "no_value_evidence",
+      2850,
+      0.18693796492395146,
+      0.15379165024090694,
+      0.3572466491229866,
+      0.4529946492900642,
+      0.8057416504877772
+    ],
+    [
+      "vss_only",
+      2850,
+      0.1850593684037194,
+      0.1514424917325398,
+      0.3445974900380845,
+      0.450795491942061,
+      4.969242488731923
+    ],
+    [
+      "shape_only",
+      2850,
+      0.18363891229359738,
+      0.15223838437553863,
+      0.3472483858010826,
+      0.4492113872354241,
+      0.5308383877625027
+    ],
+    [
+      "name_ontology_only",
+      2850,
+      0.18673456140388964,
+      0.15278270253411233,
+      0.35414270065238956,
+      0.45250770177453664,
+      4.527032700897778
+    ],
+    [
+      "hybrid",
+      2850,
+      0.18739554383628598,
+      0.15609417678972118,
+      0.34833917607868065,
+      0.45530317582999563,
+      0.624044173863168
+    ]
+  ],
+  "dbnf_summary": [],
+  "claim_support_summary": [
+    [
+      "7 schema files ingested",
+      8,
+      7,
+      "FAIL",
+      "DATASET SUMMARY",
+      "dataset mismatch; align data or revise paper"
+    ],
+    [
+      "40 payload files ingested from current output basis",
+      40,
+      40,
+      "PASS",
+      "DATASET SUMMARY",
+      "keep claim"
+    ],
+    [
+      "80 input attributes",
+      57,
+      80,
+      "FAIL",
+      "CURRENT RUN EMPIRICAL TABLE",
+      "revise paper claim to measured value"
+    ],
+    [
+      "49 final canonical attributes",
+      41,
+      49,
+      "FAIL",
+      "CURRENT RUN EMPIRICAL TABLE",
+      "revise paper claim to measured value"
+    ],
+    [
+      "38.7% schema reduction",
+      "28.1%",
+      "38.7%",
+      "FAIL",
+      "CURRENT RUN EMPIRICAL TABLE",
+      "revise paper claim to measured value"
+    ],
+    [
+      "SDNF precision 95%",
+      "16.0%",
+      "95.0%",
+      "GROUND TRUTH INCOMPLETE",
+      "ALIAS MERGE EVALUATION",
+      "curate closed-world alias ground truth and rerun"
+    ],
+    [
+      "SDNF recall 90%",
+      "66.7%",
+      "90.0%",
+      "GROUND TRUTH INCOMPLETE",
+      "ALIAS MERGE EVALUATION",
+      "curate closed-world alias ground truth and rerun"
+    ],
+    [
+      "SDNF cross-context leakage approximately 2%",
+      "0.0%",
+      "2.0%",
+      "FAIL",
+      "CROSS-CONTEXT LEAKAGE",
+      "revise paper claim to measured value"
+    ],
+    [
+      "baseline precision 86%",
+      "0.6%",
+      "86.0%",
+      "GROUND TRUTH INCOMPLETE",
+      "ALIAS MERGE EVALUATION",
+      "curate closed-world alias ground truth and rerun"
+    ],
+    [
+      "baseline recall 95%",
+      "66.7%",
+      "95.0%",
+      "GROUND TRUTH INCOMPLETE",
+      "ALIAS MERGE EVALUATION",
+      "curate closed-world alias ground truth and rerun"
+    ],
+    [
+      "baseline cross-context leakage approximately 9%",
+      "24.1%",
+      "9.0%",
+      "FAIL",
+      "CROSS-CONTEXT LEAKAGE",
+      "revise paper claim to measured value"
+    ],
+    [
+      "G=10 variance reduction approximately 40%",
+      "90.0%",
+      "40.0%",
+      "FAIL",
+      "EENF STABILITY-LATENCY SWEEP",
+      "revise paper claim to measured value"
+    ],
+    [
+      "G=20 variance reduction approximately 70%",
+      "95.0%",
+      "70.0%",
+      "FAIL",
+      "EENF STABILITY-LATENCY SWEEP",
+      "revise paper claim to measured value"
+    ],
+    [
+      "average merge decision under 50ms",
+      "0.1878",
+      "<50ms",
+      "PASS",
+      "MERGE DECISION TIMING SUMMARY",
+      "keep claim"
+    ],
+    [
+      "DBNF drift detection precision / recall / F1",
+      "NOT EXERCISED",
+      "P/R/F1 >= 80%",
+      "NOT EXERCISED",
+      "DBNF DRIFT DETECTION",
+      "not exercised in current run"
+    ],
+    [
+      "trace-pair evidence printed",
+      "printed",
+      "computed trace",
+      "PASS",
+      "PAIRWISE MERGE EVIDENCE TRACE",
+      "keep claim"
+    ]
+  ]
+}
