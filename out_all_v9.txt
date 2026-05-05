@@ -1,0 +1,222 @@
+RUN CONFIGURATION
++----------------------+-----------------------+
+| Option               | Value                 |
++======================+=======================+
+| timestamp_utc        | 2026-05-05T18:10:39Z  |
+| seed                 | 42                    |
+| evidence_mode        | all                   |
+| model                | all-MiniLM-L6-v2      |
+| embedding_backend    | sentence-transformers |
+| drift_model          |                       |
+| data_dir             | data                  |
+| payloads_dir         | payloads              |
+| context              | Payments Risk         |
+| tau_EENF             | 0.0001                |
+| tau_AANF             | 0.6500                |
+| tau_CMNF             | 0.1000                |
+| tau_DBNF             | 0.2500                |
+| gamma                | 0.7000                |
+| m_min                | 4                     |
+| ground_truth_aliases |                       |
+| drift_ground_truth   |                       |
++----------------------+-----------------------+
+
+DATASET SUMMARY
++--------------------------+-------+
+| Metric                   | Value |
++==========================+=======+
+| schema_files_ingested    | 8     |
+| payload_files_ingested   | 40    |
+| raw_attribute_records    | 384   |
+| distinct_attribute_names | 85    |
+| value_evidence_available | 395   |
+| value_evidence_missing   | 0     |
+| missing_fraction         | 0.0%  |
++--------------------------+-------+
+
+NORMAL FORM VALIDATION SUMMARY
++---------------------+------------+-------------------------+----------------------------+--------------+--------+
+| mode                | NormalForm | Rule                    | Actual                     | Expected     | Status |
++=====================+============+=========================+============================+==============+========+
+| embed_only_baseline | EENF       | q95(var) <= tau         | q95=0.000008; max=0.000008 | tau=0.000129 | PASS   |
+| embed_only_baseline | AANF       | min_merge_sim >= tau    | 0.6501                     | tau=0.650    | PASS   |
+| embed_only_baseline | CMNF       | mean_overlap <= tau     | 0.6786                     | tau=0.100    | FAIL   |
+| embed_only_baseline | ECNF       | min_signals >= m_min    | 1                          | m_min=4      | FAIL   |
+| embed_only_baseline | DBNF       | drift model not enabled | NA                         | tau=0.25     | NA     |
+| embed_only_baseline | RRNF       | not exercised           | NA                         | NA           | INFO   |
+| embed_only_baseline | PONF       | not exercised           | NA                         | NA           | INFO   |
+| sdnf_hybrid         | EENF       | q95(var) <= tau         | q95=0.000008; max=0.000008 | tau=0.000129 | PASS   |
+| sdnf_hybrid         | AANF       | min_merge_sim >= tau    | 0.6982                     | tau=0.650    | PASS   |
+| sdnf_hybrid         | CMNF       | mean_overlap <= tau     | 0.6786                     | tau=0.100    | FAIL   |
+| sdnf_hybrid         | ECNF       | min_signals >= m_min    | 4                          | m_min=4      | PASS   |
+| sdnf_hybrid         | DBNF       | drift model not enabled | NA                         | tau=0.25     | NA     |
+| sdnf_hybrid         | RRNF       | not exercised           | NA                         | NA           | INFO   |
+| sdnf_hybrid         | PONF       | not exercised           | NA                         | NA           | INFO   |
+| no_ecnf             | EENF       | q95(var) <= tau         | q95=0.000008; max=0.000008 | tau=0.000129 | PASS   |
+| no_ecnf             | AANF       | min_merge_sim >= tau    | 0.6501                     | tau=0.650    | PASS   |
+| no_ecnf             | CMNF       | mean_overlap <= tau     | 0.6786                     | tau=0.100    | FAIL   |
+| no_ecnf             | ECNF       | min_signals >= m_min    | 2                          | m_min=4      | FAIL   |
+| no_ecnf             | DBNF       | drift model not enabled | NA                         | tau=0.25     | NA     |
+| no_ecnf             | RRNF       | not exercised           | NA                         | NA           | INFO   |
+| no_ecnf             | PONF       | not exercised           | NA                         | NA           | INFO   |
+| no_cmnf             | EENF       | q95(var) <= tau         | q95=0.000008; max=0.000008 | tau=0.000129 | PASS   |
+| no_cmnf             | AANF       | min_merge_sim >= tau    | 0.6982                     | tau=0.650    | PASS   |
+| no_cmnf             | CMNF       | mean_overlap <= tau     | 0.6786                     | tau=0.100    | FAIL   |
+| no_cmnf             | ECNF       | min_signals >= m_min    | 4                          | m_min=4      | PASS   |
+| no_cmnf             | DBNF       | drift model not enabled | NA                         | tau=0.25     | NA     |
+| no_cmnf             | RRNF       | not exercised           | NA                         | NA           | INFO   |
+| no_cmnf             | PONF       | not exercised           | NA                         | NA           | INFO   |
+| no_dbnf             | EENF       | q95(var) <= tau         | q95=0.000008; max=0.000008 | tau=0.000129 | PASS   |
+| no_dbnf             | AANF       | min_merge_sim >= tau    | 0.6982                     | tau=0.650    | PASS   |
+| no_dbnf             | CMNF       | mean_overlap <= tau     | 0.6786                     | tau=0.100    | FAIL   |
+| no_dbnf             | ECNF       | min_signals >= m_min    | 4                          | m_min=4      | PASS   |
+| no_dbnf             | DBNF       | drift model not enabled | NA                         | tau=0.25     | NA     |
+| no_dbnf             | RRNF       | not exercised           | NA                         | NA           | INFO   |
+| no_dbnf             | PONF       | not exercised           | NA                         | NA           | INFO   |
+| no_value_evidence   | EENF       | q95(var) <= tau         | q95=0.000008; max=0.000008 | tau=0.000129 | PASS   |
+| no_value_evidence   | AANF       | min_merge_sim >= tau    | NA                         | tau=0.650    | NA     |
+| no_value_evidence   | CMNF       | mean_overlap <= tau     | 0.6786                     | tau=0.100    | FAIL   |
+| no_value_evidence   | ECNF       | min_signals >= m_min    | 0                          | m_min=4      | NA     |
+| no_value_evidence   | DBNF       | drift model not enabled | NA                         | tau=0.25     | NA     |
+| no_value_evidence   | RRNF       | not exercised           | NA                         | NA           | INFO   |
+| no_value_evidence   | PONF       | not exercised           | NA                         | NA           | INFO   |
+| vss_only            | EENF       | q95(var) <= tau         | q95=0.000008; max=0.000008 | tau=0.000129 | PASS   |
+| vss_only            | AANF       | min_merge_sim >= tau    | NA                         | tau=0.650    | NA     |
+| vss_only            | CMNF       | mean_overlap <= tau     | 0.6786                     | tau=0.100    | FAIL   |
+| vss_only            | ECNF       | min_signals >= m_min    | 0                          | m_min=4      | NA     |
+| vss_only            | DBNF       | drift model not enabled | NA                         | tau=0.25     | NA     |
+| vss_only            | RRNF       | not exercised           | NA                         | NA           | INFO   |
+| vss_only            | PONF       | not exercised           | NA                         | NA           | INFO   |
+| shape_only          | EENF       | q95(var) <= tau         | q95=0.000008; max=0.000008 | tau=0.000129 | PASS   |
+| shape_only          | AANF       | min_merge_sim >= tau    | NA                         | tau=0.650    | NA     |
+| shape_only          | CMNF       | mean_overlap <= tau     | 0.6786                     | tau=0.100    | FAIL   |
+| shape_only          | ECNF       | min_signals >= m_min    | 0                          | m_min=4      | NA     |
+| shape_only          | DBNF       | drift model not enabled | NA                         | tau=0.25     | NA     |
+| shape_only          | RRNF       | not exercised           | NA                         | NA           | INFO   |
+| shape_only          | PONF       | not exercised           | NA                         | NA           | INFO   |
+| name_ontology_only  | EENF       | q95(var) <= tau         | q95=0.000008; max=0.000008 | tau=0.000129 | PASS   |
+| name_ontology_only  | AANF       | min_merge_sim >= tau    | NA                         | tau=0.650    | NA     |
+| name_ontology_only  | CMNF       | mean_overlap <= tau     | 0.6786                     | tau=0.100    | FAIL   |
+| name_ontology_only  | ECNF       | min_signals >= m_min    | 0                          | m_min=4      | NA     |
+| name_ontology_only  | DBNF       | drift model not enabled | NA                         | tau=0.25     | NA     |
+| name_ontology_only  | RRNF       | not exercised           | NA                         | NA           | INFO   |
+| name_ontology_only  | PONF       | not exercised           | NA                         | NA           | INFO   |
+| hybrid              | EENF       | q95(var) <= tau         | q95=0.000008; max=0.000008 | tau=0.000129 | PASS   |
+| hybrid              | AANF       | min_merge_sim >= tau    | 0.6982                     | tau=0.650    | PASS   |
+| hybrid              | CMNF       | mean_overlap <= tau     | 0.6786                     | tau=0.100    | FAIL   |
+| hybrid              | ECNF       | min_signals >= m_min    | 4                          | m_min=4      | PASS   |
+| hybrid              | DBNF       | drift model not enabled | NA                         | tau=0.25     | NA     |
+| hybrid              | RRNF       | not exercised           | NA                         | NA           | INFO   |
+| hybrid              | PONF       | not exercised           | NA                         | NA           | INFO   |
++---------------------+------------+-------------------------+----------------------------+--------------+--------+
+
+ALIAS MERGE EVALUATION AGAINST GROUND TRUTH
++---------------------+-----------------+----------------+----+----+----+-----------+--------+----+
+| mode                | predicted_pairs | true_pairs     | TP | FP | FN | precision | recall | F1 |
++=====================+=================+================+====+====+====+===========+========+====+
+| embed_only_baseline | 2184            | NOT MEASURABLE | 0  | 0  | 0  | NA        | NA     | NA |
+| sdnf_hybrid         | 80              | NOT MEASURABLE | 0  | 0  | 0  | NA        | NA     | NA |
+| no_ecnf             | 1858            | NOT MEASURABLE | 0  | 0  | 0  | NA        | NA     | NA |
+| no_cmnf             | 80              | NOT MEASURABLE | 0  | 0  | 0  | NA        | NA     | NA |
+| no_dbnf             | 80              | NOT MEASURABLE | 0  | 0  | 0  | NA        | NA     | NA |
+| no_value_evidence   | 0               | NOT MEASURABLE | 0  | 0  | 0  | NA        | NA     | NA |
+| vss_only            | 0               | NOT MEASURABLE | 0  | 0  | 0  | NA        | NA     | NA |
+| shape_only          | 0               | NOT MEASURABLE | 0  | 0  | 0  | NA        | NA     | NA |
+| name_ontology_only  | 0               | NOT MEASURABLE | 0  | 0  | 0  | NA        | NA     | NA |
+| hybrid              | 80              | NOT MEASURABLE | 0  | 0  | 0  | NA        | NA     | NA |
++---------------------+-----------------+----------------+----+----+----+-----------+--------+----+
+
+CROSS-CONTEXT LEAKAGE EVALUATION
++---------------------+---------------+-----------------------+--------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| mode                | leakage_count | predicted_merge_count | leakage_rate | top_leakage_examples                                                                                                                                                     |
++=====================+===============+=======================+==============+==========================================================================================================================================================================+
+| embed_only_baseline | 19616         | 46865                 | 41.9%        | account id <-> amount (ontology); account id <-> amount (ontology); account id <-> amount (ontology); account id <-> amount (ontology); account id <-> amount (ontology) |
+| sdnf_hybrid         | 0             | 2963                  | 0.0%         |                                                                                                                                                                          |
+| no_ecnf             | 0             | 27249                 | 0.0%         |                                                                                                                                                                          |
+| no_cmnf             | 0             | 2963                  | 0.0%         |                                                                                                                                                                          |
+| no_dbnf             | 0             | 2963                  | 0.0%         |                                                                                                                                                                          |
+| no_value_evidence   | 0             | 0                     | 0.0%         |                                                                                                                                                                          |
+| vss_only            | 0             | 0                     | 0.0%         |                                                                                                                                                                          |
+| shape_only          | 0             | 0                     | 0.0%         |                                                                                                                                                                          |
+| name_ontology_only  | 0             | 0                     | 0.0%         |                                                                                                                                                                          |
+| hybrid              | 0             | 2963                  | 0.0%         |                                                                                                                                                                          |
++---------------------+---------------+-----------------------+--------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+ABLATION STUDY SUMMARY
++---------------------+-----------------+-------------+------------------+------------------+-----------+--------+---------+
+| mode                | predicted_pairs | canon_final | input_attributes | schema_reduction | precision | recall | leakage |
++=====================+=================+=============+==================+==================+===========+========+=========+
+| embed_only_baseline | 2184            | 1           | 85               | 98.8%            | NA        | NA     | 41.9%   |
+| sdnf_hybrid         | 80              | 57          | 85               | 32.9%            | NA        | NA     | 0.0%    |
+| no_ecnf             | 1858            | 1           | 85               | 98.8%            | NA        | NA     | 0.0%    |
+| no_cmnf             | 80              | 57          | 85               | 32.9%            | NA        | NA     | 0.0%    |
+| no_dbnf             | 80              | 57          | 85               | 32.9%            | NA        | NA     | 0.0%    |
+| no_value_evidence   | 0               | 85          | 85               | 0.0%             | NA        | NA     | 0.0%    |
+| vss_only            | 0               | 85          | 85               | 0.0%             | NA        | NA     | 0.0%    |
+| shape_only          | 0               | 85          | 85               | 0.0%             | NA        | NA     | 0.0%    |
+| name_ontology_only  | 0               | 85          | 85               | 0.0%             | NA        | NA     | 0.0%    |
+| hybrid              | 80              | 57          | 85               | 32.9%            | NA        | NA     | 0.0%    |
++---------------------+-----------------+-------------+------------------+------------------+-----------+--------+---------+
+
+PAPER TABLE 2 REPRODUCTION CHECK
++---------------------+------------------+-----------------+--------------+----+-----------------------+-------------+------------------+-----------------------------------------+
+| approach            | schema_reduction | merge_precision | merge_recall | F1 | cross_context_leakage | canon_final | input_attributes | supported_paper_claim_status            |
++=====================+==================+=================+==============+====+=======================+=============+==================+=========================================+
+| embed_only_baseline | 98.8%            | NA              | NA           | NA | 41.9%                 | 1           | 85               | FAIL;NOT MEASURABLE;NOT MEASURABLE;FAIL |
+| sdnf_hybrid         | 32.9%            | NA              | NA           | NA | 0.0%                  | 57          | 85               | FAIL;NOT MEASURABLE;NOT MEASURABLE;FAIL |
+| no_ecnf             | 98.8%            | NA              | NA           | NA | 0.0%                  | 1           | 85               | FAIL;NA                                 |
+| no_cmnf             | 32.9%            | NA              | NA           | NA | 0.0%                  | 57          | 85               | FAIL;NA                                 |
+| no_dbnf             | 32.9%            | NA              | NA           | NA | 0.0%                  | 57          | 85               | FAIL;NA                                 |
+| no_value_evidence   | 0.0%             | NA              | NA           | NA | 0.0%                  | 85          | 85               | FAIL;NA                                 |
+| vss_only            | 0.0%             | NA              | NA           | NA | 0.0%                  | 85          | 85               | FAIL;NA                                 |
+| shape_only          | 0.0%             | NA              | NA           | NA | 0.0%                  | 85          | 85               | FAIL;NA                                 |
+| name_ontology_only  | 0.0%             | NA              | NA           | NA | 0.0%                  | 85          | 85               | FAIL;NA                                 |
+| hybrid              | 32.9%            | NA              | NA           | NA | 0.0%                  | 57          | 85               | FAIL;NOT MEASURABLE;NOT MEASURABLE;FAIL |
++---------------------+------------------+-----------------+--------------+----+-----------------------+-------------+------------------+-----------------------------------------+
+
+MERGE DECISION TIMING SUMMARY
++---------------------+-----------------+---------+--------+--------+--------+----------+
+| mode                | candidate_pairs | mean_ms | p50_ms | p95_ms | p99_ms | max_ms   |
++=====================+=================+=========+========+========+========+==========+
+| embed_only_baseline | 73536           | 0.0684  | 0.0639 | 0.0717 | 0.0944 | 147.9670 |
+| sdnf_hybrid         | 73536           | 0.0755  | 0.0667 | 0.0745 | 0.0975 | 265.5327 |
+| no_ecnf             | 73536           | 0.0734  | 0.0666 | 0.0743 | 0.0958 | 332.5050 |
+| no_cmnf             | 73536           | 0.0741  | 0.0665 | 0.0738 | 0.0910 | 399.7072 |
+| no_dbnf             | 73536           | 0.0753  | 0.0665 | 0.0740 | 0.0950 | 480.4762 |
+| no_value_evidence   | 73536           | 0.0685  | 0.0663 | 0.0739 | 0.0948 | 9.1377   |
+| vss_only            | 73536           | 0.0744  | 0.0642 | 0.0717 | 0.0918 | 587.9760 |
+| shape_only          | 73536           | 0.0761  | 0.0642 | 0.0715 | 0.0897 | 715.2169 |
+| name_ontology_only  | 73536           | 0.0674  | 0.0652 | 0.0726 | 0.0927 | 8.5685   |
+| hybrid              | 73536           | 0.0804  | 0.0665 | 0.0740 | 0.0964 | 848.6297 |
++---------------------+-----------------+---------+--------+--------+--------+----------+
+Average merge decision under 50ms (embed_only_baseline): PASS
+Average merge decision under 50ms (sdnf_hybrid): PASS
+Average merge decision under 50ms (no_ecnf): PASS
+Average merge decision under 50ms (no_cmnf): PASS
+Average merge decision under 50ms (no_dbnf): PASS
+Average merge decision under 50ms (no_value_evidence): PASS
+Average merge decision under 50ms (vss_only): PASS
+Average merge decision under 50ms (shape_only): PASS
+Average merge decision under 50ms (name_ontology_only): PASS
+Average merge decision under 50ms (hybrid): PASS
+
+CLAIM SUPPORT SUMMARY
++-------------------------------------------------------+----------------+------------------------+----------------+---------------------------------------------+
+| paper_claim                                           | measured_value | expected_value         | status         | evidence_table                              |
++=======================================================+================+========================+================+=============================================+
+| 7 schema files ingested                               | 8              | 7                      | FAIL           | DATASET SUMMARY                             |
+| 40 payload files ingested from current output basis   | 40             | 40                     | PASS           | DATASET SUMMARY                             |
+| 80 input attributes                                   | 85             | 80                     | FAIL           | DATASET SUMMARY                             |
+| 49 final canonical attributes                         | 57             | 49                     | FAIL           | PAPER TABLE 2 REPRODUCTION CHECK            |
+| 38.7% schema reduction                                | 32.9%          | 38.7%                  | FAIL           | PAPER TABLE 2 REPRODUCTION CHECK            |
+| SDNF precision 95%                                    | NA             | 95.0%                  | NOT MEASURABLE | ALIAS MERGE EVALUATION AGAINST GROUND TRUTH |
+| SDNF recall 90%                                       | NA             | 90.0%                  | NOT MEASURABLE | ALIAS MERGE EVALUATION AGAINST GROUND TRUTH |
+| SDNF cross-context leakage approximately 2%           | 0.0%           | 2.0%                   | FAIL           | CROSS-CONTEXT LEAKAGE EVALUATION            |
+| baseline precision 86%                                | NA             | 86.0%                  | NOT MEASURABLE | ALIAS MERGE EVALUATION AGAINST GROUND TRUTH |
+| baseline recall 95%                                   | NA             | 95.0%                  | NOT MEASURABLE | ALIAS MERGE EVALUATION AGAINST GROUND TRUTH |
+| baseline cross-context leakage approximately 9%       | 41.9%          | 9.0%                   | FAIL           | CROSS-CONTEXT LEAKAGE EVALUATION            |
+| G=10/G=20 variance reduction                          | NA             | 40% / 70%              | NOT MEASURABLE | EENF STABILITY-LATENCY SWEEP                |
+| average merge decision under 50ms                     | 0.0755         | <50ms                  | PASS           | MERGE DECISION TIMING SUMMARY               |
+| DBNF drift detection accuracy / precision / recall    | NA             | ground-truth evaluated | NOT MEASURABLE | DBNF DRIFT DETECTION EVALUATION             |
+| acct_num / PrimaryAccountNumber evidence trace values | NA             | computed trace         | NOT MEASURABLE | PAIRWISE MERGE EVIDENCE TRACE               |
++-------------------------------------------------------+----------------+------------------------+----------------+---------------------------------------------+
