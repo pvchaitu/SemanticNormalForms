@@ -176,6 +176,28 @@ python unified_sdnf_experiment_hybrid_v10.py
 
 ---
 
+### V11 Debug SDNF run
+
+```bash
+python unified_sdnf_experiment_hybrid_v11.py \
+  --evidence_mode all \
+  --ground_truth_aliases ground_truth_aliases.json \
+  --drift_ground_truth drift_ground_truth.json \
+  --trace_pair acct_num PrimaryAccountNumber \
+  --trace_pair primary_account_number account_number \
+  --eenf_g_sweep 1,10,20 \
+  --eenf_repeats 20 \
+  --measure_timing \
+  --export_decisions decisions_v11.csv \
+  --export_predicted_pairs predicted_pairs_v11.json \
+  --export_false_positives false_positives_v11.csv \
+  --export_false_negatives false_negatives_v11.csv \
+  --export_ground_truth_template ground_truth_aliases_template_v11.json \
+  --export_summary_json summary_v11.json
+```
+
+---
+
 ### Run all reviewer-grade modes and ablations
 
 ```bash
