@@ -1,0 +1,16 @@
+{
+    "alias_groups": [
+        ["acct_num", "PrimaryAccountNumber", "pan"],
+        ["txn_amount", "amount", "transaction_amount"],
+        ["iso_currency_code", "currency", "ccy"],
+        ["payer_name", "cardholder_name", "account_holder_name"],
+        ["description", "memo", "note"]
+    ],
+    "negative_pairs": [
+        ["account_id", "amount"],
+        ["acct_num", "txn_amount"],
+        ["currency", "amount"],
+        ["payer_name", "payee_name"],
+        ["card", "playing_card"]
+    ]
+}

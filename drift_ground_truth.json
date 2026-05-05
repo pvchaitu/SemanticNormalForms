@@ -1,0 +1,15 @@
+{
+    "drift_attributes": [
+        "description",
+        "iso_currency_code",
+        "acct_num",
+        "payer_name"
+    ],
+    "metadata": {
+        "purpose": "Ground-truth drift labels for DBNF evaluation",
+        "base_model": "all-MiniLM-L6-v2",
+        "drift_model": "all-mpnet-base-v2",
+        "labeling_basis": "Attributes selected as known/simulated semantic drift cases for the payments-domain SDNF experiment",
+        "notes": "Only values under drift_attributes are consumed by the current experiment harness."
+    }
+}
