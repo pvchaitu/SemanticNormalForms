@@ -1,0 +1,21 @@
+pair_key,normalized_a,normalized_b,attr_a_present,attr_b_present,generated_as_candidate,reason
+account number <-> account number,account number,account number,True,True,True,forced from expanded ground truth
+account number <-> primary account number,account number,primary account number,True,True,True,standard candidate
+amount <-> amount,amount,amount,True,True,True,standard candidate
+amount <-> instd amount,amount,instd amount,True,True,True,standard candidate
+amount <-> transaction amount,amount,transaction amount,True,True,True,standard candidate
+comment <-> comment,comment,comment,True,True,True,standard candidate
+comment <-> description,comment,description,True,True,True,standard candidate
+created <-> created at,created,created at,True,True,True,standard candidate
+created at <-> created at,created at,created at,True,True,True,standard candidate
+currency <-> currency,currency,currency,True,True,True,standard candidate
+currency <-> iso currency code,currency,iso currency code,True,False,False,attribute absent from dataset
+instd amount <-> transaction amount,instd amount,transaction amount,True,True,True,standard candidate
+method <-> payment method,method,payment method,True,True,True,standard candidate
+payee vpa <-> vpa,payee vpa,vpa,True,True,True,standard candidate
+primary account number <-> primary account number,primary account number,primary account number,True,True,True,standard candidate
+status <-> status,status,status,True,True,True,standard candidate
+status <-> transaction status,status,transaction status,True,True,True,standard candidate
+transaction amount <-> transaction amount,transaction amount,transaction amount,True,True,True,standard candidate
+transaction identifier <-> transaction identifier,transaction identifier,transaction identifier,True,True,True,standard candidate
+vpa <-> vpa,vpa,vpa,True,True,True,standard candidate

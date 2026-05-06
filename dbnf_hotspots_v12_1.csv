@@ -1,0 +1,101 @@
+mode,attribute,drift_distance
+embed_only_baseline,transaction status,1.2697805166244507
+embed_only_baseline,transaction amount,1.2690125703811646
+embed_only_baseline,primary account number,1.2591907978057861
+embed_only_baseline,debtor name,1.2449188232421875
+embed_only_baseline,debtor account,1.2425591945648193
+embed_only_baseline,merchant category code,1.2401658296585083
+embed_only_baseline,payment method,1.2396214008331299
+embed_only_baseline,account type,1.2389100790023804
+embed_only_baseline,payer account,1.2388887405395508
+embed_only_baseline,status,1.2384519577026367
+sdnf_hybrid,transaction status,1.2697805166244507
+sdnf_hybrid,transaction amount,1.2690125703811646
+sdnf_hybrid,primary account number,1.2591907978057861
+sdnf_hybrid,debtor name,1.2449188232421875
+sdnf_hybrid,debtor account,1.2425591945648193
+sdnf_hybrid,merchant category code,1.2401658296585083
+sdnf_hybrid,payment method,1.2396214008331299
+sdnf_hybrid,account type,1.2389100790023804
+sdnf_hybrid,payer account,1.2388887405395508
+sdnf_hybrid,status,1.2384519577026367
+no_ecnf,transaction status,1.2697805166244507
+no_ecnf,transaction amount,1.2690125703811646
+no_ecnf,primary account number,1.2591907978057861
+no_ecnf,debtor name,1.2449188232421875
+no_ecnf,debtor account,1.2425591945648193
+no_ecnf,merchant category code,1.2401658296585083
+no_ecnf,payment method,1.2396214008331299
+no_ecnf,account type,1.2389100790023804
+no_ecnf,payer account,1.2388887405395508
+no_ecnf,status,1.2384519577026367
+no_cmnf,transaction status,1.2697805166244507
+no_cmnf,transaction amount,1.2690125703811646
+no_cmnf,primary account number,1.2591907978057861
+no_cmnf,debtor name,1.2449188232421875
+no_cmnf,debtor account,1.2425591945648193
+no_cmnf,merchant category code,1.2401658296585083
+no_cmnf,payment method,1.2396214008331299
+no_cmnf,account type,1.2389100790023804
+no_cmnf,payer account,1.2388887405395508
+no_cmnf,status,1.2384519577026367
+no_dbnf,transaction status,1.2697805166244507
+no_dbnf,transaction amount,1.2690125703811646
+no_dbnf,primary account number,1.2591907978057861
+no_dbnf,debtor name,1.2449188232421875
+no_dbnf,debtor account,1.2425591945648193
+no_dbnf,merchant category code,1.2401658296585083
+no_dbnf,payment method,1.2396214008331299
+no_dbnf,account type,1.2389100790023804
+no_dbnf,payer account,1.2388887405395508
+no_dbnf,status,1.2384519577026367
+no_value_evidence,transaction status,1.2697805166244507
+no_value_evidence,transaction amount,1.2690125703811646
+no_value_evidence,primary account number,1.2591907978057861
+no_value_evidence,debtor name,1.2449188232421875
+no_value_evidence,debtor account,1.2425591945648193
+no_value_evidence,merchant category code,1.2401658296585083
+no_value_evidence,payment method,1.2396214008331299
+no_value_evidence,account type,1.2389100790023804
+no_value_evidence,payer account,1.2388887405395508
+no_value_evidence,status,1.2384519577026367
+vss_only,transaction status,1.2697805166244507
+vss_only,transaction amount,1.2690125703811646
+vss_only,primary account number,1.2591907978057861
+vss_only,debtor name,1.2449188232421875
+vss_only,debtor account,1.2425591945648193
+vss_only,merchant category code,1.2401658296585083
+vss_only,payment method,1.2396214008331299
+vss_only,account type,1.2389100790023804
+vss_only,payer account,1.2388887405395508
+vss_only,status,1.2384519577026367
+shape_only,transaction status,1.2697805166244507
+shape_only,transaction amount,1.2690125703811646
+shape_only,primary account number,1.2591907978057861
+shape_only,debtor name,1.2449188232421875
+shape_only,debtor account,1.2425591945648193
+shape_only,merchant category code,1.2401658296585083
+shape_only,payment method,1.2396214008331299
+shape_only,account type,1.2389100790023804
+shape_only,payer account,1.2388887405395508
+shape_only,status,1.2384519577026367
+name_ontology_only,transaction status,1.2697805166244507
+name_ontology_only,transaction amount,1.2690125703811646
+name_ontology_only,primary account number,1.2591907978057861
+name_ontology_only,debtor name,1.2449188232421875
+name_ontology_only,debtor account,1.2425591945648193
+name_ontology_only,merchant category code,1.2401658296585083
+name_ontology_only,payment method,1.2396214008331299
+name_ontology_only,account type,1.2389100790023804
+name_ontology_only,payer account,1.2388887405395508
+name_ontology_only,status,1.2384519577026367
+hybrid,transaction status,1.2697805166244507
+hybrid,transaction amount,1.2690125703811646
+hybrid,primary account number,1.2591907978057861
+hybrid,debtor name,1.2449188232421875
+hybrid,debtor account,1.2425591945648193
+hybrid,merchant category code,1.2401658296585083
+hybrid,payment method,1.2396214008331299
+hybrid,account type,1.2389100790023804
+hybrid,payer account,1.2388887405395508
+hybrid,status,1.2384519577026367
