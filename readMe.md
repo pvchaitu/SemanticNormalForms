@@ -1,190 +1,312 @@
-# SDNF Unified Experiment (Reviewer-Grade Audit Harness - v10)
+# SDNF Unified Experiment — Reviewer-Grade Audit Harness v13
 
-This repository contains a **single-file, reproducible experiment** for validating:
+This repository contains a single-file, reproducible experiment for validating the research framework:
 
-> **Semantic Data Normal Forms (SDNF)**  
-> from the paper:  
-> *"Semantic Data Normal Forms: Extending Normalization Theory to Vector Embedding Spaces"*
+**Semantic Data Normal Forms (SDNF): Extending Normalization Theory to Vector Embedding Spaces**
 
----
-
-## What makes v10 different
-
-Version 10 is a **reviewer-grade audit harness**, designed to:
-
-- Compute all metrics from observed data
-- Validate claims with `PASS`, `FAIL`, or `NOT MEASURABLE`
-- Support ground-truth evaluation for precision, recall, F1, and leakage
-- Provide drift detection validation
-- Enable pairwise explainability tracing
-- Measure timing and stability/scalability behavior
-- Support ablation studies across SDNF components
-
----
-
-## Core Capabilities
-
-### 1. Evidence-Based Schema Normalization
-
-The experiment evaluates candidate attribute merges using multiple signals:
-
-- Embedding similarity
-- Name similarity using token overlap
-- Ontology-root alignment
-- Regex / value-format matching
-- Value Semantic Signature (VSS)
-- Shape-based similarity
-
----
-
-### 2. SDNF Validation Layers
-
-The script reports validation status for the following Semantic Data Normal Forms:
-
-- **EENF** — Entity Embedding Normal Form / embedding stability
-- **AANF** — Attribute Alias Normal Form / alias similarity thresholding
-- **CMNF** — Context Modulation Normal Form / context and ontology conflict control
-- **ECNF** — Evidence Completeness Normal Form / evidence sufficiency
-- **DBNF** — Drift-Bounded Normal Form / embedding drift robustness
-- **RRNF** — Role-Respecting Normal Form, currently reported as not exercised unless extended
-- **PONF** — Partition Orthogonality Normal Form, currently reported as not exercised unless extended
-
-Each normal form is reported with observed values, expected thresholds, and a status.
-
----
-
-### 3. Claim Verification Engine
-
-The v10 harness prints reviewer-facing tables for:
-
-- Schema reduction percentage
-- Precision / Recall / F1
-- Cross-context leakage rate
-- Drift detection metrics
-- EENF variance reduction sweep
-- Merge-decision timing metrics
-- Claim support summary
-
-Each relevant paper claim is labeled as:
+The main experiment file for this version is:
 
 ```text
-PASS / FAIL / NOT MEASURABLE
+unified_sdnf_experiment_hybrid_v13.py
 ```
 
-If required evidence such as ground truth is missing, the script marks the metric as `NOT MEASURABLE` rather than inventing results.
+Version 13 evolves the earlier v10/v12 audit harness into a cleaner, more defensible, reviewer-facing experiment artifact. It preserves the successful capabilities from prior versions while correcting the v12 issues around explicit-negative merges, absent ground-truth handling, metadata filtering, DBNF interpretation, console verbosity, and missing SRS output.
 
 ---
 
-## Ground Truth Support
+## 1. What Changed in v13
 
-### Alias Ground Truth Format
+v13 introduces the following major improvements:
 
-The script supports alias groups:
-
-```json
-{
-  "alias_groups": [
-    ["acct_num", "PrimaryAccountNumber", "pan"],
-    ["txn_amount", "amount"]
-  ],
-  "negative_pairs": [
-    ["card", "playing_card"]
-  ]
-}
-```
-
-It also supports explicit true pairs:
-
-```json
-{
-  "true_pairs": [
-    ["acct_num", "PrimaryAccountNumber"]
-  ],
-  "negative_pairs": [
-    ["account", "merchant_account"]
-  ]
-}
-```
-
-The script converts alias groups into unordered normalized true pairs before computing precision, recall, and F1.
+- **Explicit-negative hard veto** before bridge rules and final merge acceptance.
+- **Role-sensitive bridge guards** to prevent unsafe account/role merges.
+- **Canonical-equivalence AANF pass** for pairs that normalize to the same canonical key.
+- **Absent-ground-truth handling** so unavailable attributes do not incorrectly count as false negatives by default.
+- **Paper / audit / dev profiles** to control output verbosity.
+- **Metadata filtering policy** so paper-mode metrics are not polluted by schema metadata fields.
+- **SRS evolved schema export** so the experiment produces an actual Semantic Representation Schema, not only pairwise merge decisions.
+- **Corrected DBNF semantics** separating same-family version drift, controlled drift, and cross-backbone migration diagnostics.
+- **Cleaner claim-support tables** that distinguish measured results from paper claims.
+- **Valid CSV/JSON exports** for reviewer reproducibility and debugging.
 
 ---
 
-### Drift Ground Truth Format
+## 2. SDNF Normal Forms in v13
 
-```json
-{
-  "drift_attributes": [
-    "description",
-    "iso_currency_code",
-    "acct_num"
-  ]
-}
-```
+v13 uses the following normal-form taxonomy.
 
-When drift ground truth is provided, the script compares DBNF drift hotspots against known simulated drift attributes and computes drift precision, recall, F1, and accuracy where definable.
+### EENF — Embedding Existence / Embedding Stability Normal Form
 
----
+EENF evaluates whether embeddings remain stable under repeated encoding or regeneration.
 
-## Repository Structure
+Typical evidence:
 
 ```text
-unified_sdnf_experiment_hybrid_v10.py   # Main reviewer-grade experiment harness
-readMe.md                              # This file
-requirements.txt                       # Python dependencies
-data/                                  # Schema JSON files
-payloads/                              # Payload JSON files with values
+q95 embedding variance
+max embedding variance
+variance reduction at G=10 or G=20
+```
+
+### AANF — Attribute Alias Normal Form
+
+AANF evaluates whether two attributes are semantically admissible as aliases.
+
+Signals include:
+
+```text
+embedding cosine similarity
+name similarity
+canonical synonym equivalence
+ontology-root compatibility
+```
+
+v13 adds canonical-equivalence handling. For example, if `pan` and `primary_account_number` normalize to the same canonical key, AANF can pass through:
+
+```text
+CANONICAL_EQUIVALENCE_PASS
+```
+
+unless an explicit negative, role conflict, or context conflict blocks it.
+
+### ECNF — Evidence Completeness Normal Form
+
+ECNF evaluates whether enough independent evidence signals support a merge.
+
+Signals include:
+
+```text
+name similarity
+ontology match
+value co-occurrence
+regex compatibility
+value semantic signature similarity
+shape similarity
+aggregate score
+evidence signal count
+```
+
+### CMNF — Contextual Merge Normal Form
+
+CMNF governs context/domain/business-boundary safety.
+
+If only one context is present, v13 marks cross-context CMNF as:
+
+```text
+NA_SINGLE_CONTEXT / NOT_EXERCISED
+```
+
+not as a failure.
+
+### DBNF — Drift Boundary Normal Form
+
+DBNF governs model-version or representation drift.
+
+v13 separates DBNF into:
+
+```text
+DBNF-V: same-family model-version/checkpoint drift
+DBNF-M: cross-backbone migration diagnostic
+Controlled DBNF: claim-bearing controlled drift benchmark
+```
+
+A cross-backbone comparison such as:
+
+```text
+all-MiniLM-L6-v2 -> all-mpnet-base-v2
+```
+
+is treated as a migration diagnostic by default, not as primary DBNF claim evidence.
+
+### SRS — Semantic Representation Schema
+
+v13 explicitly exports an evolved SRS. The experiment output no longer stops at predicted alias pairs.
+
+---
+
+## 3. Repository Structure
+
+Recommended structure:
+
+```text
+unified_sdnf_experiment_hybrid_v13.py   # Main v13 experiment harness
+readMe.md                               # This README
+requirements.txt                        # Python dependencies
+data/                                   # Schema JSON files
+payloads/                               # Payload JSON files with values
+ground_truth_aliases_closed_world_v12.json
+controlled_drift_cases.json             # Optional controlled DBNF input
 ```
 
 ---
 
-## Setup
+## 4. Setup
 
-### 1. Create and activate a virtual environment
-
-#### Linux / macOS
+### Linux / macOS
 
 ```bash
 python3 -m venv venv
 source venv/bin/activate
+pip install -r requirements.txt
 ```
 
-#### Windows PowerShell
+### Windows PowerShell
 
 ```powershell
 python -m venv venv
 .\venv\Scripts\Activate.ps1
-```
-
----
-
-### 2. Install dependencies
-
-```bash
 pip install -r requirements.txt
 ```
 
+### Dependency and fallback behavior
+
+If `sentence-transformers` is installed, the requested embedding model is used. If it is unavailable, v13 uses deterministic hashing embeddings so that the harness remains executable offline.
+
 ---
 
-## How to Run
+## 5. Ground Truth Format
 
-### Default hybrid SDNF run
+v13 supports object-style alias groups:
+
+```json
+{
+  "closed_world": true,
+  "alias_groups": [
+    {
+      "canonical": "primary_account_number",
+      "aliases": ["account_number", "acct_num", "pan"],
+      "basis": "Payment account/card-number identifiers."
+    },
+    {
+      "canonical": "transaction_amount",
+      "aliases": ["txn_amount", "amount", "instd_amount"],
+      "basis": "Payment amount fields across schemas."
+    }
+  ],
+  "true_pairs": [
+    ["transaction_id", "txn_id"]
+  ],
+  "negative_pairs": [
+    ["account_number", "routing_number"],
+    ["payer_account", "primary_account_number"],
+    ["account_type", "debtor_account"]
+  ]
+}
+```
+
+v13 expands alias groups into unordered normalized true pairs and applies explicit negative pairs as hard vetoes for production SDNF modes.
+
+---
+
+## 6. Important v13 Integrity Rules
+
+v13 follows these rules:
+
+- Metrics are computed from current data.
+- Paper claims are not hardcoded as successful outcomes.
+- Explicit negative pairs cannot be accepted by production SDNF/hybrid modes.
+- Absent ground-truth pairs are excluded from the main evaluation by default.
+- Cross-backbone DBNF is diagnostic-only unless explicitly allowed.
+- Single-context CMNF is marked as not exercised, not failed.
+- SRS schema and mapping exports are first-class outputs.
+- Paper profile avoids large verbose console logs.
+
+---
+
+## 7. Run Profiles
+
+v13 supports three run profiles.
+
+### Paper profile
+
+Use this for clean paper-facing runs.
+
+```text
+--profile paper
+```
+
+Default behavior:
+
+- concise console output
+- excludes metadata-like fields by default
+- exports core summary and SRS artifacts
+- avoids large decision tables unless explicitly requested
+
+### Audit profile
+
+Use this for reviewer/debug runs.
+
+```text
+--profile audit
+```
+
+Default behavior:
+
+- includes full diagnostics
+- can include metadata fields
+- produces decision logs, FP/FN files, trace rows, bridge summaries, candidate coverage, and DBNF diagnostics
+
+### Dev profile
+
+Use this for local debugging.
+
+```text
+--profile dev
+```
+
+Default behavior:
+
+- audit outputs plus extra console self-checks
+
+---
+
+## 8. Recommended Paper Run
+
+This is the cleanest run for paper-facing evidence.
 
 ```bash
-python unified_sdnf_experiment_hybrid_v10.py
+python unified_sdnf_experiment_hybrid_v13.py \
+  --profile paper \
+  --evidence_mode all \
+  --ground_truth_aliases ground_truth_aliases_closed_world_v12.json \
+  --ground_truth_closed_world \
+  --absent_ground_truth_policy exclude_from_main_eval \
+  --metadata_policy paper \
+  --eenf_g_sweep 1,10,20 \
+  --eenf_repeats 20 \
+  --measure_timing \
+  --export_summary_json summary_v13.json \
+  --export_srs_schema srs_evolved_schema_v13.json \
+  --export_srs_mapping srs_attribute_mapping_v13.csv \
+  --export_claim_support_summary claim_support_summary_v13.csv \
+  --export_normal_form_summary normal_form_summary_v13.csv \
+  --export_alias_confusion alias_confusion_v13.csv
+```
+
+Expected primary outputs:
+
+```text
+summary_v13.json
+srs_evolved_schema_v13.json
+srs_attribute_mapping_v13.csv
+claim_support_summary_v13.csv
+normal_form_summary_v13.csv
+alias_confusion_v13.csv
 ```
 
 ---
 
-### V12 Debug SDNF run
+## 9. Full Reviewer Audit Run
+
+Use this when you need all diagnostics for reviewer analysis.
 
 ```bash
-python unified_sdnf_experiment_hybrid_v12.py \
+python unified_sdnf_experiment_hybrid_v13.py \
+  --profile audit \
   --evidence_mode all \
   --ground_truth_aliases ground_truth_aliases_closed_world_v12.json \
   --ground_truth_closed_world \
-  --drift_model all-mpnet-base-v2 \
-  --drift_ground_truth drift_ground_truth.json \
+  --absent_ground_truth_policy exclude_from_main_eval \
+  --metadata_policy audit \
   --trace_pair acct_num PrimaryAccountNumber \
   --trace_pair primary_account_number account_number \
   --trace_pair currency iso_currency_code \
@@ -194,259 +316,366 @@ python unified_sdnf_experiment_hybrid_v12.py \
   --eenf_g_sweep 1,10,20 \
   --eenf_repeats 20 \
   --measure_timing \
-  --export_dbnf_summary dbnf_summary_v12.csv \
-  --export_dbnf_hotspots dbnf_hotspots_v12.csv \
-  --export_decisions decisions_v12.csv \
-  --export_predicted_pairs predicted_pairs_v12.json \
-  --export_false_positives false_positives_v12.csv \
-  --export_false_negatives false_negatives_v12.csv \
-  --export_ground_truth_pairs ground_truth_pairs_expanded_v12.csv \
-  --export_candidate_coverage candidate_coverage_v12.csv \
-  --export_alias_confusion alias_confusion_v12.csv \
-  --export_fn_root_causes fn_root_causes_v12.csv \
-  --export_fp_clusters fp_clusters_v12.csv \
-  --export_bridged_merges bridged_merges_v12.csv \
-  --export_summary_json summary_v12.json
+  --export_summary_json summary_v13.json \
+  --export_decisions decisions_v13.csv \
+  --export_predicted_pairs predicted_pairs_v13.json \
+  --export_false_positives false_positives_v13.csv \
+  --export_false_negatives false_negatives_v13.csv \
+  --export_ground_truth_pairs ground_truth_pairs_expanded_v13.csv \
+  --export_candidate_coverage candidate_coverage_v13.csv \
+  --export_alias_confusion alias_confusion_v13.csv \
+  --export_absent_ground_truth_pairs absent_ground_truth_pairs_v13.csv \
+  --export_fn_root_causes fn_root_causes_v13.csv \
+  --export_fp_clusters fp_clusters_v13.csv \
+  --export_bridged_merges bridged_merges_v13.csv \
+  --export_srs_schema srs_evolved_schema_v13.json \
+  --export_srs_mapping srs_attribute_mapping_v13.csv \
+  --export_srs_lineage srs_lineage_v13.csv \
+  --export_srs_conflicts srs_conflicts_v13.csv \
+  --export_trace_pairs trace_pairs_v13.csv
+```
 
-python unified_sdnf_experiment_hybrid_v12.py \
+Expected diagnostic outputs:
+
+```text
+decisions_v13.csv
+predicted_pairs_v13.json
+false_positives_v13.csv
+false_negatives_v13.csv
+ground_truth_pairs_expanded_v13.csv
+candidate_coverage_v13.csv
+alias_confusion_v13.csv
+absent_ground_truth_pairs_v13.csv
+fn_root_causes_v13.csv
+fp_clusters_v13.csv
+bridged_merges_v13.csv
+srs_evolved_schema_v13.json
+srs_attribute_mapping_v13.csv
+srs_lineage_v13.csv
+srs_conflicts_v13.csv
+trace_pairs_v13.csv
+summary_v13.json
+```
+
+---
+
+## 10. Cross-Backbone Migration Diagnostic Run
+
+Use this when replacing one embedding backbone with another, for example due to security, compliance, or deprecation.
+
+This run is diagnostic by default, not primary DBNF claim evidence.
+
+```bash
+python unified_sdnf_experiment_hybrid_v13.py \
+  --profile audit \
+  --evidence_mode all \
+  --model all-MiniLM-L6-v2 \
+  --drift_model all-mpnet-base-v2 \
+  --dbnf_mode migration \
+  --migration_reason "security-driven model replacement" \
+  --ground_truth_aliases ground_truth_aliases_closed_world_v12.json \
+  --ground_truth_closed_world \
+  --export_srs_schema srs_evolved_schema_v13.json \
+  --export_dbnf_lineage dbnf_lineage_v13.csv \
+  --export_dbnf_forks dbnf_forks_v13.json \
+  --export_cross_model_sensitivity cross_model_sensitivity_v13.csv \
+  --export_summary_json summary_v13_migration.json
+```
+
+Expected outputs:
+
+```text
+summary_v13_migration.json
+srs_evolved_schema_v13.json
+dbnf_lineage_v13.csv
+dbnf_forks_v13.json
+cross_model_sensitivity_v13.csv
+```
+
+Interpretation:
+
+```text
+all-MiniLM-L6-v2 -> all-mpnet-base-v2
+```
+
+is treated as **DBNF-M / cross-backbone migration diagnostic** unless `--allow_cross_backbone_dbnf_claim` is explicitly supplied.
+
+---
+
+## 11. Same-Family DBNF Version Drift Run
+
+Use this when comparing versions or checkpoints of the same embedding model family.
+
+```bash
+python unified_sdnf_experiment_hybrid_v13.py \
+  --profile audit \
+  --evidence_mode all \
+  --model enterprise-embedder-v1 \
+  --drift_model enterprise-embedder-v2 \
+  --dbnf_mode version \
+  --model_family enterprise-embedder \
+  --target_model_family enterprise-embedder \
+  --base_model_version v1 \
+  --target_model_version v2 \
+  --ground_truth_aliases ground_truth_aliases_closed_world_v12.json \
+  --ground_truth_closed_world \
+  --export_dbnf_summary dbnf_summary_v13.csv \
+  --export_dbnf_lineage dbnf_lineage_v13.csv \
+  --export_dbnf_forks dbnf_forks_v13.json \
+  --export_summary_json summary_v13_dbnf_version.json
+```
+
+Use this run when the research claim is about model-version drift rather than model-backbone replacement.
+
+---
+
+## 12. Controlled DBNF Run
+
+Use this when you have controlled drift cases.
+
+```bash
+python unified_sdnf_experiment_hybrid_v13.py \
+  --profile audit \
+  --evidence_mode all \
+  --dbnf_mode controlled \
+  --controlled_drift_json controlled_drift_cases.json \
+  --ground_truth_aliases ground_truth_aliases_closed_world_v12.json \
+  --ground_truth_closed_world \
+  --export_dbnf_summary dbnf_summary_v13.csv \
+  --export_dbnf_lineage dbnf_lineage_v13.csv \
+  --export_dbnf_forks dbnf_forks_v13.json \
+  --export_summary_json summary_v13_controlled_dbnf.json
+```
+
+Example controlled drift input:
+
+```json
+{
+  "controlled_drift_cases": [
+    {
+      "attribute": "description",
+      "drifted_name": "merchant narrative text",
+      "basis": "Controlled semantic rename"
+    },
+    {
+      "attribute": "payer_name",
+      "drifted_name": "debtor identity label",
+      "basis": "Controlled role-sensitive drift"
+    }
+  ]
+}
+```
+
+---
+
+## 13. Pairwise Trace Run
+
+Use trace pairs to inspect specific merge decisions.
+
+```bash
+python unified_sdnf_experiment_hybrid_v13.py \
+  --profile audit \
   --evidence_mode all \
   --ground_truth_aliases ground_truth_aliases_closed_world_v12.json \
   --ground_truth_closed_world \
-  --drift_model all-mpnet-base-v2 \
-  --drift_ground_truth drift_ground_truth.json \
-  --drift_eval_mode exploratory \
-  --measure_timing \
-  --export_dbnf_summary dbnf_summary_v12.csv \
-  --export_dbnf_hotspots dbnf_hotspots_v12.csv \
-  --export_summary_json summary_v12_dbnf_exploratory.json
-
+  --trace_pair acct_num PrimaryAccountNumber \
+  --trace_pair primary_account_number account_number \
+  --trace_pair currency iso_currency_code \
+  --trace_pair instd_amt txn_amount \
+  --trace_pair amount txn_amount \
+  --trace_pair pan account_number \
+  --export_trace_pairs trace_pairs_v13.csv \
+  --export_summary_json summary_v13_trace.json
 ```
 
 ---
 
-### Run all reviewer-grade modes and ablations
+## 14. EENF Stability Sweep Only
+
+Use this to focus on embedding stability.
 
 ```bash
-python unified_sdnf_experiment_hybrid_v10.py \
-  --evidence_mode all
-```
-
----
-
-### Run with alias ground truth validation
-
-```bash
-python unified_sdnf_experiment_hybrid_v10.py \
+python unified_sdnf_experiment_hybrid_v13.py \
+  --profile paper \
   --evidence_mode hybrid \
-  --ground_truth_aliases ground_truth_aliases.json
-```
-
----
-
-### Run full audit with alias ground truth, drift ground truth, pair trace, EENF sweep, and timing
-
-```bash
-python unified_sdnf_experiment_hybrid_v10.py \
-  --evidence_mode all \
-  --ground_truth_aliases ground_truth_aliases.json \
-  --drift_ground_truth drift_ground_truth.json \
-  --trace_pair acct_num PrimaryAccountNumber \
   --eenf_g_sweep 1,10,20 \
-  --measure_timing
+  --eenf_repeats 20 \
+  --export_eenf_sweep eenf_sweep_v13.csv \
+  --export_summary_json summary_v13_eenf.json
 ```
 
 ---
 
-### Run DBNF drift simulation using a second embedding model
+## 15. Timing Instrumentation Run
+
+Use this to measure merge-decision latency.
 
 ```bash
-python unified_sdnf_experiment_hybrid_v10.py \
+python unified_sdnf_experiment_hybrid_v13.py \
+  --profile paper \
   --evidence_mode all \
-  --drift_model all-mpnet-base-v2 \
-  --drift_ground_truth drift_ground_truth.json
+  --measure_timing \
+  --export_timing_summary timing_summary_v13.csv \
+  --export_summary_json summary_v13_timing.json
 ```
 
 ---
 
-### Run pairwise explainability trace
+## 16. Supported Evidence / Ablation Modes
 
-```bash
-python unified_sdnf_experiment_hybrid_v10.py \
-  --trace_pair acct_num PrimaryAccountNumber
+When `--evidence_mode all` is used, v13 runs:
+
+```text
+embed_only_baseline
+sdnf_hybrid
+no_ecnf
+no_cmnf
+no_dbnf
+no_value_evidence
+vss_only
+shape_only
+name_ontology_only
+hybrid
 ```
 
-Multiple trace pairs can be supplied by repeating `--trace_pair`:
+Mode meanings:
 
-```bash
-python unified_sdnf_experiment_hybrid_v10.py \
-  --trace_pair acct_num PrimaryAccountNumber \
-  --trace_pair txn_amount amount
+```text
+embed_only_baseline   Embedding-only baseline.
+sdnf_hybrid           Full SDNF hybrid evidence mode.
+no_ecnf               ECNF ablated.
+no_cmnf               CMNF ablated.
+no_dbnf               DBNF handling ablated.
+no_value_evidence     Removes VSS/shape/value evidence.
+vss_only              Uses value semantic signature only.
+shape_only            Uses value shape only.
+name_ontology_only    Uses name and ontology signals only.
+hybrid                Backward-compatible hybrid mode.
 ```
 
 ---
 
-### Run EENF stability-latency sweep
+## 17. Main Outputs
 
-```bash
-python unified_sdnf_experiment_hybrid_v10.py \
-  --eenf_g_sweep 1,10,20
+### `summary_v13.json`
+
+Top-level JSON summary containing:
+
+```text
+run_configuration
+dataset_summary
+ground_truth_audit
+alias_eval_summary
+leakage_eval_summary
+normal_form_summary
+srs_summary
+eenf_sweep
+timing_summary
+dbnf_summary
+self_checks
+claim_support_summary
+```
+
+### `alias_confusion_v13.csv`
+
+Alias precision/recall/F1 by mode.
+
+Includes:
+
+```text
+eval_scope
+mode
+predicted_pairs_count
+true_pairs_count
+TP
+FP
+FN
+precision
+labeled_precision
+recall
+F1
+closed_world
+absent_pairs_excluded_count
+explicit_negative_veto_count
+canonical_equivalence_pass_count
+metadata_excluded_count
+```
+
+### `srs_evolved_schema_v13.json`
+
+Evolved SRS schema containing:
+
+```text
+srs_version
+dataset_summary
+model
+context
+ground_truth_source
+canonical_attributes
+rejected_merges
+conflicts
+```
+
+### `srs_attribute_mapping_v13.csv`
+
+Mapping of raw attributes to canonical SRS nodes.
+
+Includes:
+
+```text
+raw_attribute
+normalized_attribute
+canonical_attribute
+source_file
+context
+ontology_root
+srs_node_id
+lineage_action
+merge_decision
+reason
+```
+
+### `dbnf_lineage_v13.csv`
+
+DBNF lineage actions for model-version or migration runs.
+
+Possible actions:
+
+```text
+PRESERVE
+REMAP
+FORK
+DEPRECATE
+REVIEW
+BLOCKED_BY_NEGATIVE_VETO
+```
+
+### `cross_model_sensitivity_v13.csv`
+
+Cross-backbone diagnostic distances when a different target model is supplied.
+
+---
+
+## 18. Self-Checks in v13
+
+v13 reports self-checks in `summary_v13.json` and claim-support output.
+
+Checks include:
+
+```text
+No accepted production merge is in negative_pairs
+No bridge accepts role-sensitive unsafe merge
+Absent ground-truth pairs are separated from main evaluation by default
+Single-context CMNF is marked NOT_EXERCISED
+Cross-backbone DBNF is DIAGNOSTIC_ONLY unless explicitly allowed
+SRS export contains canonical attributes and rejected merges
 ```
 
 ---
 
-### Run timing instrumentation
+## 19. Data Expectations
 
-```bash
-python unified_sdnf_experiment_hybrid_v10.py \
-  --measure_timing
-```
-
----
-
-## Supported Evidence / Ablation Modes
-
-When `--evidence_mode all` is used, the script runs the following reviewer-grade modes:
-
-| Mode | Description |
-|---|---|
-| `embed_only_baseline` | Embedding-only baseline. Uses only embedding cosine threshold. |
-| `sdnf_hybrid` | Full SDNF-style hybrid evidence mode. |
-| `no_ecnf` | Disables evidence completeness gating. |
-| `no_cmnf` | Disables context / ontology conflict gating. |
-| `no_dbnf` | Disables drift robustness handling while preserving merge rules. |
-| `no_value_evidence` | Removes VSS and shape evidence. |
-| `vss_only` | Uses value semantic signature evidence only. |
-| `shape_only` | Uses value shape evidence only. |
-| `name_ontology_only` | Uses name similarity and ontology-root matching. |
-| `hybrid` | Backward-compatible hybrid mode. |
-
----
-
-## Main Output Tables
-
-The script prints the following reviewer-facing tables:
-
-### `RUN CONFIGURATION`
-
-Reports seed, model, evidence mode, thresholds, input directories, and optional ground-truth files.
-
-### `DATASET SUMMARY`
-
-Reports schema files, payload files, raw attribute records, distinct attribute names, value evidence availability, and missing evidence fraction.
-
-### `NORMAL FORM VALIDATION SUMMARY`
-
-Reports EENF, AANF, CMNF, ECNF, DBNF, RRNF, and PONF status.
-
-### `ALIAS MERGE EVALUATION AGAINST GROUND TRUTH`
-
-Reports:
-
-- Predicted pairs
-- True pairs
-- TP / FP / FN
-- Precision
-- Recall
-- F1
-
-If ground truth is absent, the table marks the relevant values as `NOT MEASURABLE`.
-
-### `CROSS-CONTEXT LEAKAGE EVALUATION`
-
-Reports leakage count, predicted merge count, leakage rate, and representative leakage examples.
-
-### `ABLATION STUDY SUMMARY`
-
-Compares all evidence and ablation modes.
-
-### `PAPER TABLE 2 REPRODUCTION CHECK`
-
-Checks whether the measured values reproduce the paper-aligned claims within configured tolerances.
-
-### `EENF STABILITY-LATENCY SWEEP`
-
-Printed when `--eenf_g_sweep` is supplied.
-
-Reports:
-
-- G
-- Mean variance
-- q95 variance
-- Max variance
-- Variance reduction versus G=1
-- Encoding time
-- Overhead versus G=1
-
-### `MERGE DECISION TIMING SUMMARY`
-
-Reports:
-
-- Candidate-pair count
-- Mean latency
-- P50 latency
-- P95 latency
-- P99 latency
-- Max latency
-
-It also prints whether average merge decision latency is under 50 ms.
-
-### `PAIRWISE MERGE EVIDENCE TRACE`
-
-Printed when `--trace_pair` is supplied.
-
-Reports pair-level details including:
-
-- Sources
-- Contexts
-- Cosine similarity
-- Name similarity
-- Ontology roots
-- Ontology match
-- Value co-occurrence
-- Regex match
-- VSS similarity
-- Shape similarity
-- Aggregate score
-- Evidence signal count
-- AANF / ECNF / CMNF status
-- Final decision
-- Lineage ID
-
-### `DBNF DRIFT HOTSPOTS`
-
-Printed when `--drift_model` is supplied.
-
-Reports top drift attributes and drift magnitude.
-
-### `DBNF DRIFT DETECTION EVALUATION`
-
-Printed when drift evaluation is run.
-
-Reports:
-
-- Drift threshold
-- Detected count
-- True drift count
-- TP / FP / FN
-- Precision
-- Recall
-- F1
-- Accuracy if definable
-
-### `CLAIM SUPPORT SUMMARY`
-
-Final audit table that maps each paper claim to:
-
-- Measured value
-- Expected value
-- Status
-- Evidence table
-
----
-
-## Data Expectations
-
-### Schema-style JSON
+Schema-style JSON example:
 
 ```json
 {
@@ -458,9 +687,7 @@ Final audit table that maps each paper claim to:
 }
 ```
 
----
-
-### Payload-style JSON
+Payload-style JSON example:
 
 ```json
 {
@@ -470,33 +697,28 @@ Final audit table that maps each paper claim to:
 }
 ```
 
-Nested JSON is also supported. The script walks dictionaries and lists recursively to collect fields and values.
+Nested JSON is supported. The script recursively walks dictionaries and lists to collect fields and values.
 
 ---
 
-## Important Integrity Rules
+## 20. Research Integrity Note
 
-- The script does not tune results to force paper claims to pass.
-- If ground truth is missing, precision, recall, and drift metrics are marked `NOT MEASURABLE`.
-- If measured values differ from paper claims, the script reports the measured values and marks claims as `FAIL`.
-- The output tables are intended to help revise the paper based on measurable evidence.
+This artifact is intended for research, reproducibility, and reviewer validation. Avoid logging raw sensitive values in production. For production use, replace raw-value evidence with privacy-preserving summaries, hashed values, or aggregated statistics.
 
 ---
 
-## Dependency and Fallback Behavior
+## 21. Summary
 
-- If `sentence-transformers` is installed, the requested embedding model is used.
-- If `sentence-transformers` is unavailable, deterministic hashing embeddings are used as a fallback and the run configuration reports `hashing-fallback`.
-- If ANN infrastructure is unavailable, exhaustive candidate-pair scoring can still support the reviewer audit path.
+v13 turns the SDNF experiment into a cleaner and more defensible reviewer-grade artifact. It preserves the auditability of v10/v12 while adding explicit-negative safety, canonical-equivalence handling, absent-ground-truth policy, SRS exports, profile-based verbosity control, and corrected DBNF semantics.
 
----
+The core v13 experiment is no longer just pairwise alias detection. It is a full SDNF-to-SRS pipeline:
 
-## Research Integrity Note
-
-This artifact is intended for research, reproducibility, and reviewer validation. Avoid embedding or logging raw sensitive values in production environments. For production use, replace raw-value evidence with privacy-preserving summaries or hashed/aggregated statistics.
-
----
-
-## Summary
-
-Version 9 transforms the SDNF experiment from a basic consolidation run into a **measurable, auditable, falsifiable reviewer-grade experiment harness**. It is designed so that every major empirical claim in the SDNF paper can be confirmed, rejected, or marked not measurable based on explicit evidence.
+```text
+heterogeneous schemas
+  -> evidence extraction
+  -> threshold-based SDNF validation
+  -> safe merge decisions
+  -> explicit-negative vetoes
+  -> evolved Semantic Representation Schema
+  -> paper/audit claim support
+```
