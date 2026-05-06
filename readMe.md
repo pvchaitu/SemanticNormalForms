@@ -176,24 +176,50 @@ python unified_sdnf_experiment_hybrid_v10.py
 
 ---
 
-### V11 Debug SDNF run
+### V12 Debug SDNF run
 
 ```bash
-python unified_sdnf_experiment_hybrid_v11.py \
+python unified_sdnf_experiment_hybrid_v12.py \
   --evidence_mode all \
-  --ground_truth_aliases ground_truth_aliases.json \
+  --ground_truth_aliases ground_truth_aliases_closed_world_v12.json \
+  --ground_truth_closed_world \
+  --drift_model all-mpnet-base-v2 \
   --drift_ground_truth drift_ground_truth.json \
   --trace_pair acct_num PrimaryAccountNumber \
   --trace_pair primary_account_number account_number \
+  --trace_pair currency iso_currency_code \
+  --trace_pair instd_amt txn_amount \
+  --trace_pair amount txn_amount \
+  --trace_pair pan account_number \
   --eenf_g_sweep 1,10,20 \
   --eenf_repeats 20 \
   --measure_timing \
-  --export_decisions decisions_v11.csv \
-  --export_predicted_pairs predicted_pairs_v11.json \
-  --export_false_positives false_positives_v11.csv \
-  --export_false_negatives false_negatives_v11.csv \
-  --export_ground_truth_template ground_truth_aliases_template_v11.json \
-  --export_summary_json summary_v11.json
+  --export_dbnf_summary dbnf_summary_v12.csv \
+  --export_dbnf_hotspots dbnf_hotspots_v12.csv \
+  --export_decisions decisions_v12.csv \
+  --export_predicted_pairs predicted_pairs_v12.json \
+  --export_false_positives false_positives_v12.csv \
+  --export_false_negatives false_negatives_v12.csv \
+  --export_ground_truth_pairs ground_truth_pairs_expanded_v12.csv \
+  --export_candidate_coverage candidate_coverage_v12.csv \
+  --export_alias_confusion alias_confusion_v12.csv \
+  --export_fn_root_causes fn_root_causes_v12.csv \
+  --export_fp_clusters fp_clusters_v12.csv \
+  --export_bridged_merges bridged_merges_v12.csv \
+  --export_summary_json summary_v12.json
+
+python unified_sdnf_experiment_hybrid_v12.py \
+  --evidence_mode all \
+  --ground_truth_aliases ground_truth_aliases_closed_world_v12.json \
+  --ground_truth_closed_world \
+  --drift_model all-mpnet-base-v2 \
+  --drift_ground_truth drift_ground_truth.json \
+  --drift_eval_mode exploratory \
+  --measure_timing \
+  --export_dbnf_summary dbnf_summary_v12.csv \
+  --export_dbnf_hotspots dbnf_hotspots_v12.csv \
+  --export_summary_json summary_v12_dbnf_exploratory.json
+
 ```
 
 ---

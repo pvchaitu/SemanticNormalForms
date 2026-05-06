@@ -1,0 +1,333 @@
+{
+  "closed_world": true,
+  "alias_groups": [
+    {
+      "canonical": "primary_account_number",
+      "aliases": [
+        "account_number",
+        "acct_num",
+        "pan"
+      ],
+      "basis": "Payment account/card-number identifiers. Excludes role-specific payer_account and routing_number."
+    },
+    {
+      "canonical": "transaction_amount",
+      "aliases": [
+        "txn_amount",
+        "amount",
+        "instd_amount"
+      ],
+      "basis": "Payment amount fields across card, account, ISO20022, Razorpay, Stripe, and UPI schemas."
+    },
+    {
+      "canonical": "currency",
+      "aliases": [
+        "iso_currency_code",
+        "ccy"
+      ],
+      "basis": "Currency-code fields."
+    },
+    {
+      "canonical": "description",
+      "aliases": [
+        "memo",
+        "note",
+        "comment",
+        "_comment",
+        "//comment"
+      ],
+      "basis": "Narrative/comment/description text fields."
+    },
+    {
+      "canonical": "created_at",
+      "aliases": [
+        "created"
+      ],
+      "basis": "Creation timestamp/date fields observed as created and created_at."
+    },
+    {
+      "canonical": "payment_method",
+      "aliases": [
+        "method"
+      ],
+      "basis": "Payment method fields."
+    },
+    {
+      "canonical": "transaction_status",
+      "aliases": [
+        "txn_status",
+        "status"
+      ],
+      "basis": "Transaction/payment status fields."
+    },
+    {
+      "canonical": "transaction_id",
+      "aliases": [
+        "txn_id"
+      ],
+      "basis": "Transaction identifier fields."
+    },
+    {
+      "canonical": "vpa",
+      "aliases": [
+        "payee_vpa"
+      ],
+      "basis": "Virtual payment address fields; retained as alias for this v11 reviewed universe because the accepted candidate was VPA-to-VPA rather than account-to-party."
+    }
+  ],
+  "true_pairs": [
+    [
+      "account_number",
+      "primary_account_number"
+    ],
+    [
+      "acct_num",
+      "primary_account_number"
+    ],
+    [
+      "acct_num",
+      "account_number"
+    ],
+    [
+      "pan",
+      "primary_account_number"
+    ],
+    [
+      "pan",
+      "account_number"
+    ],
+    [
+      "amount",
+      "transaction_amount"
+    ],
+    [
+      "amount",
+      "txn_amount"
+    ],
+    [
+      "amount",
+      "instd_amount"
+    ],
+    [
+      "transaction_amount",
+      "txn_amount"
+    ],
+    [
+      "transaction_amount",
+      "instd_amount"
+    ],
+    [
+      "txn_amount",
+      "instd_amount"
+    ],
+    [
+      "amount",
+      "amount"
+    ],
+    [
+      "transaction_amount",
+      "transaction_amount"
+    ],
+    [
+      "currency",
+      "iso_currency_code"
+    ],
+    [
+      "currency",
+      "ccy"
+    ],
+    [
+      "currency",
+      "currency"
+    ],
+    [
+      "description",
+      "comment"
+    ],
+    [
+      "description",
+      "_comment"
+    ],
+    [
+      "description",
+      "//comment"
+    ],
+    [
+      "comment",
+      "_comment"
+    ],
+    [
+      "comment",
+      "//comment"
+    ],
+    [
+      "comment",
+      "comment"
+    ],
+    [
+      "created",
+      "created_at"
+    ],
+    [
+      "created_at",
+      "created_at"
+    ],
+    [
+      "method",
+      "payment_method"
+    ],
+    [
+      "status",
+      "txn_status"
+    ],
+    [
+      "status",
+      "transaction_status"
+    ],
+    [
+      "status",
+      "status"
+    ],
+    [
+      "transaction_id",
+      "txn_id"
+    ],
+    [
+      "transaction_id",
+      "transaction_id"
+    ],
+    [
+      "vpa",
+      "payee_vpa"
+    ],
+    [
+      "vpa",
+      "vpa"
+    ]
+  ],
+  "negative_pairs": [
+    [
+      "payer_name",
+      "payee_name"
+    ],
+    [
+      "account_id",
+      "amount"
+    ],
+    [
+      "comment",
+      "amount"
+    ],
+    [
+      "comment",
+      "currency"
+    ],
+    [
+      "comment",
+      "transaction_amount"
+    ],
+    [
+      "account_id",
+      "account_type"
+    ],
+    [
+      "account_id",
+      "transaction_id"
+    ],
+    [
+      "account_number",
+      "payer_account"
+    ],
+    [
+      "primary_account_number",
+      "payer_account"
+    ],
+    [
+      "account_number",
+      "routing_number"
+    ],
+    [
+      "account_type",
+      "dbtr_acct"
+    ],
+    [
+      "account_type",
+      "cdtr_acct"
+    ],
+    [
+      "account_type",
+      "type"
+    ],
+    [
+      "razorpay_order_id",
+      "razorpay_payment_id"
+    ],
+    [
+      "amount",
+      "comment"
+    ],
+    [
+      "currency",
+      "comment"
+    ],
+    [
+      "transaction_amount",
+      "comment"
+    ],
+    [
+      "account_identifier",
+      "amount"
+    ],
+    [
+      "account_identifier",
+      "account_type"
+    ],
+    [
+      "account_identifier",
+      "transaction_identifier"
+    ],
+    [
+      "routing_number",
+      "account_number"
+    ],
+    [
+      "debtor_account",
+      "account_type"
+    ],
+    [
+      "creditor_account",
+      "account_type"
+    ],
+    [
+      "payer_account",
+      "account_number"
+    ],
+    [
+      "payer_account",
+      "primary_account_number"
+    ],
+    [
+      "type",
+      "account_type"
+    ]
+  ],
+  "reviewed_universe": {
+    "dataset": "Payments Risk v11",
+    "schema_files": 8,
+    "payload_files": 40,
+    "distinct_attribute_names": 57
+  },
+  "curation_notes": {
+    "source_files_used": [
+      "ground_truth_aliases_template_v11.json",
+      "predicted_pairs_v11.json",
+      "false_positives_v11.csv",
+      "false_negatives_v11.csv",
+      "ground_truth_aliases.json",
+      "summary_v11.json"
+    ],
+    "closed_world_scope": "Closed-world over the Payments Risk v11 reviewed universe and the SDNF/predicted-pair review set surfaced by v11 outputs.",
+    "policy": "Exact same canonical business fields and obvious schema aliases are labeled true. Role-changing, identifier-type-changing, routing/account, account/type, account/transaction-id, and comment-versus-structured-field merges are labeled negative.",
+    "important_next_run": "Run v12/v11 with --ground_truth_aliases ground_truth_aliases_closed_world_v12.json --ground_truth_closed_world and trace currency/iso_currency_code plus instd_amt/txn_amount."
+  }
+}
