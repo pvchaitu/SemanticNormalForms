@@ -1,0 +1,41 @@
+DATASET SUMMARY
+schema_files_ingested | payload_files_ingested | distinct_attribute_names | metadata_excluded_count
+---------------------------------------------------------------------------------------------------
+8                     | 40                     | 51                       | 14
+
+ALIAS EVALUATION SUMMARY
+mode                | TP | FP   | FN | precision | recall | F1     | explicit_negative_veto_count
+-------------------------------------------------------------------------------------------------
+embed_only_baseline | 15 | 259  | 4  | 0.0547    | 0.7895 | 0.1024 | 0
+sdnf_hybrid         | 17 | 15   | 2  | 0.5312    | 0.8947 | 0.6667 | 13
+no_ecnf             | 18 | 259  | 1  | 0.0650    | 0.9474 | 0.1216 | 0
+no_cmnf             | 17 | 19   | 2  | 0.4722    | 0.8947 | 0.6182 | 0
+no_dbnf             | 17 | 19   | 2  | 0.4722    | 0.8947 | 0.6182 | 0
+no_value_evidence   | 1  | 0    | 18 | 1.0000    | 0.0526 | 0.1000 | 0
+vss_only            | 19 | 1266 | 0  | 0.0148    | 1.0000 | 0.0291 | 0
+shape_only          | 17 | 707  | 2  | 0.0235    | 0.8947 | 0.0458 | 0
+name_ontology_only  | 9  | 0    | 10 | 1.0000    | 0.4737 | 0.6429 | 0
+hybrid              | 17 | 15   | 2  | 0.5312    | 0.8947 | 0.6667 | 13
+
+SRS EVOLVED SCHEMA SUMMARY
+canonical_attribute_count | rejected_merge_count
+------------------------------------------------
+36                        | 13
+
+DBNF SUMMARY
+dbnf_mode | claim_status  | merge_decision_stability | canonical_group_stability
+--------------------------------------------------------------------------------
+off       | NOT_EXERCISED |                          |
+
+CLAIM SUPPORT SUMMARY
+claim                                | measured       | expected                             | status
+------------------------------------------------------------------------------------------------------------
+SDNF precision                       | 53.1%          | paper claim separate                 | MEASURED
+SDNF recall                          | 89.5%          | paper claim separate                 | MEASURED
+SDNF leakage                         | 3.1%           | <=2% if claimed                      | FAIL
+average merge decision under 50ms    | 0.2440         | <50ms                                | PASS
+DBNF                                 | NOT_EXERCISED  | claim-bearing only for controlled... | NOT_EXERCISED
+no accepted production merge is i... | 0              | 0                                    | PASS
+no bridge accepts role-sensitive ... | 0              | 0                                    | PASS
+CMNF cross-context claim             | single context | NOT_EXERCISED for single context     | NOT_EXERCISED
+DBNF claim classification            | NOT_EXERCISED  | DIAGNOSTIC_ONLY for cross-backbon... | NOT_EXERCISED

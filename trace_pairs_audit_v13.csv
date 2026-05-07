@@ -1,0 +1,61 @@
+mode,requested_a,requested_b,pair_key,attr_a,attr_b,final_decision,reason,AANF_status,ECNF_status,CMNF_status
+embed_only_baseline,acct_num,PrimaryAccountNumber,account number <-> primary account number,primary_account_number,account_number,MERGE,embedding cosine threshold only,PASS,PASS,PASS
+sdnf_hybrid,acct_num,PrimaryAccountNumber,account number <-> primary account number,primary_account_number,account_number,MERGE,AANF/ECNF/CMNF passed with bridge: payment_account_number_regex_shape_bridge,PASS,PASS,PASS
+no_ecnf,acct_num,PrimaryAccountNumber,account number <-> primary account number,primary_account_number,account_number,MERGE,AANF+CMNF only; ECNF ablated,PASS,PASS,PASS
+no_cmnf,acct_num,PrimaryAccountNumber,account number <-> primary account number,primary_account_number,account_number,MERGE,AANF+ECNF only; CMNF ablated,PASS,PASS,PASS
+no_dbnf,acct_num,PrimaryAccountNumber,account number <-> primary account number,primary_account_number,account_number,MERGE,AANF/ECNF/CMNF passed with bridge: payment_account_number_regex_shape_bridge,PASS,PASS,PASS
+no_value_evidence,acct_num,PrimaryAccountNumber,account number <-> primary account number,primary_account_number,account_number,DEFER,ECNF failed,PASS,FAIL,PASS
+vss_only,acct_num,PrimaryAccountNumber,account number <-> primary account number,primary_account_number,account_number,MERGE,single/limited evidence mode threshold,PASS,PASS,PASS
+shape_only,acct_num,PrimaryAccountNumber,account number <-> primary account number,primary_account_number,account_number,MERGE,single/limited evidence mode threshold,PASS,PASS,PASS
+name_ontology_only,acct_num,PrimaryAccountNumber,account number <-> primary account number,primary_account_number,account_number,MERGE,single/limited evidence mode threshold,PASS,PASS,PASS
+hybrid,acct_num,PrimaryAccountNumber,account number <-> primary account number,primary_account_number,account_number,MERGE,AANF/ECNF/CMNF passed with bridge: payment_account_number_regex_shape_bridge,PASS,PASS,PASS
+embed_only_baseline,primary_account_number,account_number,account number <-> primary account number,primary_account_number,account_number,MERGE,embedding cosine threshold only,PASS,PASS,PASS
+sdnf_hybrid,primary_account_number,account_number,account number <-> primary account number,primary_account_number,account_number,MERGE,AANF/ECNF/CMNF passed with bridge: payment_account_number_regex_shape_bridge,PASS,PASS,PASS
+no_ecnf,primary_account_number,account_number,account number <-> primary account number,primary_account_number,account_number,MERGE,AANF+CMNF only; ECNF ablated,PASS,PASS,PASS
+no_cmnf,primary_account_number,account_number,account number <-> primary account number,primary_account_number,account_number,MERGE,AANF+ECNF only; CMNF ablated,PASS,PASS,PASS
+no_dbnf,primary_account_number,account_number,account number <-> primary account number,primary_account_number,account_number,MERGE,AANF/ECNF/CMNF passed with bridge: payment_account_number_regex_shape_bridge,PASS,PASS,PASS
+no_value_evidence,primary_account_number,account_number,account number <-> primary account number,primary_account_number,account_number,DEFER,ECNF failed,PASS,FAIL,PASS
+vss_only,primary_account_number,account_number,account number <-> primary account number,primary_account_number,account_number,MERGE,single/limited evidence mode threshold,PASS,PASS,PASS
+shape_only,primary_account_number,account_number,account number <-> primary account number,primary_account_number,account_number,MERGE,single/limited evidence mode threshold,PASS,PASS,PASS
+name_ontology_only,primary_account_number,account_number,account number <-> primary account number,primary_account_number,account_number,MERGE,single/limited evidence mode threshold,PASS,PASS,PASS
+hybrid,primary_account_number,account_number,account number <-> primary account number,primary_account_number,account_number,MERGE,AANF/ECNF/CMNF passed with bridge: payment_account_number_regex_shape_bridge,PASS,PASS,PASS
+embed_only_baseline,currency,iso_currency_code,currency <-> iso currency code,,,NOT_FOUND,,,,
+sdnf_hybrid,currency,iso_currency_code,currency <-> iso currency code,,,NOT_FOUND,,,,
+no_ecnf,currency,iso_currency_code,currency <-> iso currency code,,,NOT_FOUND,,,,
+no_cmnf,currency,iso_currency_code,currency <-> iso currency code,,,NOT_FOUND,,,,
+no_dbnf,currency,iso_currency_code,currency <-> iso currency code,,,NOT_FOUND,,,,
+no_value_evidence,currency,iso_currency_code,currency <-> iso currency code,,,NOT_FOUND,,,,
+vss_only,currency,iso_currency_code,currency <-> iso currency code,,,NOT_FOUND,,,,
+shape_only,currency,iso_currency_code,currency <-> iso currency code,,,NOT_FOUND,,,,
+name_ontology_only,currency,iso_currency_code,currency <-> iso currency code,,,NOT_FOUND,,,,
+hybrid,currency,iso_currency_code,currency <-> iso currency code,,,NOT_FOUND,,,,
+embed_only_baseline,instd_amt,txn_amount,instd amount <-> transaction amount,instd_amt,transaction_amount,DEFER,embedding below threshold or role conflict,FAIL,FAIL,PASS
+sdnf_hybrid,instd_amt,txn_amount,instd amount <-> transaction amount,instd_amt,transaction_amount,MERGE,AANF/ECNF/CMNF passed with bridge: payment_amount_ontology_regex_bridge,BRIDGED_PASS,BRIDGED_PASS,PASS
+no_ecnf,instd_amt,txn_amount,instd amount <-> transaction amount,instd_amt,transaction_amount,MERGE,AANF+CMNF only; ECNF ablated,BRIDGED_PASS,BRIDGED_PASS,PASS
+no_cmnf,instd_amt,txn_amount,instd amount <-> transaction amount,instd_amt,transaction_amount,MERGE,AANF+ECNF only; CMNF ablated,BRIDGED_PASS,BRIDGED_PASS,PASS
+no_dbnf,instd_amt,txn_amount,instd amount <-> transaction amount,instd_amt,transaction_amount,MERGE,AANF/ECNF/CMNF passed with bridge: payment_amount_ontology_regex_bridge,BRIDGED_PASS,BRIDGED_PASS,PASS
+no_value_evidence,instd_amt,txn_amount,instd amount <-> transaction amount,instd_amt,transaction_amount,DEFER,AANF failed; ECNF failed,FAIL,FAIL,PASS
+vss_only,instd_amt,txn_amount,instd amount <-> transaction amount,instd_amt,transaction_amount,MERGE,single/limited evidence mode threshold,BRIDGED_PASS,BRIDGED_PASS,PASS
+shape_only,instd_amt,txn_amount,instd amount <-> transaction amount,instd_amt,transaction_amount,MERGE,single/limited evidence mode threshold,BRIDGED_PASS,BRIDGED_PASS,PASS
+name_ontology_only,instd_amt,txn_amount,instd amount <-> transaction amount,instd_amt,transaction_amount,DEFER,limited evidence below gamma,FAIL,FAIL,PASS
+hybrid,instd_amt,txn_amount,instd amount <-> transaction amount,instd_amt,transaction_amount,MERGE,AANF/ECNF/CMNF passed with bridge: payment_amount_ontology_regex_bridge,BRIDGED_PASS,BRIDGED_PASS,PASS
+embed_only_baseline,amount,txn_amount,amount <-> transaction amount,transaction_amount,amount,MERGE,embedding cosine threshold only,PASS,PASS,PASS
+sdnf_hybrid,amount,txn_amount,amount <-> transaction amount,transaction_amount,amount,MERGE,AANF/ECNF/CMNF passed with bridge: payment_amount_ontology_regex_bridge,PASS,PASS,PASS
+no_ecnf,amount,txn_amount,amount <-> transaction amount,transaction_amount,amount,MERGE,AANF+CMNF only; ECNF ablated,PASS,PASS,PASS
+no_cmnf,amount,txn_amount,amount <-> transaction amount,transaction_amount,amount,MERGE,AANF+ECNF only; CMNF ablated,PASS,PASS,PASS
+no_dbnf,amount,txn_amount,amount <-> transaction amount,transaction_amount,amount,MERGE,AANF/ECNF/CMNF passed with bridge: payment_amount_ontology_regex_bridge,PASS,PASS,PASS
+no_value_evidence,amount,txn_amount,amount <-> transaction amount,transaction_amount,amount,DEFER,ECNF failed,PASS,FAIL,PASS
+vss_only,amount,txn_amount,amount <-> transaction amount,transaction_amount,amount,MERGE,single/limited evidence mode threshold,PASS,PASS,PASS
+shape_only,amount,txn_amount,amount <-> transaction amount,transaction_amount,amount,MERGE,single/limited evidence mode threshold,PASS,PASS,PASS
+name_ontology_only,amount,txn_amount,amount <-> transaction amount,transaction_amount,amount,DEFER,limited evidence below gamma,PASS,BRIDGED_PASS,PASS
+hybrid,amount,txn_amount,amount <-> transaction amount,transaction_amount,amount,MERGE,AANF/ECNF/CMNF passed with bridge: payment_amount_ontology_regex_bridge,PASS,PASS,PASS
+embed_only_baseline,pan,account_number,account number <-> primary account number,primary_account_number,account_number,MERGE,embedding cosine threshold only,PASS,PASS,PASS
+sdnf_hybrid,pan,account_number,account number <-> primary account number,primary_account_number,account_number,MERGE,AANF/ECNF/CMNF passed with bridge: payment_account_number_regex_shape_bridge,PASS,PASS,PASS
+no_ecnf,pan,account_number,account number <-> primary account number,primary_account_number,account_number,MERGE,AANF+CMNF only; ECNF ablated,PASS,PASS,PASS
+no_cmnf,pan,account_number,account number <-> primary account number,primary_account_number,account_number,MERGE,AANF+ECNF only; CMNF ablated,PASS,PASS,PASS
+no_dbnf,pan,account_number,account number <-> primary account number,primary_account_number,account_number,MERGE,AANF/ECNF/CMNF passed with bridge: payment_account_number_regex_shape_bridge,PASS,PASS,PASS
+no_value_evidence,pan,account_number,account number <-> primary account number,primary_account_number,account_number,DEFER,ECNF failed,PASS,FAIL,PASS
+vss_only,pan,account_number,account number <-> primary account number,primary_account_number,account_number,MERGE,single/limited evidence mode threshold,PASS,PASS,PASS
+shape_only,pan,account_number,account number <-> primary account number,primary_account_number,account_number,MERGE,single/limited evidence mode threshold,PASS,PASS,PASS
+name_ontology_only,pan,account_number,account number <-> primary account number,primary_account_number,account_number,MERGE,single/limited evidence mode threshold,PASS,PASS,PASS
+hybrid,pan,account_number,account number <-> primary account number,primary_account_number,account_number,MERGE,AANF/ECNF/CMNF passed with bridge: payment_account_number_regex_shape_bridge,PASS,PASS,PASS

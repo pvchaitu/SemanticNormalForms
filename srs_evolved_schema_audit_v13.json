@@ -1,0 +1,1164 @@
+{
+  "srs_version": "v13",
+  "dataset_summary": {
+    "schema_files_ingested": 8,
+    "payload_files_ingested": 40,
+    "raw_attribute_records": 90,
+    "distinct_attribute_names": 57,
+    "value_evidence_available": 57,
+    "value_evidence_missing": 0,
+    "missing_fraction": 0.0,
+    "metadata_policy": "audit",
+    "metadata_excluded_count": 0
+  },
+  "model": "all-MiniLM-L6-v2",
+  "context": "Payments Risk",
+  "ground_truth_source": "ground_truth_aliases_closed_world_v12.json",
+  "canonical_attributes": [
+    {
+      "srs_node_id": "SRS-v13-0000",
+      "canonical_name": "account identifier",
+      "members": [
+        "account identifier"
+      ],
+      "sources": [
+        "Plaid.json"
+      ],
+      "normal_forms_satisfied": [],
+      "evidence_summary": {
+        "ontology_root": [
+          "payment:account"
+        ],
+        "evidence_signal_count_min": null,
+        "aggregate_score_min": null,
+        "bridge_rules_used": []
+      },
+      "lineage": {
+        "created_in": "v13",
+        "previous_node": null,
+        "action": "NEW"
+      }
+    },
+    {
+      "srs_node_id": "SRS-v13-0001",
+      "canonical_name": "account number",
+      "members": [
+        "account number",
+        "primary account number"
+      ],
+      "sources": [
+        "Mastercard.json",
+        "PPVisa.json",
+        "Plaid.json"
+      ],
+      "normal_forms_satisfied": [
+        "AANF",
+        "CMNF",
+        "ECNF"
+      ],
+      "evidence_summary": {
+        "ontology_root": [
+          "payment:account"
+        ],
+        "evidence_signal_count_min": 6,
+        "aggregate_score_min": 0.7931483920415243,
+        "bridge_rules_used": [
+          "payment_account_number_regex_shape_bridge"
+        ]
+      },
+      "lineage": {
+        "created_in": "v13",
+        "previous_node": null,
+        "action": "NEW"
+      }
+    },
+    {
+      "srs_node_id": "SRS-v13-0002",
+      "canonical_name": "account type",
+      "members": [
+        "account type"
+      ],
+      "sources": [
+        "Plaid.json"
+      ],
+      "normal_forms_satisfied": [],
+      "evidence_summary": {
+        "ontology_root": [
+          "payment:account_type"
+        ],
+        "evidence_signal_count_min": null,
+        "aggregate_score_min": null,
+        "bridge_rules_used": []
+      },
+      "lineage": {
+        "created_in": "v13",
+        "previous_node": null,
+        "action": "NEW"
+      }
+    },
+    {
+      "srs_node_id": "SRS-v13-0003",
+      "canonical_name": "aliases",
+      "members": [
+        "aliases"
+      ],
+      "sources": [
+        "INAmex.json"
+      ],
+      "normal_forms_satisfied": [],
+      "evidence_summary": {
+        "ontology_root": [],
+        "evidence_signal_count_min": null,
+        "aggregate_score_min": null,
+        "bridge_rules_used": []
+      },
+      "lineage": {
+        "created_in": "v13",
+        "previous_node": null,
+        "action": "NEW"
+      }
+    },
+    {
+      "srs_node_id": "SRS-v13-0004",
+      "canonical_name": "amount",
+      "members": [
+        "amount",
+        "instd amount",
+        "transaction amount"
+      ],
+      "sources": [
+        "ISO20022.json",
+        "Mastercard.json",
+        "Plaid.json",
+        "Razorpay.json",
+        "Stripe.json",
+        "UPI.json"
+      ],
+      "normal_forms_satisfied": [
+        "AANF",
+        "CMNF",
+        "ECNF"
+      ],
+      "evidence_summary": {
+        "ontology_root": [
+          "payment:amount"
+        ],
+        "evidence_signal_count_min": 3,
+        "aggregate_score_min": 0.697669545809428,
+        "bridge_rules_used": [
+          "payment_amount_ontology_regex_bridge"
+        ]
+      },
+      "lineage": {
+        "created_in": "v13",
+        "previous_node": null,
+        "action": "NEW"
+      }
+    },
+    {
+      "srs_node_id": "SRS-v13-0005",
+      "canonical_name": "balance current",
+      "members": [
+        "balance current"
+      ],
+      "sources": [
+        "Plaid.json"
+      ],
+      "normal_forms_satisfied": [],
+      "evidence_summary": {
+        "ontology_root": [],
+        "evidence_signal_count_min": null,
+        "aggregate_score_min": null,
+        "bridge_rules_used": []
+      },
+      "lineage": {
+        "created_in": "v13",
+        "previous_node": null,
+        "action": "NEW"
+      }
+    },
+    {
+      "srs_node_id": "SRS-v13-0006",
+      "canonical_name": "card acceptor identifier",
+      "members": [
+        "card acceptor identifier",
+        "customer identifier",
+        "end to end identifier",
+        "method",
+        "msg identifier",
+        "payment intent identifier",
+        "payment method",
+        "razorpay payment identifier",
+        "schema identifier",
+        "transaction identifier"
+      ],
+      "sources": [
+        "INAmex.json",
+        "ISO20022.json",
+        "Mastercard.json",
+        "Plaid.json",
+        "Razorpay.json",
+        "Stripe.json",
+        "UPI.json"
+      ],
+      "normal_forms_satisfied": [
+        "AANF",
+        "CMNF",
+        "ECNF"
+      ],
+      "evidence_summary": {
+        "ontology_root": [
+          "identifier",
+          "payment:method"
+        ],
+        "evidence_signal_count_min": 4,
+        "aggregate_score_min": 0.7022136092185974,
+        "bridge_rules_used": []
+      },
+      "lineage": {
+        "created_in": "v13",
+        "previous_node": null,
+        "action": "NEW"
+      }
+    },
+    {
+      "srs_node_id": "SRS-v13-0007",
+      "canonical_name": "card brand",
+      "members": [
+        "card brand"
+      ],
+      "sources": [
+        "Stripe.json"
+      ],
+      "normal_forms_satisfied": [],
+      "evidence_summary": {
+        "ontology_root": [],
+        "evidence_signal_count_min": null,
+        "aggregate_score_min": null,
+        "bridge_rules_used": []
+      },
+      "lineage": {
+        "created_in": "v13",
+        "previous_node": null,
+        "action": "NEW"
+      }
+    },
+    {
+      "srs_node_id": "SRS-v13-0008",
+      "canonical_name": "card last4",
+      "members": [
+        "card last4"
+      ],
+      "sources": [
+        "Stripe.json"
+      ],
+      "normal_forms_satisfied": [],
+      "evidence_summary": {
+        "ontology_root": [],
+        "evidence_signal_count_min": null,
+        "aggregate_score_min": null,
+        "bridge_rules_used": []
+      },
+      "lineage": {
+        "created_in": "v13",
+        "previous_node": null,
+        "action": "NEW"
+      }
+    },
+    {
+      "srs_node_id": "SRS-v13-0009",
+      "canonical_name": "cardholder",
+      "members": [
+        "cardholder"
+      ],
+      "sources": [
+        "PPVisa.json"
+      ],
+      "normal_forms_satisfied": [],
+      "evidence_summary": {
+        "ontology_root": [
+          "party:name"
+        ],
+        "evidence_signal_count_min": null,
+        "aggregate_score_min": null,
+        "bridge_rules_used": []
+      },
+      "lineage": {
+        "created_in": "v13",
+        "previous_node": null,
+        "action": "NEW"
+      }
+    },
+    {
+      "srs_node_id": "SRS-v13-0010",
+      "canonical_name": "comment",
+      "members": [
+        "comment",
+        "description"
+      ],
+      "sources": [
+        "INAmex.json",
+        "ISO20022.json",
+        "Mastercard.json",
+        "PPVisa.json",
+        "Plaid.json",
+        "Razorpay.json",
+        "Stripe.json",
+        "UPI.json"
+      ],
+      "normal_forms_satisfied": [
+        "AANF",
+        "CMNF",
+        "ECNF"
+      ],
+      "evidence_summary": {
+        "ontology_root": [
+          "text:description"
+        ],
+        "evidence_signal_count_min": 4,
+        "aggregate_score_min": 0.7589573979377747,
+        "bridge_rules_used": []
+      },
+      "lineage": {
+        "created_in": "v13",
+        "previous_node": null,
+        "action": "NEW"
+      }
+    },
+    {
+      "srs_node_id": "SRS-v13-0011",
+      "canonical_name": "contact",
+      "members": [
+        "contact"
+      ],
+      "sources": [
+        "Razorpay.json"
+      ],
+      "normal_forms_satisfied": [],
+      "evidence_summary": {
+        "ontology_root": [],
+        "evidence_signal_count_min": null,
+        "aggregate_score_min": null,
+        "bridge_rules_used": []
+      },
+      "lineage": {
+        "created_in": "v13",
+        "previous_node": null,
+        "action": "NEW"
+      }
+    },
+    {
+      "srs_node_id": "SRS-v13-0012",
+      "canonical_name": "created",
+      "members": [
+        "created"
+      ],
+      "sources": [
+        "Stripe.json"
+      ],
+      "normal_forms_satisfied": [],
+      "evidence_summary": {
+        "ontology_root": [],
+        "evidence_signal_count_min": null,
+        "aggregate_score_min": null,
+        "bridge_rules_used": []
+      },
+      "lineage": {
+        "created_in": "v13",
+        "previous_node": null,
+        "action": "NEW"
+      }
+    },
+    {
+      "srs_node_id": "SRS-v13-0013",
+      "canonical_name": "created at",
+      "members": [
+        "created at"
+      ],
+      "sources": [
+        "INAmex.json",
+        "Razorpay.json"
+      ],
+      "normal_forms_satisfied": [
+        "AANF",
+        "CMNF",
+        "ECNF"
+      ],
+      "evidence_summary": {
+        "ontology_root": [],
+        "evidence_signal_count_min": 4,
+        "aggregate_score_min": 0.7037055134773255,
+        "bridge_rules_used": []
+      },
+      "lineage": {
+        "created_in": "v13",
+        "previous_node": null,
+        "action": "NEW"
+      }
+    },
+    {
+      "srs_node_id": "SRS-v13-0014",
+      "canonical_name": "creditor account",
+      "members": [
+        "creditor account"
+      ],
+      "sources": [
+        "ISO20022.json"
+      ],
+      "normal_forms_satisfied": [],
+      "evidence_summary": {
+        "ontology_root": [
+          "payment:account"
+        ],
+        "evidence_signal_count_min": null,
+        "aggregate_score_min": null,
+        "bridge_rules_used": []
+      },
+      "lineage": {
+        "created_in": "v13",
+        "previous_node": null,
+        "action": "NEW"
+      }
+    },
+    {
+      "srs_node_id": "SRS-v13-0015",
+      "canonical_name": "creditor name",
+      "members": [
+        "creditor name"
+      ],
+      "sources": [
+        "ISO20022.json"
+      ],
+      "normal_forms_satisfied": [],
+      "evidence_summary": {
+        "ontology_root": [
+          "party:name"
+        ],
+        "evidence_signal_count_min": null,
+        "aggregate_score_min": null,
+        "bridge_rules_used": []
+      },
+      "lineage": {
+        "created_in": "v13",
+        "previous_node": null,
+        "action": "NEW"
+      }
+    },
+    {
+      "srs_node_id": "SRS-v13-0016",
+      "canonical_name": "currency",
+      "members": [
+        "currency"
+      ],
+      "sources": [
+        "ISO20022.json",
+        "Plaid.json",
+        "Razorpay.json",
+        "Stripe.json",
+        "UPI.json"
+      ],
+      "normal_forms_satisfied": [
+        "AANF",
+        "CMNF",
+        "ECNF"
+      ],
+      "evidence_summary": {
+        "ontology_root": [
+          "payment:currency"
+        ],
+        "evidence_signal_count_min": 7,
+        "aggregate_score_min": 0.9038530349731446,
+        "bridge_rules_used": [
+          "payment_currency_code_bridge"
+        ]
+      },
+      "lineage": {
+        "created_in": "v13",
+        "previous_node": null,
+        "action": "NEW"
+      }
+    },
+    {
+      "srs_node_id": "SRS-v13-0017",
+      "canonical_name": "cvv",
+      "members": [
+        "cvv"
+      ],
+      "sources": [
+        "PPVisa.json"
+      ],
+      "normal_forms_satisfied": [],
+      "evidence_summary": {
+        "ontology_root": [],
+        "evidence_signal_count_min": null,
+        "aggregate_score_min": null,
+        "bridge_rules_used": []
+      },
+      "lineage": {
+        "created_in": "v13",
+        "previous_node": null,
+        "action": "NEW"
+      }
+    },
+    {
+      "srs_node_id": "SRS-v13-0018",
+      "canonical_name": "debtor account",
+      "members": [
+        "debtor account"
+      ],
+      "sources": [
+        "ISO20022.json"
+      ],
+      "normal_forms_satisfied": [],
+      "evidence_summary": {
+        "ontology_root": [
+          "payment:account"
+        ],
+        "evidence_signal_count_min": null,
+        "aggregate_score_min": null,
+        "bridge_rules_used": []
+      },
+      "lineage": {
+        "created_in": "v13",
+        "previous_node": null,
+        "action": "NEW"
+      }
+    },
+    {
+      "srs_node_id": "SRS-v13-0019",
+      "canonical_name": "debtor name",
+      "members": [
+        "debtor name"
+      ],
+      "sources": [
+        "ISO20022.json"
+      ],
+      "normal_forms_satisfied": [],
+      "evidence_summary": {
+        "ontology_root": [
+          "party:name"
+        ],
+        "evidence_signal_count_min": null,
+        "aggregate_score_min": null,
+        "bridge_rules_used": []
+      },
+      "lineage": {
+        "created_in": "v13",
+        "previous_node": null,
+        "action": "NEW"
+      }
+    },
+    {
+      "srs_node_id": "SRS-v13-0020",
+      "canonical_name": "email",
+      "members": [
+        "email"
+      ],
+      "sources": [
+        "Razorpay.json"
+      ],
+      "normal_forms_satisfied": [],
+      "evidence_summary": {
+        "ontology_root": [],
+        "evidence_signal_count_min": null,
+        "aggregate_score_min": null,
+        "bridge_rules_used": []
+      },
+      "lineage": {
+        "created_in": "v13",
+        "previous_node": null,
+        "action": "NEW"
+      }
+    },
+    {
+      "srs_node_id": "SRS-v13-0021",
+      "canonical_name": "entity",
+      "members": [
+        "entity"
+      ],
+      "sources": [
+        "INAmex.json"
+      ],
+      "normal_forms_satisfied": [],
+      "evidence_summary": {
+        "ontology_root": [],
+        "evidence_signal_count_min": null,
+        "aggregate_score_min": null,
+        "bridge_rules_used": []
+      },
+      "lineage": {
+        "created_in": "v13",
+        "previous_node": null,
+        "action": "NEW"
+      }
+    },
+    {
+      "srs_node_id": "SRS-v13-0022",
+      "canonical_name": "exp",
+      "members": [
+        "exp"
+      ],
+      "sources": [
+        "PPVisa.json"
+      ],
+      "normal_forms_satisfied": [],
+      "evidence_summary": {
+        "ontology_root": [],
+        "evidence_signal_count_min": null,
+        "aggregate_score_min": null,
+        "bridge_rules_used": []
+      },
+      "lineage": {
+        "created_in": "v13",
+        "previous_node": null,
+        "action": "NEW"
+      }
+    },
+    {
+      "srs_node_id": "SRS-v13-0023",
+      "canonical_name": "issuer",
+      "members": [
+        "issuer"
+      ],
+      "sources": [
+        "PPVisa.json"
+      ],
+      "normal_forms_satisfied": [],
+      "evidence_summary": {
+        "ontology_root": [],
+        "evidence_signal_count_min": null,
+        "aggregate_score_min": null,
+        "bridge_rules_used": []
+      },
+      "lineage": {
+        "created_in": "v13",
+        "previous_node": null,
+        "action": "NEW"
+      }
+    },
+    {
+      "srs_node_id": "SRS-v13-0024",
+      "canonical_name": "merchant category code",
+      "members": [
+        "merchant category code"
+      ],
+      "sources": [
+        "Mastercard.json"
+      ],
+      "normal_forms_satisfied": [],
+      "evidence_summary": {
+        "ontology_root": [
+          "party:name"
+        ],
+        "evidence_signal_count_min": null,
+        "aggregate_score_min": null,
+        "bridge_rules_used": []
+      },
+      "lineage": {
+        "created_in": "v13",
+        "previous_node": null,
+        "action": "NEW"
+      }
+    },
+    {
+      "srs_node_id": "SRS-v13-0025",
+      "canonical_name": "name",
+      "members": [
+        "name"
+      ],
+      "sources": [
+        "INAmex.json"
+      ],
+      "normal_forms_satisfied": [],
+      "evidence_summary": {
+        "ontology_root": [
+          "party:name"
+        ],
+        "evidence_signal_count_min": null,
+        "aggregate_score_min": null,
+        "bridge_rules_used": []
+      },
+      "lineage": {
+        "created_in": "v13",
+        "previous_node": null,
+        "action": "NEW"
+      }
+    },
+    {
+      "srs_node_id": "SRS-v13-0026",
+      "canonical_name": "pattern",
+      "members": [
+        "pattern"
+      ],
+      "sources": [
+        "INAmex.json"
+      ],
+      "normal_forms_satisfied": [],
+      "evidence_summary": {
+        "ontology_root": [],
+        "evidence_signal_count_min": null,
+        "aggregate_score_min": null,
+        "bridge_rules_used": []
+      },
+      "lineage": {
+        "created_in": "v13",
+        "previous_node": null,
+        "action": "NEW"
+      }
+    },
+    {
+      "srs_node_id": "SRS-v13-0027",
+      "canonical_name": "payee vpa",
+      "members": [
+        "payee vpa",
+        "vpa"
+      ],
+      "sources": [
+        "Razorpay.json",
+        "UPI.json"
+      ],
+      "normal_forms_satisfied": [
+        "AANF",
+        "CMNF",
+        "ECNF"
+      ],
+      "evidence_summary": {
+        "ontology_root": [
+          "party:name"
+        ],
+        "evidence_signal_count_min": 4,
+        "aggregate_score_min": 0.7047310709953308,
+        "bridge_rules_used": []
+      },
+      "lineage": {
+        "created_in": "v13",
+        "previous_node": null,
+        "action": "NEW"
+      }
+    },
+    {
+      "srs_node_id": "SRS-v13-0028",
+      "canonical_name": "payer account",
+      "members": [
+        "payer account"
+      ],
+      "sources": [
+        "UPI.json"
+      ],
+      "normal_forms_satisfied": [],
+      "evidence_summary": {
+        "ontology_root": [
+          "payment:account"
+        ],
+        "evidence_signal_count_min": null,
+        "aggregate_score_min": null,
+        "bridge_rules_used": []
+      },
+      "lineage": {
+        "created_in": "v13",
+        "previous_node": null,
+        "action": "NEW"
+      }
+    },
+    {
+      "srs_node_id": "SRS-v13-0029",
+      "canonical_name": "processing code",
+      "members": [
+        "processing code"
+      ],
+      "sources": [
+        "Mastercard.json"
+      ],
+      "normal_forms_satisfied": [],
+      "evidence_summary": {
+        "ontology_root": [],
+        "evidence_signal_count_min": null,
+        "aggregate_score_min": null,
+        "bridge_rules_used": []
+      },
+      "lineage": {
+        "created_in": "v13",
+        "previous_node": null,
+        "action": "NEW"
+      }
+    },
+    {
+      "srs_node_id": "SRS-v13-0030",
+      "canonical_name": "razorpay order identifier",
+      "members": [
+        "razorpay order identifier"
+      ],
+      "sources": [
+        "Razorpay.json"
+      ],
+      "normal_forms_satisfied": [],
+      "evidence_summary": {
+        "ontology_root": [
+          "identifier"
+        ],
+        "evidence_signal_count_min": null,
+        "aggregate_score_min": null,
+        "bridge_rules_used": []
+      },
+      "lineage": {
+        "created_in": "v13",
+        "previous_node": null,
+        "action": "NEW"
+      }
+    },
+    {
+      "srs_node_id": "SRS-v13-0031",
+      "canonical_name": "reqd exctn dt",
+      "members": [
+        "reqd exctn dt"
+      ],
+      "sources": [
+        "ISO20022.json"
+      ],
+      "normal_forms_satisfied": [],
+      "evidence_summary": {
+        "ontology_root": [],
+        "evidence_signal_count_min": null,
+        "aggregate_score_min": null,
+        "bridge_rules_used": []
+      },
+      "lineage": {
+        "created_in": "v13",
+        "previous_node": null,
+        "action": "NEW"
+      }
+    },
+    {
+      "srs_node_id": "SRS-v13-0032",
+      "canonical_name": "routing number",
+      "members": [
+        "routing number"
+      ],
+      "sources": [
+        "Plaid.json"
+      ],
+      "normal_forms_satisfied": [],
+      "evidence_summary": {
+        "ontology_root": [
+          "payment:routing"
+        ],
+        "evidence_signal_count_min": null,
+        "aggregate_score_min": null,
+        "bridge_rules_used": []
+      },
+      "lineage": {
+        "created_in": "v13",
+        "previous_node": null,
+        "action": "NEW"
+      }
+    },
+    {
+      "srs_node_id": "SRS-v13-0033",
+      "canonical_name": "source",
+      "members": [
+        "source"
+      ],
+      "sources": [
+        "INAmex.json"
+      ],
+      "normal_forms_satisfied": [],
+      "evidence_summary": {
+        "ontology_root": [],
+        "evidence_signal_count_min": null,
+        "aggregate_score_min": null,
+        "bridge_rules_used": []
+      },
+      "lineage": {
+        "created_in": "v13",
+        "previous_node": null,
+        "action": "NEW"
+      }
+    },
+    {
+      "srs_node_id": "SRS-v13-0034",
+      "canonical_name": "status",
+      "members": [
+        "status"
+      ],
+      "sources": [
+        "Razorpay.json",
+        "Stripe.json"
+      ],
+      "normal_forms_satisfied": [
+        "AANF",
+        "CMNF",
+        "ECNF"
+      ],
+      "evidence_summary": {
+        "ontology_root": [
+          "payment:status"
+        ],
+        "evidence_signal_count_min": 6,
+        "aggregate_score_min": 0.893558144569397,
+        "bridge_rules_used": []
+      },
+      "lineage": {
+        "created_in": "v13",
+        "previous_node": null,
+        "action": "NEW"
+      }
+    },
+    {
+      "srs_node_id": "SRS-v13-0035",
+      "canonical_name": "system trace audit number",
+      "members": [
+        "system trace audit number"
+      ],
+      "sources": [
+        "Mastercard.json"
+      ],
+      "normal_forms_satisfied": [],
+      "evidence_summary": {
+        "ontology_root": [],
+        "evidence_signal_count_min": null,
+        "aggregate_score_min": null,
+        "bridge_rules_used": []
+      },
+      "lineage": {
+        "created_in": "v13",
+        "previous_node": null,
+        "action": "NEW"
+      }
+    },
+    {
+      "srs_node_id": "SRS-v13-0036",
+      "canonical_name": "tags",
+      "members": [
+        "tags"
+      ],
+      "sources": [
+        "INAmex.json"
+      ],
+      "normal_forms_satisfied": [],
+      "evidence_summary": {
+        "ontology_root": [],
+        "evidence_signal_count_min": null,
+        "aggregate_score_min": null,
+        "bridge_rules_used": []
+      },
+      "lineage": {
+        "created_in": "v13",
+        "previous_node": null,
+        "action": "NEW"
+      }
+    },
+    {
+      "srs_node_id": "SRS-v13-0037",
+      "canonical_name": "transaction date",
+      "members": [
+        "transaction date"
+      ],
+      "sources": [
+        "Plaid.json"
+      ],
+      "normal_forms_satisfied": [],
+      "evidence_summary": {
+        "ontology_root": [],
+        "evidence_signal_count_min": null,
+        "aggregate_score_min": null,
+        "bridge_rules_used": []
+      },
+      "lineage": {
+        "created_in": "v13",
+        "previous_node": null,
+        "action": "NEW"
+      }
+    },
+    {
+      "srs_node_id": "SRS-v13-0038",
+      "canonical_name": "transaction status",
+      "members": [
+        "transaction status",
+        "transaction timestamp"
+      ],
+      "sources": [
+        "UPI.json"
+      ],
+      "normal_forms_satisfied": [
+        "AANF",
+        "CMNF",
+        "ECNF"
+      ],
+      "evidence_summary": {
+        "ontology_root": [
+          "payment:status"
+        ],
+        "evidence_signal_count_min": 4,
+        "aggregate_score_min": 0.7052331368128458,
+        "bridge_rules_used": []
+      },
+      "lineage": {
+        "created_in": "v13",
+        "previous_node": null,
+        "action": "NEW"
+      }
+    },
+    {
+      "srs_node_id": "SRS-v13-0039",
+      "canonical_name": "transmission datetime",
+      "members": [
+        "transmission datetime"
+      ],
+      "sources": [
+        "Mastercard.json"
+      ],
+      "normal_forms_satisfied": [],
+      "evidence_summary": {
+        "ontology_root": [],
+        "evidence_signal_count_min": null,
+        "aggregate_score_min": null,
+        "bridge_rules_used": []
+      },
+      "lineage": {
+        "created_in": "v13",
+        "previous_node": null,
+        "action": "NEW"
+      }
+    },
+    {
+      "srs_node_id": "SRS-v13-0040",
+      "canonical_name": "type",
+      "members": [
+        "type"
+      ],
+      "sources": [
+        "INAmex.json"
+      ],
+      "normal_forms_satisfied": [],
+      "evidence_summary": {
+        "ontology_root": [
+          "payment:account_type"
+        ],
+        "evidence_signal_count_min": null,
+        "aggregate_score_min": null,
+        "bridge_rules_used": []
+      },
+      "lineage": {
+        "created_in": "v13",
+        "previous_node": null,
+        "action": "NEW"
+      }
+    },
+    {
+      "srs_node_id": "SRS-v13-0041",
+      "canonical_name": "version",
+      "members": [
+        "version"
+      ],
+      "sources": [
+        "INAmex.json"
+      ],
+      "normal_forms_satisfied": [],
+      "evidence_summary": {
+        "ontology_root": [],
+        "evidence_signal_count_min": null,
+        "aggregate_score_min": null,
+        "bridge_rules_used": []
+      },
+      "lineage": {
+        "created_in": "v13",
+        "previous_node": null,
+        "action": "NEW"
+      }
+    }
+  ],
+  "rejected_merges": [
+    {
+      "pair": [
+        "comment",
+        "currency"
+      ],
+      "reason": "EXPLICIT_NEGATIVE_HARD_VETO"
+    },
+    {
+      "pair": [
+        "comment",
+        "transaction amount"
+      ],
+      "reason": "EXPLICIT_NEGATIVE_HARD_VETO"
+    },
+    {
+      "pair": [
+        "amount",
+        "comment"
+      ],
+      "reason": "EXPLICIT_NEGATIVE_HARD_VETO"
+    },
+    {
+      "pair": [
+        "account type",
+        "type"
+      ],
+      "reason": "EXPLICIT_NEGATIVE_HARD_VETO"
+    },
+    {
+      "pair": [
+        "account type",
+        "debtor account"
+      ],
+      "reason": "EXPLICIT_NEGATIVE_HARD_VETO"
+    },
+    {
+      "pair": [
+        "account type",
+        "creditor account"
+      ],
+      "reason": "EXPLICIT_NEGATIVE_HARD_VETO"
+    },
+    {
+      "pair": [
+        "payer account",
+        "primary account number"
+      ],
+      "reason": "EXPLICIT_NEGATIVE_HARD_VETO"
+    },
+    {
+      "pair": [
+        "account identifier",
+        "account type"
+      ],
+      "reason": "EXPLICIT_NEGATIVE_HARD_VETO"
+    },
+    {
+      "pair": [
+        "account identifier",
+        "transaction identifier"
+      ],
+      "reason": "EXPLICIT_NEGATIVE_HARD_VETO"
+    },
+    {
+      "pair": [
+        "account identifier",
+        "amount"
+      ],
+      "reason": "EXPLICIT_NEGATIVE_HARD_VETO"
+    },
+    {
+      "pair": [
+        "account number",
+        "routing number"
+      ],
+      "reason": "EXPLICIT_NEGATIVE_HARD_VETO"
+    },
+    {
+      "pair": [
+        "account number",
+        "payer account"
+      ],
+      "reason": "EXPLICIT_NEGATIVE_HARD_VETO"
+    },
+    {
+      "pair": [
+        "razorpay order identifier",
+        "razorpay payment identifier"
+      ],
+      "reason": "EXPLICIT_NEGATIVE_HARD_VETO"
+    }
+  ],
+  "conflicts": []
+}

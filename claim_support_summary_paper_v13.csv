@@ -1,0 +1,10 @@
+claim,measured,expected,status
+SDNF precision,53.1%,paper claim separate,MEASURED
+SDNF recall,89.5%,paper claim separate,MEASURED
+SDNF leakage,3.1%,<=2% if claimed,FAIL
+average merge decision under 50ms,0.2440,<50ms,PASS
+DBNF,NOT_EXERCISED,claim-bearing only for controlled or same-family version DBNF,NOT_EXERCISED
+no accepted production merge is in negative_pairs,0,0,PASS
+no bridge accepts role-sensitive unsafe merge,0,0,PASS
+CMNF cross-context claim,single context,NOT_EXERCISED for single context,NOT_EXERCISED
+DBNF claim classification,NOT_EXERCISED,DIAGNOSTIC_ONLY for cross-backbone unless explicitly allowed,NOT_EXERCISED

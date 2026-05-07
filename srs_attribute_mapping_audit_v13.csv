@@ -1,0 +1,77 @@
+raw_attribute,normalized_attribute,canonical_attribute,source_file,context,ontology_root,srs_node_id,lineage_action,merge_decision,reason
+account_id,account identifier,account identifier,Plaid.json,Payments Risk,payment:account,SRS-v13-0000,NEW,SINGLETON,SRS canonical group
+primary_account_number,primary account number,account number,Mastercard.json,Payments Risk,payment:account,SRS-v13-0001,NEW,MERGED,SRS canonical group
+account_number,account number,account number,Plaid.json,Payments Risk,payment:account,SRS-v13-0001,NEW,MERGED,SRS canonical group
+pan,primary account number,account number,PPVisa.json,Payments Risk,payment:account,SRS-v13-0001,NEW,MERGED,SRS canonical group
+account_type,account type,account type,Plaid.json,Payments Risk,payment:account_type,SRS-v13-0002,NEW,SINGLETON,SRS canonical group
+aliases,aliases,aliases,INAmex.json,Payments Risk,,SRS-v13-0003,NEW,SINGLETON,SRS canonical group
+instd_amt,instd amount,amount,ISO20022.json,Payments Risk,payment:amount,SRS-v13-0004,NEW,MERGED,SRS canonical group
+transaction_amount,transaction amount,amount,Mastercard.json,Payments Risk,payment:amount,SRS-v13-0004,NEW,MERGED,SRS canonical group
+transaction_amount,transaction amount,amount,Plaid.json,Payments Risk,payment:amount,SRS-v13-0004,NEW,MERGED,SRS canonical group
+amount,amount,amount,Razorpay.json,Payments Risk,payment:amount,SRS-v13-0004,NEW,MERGED,SRS canonical group
+amount,amount,amount,Stripe.json,Payments Risk,payment:amount,SRS-v13-0004,NEW,MERGED,SRS canonical group
+txn_amount,transaction amount,amount,UPI.json,Payments Risk,payment:amount,SRS-v13-0004,NEW,MERGED,SRS canonical group
+balance_current,balance current,balance current,Plaid.json,Payments Risk,,SRS-v13-0005,NEW,SINGLETON,SRS canonical group
+schema_id,schema identifier,card acceptor identifier,INAmex.json,Payments Risk,identifier,SRS-v13-0006,NEW,MERGED,SRS canonical group
+msg_id,msg identifier,card acceptor identifier,ISO20022.json,Payments Risk,identifier,SRS-v13-0006,NEW,MERGED,SRS canonical group
+end_to_end_id,end to end identifier,card acceptor identifier,ISO20022.json,Payments Risk,identifier,SRS-v13-0006,NEW,MERGED,SRS canonical group
+card_acceptor_id,card acceptor identifier,card acceptor identifier,Mastercard.json,Payments Risk,identifier,SRS-v13-0006,NEW,MERGED,SRS canonical group
+transaction_id,transaction identifier,card acceptor identifier,Plaid.json,Payments Risk,identifier,SRS-v13-0006,NEW,MERGED,SRS canonical group
+razorpay_payment_id,razorpay payment identifier,card acceptor identifier,Razorpay.json,Payments Risk,identifier,SRS-v13-0006,NEW,MERGED,SRS canonical group
+method,method,card acceptor identifier,Razorpay.json,Payments Risk,payment:method,SRS-v13-0006,NEW,MERGED,SRS canonical group
+payment_intent_id,payment intent identifier,card acceptor identifier,Stripe.json,Payments Risk,identifier,SRS-v13-0006,NEW,MERGED,SRS canonical group
+customer_id,customer identifier,card acceptor identifier,Stripe.json,Payments Risk,identifier,SRS-v13-0006,NEW,MERGED,SRS canonical group
+payment_method,payment method,card acceptor identifier,Stripe.json,Payments Risk,payment:method,SRS-v13-0006,NEW,MERGED,SRS canonical group
+txn_id,transaction identifier,card acceptor identifier,UPI.json,Payments Risk,identifier,SRS-v13-0006,NEW,MERGED,SRS canonical group
+card_brand,card brand,card brand,Stripe.json,Payments Risk,,SRS-v13-0007,NEW,SINGLETON,SRS canonical group
+card_last4,card last4,card last4,Stripe.json,Payments Risk,,SRS-v13-0008,NEW,SINGLETON,SRS canonical group
+cardholder,cardholder,cardholder,PPVisa.json,Payments Risk,party:name,SRS-v13-0009,NEW,SINGLETON,SRS canonical group
+//comment,comment,comment,INAmex.json,Payments Risk,text:description,SRS-v13-0010,NEW,MERGED,SRS canonical group
+description,description,comment,INAmex.json,Payments Risk,text:description,SRS-v13-0010,NEW,MERGED,SRS canonical group
+_comment,comment,comment,ISO20022.json,Payments Risk,text:description,SRS-v13-0010,NEW,MERGED,SRS canonical group
+_comment,comment,comment,Mastercard.json,Payments Risk,text:description,SRS-v13-0010,NEW,MERGED,SRS canonical group
+_comment,comment,comment,Plaid.json,Payments Risk,text:description,SRS-v13-0010,NEW,MERGED,SRS canonical group
+//comment,comment,comment,PPVisa.json,Payments Risk,text:description,SRS-v13-0010,NEW,MERGED,SRS canonical group
+_comment,comment,comment,Razorpay.json,Payments Risk,text:description,SRS-v13-0010,NEW,MERGED,SRS canonical group
+_comment,comment,comment,Stripe.json,Payments Risk,text:description,SRS-v13-0010,NEW,MERGED,SRS canonical group
+_comment,comment,comment,UPI.json,Payments Risk,text:description,SRS-v13-0010,NEW,MERGED,SRS canonical group
+contact,contact,contact,Razorpay.json,Payments Risk,,SRS-v13-0011,NEW,SINGLETON,SRS canonical group
+created,created,created,Stripe.json,Payments Risk,,SRS-v13-0012,NEW,SINGLETON,SRS canonical group
+created_at,created at,created at,INAmex.json,Payments Risk,,SRS-v13-0013,NEW,SINGLETON,SRS canonical group
+created_at,created at,created at,Razorpay.json,Payments Risk,,SRS-v13-0013,NEW,SINGLETON,SRS canonical group
+cdtr_acct,creditor account,creditor account,ISO20022.json,Payments Risk,payment:account,SRS-v13-0014,NEW,SINGLETON,SRS canonical group
+cdtr_nm,creditor name,creditor name,ISO20022.json,Payments Risk,party:name,SRS-v13-0015,NEW,SINGLETON,SRS canonical group
+currency,currency,currency,ISO20022.json,Payments Risk,payment:currency,SRS-v13-0016,NEW,SINGLETON,SRS canonical group
+currency,currency,currency,Plaid.json,Payments Risk,payment:currency,SRS-v13-0016,NEW,SINGLETON,SRS canonical group
+currency,currency,currency,Razorpay.json,Payments Risk,payment:currency,SRS-v13-0016,NEW,SINGLETON,SRS canonical group
+currency,currency,currency,Stripe.json,Payments Risk,payment:currency,SRS-v13-0016,NEW,SINGLETON,SRS canonical group
+currency,currency,currency,UPI.json,Payments Risk,payment:currency,SRS-v13-0016,NEW,SINGLETON,SRS canonical group
+cvv,cvv,cvv,PPVisa.json,Payments Risk,,SRS-v13-0017,NEW,SINGLETON,SRS canonical group
+dbtr_acct,debtor account,debtor account,ISO20022.json,Payments Risk,payment:account,SRS-v13-0018,NEW,SINGLETON,SRS canonical group
+dbtr_nm,debtor name,debtor name,ISO20022.json,Payments Risk,party:name,SRS-v13-0019,NEW,SINGLETON,SRS canonical group
+email,email,email,Razorpay.json,Payments Risk,,SRS-v13-0020,NEW,SINGLETON,SRS canonical group
+entity,entity,entity,INAmex.json,Payments Risk,,SRS-v13-0021,NEW,SINGLETON,SRS canonical group
+exp,exp,exp,PPVisa.json,Payments Risk,,SRS-v13-0022,NEW,SINGLETON,SRS canonical group
+issuer,issuer,issuer,PPVisa.json,Payments Risk,,SRS-v13-0023,NEW,SINGLETON,SRS canonical group
+merchant_category_code,merchant category code,merchant category code,Mastercard.json,Payments Risk,party:name,SRS-v13-0024,NEW,SINGLETON,SRS canonical group
+name,name,name,INAmex.json,Payments Risk,party:name,SRS-v13-0025,NEW,SINGLETON,SRS canonical group
+pattern,pattern,pattern,INAmex.json,Payments Risk,,SRS-v13-0026,NEW,SINGLETON,SRS canonical group
+vpa,vpa,payee vpa,Razorpay.json,Payments Risk,,SRS-v13-0027,NEW,MERGED,SRS canonical group
+vpa,vpa,payee vpa,UPI.json,Payments Risk,,SRS-v13-0027,NEW,MERGED,SRS canonical group
+payee_vpa,payee vpa,payee vpa,UPI.json,Payments Risk,party:name,SRS-v13-0027,NEW,MERGED,SRS canonical group
+payer_account,payer account,payer account,UPI.json,Payments Risk,payment:account,SRS-v13-0028,NEW,SINGLETON,SRS canonical group
+processing_code,processing code,processing code,Mastercard.json,Payments Risk,,SRS-v13-0029,NEW,SINGLETON,SRS canonical group
+razorpay_order_id,razorpay order identifier,razorpay order identifier,Razorpay.json,Payments Risk,identifier,SRS-v13-0030,NEW,SINGLETON,SRS canonical group
+reqd_exctn_dt,reqd exctn dt,reqd exctn dt,ISO20022.json,Payments Risk,,SRS-v13-0031,NEW,SINGLETON,SRS canonical group
+routing_number,routing number,routing number,Plaid.json,Payments Risk,payment:routing,SRS-v13-0032,NEW,SINGLETON,SRS canonical group
+//source,source,source,INAmex.json,Payments Risk,,SRS-v13-0033,NEW,SINGLETON,SRS canonical group
+status,status,status,Razorpay.json,Payments Risk,payment:status,SRS-v13-0034,NEW,SINGLETON,SRS canonical group
+status,status,status,Stripe.json,Payments Risk,payment:status,SRS-v13-0034,NEW,SINGLETON,SRS canonical group
+system_trace_audit_number,system trace audit number,system trace audit number,Mastercard.json,Payments Risk,,SRS-v13-0035,NEW,SINGLETON,SRS canonical group
+tags,tags,tags,INAmex.json,Payments Risk,,SRS-v13-0036,NEW,SINGLETON,SRS canonical group
+transaction_date,transaction date,transaction date,Plaid.json,Payments Risk,,SRS-v13-0037,NEW,SINGLETON,SRS canonical group
+txn_timestamp,transaction timestamp,transaction status,UPI.json,Payments Risk,,SRS-v13-0038,NEW,MERGED,SRS canonical group
+txn_status,transaction status,transaction status,UPI.json,Payments Risk,payment:status,SRS-v13-0038,NEW,MERGED,SRS canonical group
+transmission_datetime,transmission datetime,transmission datetime,Mastercard.json,Payments Risk,,SRS-v13-0039,NEW,SINGLETON,SRS canonical group
+type,type,type,INAmex.json,Payments Risk,payment:account_type,SRS-v13-0040,NEW,SINGLETON,SRS canonical group
+version,version,version,INAmex.json,Payments Risk,,SRS-v13-0041,NEW,SINGLETON,SRS canonical group

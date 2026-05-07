@@ -1,0 +1,1008 @@
+{
+  "run_configuration": {
+    "data_dir": "data",
+    "payloads_dir": "payloads",
+    "profile": "audit",
+    "evidence_mode": "all",
+    "model": "all-MiniLM-L6-v2",
+    "drift_model": "None",
+    "ground_truth_aliases": "ground_truth_aliases_closed_world_v12.json",
+    "ground_truth_closed_world": "True",
+    "no_ground_truth_closed_world": "False",
+    "absent_ground_truth_policy": "exclude_from_main_eval",
+    "metadata_policy": "audit",
+    "include_metadata_fields": "False",
+    "exclude_metadata_fields": "False",
+    "controlled_drift_json": "None",
+    "dbnf_mode": "auto",
+    "base_model_version": "None",
+    "target_model_version": "None",
+    "model_family": "None",
+    "target_model_family": "None",
+    "allow_cross_backbone_dbnf_claim": "False",
+    "migration_reason": "",
+    "trace_pair": "[['acct_num', 'PrimaryAccountNumber'], ['primary_account_number', 'account_number'], ['currency', 'iso_currency_code'], ['instd_amt', 'txn_amount'], ['amount', 'txn_amount'], ['pan', 'account_number']]",
+    "eenf_g_sweep": "1,10,20",
+    "eenf_repeats": "20",
+    "measure_timing": "True",
+    "context": "Payments Risk",
+    "seed": "42",
+    "tau_eenf": "0.000129",
+    "tau_aanf": "0.65",
+    "tau_cmnf": "0.1",
+    "gamma": "0.7",
+    "m_min": "4",
+    "allow_bridged_merges": "True",
+    "bridge_min_signals": "3",
+    "bridge_gamma": "0.66",
+    "tau_dbnf_preserve": "0.85",
+    "tau_dbnf_remap": "0.6",
+    "tau_dbnf_fork": "0.4",
+    "export_decisions": "decisions_audit_v13.csv",
+    "export_predicted_pairs": "predicted_pairs_audit_v13.json",
+    "export_false_positives": "false_positives_audit_v13.csv",
+    "export_false_negatives": "false_negatives_audit_v13.csv",
+    "export_ground_truth_pairs": "ground_truth_pairs_expanded_audit_v13.csv",
+    "export_candidate_coverage": "candidate_coverage_audit_v13.csv",
+    "export_alias_confusion": "alias_confusion_audit_v13.csv",
+    "export_absent_ground_truth_pairs": "absent_ground_truth_pairs_audit_v13.csv",
+    "export_fn_root_causes": "fn_root_causes_audit_v13.csv",
+    "export_fp_clusters": "fp_clusters_audit_v13.csv",
+    "export_bridged_merges": "bridged_merges_audit_v13.csv",
+    "export_summary_json": "summary_audit_v13.json",
+    "export_dataset_summary": "None",
+    "export_dataset_ingestion_audit": "None",
+    "export_normal_form_summary": "None",
+    "export_leakage_summary": "None",
+    "export_current_empirical_table": "None",
+    "export_paper_table2_reproduction": "None",
+    "export_eenf_sweep": "None",
+    "export_timing_summary": "None",
+    "export_dbnf_summary": "None",
+    "export_dbnf_hotspots": "None",
+    "export_claim_support_summary": "None",
+    "export_trace_pairs": "trace_pairs_audit_v13.csv",
+    "export_srs_schema": "srs_evolved_schema_audit_v13.json",
+    "export_srs_mapping": "srs_attribute_mapping_audit_v13.csv",
+    "export_srs_lineage": "srs_lineage_audit_v13.csv",
+    "export_srs_conflicts": "srs_conflicts_audit_v13.csv",
+    "export_dbnf_lineage": "None",
+    "export_dbnf_forks": "None",
+    "export_cross_model_sensitivity": "None"
+  },
+  "dataset_summary": {
+    "schema_files_ingested": 8,
+    "payload_files_ingested": 40,
+    "raw_attribute_records": 90,
+    "distinct_attribute_names": 57,
+    "value_evidence_available": 57,
+    "value_evidence_missing": 0,
+    "missing_fraction": 0.0,
+    "metadata_policy": "audit",
+    "metadata_excluded_count": 0
+  },
+  "ground_truth_audit": {
+    "source_path": "ground_truth_aliases_closed_world_v12.json",
+    "closed_world": true,
+    "overlap_pairs": [],
+    "reviewed_universe": {
+      "dataset": "Payments Risk v11",
+      "schema_files": 8,
+      "payload_files": 40,
+      "distinct_attribute_names": 57
+    },
+    "true_pair_count_raw": 20,
+    "negative_pair_count": 14
+  },
+  "alias_eval_summary": [
+    {
+      "eval_scope": "paper_main",
+      "mode": "embed_only_baseline",
+      "predicted_pairs_count": 337,
+      "true_pairs_count": 19,
+      "TP": 15,
+      "FP": 322,
+      "FN": 4,
+      "precision": 0.04451038575667656,
+      "labeled_precision": 0.04451038575667656,
+      "recall": 0.7894736842105263,
+      "F1": 0.08426966292134831,
+      "closed_world": true,
+      "absent_pairs_excluded_count": 1,
+      "explicit_negative_veto_count": 0,
+      "canonical_equivalence_pass_count": 9,
+      "metadata_excluded_count": 0
+    },
+    {
+      "eval_scope": "paper_main",
+      "mode": "sdnf_hybrid",
+      "predicted_pairs_count": 32,
+      "true_pairs_count": 19,
+      "TP": 17,
+      "FP": 15,
+      "FN": 2,
+      "precision": 0.53125,
+      "labeled_precision": 0.53125,
+      "recall": 0.8947368421052632,
+      "F1": 0.6666666666666666,
+      "closed_world": true,
+      "absent_pairs_excluded_count": 1,
+      "explicit_negative_veto_count": 13,
+      "canonical_equivalence_pass_count": 10,
+      "metadata_excluded_count": 0
+    },
+    {
+      "eval_scope": "paper_main",
+      "mode": "no_ecnf",
+      "predicted_pairs_count": 340,
+      "true_pairs_count": 19,
+      "TP": 18,
+      "FP": 322,
+      "FN": 1,
+      "precision": 0.052941176470588235,
+      "labeled_precision": 0.052941176470588235,
+      "recall": 0.9473684210526315,
+      "F1": 0.10027855153203342,
+      "closed_world": true,
+      "absent_pairs_excluded_count": 1,
+      "explicit_negative_veto_count": 0,
+      "canonical_equivalence_pass_count": 10,
+      "metadata_excluded_count": 0
+    },
+    {
+      "eval_scope": "paper_main",
+      "mode": "no_cmnf",
+      "predicted_pairs_count": 36,
+      "true_pairs_count": 19,
+      "TP": 17,
+      "FP": 19,
+      "FN": 2,
+      "precision": 0.4722222222222222,
+      "labeled_precision": 0.4722222222222222,
+      "recall": 0.8947368421052632,
+      "F1": 0.6181818181818182,
+      "closed_world": true,
+      "absent_pairs_excluded_count": 1,
+      "explicit_negative_veto_count": 0,
+      "canonical_equivalence_pass_count": 10,
+      "metadata_excluded_count": 0
+    },
+    {
+      "eval_scope": "paper_main",
+      "mode": "no_dbnf",
+      "predicted_pairs_count": 36,
+      "true_pairs_count": 19,
+      "TP": 17,
+      "FP": 19,
+      "FN": 2,
+      "precision": 0.4722222222222222,
+      "labeled_precision": 0.4722222222222222,
+      "recall": 0.8947368421052632,
+      "F1": 0.6181818181818182,
+      "closed_world": true,
+      "absent_pairs_excluded_count": 1,
+      "explicit_negative_veto_count": 0,
+      "canonical_equivalence_pass_count": 10,
+      "metadata_excluded_count": 0
+    },
+    {
+      "eval_scope": "paper_main",
+      "mode": "no_value_evidence",
+      "predicted_pairs_count": 1,
+      "true_pairs_count": 19,
+      "TP": 1,
+      "FP": 0,
+      "FN": 18,
+      "precision": 1.0,
+      "labeled_precision": 1.0,
+      "recall": 0.05263157894736842,
+      "F1": 0.1,
+      "closed_world": true,
+      "absent_pairs_excluded_count": 1,
+      "explicit_negative_veto_count": 0,
+      "canonical_equivalence_pass_count": 1,
+      "metadata_excluded_count": 0
+    },
+    {
+      "eval_scope": "paper_main",
+      "mode": "vss_only",
+      "predicted_pairs_count": 1606,
+      "true_pairs_count": 19,
+      "TP": 19,
+      "FP": 1587,
+      "FN": 0,
+      "precision": 0.011830635118306352,
+      "labeled_precision": 0.011830635118306352,
+      "recall": 1.0,
+      "F1": 0.023384615384615386,
+      "closed_world": true,
+      "absent_pairs_excluded_count": 1,
+      "explicit_negative_veto_count": 0,
+      "canonical_equivalence_pass_count": 10,
+      "metadata_excluded_count": 0
+    },
+    {
+      "eval_scope": "paper_main",
+      "mode": "shape_only",
+      "predicted_pairs_count": 949,
+      "true_pairs_count": 19,
+      "TP": 17,
+      "FP": 932,
+      "FN": 2,
+      "precision": 0.01791359325605901,
+      "labeled_precision": 0.01791359325605901,
+      "recall": 0.8947368421052632,
+      "F1": 0.03512396694214876,
+      "closed_world": true,
+      "absent_pairs_excluded_count": 1,
+      "explicit_negative_veto_count": 0,
+      "canonical_equivalence_pass_count": 9,
+      "metadata_excluded_count": 0
+    },
+    {
+      "eval_scope": "paper_main",
+      "mode": "name_ontology_only",
+      "predicted_pairs_count": 9,
+      "true_pairs_count": 19,
+      "TP": 9,
+      "FP": 0,
+      "FN": 10,
+      "precision": 1.0,
+      "labeled_precision": 1.0,
+      "recall": 0.47368421052631576,
+      "F1": 0.6428571428571429,
+      "closed_world": true,
+      "absent_pairs_excluded_count": 1,
+      "explicit_negative_veto_count": 0,
+      "canonical_equivalence_pass_count": 8,
+      "metadata_excluded_count": 0
+    },
+    {
+      "eval_scope": "paper_main",
+      "mode": "hybrid",
+      "predicted_pairs_count": 32,
+      "true_pairs_count": 19,
+      "TP": 17,
+      "FP": 15,
+      "FN": 2,
+      "precision": 0.53125,
+      "labeled_precision": 0.53125,
+      "recall": 0.8947368421052632,
+      "F1": 0.6666666666666666,
+      "closed_world": true,
+      "absent_pairs_excluded_count": 1,
+      "explicit_negative_veto_count": 13,
+      "canonical_equivalence_pass_count": 10,
+      "metadata_excluded_count": 0
+    }
+  ],
+  "leakage_eval_summary": [
+    {
+      "mode": "embed_only_baseline",
+      "predicted_merge_count": 337,
+      "leakage_count": 171,
+      "leakage_rate": 0.5074183976261127,
+      "explicit_negative_leakage": 6,
+      "ontology_incompatibility_leakage": 102,
+      "context_leakage": 0,
+      "role_conflict_leakage": 0,
+      "metadata_leakage": 63,
+      "examples": [
+        "comment <-> source (metadata)",
+        "comment <-> schema identifier (ontology)",
+        "comment <-> entity (metadata)",
+        "comment <-> version (metadata)",
+        "comment <-> name (ontology)"
+      ]
+    },
+    {
+      "mode": "sdnf_hybrid",
+      "predicted_merge_count": 32,
+      "leakage_count": 1,
+      "leakage_rate": 0.03125,
+      "explicit_negative_leakage": 0,
+      "ontology_incompatibility_leakage": 1,
+      "context_leakage": 0,
+      "role_conflict_leakage": 0,
+      "metadata_leakage": 0,
+      "examples": [
+        "payment intent identifier <-> payment method (ontology)"
+      ]
+    },
+    {
+      "mode": "no_ecnf",
+      "predicted_merge_count": 340,
+      "leakage_count": 171,
+      "leakage_rate": 0.5029411764705882,
+      "explicit_negative_leakage": 6,
+      "ontology_incompatibility_leakage": 102,
+      "context_leakage": 0,
+      "role_conflict_leakage": 0,
+      "metadata_leakage": 63,
+      "examples": [
+        "comment <-> source (metadata)",
+        "comment <-> schema identifier (ontology)",
+        "comment <-> entity (metadata)",
+        "comment <-> version (metadata)",
+        "comment <-> name (ontology)"
+      ]
+    },
+    {
+      "mode": "no_cmnf",
+      "predicted_merge_count": 36,
+      "leakage_count": 6,
+      "leakage_rate": 0.16666666666666666,
+      "explicit_negative_leakage": 4,
+      "ontology_incompatibility_leakage": 2,
+      "context_leakage": 0,
+      "role_conflict_leakage": 0,
+      "metadata_leakage": 0,
+      "examples": [
+        "payer account <-> primary account number (explicit_negative)",
+        "account identifier <-> transaction identifier (explicit_negative/ontology)",
+        "account number <-> payer account (explicit_negative)",
+        "razorpay order identifier <-> razorpay payment identifier (explicit_negative)",
+        "payment intent identifier <-> payment method (ontology)"
+      ]
+    },
+    {
+      "mode": "no_dbnf",
+      "predicted_merge_count": 36,
+      "leakage_count": 6,
+      "leakage_rate": 0.16666666666666666,
+      "explicit_negative_leakage": 4,
+      "ontology_incompatibility_leakage": 2,
+      "context_leakage": 0,
+      "role_conflict_leakage": 0,
+      "metadata_leakage": 0,
+      "examples": [
+        "payer account <-> primary account number (explicit_negative)",
+        "account identifier <-> transaction identifier (explicit_negative/ontology)",
+        "account number <-> payer account (explicit_negative)",
+        "razorpay order identifier <-> razorpay payment identifier (explicit_negative)",
+        "payment intent identifier <-> payment method (ontology)"
+      ]
+    },
+    {
+      "mode": "no_value_evidence",
+      "predicted_merge_count": 1,
+      "leakage_count": 0,
+      "leakage_rate": 0.0,
+      "explicit_negative_leakage": 0,
+      "ontology_incompatibility_leakage": 0,
+      "context_leakage": 0,
+      "role_conflict_leakage": 0,
+      "metadata_leakage": 0,
+      "examples": []
+    },
+    {
+      "mode": "vss_only",
+      "predicted_merge_count": 1606,
+      "leakage_count": 827,
+      "leakage_rate": 0.5149439601494396,
+      "explicit_negative_leakage": 13,
+      "ontology_incompatibility_leakage": 488,
+      "context_leakage": 0,
+      "role_conflict_leakage": 5,
+      "metadata_leakage": 321,
+      "examples": [
+        "comment <-> source (metadata)",
+        "comment <-> schema identifier (ontology)",
+        "comment <-> entity (metadata)",
+        "comment <-> version (metadata)",
+        "comment <-> name (ontology)"
+      ]
+    },
+    {
+      "mode": "shape_only",
+      "predicted_merge_count": 949,
+      "leakage_count": 533,
+      "leakage_rate": 0.5616438356164384,
+      "explicit_negative_leakage": 10,
+      "ontology_incompatibility_leakage": 294,
+      "context_leakage": 0,
+      "role_conflict_leakage": 4,
+      "metadata_leakage": 225,
+      "examples": [
+        "comment <-> source (metadata)",
+        "comment <-> schema identifier (ontology)",
+        "comment <-> entity (metadata)",
+        "comment <-> version (metadata)",
+        "comment <-> name (ontology)"
+      ]
+    },
+    {
+      "mode": "name_ontology_only",
+      "predicted_merge_count": 9,
+      "leakage_count": 0,
+      "leakage_rate": 0.0,
+      "explicit_negative_leakage": 0,
+      "ontology_incompatibility_leakage": 0,
+      "context_leakage": 0,
+      "role_conflict_leakage": 0,
+      "metadata_leakage": 0,
+      "examples": []
+    },
+    {
+      "mode": "hybrid",
+      "predicted_merge_count": 32,
+      "leakage_count": 1,
+      "leakage_rate": 0.03125,
+      "explicit_negative_leakage": 0,
+      "ontology_incompatibility_leakage": 1,
+      "context_leakage": 0,
+      "role_conflict_leakage": 0,
+      "metadata_leakage": 0,
+      "examples": [
+        "payment intent identifier <-> payment method (ontology)"
+      ]
+    }
+  ],
+  "normal_form_summary": [
+    {
+      "mode": "embed_only_baseline",
+      "NormalForm": "EENF",
+      "Status": "PASS",
+      "Actual": "q95=0.0000; max=0.0000",
+      "Interpretation": "PASS"
+    },
+    {
+      "mode": "embed_only_baseline",
+      "NormalForm": "AANF",
+      "Status": "PASS",
+      "Actual": "embedding_min=0.6502; canonical_eq=9; bridged=0; fails=0",
+      "Interpretation": "PASS"
+    },
+    {
+      "mode": "embed_only_baseline",
+      "NormalForm": "ECNF",
+      "Status": "FAIL",
+      "Actual": "min_signals=2; bridged=0",
+      "Interpretation": "FAIL"
+    },
+    {
+      "mode": "embed_only_baseline",
+      "NormalForm": "CMNF",
+      "Status": "NA",
+      "Actual": "NA_SINGLE_CONTEXT",
+      "Interpretation": "NOT_EXERCISED"
+    },
+    {
+      "mode": "embed_only_baseline",
+      "NormalForm": "DBNF",
+      "Status": "NOT_EXERCISED",
+      "Actual": "see dbnf_summary",
+      "Interpretation": "NOT_EXERCISED"
+    },
+    {
+      "mode": "sdnf_hybrid",
+      "NormalForm": "EENF",
+      "Status": "PASS",
+      "Actual": "q95=0.0000; max=0.0000",
+      "Interpretation": "PASS"
+    },
+    {
+      "mode": "sdnf_hybrid",
+      "NormalForm": "AANF",
+      "Status": "PASS",
+      "Actual": "embedding_min=0.5196; canonical_eq=10; bridged=2; fails=0",
+      "Interpretation": "PASS"
+    },
+    {
+      "mode": "sdnf_hybrid",
+      "NormalForm": "ECNF",
+      "Status": "PASS",
+      "Actual": "min_signals=3; bridged=1",
+      "Interpretation": "PASS"
+    },
+    {
+      "mode": "sdnf_hybrid",
+      "NormalForm": "CMNF",
+      "Status": "NA",
+      "Actual": "NA_SINGLE_CONTEXT",
+      "Interpretation": "NOT_EXERCISED"
+    },
+    {
+      "mode": "sdnf_hybrid",
+      "NormalForm": "DBNF",
+      "Status": "NOT_EXERCISED",
+      "Actual": "see dbnf_summary",
+      "Interpretation": "NOT_EXERCISED"
+    },
+    {
+      "mode": "no_ecnf",
+      "NormalForm": "EENF",
+      "Status": "PASS",
+      "Actual": "q95=0.0000; max=0.0000",
+      "Interpretation": "PASS"
+    },
+    {
+      "mode": "no_ecnf",
+      "NormalForm": "AANF",
+      "Status": "PASS",
+      "Actual": "embedding_min=0.5196; canonical_eq=10; bridged=2; fails=0",
+      "Interpretation": "PASS"
+    },
+    {
+      "mode": "no_ecnf",
+      "NormalForm": "ECNF",
+      "Status": "FAIL",
+      "Actual": "min_signals=2; bridged=1",
+      "Interpretation": "FAIL"
+    },
+    {
+      "mode": "no_ecnf",
+      "NormalForm": "CMNF",
+      "Status": "NA",
+      "Actual": "NA_SINGLE_CONTEXT",
+      "Interpretation": "NOT_EXERCISED"
+    },
+    {
+      "mode": "no_ecnf",
+      "NormalForm": "DBNF",
+      "Status": "NOT_EXERCISED",
+      "Actual": "see dbnf_summary",
+      "Interpretation": "NOT_EXERCISED"
+    },
+    {
+      "mode": "no_cmnf",
+      "NormalForm": "EENF",
+      "Status": "PASS",
+      "Actual": "q95=0.0000; max=0.0000",
+      "Interpretation": "PASS"
+    },
+    {
+      "mode": "no_cmnf",
+      "NormalForm": "AANF",
+      "Status": "PASS",
+      "Actual": "embedding_min=0.5196; canonical_eq=10; bridged=2; fails=0",
+      "Interpretation": "PASS"
+    },
+    {
+      "mode": "no_cmnf",
+      "NormalForm": "ECNF",
+      "Status": "PASS",
+      "Actual": "min_signals=3; bridged=1",
+      "Interpretation": "PASS"
+    },
+    {
+      "mode": "no_cmnf",
+      "NormalForm": "CMNF",
+      "Status": "NA",
+      "Actual": "NA_SINGLE_CONTEXT",
+      "Interpretation": "NOT_EXERCISED"
+    },
+    {
+      "mode": "no_cmnf",
+      "NormalForm": "DBNF",
+      "Status": "NOT_EXERCISED",
+      "Actual": "see dbnf_summary",
+      "Interpretation": "NOT_EXERCISED"
+    },
+    {
+      "mode": "no_dbnf",
+      "NormalForm": "EENF",
+      "Status": "PASS",
+      "Actual": "q95=0.0000; max=0.0000",
+      "Interpretation": "PASS"
+    },
+    {
+      "mode": "no_dbnf",
+      "NormalForm": "AANF",
+      "Status": "PASS",
+      "Actual": "embedding_min=0.5196; canonical_eq=10; bridged=2; fails=0",
+      "Interpretation": "PASS"
+    },
+    {
+      "mode": "no_dbnf",
+      "NormalForm": "ECNF",
+      "Status": "PASS",
+      "Actual": "min_signals=3; bridged=1",
+      "Interpretation": "PASS"
+    },
+    {
+      "mode": "no_dbnf",
+      "NormalForm": "CMNF",
+      "Status": "NA",
+      "Actual": "NA_SINGLE_CONTEXT",
+      "Interpretation": "NOT_EXERCISED"
+    },
+    {
+      "mode": "no_dbnf",
+      "NormalForm": "DBNF",
+      "Status": "NOT_EXERCISED",
+      "Actual": "see dbnf_summary",
+      "Interpretation": "NOT_EXERCISED"
+    },
+    {
+      "mode": "no_value_evidence",
+      "NormalForm": "EENF",
+      "Status": "PASS",
+      "Actual": "q95=0.0000; max=0.0000",
+      "Interpretation": "PASS"
+    },
+    {
+      "mode": "no_value_evidence",
+      "NormalForm": "AANF",
+      "Status": "PASS",
+      "Actual": "embedding_min=0.7596; canonical_eq=1; bridged=0; fails=0",
+      "Interpretation": "PASS"
+    },
+    {
+      "mode": "no_value_evidence",
+      "NormalForm": "ECNF",
+      "Status": "PASS",
+      "Actual": "min_signals=3; bridged=1",
+      "Interpretation": "PASS"
+    },
+    {
+      "mode": "no_value_evidence",
+      "NormalForm": "CMNF",
+      "Status": "NA",
+      "Actual": "NA_SINGLE_CONTEXT",
+      "Interpretation": "NOT_EXERCISED"
+    },
+    {
+      "mode": "no_value_evidence",
+      "NormalForm": "DBNF",
+      "Status": "NOT_EXERCISED",
+      "Actual": "see dbnf_summary",
+      "Interpretation": "NOT_EXERCISED"
+    },
+    {
+      "mode": "vss_only",
+      "NormalForm": "EENF",
+      "Status": "PASS",
+      "Actual": "q95=0.0000; max=0.0000",
+      "Interpretation": "PASS"
+    },
+    {
+      "mode": "vss_only",
+      "NormalForm": "AANF",
+      "Status": "FAIL",
+      "Actual": "embedding_min=0.4050; canonical_eq=10; bridged=8; fails=1260",
+      "Interpretation": "FAIL"
+    },
+    {
+      "mode": "vss_only",
+      "NormalForm": "ECNF",
+      "Status": "FAIL",
+      "Actual": "min_signals=1; bridged=20",
+      "Interpretation": "FAIL"
+    },
+    {
+      "mode": "vss_only",
+      "NormalForm": "CMNF",
+      "Status": "NA",
+      "Actual": "NA_SINGLE_CONTEXT",
+      "Interpretation": "NOT_EXERCISED"
+    },
+    {
+      "mode": "vss_only",
+      "NormalForm": "DBNF",
+      "Status": "NOT_EXERCISED",
+      "Actual": "see dbnf_summary",
+      "Interpretation": "NOT_EXERCISED"
+    },
+    {
+      "mode": "shape_only",
+      "NormalForm": "EENF",
+      "Status": "PASS",
+      "Actual": "q95=0.0000; max=0.0000",
+      "Interpretation": "PASS"
+    },
+    {
+      "mode": "shape_only",
+      "NormalForm": "AANF",
+      "Status": "FAIL",
+      "Actual": "embedding_min=0.4176; canonical_eq=9; bridged=8; fails=722",
+      "Interpretation": "FAIL"
+    },
+    {
+      "mode": "shape_only",
+      "NormalForm": "ECNF",
+      "Status": "FAIL",
+      "Actual": "min_signals=2; bridged=20",
+      "Interpretation": "FAIL"
+    },
+    {
+      "mode": "shape_only",
+      "NormalForm": "CMNF",
+      "Status": "NA",
+      "Actual": "NA_SINGLE_CONTEXT",
+      "Interpretation": "NOT_EXERCISED"
+    },
+    {
+      "mode": "shape_only",
+      "NormalForm": "DBNF",
+      "Status": "NOT_EXERCISED",
+      "Actual": "see dbnf_summary",
+      "Interpretation": "NOT_EXERCISED"
+    },
+    {
+      "mode": "name_ontology_only",
+      "NormalForm": "EENF",
+      "Status": "PASS",
+      "Actual": "q95=0.0000; max=0.0000",
+      "Interpretation": "PASS"
+    },
+    {
+      "mode": "name_ontology_only",
+      "NormalForm": "AANF",
+      "Status": "PASS",
+      "Actual": "embedding_min=0.5275; canonical_eq=8; bridged=0; fails=0",
+      "Interpretation": "PASS"
+    },
+    {
+      "mode": "name_ontology_only",
+      "NormalForm": "ECNF",
+      "Status": "PASS",
+      "Actual": "min_signals=6; bridged=0",
+      "Interpretation": "PASS"
+    },
+    {
+      "mode": "name_ontology_only",
+      "NormalForm": "CMNF",
+      "Status": "NA",
+      "Actual": "NA_SINGLE_CONTEXT",
+      "Interpretation": "NOT_EXERCISED"
+    },
+    {
+      "mode": "name_ontology_only",
+      "NormalForm": "DBNF",
+      "Status": "NOT_EXERCISED",
+      "Actual": "see dbnf_summary",
+      "Interpretation": "NOT_EXERCISED"
+    },
+    {
+      "mode": "hybrid",
+      "NormalForm": "EENF",
+      "Status": "PASS",
+      "Actual": "q95=0.0000; max=0.0000",
+      "Interpretation": "PASS"
+    },
+    {
+      "mode": "hybrid",
+      "NormalForm": "AANF",
+      "Status": "PASS",
+      "Actual": "embedding_min=0.5196; canonical_eq=10; bridged=2; fails=0",
+      "Interpretation": "PASS"
+    },
+    {
+      "mode": "hybrid",
+      "NormalForm": "ECNF",
+      "Status": "PASS",
+      "Actual": "min_signals=3; bridged=1",
+      "Interpretation": "PASS"
+    },
+    {
+      "mode": "hybrid",
+      "NormalForm": "CMNF",
+      "Status": "NA",
+      "Actual": "NA_SINGLE_CONTEXT",
+      "Interpretation": "NOT_EXERCISED"
+    },
+    {
+      "mode": "hybrid",
+      "NormalForm": "DBNF",
+      "Status": "NOT_EXERCISED",
+      "Actual": "see dbnf_summary",
+      "Interpretation": "NOT_EXERCISED"
+    }
+  ],
+  "srs_summary": {
+    "canonical_attribute_count": 42,
+    "rejected_merge_count": 13
+  },
+  "eenf_sweep": [
+    {
+      "G": 1,
+      "mean_variance": 8.589574402625052e-06,
+      "q95_variance": 8.851017810229678e-06,
+      "max_variance": 9.020318429975305e-06,
+      "variance_reduction_vs_G1": 0.0,
+      "measured_pct": 0.0,
+      "encoding_time_sec": 15.868598600000041,
+      "status": "NA"
+    },
+    {
+      "G": 10,
+      "mean_variance": 8.556700464623646e-07,
+      "q95_variance": 8.815393357508583e-07,
+      "max_variance": 8.885351689968957e-07,
+      "variance_reduction_vs_G1": 0.900382719055223,
+      "measured_pct": 90.03827190552231,
+      "encoding_time_sec": 16.12821509999958,
+      "status": "PASS_LOWER_BOUND"
+    },
+    {
+      "G": 20,
+      "mean_variance": 4.2804930918312795e-07,
+      "q95_variance": 4.369196972220379e-07,
+      "max_variance": 4.431364288848272e-07,
+      "variance_reduction_vs_G1": 0.9501664123134771,
+      "measured_pct": 95.0166412313477,
+      "encoding_time_sec": 16.44361890000073,
+      "status": "PASS_LOWER_BOUND"
+    }
+  ],
+  "timing_summary": [
+    {
+      "mode": "embed_only_baseline",
+      "candidate_pairs": 1606,
+      "mean_ms": 0.1486802614971218,
+      "p50_ms": 0.141737733893556,
+      "p95_ms": 0.18051273355975836,
+      "p99_ms": 0.2226777331184943,
+      "max_ms": 0.5706377328447937
+    },
+    {
+      "mode": "sdnf_hybrid",
+      "candidate_pairs": 1606,
+      "mean_ms": 0.1910727895442885,
+      "p50_ms": 0.1882094019224366,
+      "p95_ms": 0.21715940271904918,
+      "p99_ms": 0.2581644018577989,
+      "max_ms": 0.3946094010375288
+    },
+    {
+      "mode": "no_ecnf",
+      "candidate_pairs": 1606,
+      "mean_ms": 0.18638075964727513,
+      "p50_ms": 0.18341955186926368,
+      "p95_ms": 0.211919551513091,
+      "p99_ms": 0.2356395515941756,
+      "max_ms": 0.38121955189282614
+    },
+    {
+      "mode": "no_cmnf",
+      "candidate_pairs": 1606,
+      "mean_ms": 0.18809315069021665,
+      "p50_ms": 0.18381811961236377,
+      "p95_ms": 0.21259311975856104,
+      "p99_ms": 0.2319981183151991,
+      "max_ms": 2.9272181208486594
+    },
+    {
+      "mode": "no_dbnf",
+      "candidate_pairs": 1606,
+      "mean_ms": 0.18973418430959443,
+      "p50_ms": 0.18643947756189916,
+      "p95_ms": 0.21673947681464667,
+      "p99_ms": 0.2673244780960803,
+      "max_ms": 0.3767394764106855
+    },
+    {
+      "mode": "no_value_evidence",
+      "candidate_pairs": 1606,
+      "mean_ms": 0.18754084682223943,
+      "p50_ms": 0.18476189344920393,
+      "p95_ms": 0.21453689211494756,
+      "p99_ms": 0.24913689268697464,
+      "max_ms": 0.35516189310993473
+    },
+    {
+      "mode": "vss_only",
+      "candidate_pairs": 1606,
+      "mean_ms": 0.2712657534324884,
+      "p50_ms": 0.1817328145911299,
+      "p95_ms": 0.21100781490659504,
+      "p99_ms": 0.25676281433462217,
+      "max_ms": 139.32273281424514
+    },
+    {
+      "mode": "shape_only",
+      "candidate_pairs": 1606,
+      "mean_ms": 0.18431706102616396,
+      "p50_ms": 0.1817523655949545,
+      "p95_ms": 0.2104773653604271,
+      "p99_ms": 0.24761736653767663,
+      "max_ms": 0.39600236718565346
+    },
+    {
+      "mode": "name_ontology_only",
+      "candidate_pairs": 1606,
+      "mean_ms": 0.186643835589337,
+      "p50_ms": 0.18241967666609918,
+      "p95_ms": 0.20941967534737552,
+      "p99_ms": 0.23483467496545418,
+      "max_ms": 2.964519675633268
+    },
+    {
+      "mode": "hybrid",
+      "candidate_pairs": 1606,
+      "mean_ms": 0.18899234122929254,
+      "p50_ms": 0.18573486936458103,
+      "p95_ms": 0.21563486943688367,
+      "p99_ms": 0.2683998686732715,
+      "max_ms": 0.5452348691958953
+    }
+  ],
+  "dbnf_summary": {
+    "dbnf_mode": "off",
+    "claim_status": "NOT_EXERCISED"
+  },
+  "self_checks": [
+    {
+      "check": "no accepted production merge is in negative_pairs",
+      "actual": 0,
+      "expected": 0,
+      "status": "PASS",
+      "reason": ""
+    },
+    {
+      "check": "no bridge accepts role-sensitive unsafe merge",
+      "actual": 0,
+      "expected": 0,
+      "status": "PASS"
+    },
+    {
+      "check": "CMNF cross-context claim",
+      "actual": "single context",
+      "expected": "NOT_EXERCISED for single context",
+      "status": "NOT_EXERCISED"
+    },
+    {
+      "check": "DBNF claim classification",
+      "actual": "NOT_EXERCISED",
+      "expected": "DIAGNOSTIC_ONLY for cross-backbone unless explicitly allowed",
+      "status": "NOT_EXERCISED"
+    }
+  ],
+  "claim_support_summary": [
+    {
+      "claim": "SDNF precision",
+      "measured": "53.1%",
+      "expected": "paper claim separate",
+      "status": "MEASURED"
+    },
+    {
+      "claim": "SDNF recall",
+      "measured": "89.5%",
+      "expected": "paper claim separate",
+      "status": "MEASURED"
+    },
+    {
+      "claim": "SDNF leakage",
+      "measured": "3.1%",
+      "expected": "<=2% if claimed",
+      "status": "FAIL"
+    },
+    {
+      "claim": "average merge decision under 50ms",
+      "measured": "0.1911",
+      "expected": "<50ms",
+      "status": "PASS"
+    },
+    {
+      "claim": "DBNF",
+      "measured": "NOT_EXERCISED",
+      "expected": "claim-bearing only for controlled or same-family version DBNF",
+      "status": "NOT_EXERCISED"
+    },
+    {
+      "claim": "no accepted production merge is in negative_pairs",
+      "measured": 0,
+      "expected": 0,
+      "status": "PASS"
+    },
+    {
+      "claim": "no bridge accepts role-sensitive unsafe merge",
+      "measured": 0,
+      "expected": 0,
+      "status": "PASS"
+    },
+    {
+      "claim": "CMNF cross-context claim",
+      "measured": "single context",
+      "expected": "NOT_EXERCISED for single context",
+      "status": "NOT_EXERCISED"
+    },
+    {
+      "claim": "DBNF claim classification",
+      "measured": "NOT_EXERCISED",
+      "expected": "DIAGNOSTIC_ONLY for cross-backbone unless explicitly allowed",
+      "status": "NOT_EXERCISED"
+    }
+  ]
+}
