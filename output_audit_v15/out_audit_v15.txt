@@ -1,0 +1,218 @@
+SDNF v15 starting. output_profile=audit, output_dir=output_v15, max_output_files=15
+Hardcoded v15 policies: schema_first=True, payload_evidence=True, build_master_srs=True, validate_payloads=True, strict_semantic_vetoes=True, precision_first=True, metadata_policy=paper, evidence_mode=sdnf_hybrid
+Loading weights:   0%|                                                                         | 0/103 [00:00<?, ?it/s]Loading weights: 100%|#############################################################| 103/103 [00:00<00:00, 5189.35it/s]
+Embedding backend: sentence-transformers; model=all-MiniLM-L6-v2; dim=384
+GROUND TRUTH SANITIZATION
+{
+  "dropped_self_pairs": [
+    [
+      "account_number",
+      "acct_num"
+    ],
+    [
+      "pan",
+      "primary_account_number"
+    ],
+    [
+      "transaction_amount",
+      "txn_amount"
+    ],
+    [
+      "ccy",
+      "currency"
+    ],
+    [
+      "//comment",
+      "_comment"
+    ],
+    [
+      "//comment",
+      "comment"
+    ],
+    [
+      "_comment",
+      "comment"
+    ],
+    [
+      "transaction_status",
+      "txn_status"
+    ],
+    [
+      "transaction_id",
+      "txn_id"
+    ],
+    [
+      "acct_num",
+      "account_number"
+    ],
+    [
+      "pan",
+      "primary_account_number"
+    ],
+    [
+      "transaction_amount",
+      "txn_amount"
+    ],
+    [
+      "amount",
+      "amount"
+    ],
+    [
+      "transaction_amount",
+      "transaction_amount"
+    ],
+    [
+      "currency",
+      "ccy"
+    ],
+    [
+      "currency",
+      "currency"
+    ],
+    [
+      "comment",
+      "_comment"
+    ],
+    [
+      "comment",
+      "//comment"
+    ],
+    [
+      "comment",
+      "comment"
+    ],
+    [
+      "created_at",
+      "created_at"
+    ],
+    [
+      "status",
+      "status"
+    ],
+    [
+      "transaction_id",
+      "txn_id"
+    ],
+    [
+      "transaction_id",
+      "transaction_id"
+    ],
+    [
+      "vpa",
+      "vpa"
+    ]
+  ],
+  "dropped_absent_pairs": [
+    [
+      "ccy",
+      "iso_currency_code"
+    ],
+    [
+      "currency",
+      "iso_currency_code"
+    ],
+    [
+      "//comment",
+      "description"
+    ],
+    [
+      "//comment",
+      "memo"
+    ],
+    [
+      "//comment",
+      "note"
+    ],
+    [
+      "_comment",
+      "description"
+    ],
+    [
+      "_comment",
+      "memo"
+    ],
+    [
+      "_comment",
+      "note"
+    ],
+    [
+      "comment",
+      "description"
+    ],
+    [
+      "comment",
+      "memo"
+    ],
+    [
+      "comment",
+      "note"
+    ],
+    [
+      "description",
+      "memo"
+    ],
+    [
+      "description",
+      "note"
+    ],
+    [
+      "memo",
+      "note"
+    ],
+    [
+      "currency",
+      "iso_currency_code"
+    ],
+    [
+      "description",
+      "comment"
+    ],
+    [
+      "description",
+      "_comment"
+    ],
+    [
+      "description",
+      "//comment"
+    ]
+  ],
+  "original_pair_count": 69,
+  "cleaned_pair_count": 8,
+  "dropped_self_count": 24,
+  "dropped_absent_count": 18
+}
+Loading weights:   0%|                                                                         | 0/103 [00:00<?, ?it/s]Loading weights: 100%|#############################################################| 103/103 [00:00<00:00, 5286.57it/s]
+
+OUTPUT BUDGET
+  Profile: audit
+  Written: 13 / 15
+  Remaining: 2
+  - out_audit_v15.txt (3414 bytes)
+  - run_manifest_v15.json (3906 bytes)
+  - summary_audit_v15.json (13237 bytes)
+  - srs_evolved_schema_v15.compact.json (78731 bytes)
+  - schema_ingestion_audit_v15.csv (6723 bytes)
+  - field_evidence_audit_v15.csv (8262 bytes)
+  - schema_deltas_audit_v15.csv (2 bytes)
+  - decisions_audit_v15.csv (104434 bytes)
+  - alias_evaluation_audit_v15.csv (11578 bytes)
+  - payload_compliance_audit_v15.csv (170558 bytes)
+  - normal_forms_and_claims_audit_v15.csv (3443 bytes)
+  - scale_timing_drift_audit_v15.csv (13639 bytes)
+  - sdnf_debug_bundle_v15.zip (33664 bytes)
+
+FINAL SUMMARY
+Metric               | Value                               
+-----------------------------------------------------------
+Production precision | 0.4                                 
+Production recall    | 0.75                                
+Production F1        | 0.5217391304347827                  
+Discovery precision  | 0.4                                 
+Discovery recall     | 0.75                                
+Discovery F1         | 0.5217391304347827                  
+GT dropped self      | 24                                  
+GT dropped absent    | 18                                  
+DBNF version drift   | {"mode": "version_drift", "model_...
+DBNF migration       | not run                             
+EENF                 | {"mode": "deterministic_report", ...
+Output files         | 13/15                               

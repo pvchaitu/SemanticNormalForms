@@ -1,0 +1,128 @@
+{
+  "version": "15.0.0",
+  "args": {
+    "output_profile": "paper",
+    "output_dir": "output_v15",
+    "max_output_files": 12,
+    "schemas_dir": "data",
+    "schema_glob": "*.schema.json",
+    "payloads_root": "payloads/payment",
+    "seed_srs_schema": "INAmex.schema.json",
+    "allow_cross_rail_amount_currency": false,
+    "unknown_field_policy": "defer",
+    "payment_type_order": "INAmex,Mastercard,PPVisa,ISO20022,Plaid,Razorpay,Stripe,UPI",
+    "model": "all-MiniLM-L6-v2",
+    "ground_truth_aliases": "ground_truth_aliases_closed_world_v12.json",
+    "ground_truth_closed_world": true,
+    "absent_ground_truth_policy": "exclude_from_main_eval",
+    "measure_timing": true,
+    "seed": 42,
+    "tau_eenf": 0.000129,
+    "tau_aanf": 0.65,
+    "name_threshold": 0.35,
+    "candidate_name_threshold": 0.45,
+    "m_min_schema": 2,
+    "schema_onboarding_unknown_ratio": 0.35,
+    "evaluation_track": "both",
+    "dbnf_mode": "version_drift",
+    "dbnf_model_version": null,
+    "dbnf_migration_model": "all-mpnet-base-v2",
+    "tau_dbnf": 0.25,
+    "drift_ground_truth": null,
+    "eenf_mode": "perturbation_stress_test",
+    "eenf_perturbation_noise": 0.01,
+    "eenf_g_values": "1,10,20"
+  },
+  "seed": 42,
+  "model": "all-MiniLM-L6-v2",
+  "thresholds": {
+    "tau_eenf": 0.000129,
+    "tau_aanf": 0.65,
+    "tau_dbnf": 0.25,
+    "name_threshold": 0.35,
+    "candidate_name_threshold": 0.45,
+    "m_min_schema": 2
+  },
+  "switches": {
+    "evaluation_track": "both",
+    "dbnf_mode": "version_drift",
+    "eenf_mode": "perturbation_stress_test",
+    "measure_timing": true
+  },
+  "dataset_paths": {
+    "schemas_dir": "data",
+    "schema_glob": "*.schema.json",
+    "payloads_root": "payloads/payment",
+    "seed_srs_schema": "INAmex.schema.json",
+    "ground_truth_aliases": "ground_truth_aliases_closed_world_v12.json"
+  },
+  "artifact_inventory": [
+    {
+      "file": "out_audit_v15.txt",
+      "path": "output_v15\\out_audit_v15.txt",
+      "bytes": 3343
+    },
+    {
+      "file": "run_manifest_v15.json",
+      "path": "output_v15\\run_manifest_v15.json",
+      "bytes": 1892
+    },
+    {
+      "file": "summary_audit_v15.json",
+      "path": "output_v15\\summary_audit_v15.json",
+      "bytes": 14551
+    },
+    {
+      "file": "srs_evolved_schema_v15.compact.json",
+      "path": "output_v15\\srs_evolved_schema_v15.compact.json",
+      "bytes": 78731
+    },
+    {
+      "file": "schema_ingestion_audit_v15.csv",
+      "path": "output_v15\\schema_ingestion_audit_v15.csv",
+      "bytes": 6723
+    },
+    {
+      "file": "field_evidence_audit_v15.csv",
+      "path": "output_v15\\field_evidence_audit_v15.csv",
+      "bytes": 8262
+    },
+    {
+      "file": "schema_deltas_audit_v15.csv",
+      "path": "output_v15\\schema_deltas_audit_v15.csv",
+      "bytes": 2
+    },
+    {
+      "file": "decisions_audit_v15.csv",
+      "path": "output_v15\\decisions_audit_v15.csv",
+      "bytes": 104434
+    },
+    {
+      "file": "alias_evaluation_audit_v15.csv",
+      "path": "output_v15\\alias_evaluation_audit_v15.csv",
+      "bytes": 11578
+    },
+    {
+      "file": "payload_compliance_audit_v15.csv",
+      "path": "output_v15\\payload_compliance_audit_v15.csv",
+      "bytes": 170558
+    },
+    {
+      "file": "normal_forms_and_claims_audit_v15.csv",
+      "path": "output_v15\\normal_forms_and_claims_audit_v15.csv",
+      "bytes": 3969
+    },
+    {
+      "file": "scale_timing_drift_audit_v15.csv",
+      "path": "output_v15\\scale_timing_drift_audit_v15.csv",
+      "bytes": 13632
+    }
+  ],
+  "output_budget": {
+    "profile": "paper",
+    "max_output_files": 12,
+    "written_count": 12,
+    "remaining": 0,
+    "refused": []
+  }
+}

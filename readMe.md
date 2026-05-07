@@ -169,7 +169,8 @@ python unified_sdnf_experiment_hybrid_v15.py ^
 --evaluation_track both ^
 --dbnf_mode version_drift ^
 --eenf_mode deterministic_report ^
---measure_timing
+--measure_timing ^
+--max_output_files=15
 ```
 
 ### Minimal Run

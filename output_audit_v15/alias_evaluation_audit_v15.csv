@@ -1,0 +1,66 @@
+row_type,track,dropped_self_pairs,dropped_absent_pairs,original_pair_count,cleaned_pair_count,dropped_self_count,dropped_absent_count,pair_key,normalized_a,normalized_b,root_cause,gt_disagreement_type,gt_review_reason,gt_patch_suggestion
+ground_truth_sanitization,both,account_number; acct_num; pan; primary_account_number; transaction_amount; txn_amount; ccy; currency; //comment; _comment; //comment; comment; _comment; comment; transaction_status; txn_status; transaction_id; txn_id; acct_num; account_number; pan; primary_account_number; transaction_amount; txn_amount; amount; amount; transaction_amount; transaction_amount; currency; ccy; currency; currency; comment; _comment; comment; //comment; comment; comment; created_at; created_at; status; status; transaction_id; txn_id; transaction_id; transaction_id; vpa; vpa,ccy; iso_currency_code; currency; iso_currency_code; //comment; description; //comment; memo; //comment; note; _comment; description; _comment; memo; _comment; note; comment; description; comment; memo; comment; note; description; memo; description; note; memo; note; currency; iso_currency_code; description; comment; description; _comment; description; //comment,69,8,24,18,,,,,,,
+predicted_pair,production,,,,,,,amount :: amount,amount,amount,,,,
+predicted_pair,production,,,,,,,amount :: instd_amount,amount,instd_amount,,,,
+predicted_pair,production,,,,,,,amount :: transaction_amount,amount,transaction_amount,,,,
+predicted_pair,production,,,,,,,card_holder_name :: cardholder,card_holder_name,cardholder,,,,
+predicted_pair,production,,,,,,,card_verification_value :: verification_value,card_verification_value,verification_value,,,,
+predicted_pair,production,,,,,,,created :: created_at,created,created_at,,,,
+predicted_pair,production,,,,,,,currency :: currency,currency,currency,,,,
+predicted_pair,production,,,,,,,expiration_date :: expiration_date,expiration_date,expiration_date,,,,
+predicted_pair,production,,,,,,,instd_amount :: transaction_amount,instd_amount,transaction_amount,,,,
+predicted_pair,production,,,,,,,method :: payment_method,method,payment_method,,,,
+predicted_pair,production,,,,,,,primary_account_number :: primary_account_number,primary_account_number,primary_account_number,,,,
+predicted_pair,production,,,,,,,status :: status,status,status,,,,
+predicted_pair,production,,,,,,,status :: transaction_status,status,transaction_status,,,,
+predicted_pair,production,,,,,,,transaction_amount :: transaction_amount,transaction_amount,transaction_amount,,,,
+predicted_pair,production,,,,,,,virtual_payment_address :: virtual_payment_address,virtual_payment_address,virtual_payment_address,,,,
+true_positive,production,,,,,,,amount :: instd_amount,amount,instd_amount,,,,
+true_positive,production,,,,,,,amount :: transaction_amount,amount,transaction_amount,,,,
+true_positive,production,,,,,,,created :: created_at,created,created_at,,,,
+true_positive,production,,,,,,,instd_amount :: transaction_amount,instd_amount,transaction_amount,,,,
+true_positive,production,,,,,,,method :: payment_method,method,payment_method,,,,
+true_positive,production,,,,,,,status :: transaction_status,status,transaction_status,,,,
+false_positive,production,,,,,,,amount :: amount,amount,amount,predicted co-membership not in ground truth,likely_gt_missing_alias,both attributes share the same semantic_family,add pair amount :: amount to the appropriate alias group
+false_positive,production,,,,,,,card_holder_name :: cardholder,card_holder_name,cardholder,predicted co-membership not in ground truth,likely_gt_missing_alias,both attributes share the same semantic_family,add pair card_holder_name :: cardholder to the appropriate alias group
+false_positive,production,,,,,,,card_verification_value :: verification_value,card_verification_value,verification_value,predicted co-membership not in ground truth,likely_gt_missing_alias,both attributes share the same semantic_family,add pair card_verification_value :: verification_value to the appropriate alias group
+false_positive,production,,,,,,,currency :: currency,currency,currency,predicted co-membership not in ground truth,likely_gt_missing_alias,both attributes share the same semantic_family,add pair currency :: currency to the appropriate alias group
+false_positive,production,,,,,,,expiration_date :: expiration_date,expiration_date,expiration_date,predicted co-membership not in ground truth,likely_gt_missing_alias,both attributes share the same semantic_family,add pair expiration_date :: expiration_date to the appropriate alias group
+false_positive,production,,,,,,,primary_account_number :: primary_account_number,primary_account_number,primary_account_number,predicted co-membership not in ground truth,likely_gt_missing_alias,both attributes share the same semantic_family,add pair primary_account_number :: primary_account_number to the appropriate alias group
+false_positive,production,,,,,,,status :: status,status,status,predicted co-membership not in ground truth,likely_gt_missing_alias,both attributes share the same semantic_family,add pair status :: status to the appropriate alias group
+false_positive,production,,,,,,,transaction_amount :: transaction_amount,transaction_amount,transaction_amount,predicted co-membership not in ground truth,likely_gt_missing_alias,both attributes share the same semantic_family,add pair transaction_amount :: transaction_amount to the appropriate alias group
+false_positive,production,,,,,,,virtual_payment_address :: virtual_payment_address,virtual_payment_address,virtual_payment_address,predicted co-membership not in ground truth,likely_gt_missing_alias,both attributes share the same semantic_family,add pair virtual_payment_address :: virtual_payment_address to the appropriate alias group
+false_negative,production,,,,,,,account_number :: primary_account_number,account_number,primary_account_number,ground truth pair not found by this track,missing_prediction,alias evidence did not reach this track's gate,"inspect schema aliases, semantic_family, thresholds, and evidence availability"
+false_negative,production,,,,,,,payee_virtual_payment_address :: virtual_payment_address,payee_virtual_payment_address,virtual_payment_address,ground truth pair not found by this track,missing_prediction,alias evidence did not reach this track's gate,"inspect schema aliases, semantic_family, thresholds, and evidence availability"
+predicted_pair,discovery,,,,,,,amount :: amount,amount,amount,,,,
+predicted_pair,discovery,,,,,,,amount :: instd_amount,amount,instd_amount,,,,
+predicted_pair,discovery,,,,,,,amount :: transaction_amount,amount,transaction_amount,,,,
+predicted_pair,discovery,,,,,,,card_holder_name :: cardholder,card_holder_name,cardholder,,,,
+predicted_pair,discovery,,,,,,,card_verification_value :: verification_value,card_verification_value,verification_value,,,,
+predicted_pair,discovery,,,,,,,created :: created_at,created,created_at,,,,
+predicted_pair,discovery,,,,,,,currency :: currency,currency,currency,,,,
+predicted_pair,discovery,,,,,,,expiration_date :: expiration_date,expiration_date,expiration_date,,,,
+predicted_pair,discovery,,,,,,,instd_amount :: transaction_amount,instd_amount,transaction_amount,,,,
+predicted_pair,discovery,,,,,,,method :: payment_method,method,payment_method,,,,
+predicted_pair,discovery,,,,,,,primary_account_number :: primary_account_number,primary_account_number,primary_account_number,,,,
+predicted_pair,discovery,,,,,,,status :: status,status,status,,,,
+predicted_pair,discovery,,,,,,,status :: transaction_status,status,transaction_status,,,,
+predicted_pair,discovery,,,,,,,transaction_amount :: transaction_amount,transaction_amount,transaction_amount,,,,
+predicted_pair,discovery,,,,,,,virtual_payment_address :: virtual_payment_address,virtual_payment_address,virtual_payment_address,,,,
+true_positive,discovery,,,,,,,amount :: instd_amount,amount,instd_amount,,,,
+true_positive,discovery,,,,,,,amount :: transaction_amount,amount,transaction_amount,,,,
+true_positive,discovery,,,,,,,created :: created_at,created,created_at,,,,
+true_positive,discovery,,,,,,,instd_amount :: transaction_amount,instd_amount,transaction_amount,,,,
+true_positive,discovery,,,,,,,method :: payment_method,method,payment_method,,,,
+true_positive,discovery,,,,,,,status :: transaction_status,status,transaction_status,,,,
+false_positive,discovery,,,,,,,amount :: amount,amount,amount,predicted co-membership not in ground truth,likely_gt_missing_alias,both attributes share the same semantic_family,add pair amount :: amount to the appropriate alias group
+false_positive,discovery,,,,,,,card_holder_name :: cardholder,card_holder_name,cardholder,predicted co-membership not in ground truth,likely_gt_missing_alias,both attributes share the same semantic_family,add pair card_holder_name :: cardholder to the appropriate alias group
+false_positive,discovery,,,,,,,card_verification_value :: verification_value,card_verification_value,verification_value,predicted co-membership not in ground truth,likely_gt_missing_alias,both attributes share the same semantic_family,add pair card_verification_value :: verification_value to the appropriate alias group
+false_positive,discovery,,,,,,,currency :: currency,currency,currency,predicted co-membership not in ground truth,likely_gt_missing_alias,both attributes share the same semantic_family,add pair currency :: currency to the appropriate alias group
+false_positive,discovery,,,,,,,expiration_date :: expiration_date,expiration_date,expiration_date,predicted co-membership not in ground truth,likely_gt_missing_alias,both attributes share the same semantic_family,add pair expiration_date :: expiration_date to the appropriate alias group
+false_positive,discovery,,,,,,,primary_account_number :: primary_account_number,primary_account_number,primary_account_number,predicted co-membership not in ground truth,likely_gt_missing_alias,both attributes share the same semantic_family,add pair primary_account_number :: primary_account_number to the appropriate alias group
+false_positive,discovery,,,,,,,status :: status,status,status,predicted co-membership not in ground truth,likely_gt_missing_alias,both attributes share the same semantic_family,add pair status :: status to the appropriate alias group
+false_positive,discovery,,,,,,,transaction_amount :: transaction_amount,transaction_amount,transaction_amount,predicted co-membership not in ground truth,likely_gt_missing_alias,both attributes share the same semantic_family,add pair transaction_amount :: transaction_amount to the appropriate alias group
+false_positive,discovery,,,,,,,virtual_payment_address :: virtual_payment_address,virtual_payment_address,virtual_payment_address,predicted co-membership not in ground truth,likely_gt_missing_alias,both attributes share the same semantic_family,add pair virtual_payment_address :: virtual_payment_address to the appropriate alias group
+false_negative,discovery,,,,,,,account_number :: primary_account_number,account_number,primary_account_number,ground truth pair not found by this track,missing_prediction,alias evidence did not reach this track's gate,"inspect schema aliases, semantic_family, thresholds, and evidence availability"
+false_negative,discovery,,,,,,,payee_virtual_payment_address :: virtual_payment_address,payee_virtual_payment_address,virtual_payment_address,ground truth pair not found by this track,missing_prediction,alias evidence did not reach this track's gate,"inspect schema aliases, semantic_family, thresholds, and evidence availability"
