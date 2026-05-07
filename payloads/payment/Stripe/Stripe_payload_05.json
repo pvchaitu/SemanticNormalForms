@@ -1,0 +1,10 @@
+{
+  "id": "pi_763005",
+  "amount": "3125",
+  "currency": "eur",
+  "customer_id": "cus_451355",
+  "payment_method": "wallet",
+  "created": 1771036000,
+  "status": "requires_capture",
+  "description": "Synthetic charge for CafeMocha"
+}

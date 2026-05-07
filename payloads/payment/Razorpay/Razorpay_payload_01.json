@@ -1,0 +1,13 @@
+{
+  "payment_id": "pay_770499",
+  "order_id": "order_880337",
+  "amount": "1840.60",
+  "currency": "INR",
+  "method": "upi",
+  "customer_name": "Meera Sharma",
+  "email": "synthetic.user1@example.test",
+  "contact": "+919000000001",
+  "status": "created",
+  "created_at": 1770003600,
+  "vpa": "user1@upi"
+}

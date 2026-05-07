@@ -1,2 +1,0 @@
-pair_key,normalized_a,normalized_b,reason,policy
-currency <-> iso currency code,currency,iso currency code,ATTRIBUTE_ABSENT_FROM_CURRENT_DATASET,exclude_from_main_eval

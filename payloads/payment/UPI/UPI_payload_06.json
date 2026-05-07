@@ -1,0 +1,13 @@
+{
+  "payer_vpa": "payer6@upi",
+  "payee_vpa": "merchant6@ybl",
+  "txn_amount": "2643.45",
+  "currency": "INR",
+  "merchant_id": "UPI14038",
+  "payer_account": "XXXXXX0006",
+  "payer_name": "Neha Iyer",
+  "txn_id": "T4040049926",
+  "txn_timestamp": "2026-02-16T10:42:00Z",
+  "txn_status": "REVERSED",
+  "purpose_code": "P2M"
+}

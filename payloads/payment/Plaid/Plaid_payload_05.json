@@ -1,0 +1,12 @@
+{
+  "account_id": "acc_251535",
+  "routing": "620004055",
+  "acct_num": "BA7000006685",
+  "account_type": "checking",
+  "amount": "1903.28",
+  "iso_currency_code": "USD",
+  "merchant_name": "FreshBasket",
+  "authorized_date": "2026-03-03",
+  "payment_channel": "mobile",
+  "transaction_id": "txn_982215"
+}

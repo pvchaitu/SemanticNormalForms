@@ -1,0 +1,229 @@
+{
+  "format": "sdnf_schema_descriptor_v15_with_upgrade_tracking",
+  "generated_at": "2026-05-07T12:26:02+05:30",
+  "schema_source_policy": "web_documentation_aligned_plus_payload_inference_plus_upgrade_tracking",
+  "review_status": "draft_for_sdnf_experiment",
+  "domain": "payments",
+  "upgrade_governance": {
+    "schema_versioning_rule": "Increment schema_descriptor_version when watched spec source changes. Use major for breaking/semantic-family changes, minor for additive optional fields, patch for descriptions/source metadata.",
+    "srs_evolution_rule": "Never overwrite canonical nodes directly. Create candidate_delta, run SDNF gates, produce accepted/rejected/deferred decisions, then append lineage.",
+    "runtime_compliance_rule": "Payment-initiation allow decisions should use approved schema versions only. Inferred or changed schemas remain diagnostic/provisional until reviewed or threshold-gated.",
+    "normal_forms_for_upgrade": {
+      "AANF": "new field alias candidate check",
+      "ECNF": "sufficient evidence from spec + payload + constraints",
+      "RRNF": "role safety, e.g., payer/payee/debtor/creditor/customer/merchant",
+      "CMNF": "domain/rail separation, e.g., card vs UPI vs ISO20022",
+      "DBNF": "drift across schema/spec versions and embedding/model versions",
+      "PONF": "partition separation, e.g., identifier vs method vs status vs temporal"
+    }
+  },
+  "notes": [
+    "These are SDNF schema descriptors for experiment/onboarding, not vendor-certified official JSON schemas.",
+    "They combine public documentation cues with the attached sample payload field universe.",
+    "Use payload files separately as ECNF/value-evidence inputs.",
+    "Each schema includes spec monitoring metadata so future provider/standard changes can be tracked and converted into SRS evolution deltas."
+  ],
+  "schema_id": "PPVisa_CardPayload_Inferred_v15",
+  "schema_descriptor_version": "1.1.0",
+  "provider_or_standard": "Visa-like card payload / ISO 8583 card payment family",
+  "rail": "card_payment",
+  "entity": "CardPaymentPayload",
+  "spec_monitoring": {
+    "canonical_spec_strategy": "Track ISO 8583/card-message common data elements and PCI storage/security rules. Treat Visa-like payload as inferred card payload unless official Visa integration docs are supplied.",
+    "watch_sources": [
+      {
+        "label": "ISO 8583 Maintenance Agency Secretariat",
+        "url": "https://x9.org/iso-8583-mas/",
+        "reference_id": "turn10search100",
+        "check_type": "maintenance_file_update"
+      },
+      {
+        "label": "ISO 8583 standard page",
+        "url": "https://www.iso.org/standard/79451.html",
+        "reference_id": "turn8search61",
+        "check_type": "standard_version_review"
+      },
+      {
+        "label": "PCI DSS standard page",
+        "url": "https://www.pcisecuritystandards.org/standards/pci-dss/",
+        "reference_id": "turn10search116",
+        "check_type": "standard_version_review"
+      }
+    ],
+    "upgrade_triggers": [
+      "ISO 8583 convergence/data-element file update",
+      "new card data element",
+      "PCI storage rule change"
+    ]
+  },
+  "attributes": [
+    {
+      "name": "pan",
+      "type": "string",
+      "required": true,
+      "semantic_family": "payment_card:pan",
+      "canonical_hint": "card_primary_account_number",
+      "role": "card_account_identifier",
+      "aliases": [
+        "PrimaryAccountNumber",
+        "primary_account_number",
+        "cardNumber"
+      ],
+      "constraints": {
+        "pattern": "^[0-9]{12,19}$",
+        "storage_policy": "mask_or_tokenize_if_retained"
+      },
+      "description": "PAN/card number.",
+      "source_basis": [
+        "turn8search14",
+        "turn10search100",
+        "turn10search116"
+      ],
+      "merge_policy": {
+        "do_not_merge_with_families": [
+          "payment:method",
+          "payment:status",
+          "temporal",
+          "identifier:transaction"
+        ]
+      },
+      "change_policy": {
+        "on_new_field_in_spec": "classify semantic_family, add as candidate attribute, run SDNF gates before merging into canonical node",
+        "on_type_or_constraint_change": "create new schema version, run payload regression, mark breaking if requiredness/type/pattern changes",
+        "on_deprecation": "retain legacy mapping with deprecated=true until payload evidence shows safe removal"
+      },
+      "sensitivity": "cardholder_data"
+    },
+    {
+      "name": "exp",
+      "type": "string",
+      "required": true,
+      "semantic_family": "payment_card:expiration_date",
+      "canonical_hint": "card_expiration_date",
+      "role": "card_validity",
+      "aliases": [
+        "ExpirationDate",
+        "expiry"
+      ],
+      "constraints": {
+        "pattern": "^(0[1-9]|1[0-2])/[0-9]{2}$"
+      },
+      "description": "Card expiry.",
+      "source_basis": [
+        "turn8search14"
+      ],
+      "merge_policy": {
+        "do_not_merge_with_families": [
+          "identifier",
+          "payment:amount",
+          "payment:status"
+        ]
+      },
+      "change_policy": {
+        "on_new_field_in_spec": "classify semantic_family, add as candidate attribute, run SDNF gates before merging into canonical node",
+        "on_type_or_constraint_change": "create new schema version, run payload regression, mark breaking if requiredness/type/pattern changes",
+        "on_deprecation": "retain legacy mapping with deprecated=true until payload evidence shows safe removal"
+      },
+      "sensitivity": "cardholder_data"
+    },
+    {
+      "name": "cvv",
+      "type": "string",
+      "required": false,
+      "semantic_family": "payment_card:verification_value",
+      "canonical_hint": "card_verification_value",
+      "role": "sensitive_authentication_data",
+      "aliases": [
+        "CardVerificationValue",
+        "cvc",
+        "cid"
+      ],
+      "constraints": {
+        "pattern": "^[0-9]{3,4}$",
+        "storage_policy": "do_not_store_after_authorization"
+      },
+      "description": "CVV/CVC value.",
+      "source_basis": [
+        "turn8search14",
+        "turn10search116"
+      ],
+      "merge_policy": {
+        "do_not_merge_with_families": [
+          "identifier",
+          "payment:method",
+          "payment:status"
+        ]
+      },
+      "change_policy": {
+        "on_new_field_in_spec": "classify semantic_family, add as candidate attribute, run SDNF gates before merging into canonical node",
+        "on_type_or_constraint_change": "create new schema version, run payload regression, mark breaking if requiredness/type/pattern changes",
+        "on_deprecation": "retain legacy mapping with deprecated=true until payload evidence shows safe removal"
+      },
+      "sensitivity": "sensitive_authentication_data"
+    },
+    {
+      "name": "cardholder",
+      "type": "string",
+      "required": false,
+      "semantic_family": "party:cardholder_name",
+      "canonical_hint": "cardholder_name",
+      "role": "cardholder",
+      "aliases": [
+        "CardHolderName"
+      ],
+      "constraints": {},
+      "description": "Cardholder name.",
+      "source_basis": [
+        "turn8search14"
+      ],
+      "merge_policy": {
+        "do_not_merge_with_families": [
+          "identifier",
+          "payment:amount",
+          "payment:method"
+        ]
+      },
+      "change_policy": {
+        "on_new_field_in_spec": "classify semantic_family, add as candidate attribute, run SDNF gates before merging into canonical node",
+        "on_type_or_constraint_change": "create new schema version, run payload regression, mark breaking if requiredness/type/pattern changes",
+        "on_deprecation": "retain legacy mapping with deprecated=true until payload evidence shows safe removal"
+      }
+    },
+    {
+      "name": "issuer",
+      "type": "string",
+      "required": false,
+      "semantic_family": "payment_card:issuer",
+      "canonical_hint": "card_issuer",
+      "role": "issuer",
+      "aliases": [
+        "Issuer"
+      ],
+      "constraints": {},
+      "description": "Issuer.",
+      "source_basis": [
+        "turn8search14"
+      ],
+      "merge_policy": {
+        "do_not_merge_with_families": [
+          "payment:amount",
+          "temporal",
+          "payment:status"
+        ]
+      },
+      "change_policy": {
+        "on_new_field_in_spec": "classify semantic_family, add as candidate attribute, run SDNF gates before merging into canonical node",
+        "on_type_or_constraint_change": "create new schema version, run payload regression, mark breaking if requiredness/type/pattern changes",
+        "on_deprecation": "retain legacy mapping with deprecated=true until payload evidence shows safe removal"
+      }
+    }
+  ],
+  "schema_fingerprint_sha256": "8ed8eedfa0855a881798199ca6d54a0878eb5b5e1841b602f11a30cc0ccb0d2f",
+  "upgrade_tracking_state": {
+    "last_reviewed_at": "2026-05-07T12:26:02+05:30",
+    "last_reviewed_by": "M365 Copilot generated artifact",
+    "baseline_fingerprint_sha256": "8ed8eedfa0855a881798199ca6d54a0878eb5b5e1841b602f11a30cc0ccb0d2f",
+    "pending_deltas": [],
+    "promotion_policy": "A detected spec change must be represented as a candidate delta, pass SDNF gates, and be appended to SRS lineage before becoming approved."
+  }
+}

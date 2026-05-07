@@ -1,0 +1,284 @@
+{
+  "format": "sdnf_payment_schema_manifest_v15_upgrade_tracking",
+  "generated_at": "2026-05-07T12:26:02+05:30",
+  "purpose": "Schema-first Payment Master SRS inputs with future specification upgrade tracking metadata",
+  "files": [
+    "INAmex.schema.json",
+    "ISO20022.schema.json",
+    "Mastercard.schema.json",
+    "PPVisa.schema.json",
+    "Plaid.schema.json",
+    "Razorpay.schema.json",
+    "Stripe.schema.json",
+    "UPI.schema.json"
+  ],
+  "strategy_summary": {
+    "core_pattern": "spec watcher -> candidate schema delta -> SDNF gates -> SRS lineage -> payload regression -> approved schema version",
+    "why": "This prevents silent overwrites when providers/standards add fields, deprecate fields, or change type/constraint semantics.",
+    "recommended_folder_layout": {
+      "schemas_current": "approved schema descriptor versions used by runtime compliance",
+      "schemas_candidate": "newly detected spec changes not yet approved",
+      "payloads_regression": "payload examples used to test old and new schema behavior",
+      "srs_lineage": "append-only decisions showing merge/reject/defer/fork"
+    }
+  },
+  "source_strategy_by_provider": {
+    "INAmex": {
+      "canonical_spec_strategy": "Track American Express Data Security Operating Policy and PCI DSS documents rather than a public Amex payment-object JSON schema. Treat card-data fields as card/PAN/expiry/CVV/cardholder security-governed descriptors.",
+      "watch_sources": [
+        {
+          "label": "American Express DSOP PDF",
+          "url": "https://www.americanexpress.com/content/dam/amex/us/merchant/new-data-security/DSOP_United_States_EN.pdf",
+          "reference_id": "turn10search114",
+          "check_type": "document_summary_and_change_bar_review"
+        },
+        {
+          "label": "American Express data security page",
+          "url": "https://www.americanexpress.com/us/merchant/us-data-security.html",
+          "reference_id": "turn10search23",
+          "check_type": "page_text_change"
+        },
+        {
+          "label": "PCI DSS standard page",
+          "url": "https://www.pcisecuritystandards.org/standards/pci-dss/",
+          "reference_id": "turn10search116",
+          "check_type": "standard_version_review"
+        }
+      ],
+      "upgrade_triggers": [
+        "DSOP summary of changes changes",
+        "PCI DSS version change",
+        "new/changed policy for Cardholder Data or Sensitive Authentication Data",
+        "storage/retention rule change"
+      ]
+    },
+    "PPVisa": {
+      "canonical_spec_strategy": "Track ISO 8583/card-message common data elements and PCI storage/security rules. Treat Visa-like payload as inferred card payload unless official Visa integration docs are supplied.",
+      "watch_sources": [
+        {
+          "label": "ISO 8583 Maintenance Agency Secretariat",
+          "url": "https://x9.org/iso-8583-mas/",
+          "reference_id": "turn10search100",
+          "check_type": "maintenance_file_update"
+        },
+        {
+          "label": "ISO 8583 standard page",
+          "url": "https://www.iso.org/standard/79451.html",
+          "reference_id": "turn8search61",
+          "check_type": "standard_version_review"
+        },
+        {
+          "label": "PCI DSS standard page",
+          "url": "https://www.pcisecuritystandards.org/standards/pci-dss/",
+          "reference_id": "turn10search116",
+          "check_type": "standard_version_review"
+        }
+      ],
+      "upgrade_triggers": [
+        "ISO 8583 convergence/data-element file update",
+        "new card data element",
+        "PCI storage rule change"
+      ]
+    },
+    "Mastercard": {
+      "canonical_spec_strategy": "Track ISO 8583 Maintenance Agency artifacts for base field evolution; treat Mastercard-specific usage as network/profile overlay unless proprietary Mastercard docs are supplied.",
+      "watch_sources": [
+        {
+          "label": "ISO 8583 Maintenance Agency Secretariat",
+          "url": "https://x9.org/iso-8583-mas/",
+          "reference_id": "turn10search100",
+          "check_type": "maintenance_file_update"
+        },
+        {
+          "label": "ISO 8583 standard page",
+          "url": "https://www.iso.org/standard/79451.html",
+          "reference_id": "turn8search61",
+          "check_type": "standard_version_review"
+        }
+      ],
+      "upgrade_triggers": [
+        "message class definition update",
+        "data element definition update",
+        "code table update",
+        "new version mapping in convergence document"
+      ]
+    },
+    "ISO20022": {
+      "canonical_spec_strategy": "Track ISO 20022 catalogue, message definitions, change requests, external code sets, variants, and supplementary data. Use message id/version such as pacs.008.001.xx as version anchor.",
+      "watch_sources": [
+        {
+          "label": "ISO 20022 catalogue of messages",
+          "url": "https://www.iso20022.org/catalogue-messages",
+          "reference_id": "turn10search84",
+          "check_type": "message_version_review"
+        },
+        {
+          "label": "ISO 20022 message definitions",
+          "url": "https://www.iso20022.org/iso-20022-message-definitions",
+          "reference_id": "turn10search88",
+          "check_type": "schema_and_mdr_review"
+        },
+        {
+          "label": "ISO 20022 maintenance",
+          "url": "https://www.iso20022.org/maintenance/maintenance-iso-20022-message-definitions",
+          "reference_id": "turn10search89",
+          "check_type": "maintenance_calendar_review"
+        },
+        {
+          "label": "ISO 20022 change requests",
+          "url": "https://www.iso20022.org/maintenance/catalogue-change-requests",
+          "reference_id": "turn10search107",
+          "check_type": "change_request_review"
+        },
+        {
+          "label": "ISO 20022 external code sets",
+          "url": "https://www.iso20022.org/catalogue-messages/additional-content-messages/external-code-sets",
+          "reference_id": "turn10search109",
+          "check_type": "code_set_review"
+        }
+      ],
+      "upgrade_triggers": [
+        "new pacs.008 version",
+        "MDR/MUG/schema change",
+        "external code set quarterly update",
+        "approved change request impacting pacs/payment fields",
+        "supplementary data extension review"
+      ]
+    },
+    "Plaid": {
+      "canonical_spec_strategy": "Track Plaid API versioning and changelog. Additive fields can be ingested as candidate attributes; backwards-incompatible changes require schema version fork and regression.",
+      "watch_sources": [
+        {
+          "label": "Plaid API versioning",
+          "url": "https://plaid.com/docs/api/versioning/",
+          "reference_id": "turn10search63",
+          "check_type": "api_version_review"
+        },
+        {
+          "label": "Plaid changelog",
+          "url": "https://plaid.com/docs/changelog/",
+          "reference_id": "turn10search68",
+          "check_type": "changelog_review"
+        },
+        {
+          "label": "Plaid API overview",
+          "url": "https://plaid.com/docs/api/",
+          "reference_id": "turn10search81",
+          "check_type": "api_doc_review"
+        }
+      ],
+      "upgrade_triggers": [
+        "new API version",
+        "Auth/Transactions/Accounts field addition",
+        "enum addition",
+        "backwards-incompatible notice",
+        "SDK pinned API version change"
+      ]
+    },
+    "Razorpay": {
+      "canonical_spec_strategy": "Track Razorpay API changelog, Payments changelog, and API reference/versioning notes. Since Razorpay states APIs are backwards-compatible and deprecations receive warnings, treat deprecations as lifecycle flags in SRS lineage.",
+      "watch_sources": [
+        {
+          "label": "Razorpay API changelog",
+          "url": "https://razorpay.com/docs/api/changelog/",
+          "reference_id": "turn10search57",
+          "check_type": "changelog_review"
+        },
+        {
+          "label": "Razorpay API reference guide",
+          "url": "https://d6xcmfyh68wv8.cloudfront.net/docs/api/",
+          "reference_id": "turn10search59",
+          "check_type": "api_versioning_review"
+        },
+        {
+          "label": "Razorpay Payments changelog",
+          "url": "https://razorpay.com/docs/payments/changelog/",
+          "reference_id": "turn10search60",
+          "check_type": "payments_changelog_review"
+        }
+      ],
+      "upgrade_triggers": [
+        "Payment entity field addition",
+        "currency subunit behavior change",
+        "new payment method",
+        "deprecation warning",
+        "endpoint gateway version change"
+      ]
+    },
+    "Stripe": {
+      "canonical_spec_strategy": "Track Stripe changelog/API upgrades and PaymentIntent object docs. Stripe changelog explicitly tracks API changes and upgrades; API versions and breaking changes should trigger schema version updates.",
+      "watch_sources": [
+        {
+          "label": "Stripe changelog",
+          "url": "https://docs.stripe.com/changelog",
+          "reference_id": "turn10search75",
+          "check_type": "changelog_review"
+        },
+        {
+          "label": "Stripe API upgrade preparation",
+          "url": "https://stripe.dev/blog/prepare-for-api-upgrades",
+          "reference_id": "turn10search76",
+          "check_type": "api_upgrade_guidance_review"
+        },
+        {
+          "label": "Stripe PaymentIntent object",
+          "url": "https://docs.stripe.com/api/payment_intents/object",
+          "reference_id": "turn8search35",
+          "check_type": "object_field_review"
+        },
+        {
+          "label": "Stripe PaymentIntent create",
+          "url": "https://docs.stripe.com/api/payment_intents/create",
+          "reference_id": "turn8search37",
+          "check_type": "parameter_review"
+        }
+      ],
+      "upgrade_triggers": [
+        "new API version",
+        "breaking change tagged Payments/PaymentIntent",
+        "new PaymentIntent field",
+        "field requirement/type change",
+        "SDK pinned API version change"
+      ]
+    },
+    "UPI": {
+      "canonical_spec_strategy": "Track NPCI UPI circulars/notifications and UPI technology specifications. Use circular numbers and API version in URL/path/header as version anchors.",
+      "watch_sources": [
+        {
+          "label": "NPCI UPI circulars",
+          "url": "https://www.npci.org.in/circulars/upi",
+          "reference_id": "turn10search69",
+          "check_type": "circulars_review"
+        },
+        {
+          "label": "NPCI support article for UPI circular path",
+          "url": "https://www.npcisupport.org.in/portal/en/kb/articles/upi-operating-circular-path",
+          "reference_id": "turn10search70",
+          "check_type": "circular_path_review"
+        },
+        {
+          "label": "UPI API Technology Specification sample",
+          "url": "https://s3-ap-southeast-1.amazonaws.com/he-public-data/NPCI%20API%20Descriptionsb9bceb7.pdf",
+          "reference_id": "turn10search87",
+          "check_type": "api_spec_version_review"
+        }
+      ],
+      "upgrade_triggers": [
+        "new UPI operating circular",
+        "ReqPay/RespPay structure change",
+        "new transaction type",
+        "API version change",
+        "new limit/compliance rule affecting payload validation"
+      ]
+    }
+  },
+  "upgrade_decision_matrix": {
+    "new_optional_field": "minor version; create candidate attribute; auto-defer until semantic family and evidence pass",
+    "new_required_field": "major or minor-breaking; create candidate delta; runtime compliance must not auto-allow until reviewed",
+    "field_type_change": "major; fork schema version and run payload regression",
+    "constraint_pattern_change": "major if stricter, minor if additive/relaxed; run payload regression",
+    "enum_addition": "minor; add allowed value but keep PONF family unchanged",
+    "field_deprecation": "patch/minor; mark deprecated; retain legacy mapping until evidence supports removal",
+    "semantic_reclassification": "major; run AANF/RRNF/PONF/CMNF gates and lineage justification"
+  }
+}

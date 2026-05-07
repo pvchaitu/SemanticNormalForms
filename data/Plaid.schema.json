@@ -1,0 +1,351 @@
+{
+  "format": "sdnf_schema_descriptor_v15_with_upgrade_tracking",
+  "generated_at": "2026-05-07T12:26:02+05:30",
+  "schema_source_policy": "web_documentation_aligned_plus_payload_inference_plus_upgrade_tracking",
+  "review_status": "draft_for_sdnf_experiment",
+  "domain": "payments",
+  "upgrade_governance": {
+    "schema_versioning_rule": "Increment schema_descriptor_version when watched spec source changes. Use major for breaking/semantic-family changes, minor for additive optional fields, patch for descriptions/source metadata.",
+    "srs_evolution_rule": "Never overwrite canonical nodes directly. Create candidate_delta, run SDNF gates, produce accepted/rejected/deferred decisions, then append lineage.",
+    "runtime_compliance_rule": "Payment-initiation allow decisions should use approved schema versions only. Inferred or changed schemas remain diagnostic/provisional until reviewed or threshold-gated.",
+    "normal_forms_for_upgrade": {
+      "AANF": "new field alias candidate check",
+      "ECNF": "sufficient evidence from spec + payload + constraints",
+      "RRNF": "role safety, e.g., payer/payee/debtor/creditor/customer/merchant",
+      "CMNF": "domain/rail separation, e.g., card vs UPI vs ISO20022",
+      "DBNF": "drift across schema/spec versions and embedding/model versions",
+      "PONF": "partition separation, e.g., identifier vs method vs status vs temporal"
+    }
+  },
+  "notes": [
+    "These are SDNF schema descriptors for experiment/onboarding, not vendor-certified official JSON schemas.",
+    "They combine public documentation cues with the attached sample payload field universe.",
+    "Use payload files separately as ECNF/value-evidence inputs.",
+    "Each schema includes spec monitoring metadata so future provider/standard changes can be tracked and converted into SRS evolution deltas."
+  ],
+  "schema_id": "Plaid_AuthTransactions_v15",
+  "schema_descriptor_version": "1.1.0",
+  "provider_or_standard": "Plaid Auth + Transactions-like payload",
+  "rail": "open_banking",
+  "entity": "BankAccountAndTransaction",
+  "spec_monitoring": {
+    "canonical_spec_strategy": "Track Plaid API versioning and changelog. Additive fields can be ingested as candidate attributes; backwards-incompatible changes require schema version fork and regression.",
+    "watch_sources": [
+      {
+        "label": "Plaid API versioning",
+        "url": "https://plaid.com/docs/api/versioning/",
+        "reference_id": "turn10search63",
+        "check_type": "api_version_review"
+      },
+      {
+        "label": "Plaid changelog",
+        "url": "https://plaid.com/docs/changelog/",
+        "reference_id": "turn10search68",
+        "check_type": "changelog_review"
+      },
+      {
+        "label": "Plaid API overview",
+        "url": "https://plaid.com/docs/api/",
+        "reference_id": "turn10search81",
+        "check_type": "api_doc_review"
+      }
+    ],
+    "upgrade_triggers": [
+      "new API version",
+      "Auth/Transactions/Accounts field addition",
+      "enum addition",
+      "backwards-incompatible notice",
+      "SDK pinned API version change"
+    ]
+  },
+  "attributes": [
+    {
+      "name": "account_id",
+      "type": "string",
+      "required": true,
+      "semantic_family": "identifier:plaid_account",
+      "canonical_hint": "account_identifier",
+      "role": "plaid_account_identifier",
+      "aliases": [
+        "account_id"
+      ],
+      "constraints": {},
+      "description": "Plaid account identifier.",
+      "source_basis": [
+        "turn8search11",
+        "turn8search41",
+        "turn10search63"
+      ],
+      "merge_policy": {
+        "do_not_merge_with_families": [
+          "payment_card:pan",
+          "identifier:transaction",
+          "payment:method"
+        ]
+      },
+      "change_policy": {
+        "on_new_field_in_spec": "classify semantic_family, add as candidate attribute, run SDNF gates before merging into canonical node",
+        "on_type_or_constraint_change": "create new schema version, run payload regression, mark breaking if requiredness/type/pattern changes",
+        "on_deprecation": "retain legacy mapping with deprecated=true until payload evidence shows safe removal"
+      }
+    },
+    {
+      "name": "routing_number",
+      "type": "string",
+      "required": false,
+      "semantic_family": "payment_account:routing_number",
+      "canonical_hint": "routing_number",
+      "role": "bank_routing_identifier",
+      "aliases": [
+        "routing"
+      ],
+      "constraints": {
+        "pattern": "^[0-9]{9}$"
+      },
+      "description": "Routing number.",
+      "source_basis": [
+        "turn8search11",
+        "turn8search41"
+      ],
+      "merge_policy": {
+        "do_not_merge_with_families": [
+          "payment_card:pan",
+          "payment_account:account_number",
+          "payment:method"
+        ]
+      },
+      "change_policy": {
+        "on_new_field_in_spec": "classify semantic_family, add as candidate attribute, run SDNF gates before merging into canonical node",
+        "on_type_or_constraint_change": "create new schema version, run payload regression, mark breaking if requiredness/type/pattern changes",
+        "on_deprecation": "retain legacy mapping with deprecated=true until payload evidence shows safe removal"
+      }
+    },
+    {
+      "name": "account_number",
+      "type": "string",
+      "required": true,
+      "semantic_family": "payment_account:account_number",
+      "canonical_hint": "bank_account_number",
+      "role": "bank_account_identifier",
+      "aliases": [
+        "acct_num"
+      ],
+      "constraints": {
+        "storage_policy": "mask_or_tokenize_if_retained"
+      },
+      "description": "Bank account number.",
+      "source_basis": [
+        "turn8search11",
+        "turn8search41"
+      ],
+      "merge_policy": {
+        "do_not_merge_with_families": [
+          "payment_card:pan",
+          "payment_account:routing_number",
+          "identifier:transaction"
+        ]
+      },
+      "change_policy": {
+        "on_new_field_in_spec": "classify semantic_family, add as candidate attribute, run SDNF gates before merging into canonical node",
+        "on_type_or_constraint_change": "create new schema version, run payload regression, mark breaking if requiredness/type/pattern changes",
+        "on_deprecation": "retain legacy mapping with deprecated=true until payload evidence shows safe removal"
+      }
+    },
+    {
+      "name": "account_type",
+      "type": "string",
+      "required": false,
+      "semantic_family": "payment_account:account_type",
+      "canonical_hint": "account_type",
+      "role": "account_classification",
+      "aliases": [
+        "type",
+        "subtype"
+      ],
+      "constraints": {},
+      "description": "Account type.",
+      "source_basis": [
+        "turn8search11",
+        "turn8search42"
+      ],
+      "merge_policy": {
+        "do_not_merge_with_families": [
+          "payment:status",
+          "identifier",
+          "payment:method"
+        ]
+      },
+      "change_policy": {
+        "on_new_field_in_spec": "classify semantic_family, add as candidate attribute, run SDNF gates before merging into canonical node",
+        "on_type_or_constraint_change": "create new schema version, run payload regression, mark breaking if requiredness/type/pattern changes",
+        "on_deprecation": "retain legacy mapping with deprecated=true until payload evidence shows safe removal"
+      }
+    },
+    {
+      "name": "balance_current",
+      "type": "string",
+      "required": false,
+      "semantic_family": "payment_account:current_balance",
+      "canonical_hint": "current_balance",
+      "role": "balance",
+      "aliases": [
+        "current_balance",
+        "balance"
+      ],
+      "constraints": {
+        "pattern": "^[0-9]+(\\.[0-9]+)?$"
+      },
+      "description": "Current balance.",
+      "source_basis": [
+        "turn8search11",
+        "turn8search42"
+      ],
+      "merge_policy": {
+        "do_not_merge_with_families": [
+          "payment:amount",
+          "identifier",
+          "payment:method"
+        ]
+      },
+      "change_policy": {
+        "on_new_field_in_spec": "classify semantic_family, add as candidate attribute, run SDNF gates before merging into canonical node",
+        "on_type_or_constraint_change": "create new schema version, run payload regression, mark breaking if requiredness/type/pattern changes",
+        "on_deprecation": "retain legacy mapping with deprecated=true until payload evidence shows safe removal"
+      }
+    },
+    {
+      "name": "currency",
+      "type": "string",
+      "required": false,
+      "semantic_family": "payment:currency",
+      "canonical_hint": "payment_currency",
+      "role": "currency_code",
+      "aliases": [
+        "iso_currency_code"
+      ],
+      "constraints": {
+        "pattern": "^[A-Z]{3}$"
+      },
+      "description": "Currency code.",
+      "source_basis": [
+        "turn8search11",
+        "turn8search45"
+      ],
+      "merge_policy": {
+        "do_not_merge_with_families": [
+          "identifier",
+          "payment:amount",
+          "payment:method"
+        ]
+      },
+      "change_policy": {
+        "on_new_field_in_spec": "classify semantic_family, add as candidate attribute, run SDNF gates before merging into canonical node",
+        "on_type_or_constraint_change": "create new schema version, run payload regression, mark breaking if requiredness/type/pattern changes",
+        "on_deprecation": "retain legacy mapping with deprecated=true until payload evidence shows safe removal"
+      }
+    },
+    {
+      "name": "transaction_id",
+      "type": "string",
+      "required": false,
+      "semantic_family": "identifier:transaction",
+      "canonical_hint": "transaction_identifier",
+      "role": "transaction_identifier",
+      "aliases": [
+        "txn_id"
+      ],
+      "constraints": {},
+      "description": "Transaction identifier.",
+      "source_basis": [
+        "turn8search11",
+        "turn8search44"
+      ],
+      "merge_policy": {
+        "do_not_merge_with_families": [
+          "identifier:plaid_account",
+          "identifier:customer",
+          "payment:method"
+        ]
+      },
+      "change_policy": {
+        "on_new_field_in_spec": "classify semantic_family, add as candidate attribute, run SDNF gates before merging into canonical node",
+        "on_type_or_constraint_change": "create new schema version, run payload regression, mark breaking if requiredness/type/pattern changes",
+        "on_deprecation": "retain legacy mapping with deprecated=true until payload evidence shows safe removal"
+      }
+    },
+    {
+      "name": "transaction_amount",
+      "type": "string",
+      "required": false,
+      "semantic_family": "payment:amount",
+      "canonical_hint": "payment_amount",
+      "role": "transaction_amount",
+      "aliases": [
+        "amount",
+        "txn_amount",
+        "instd_amt"
+      ],
+      "constraints": {
+        "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+      },
+      "description": "Transaction amount.",
+      "source_basis": [
+        "turn8search11",
+        "turn8search45"
+      ],
+      "merge_policy": {
+        "do_not_merge_with_families": [
+          "identifier",
+          "payment:method",
+          "payment:status",
+          "temporal"
+        ]
+      },
+      "change_policy": {
+        "on_new_field_in_spec": "classify semantic_family, add as candidate attribute, run SDNF gates before merging into canonical node",
+        "on_type_or_constraint_change": "create new schema version, run payload regression, mark breaking if requiredness/type/pattern changes",
+        "on_deprecation": "retain legacy mapping with deprecated=true until payload evidence shows safe removal"
+      }
+    },
+    {
+      "name": "transaction_date",
+      "type": "string",
+      "required": false,
+      "semantic_family": "temporal:transaction_date",
+      "canonical_hint": "transaction_date",
+      "role": "posted_transaction_date",
+      "aliases": [
+        "date",
+        "posted_date"
+      ],
+      "constraints": {
+        "format": "date"
+      },
+      "description": "Transaction date.",
+      "source_basis": [
+        "turn8search11",
+        "turn8search45"
+      ],
+      "merge_policy": {
+        "do_not_merge_with_families": [
+          "payment:status",
+          "identifier",
+          "payment:amount"
+        ]
+      },
+      "change_policy": {
+        "on_new_field_in_spec": "classify semantic_family, add as candidate attribute, run SDNF gates before merging into canonical node",
+        "on_type_or_constraint_change": "create new schema version, run payload regression, mark breaking if requiredness/type/pattern changes",
+        "on_deprecation": "retain legacy mapping with deprecated=true until payload evidence shows safe removal"
+      }
+    }
+  ],
+  "schema_fingerprint_sha256": "5d2000b892592ccd91c0fc975de0fcad34ce6e2574be48d6ad11742bd270f39a",
+  "upgrade_tracking_state": {
+    "last_reviewed_at": "2026-05-07T12:26:02+05:30",
+    "last_reviewed_by": "M365 Copilot generated artifact",
+    "baseline_fingerprint_sha256": "5d2000b892592ccd91c0fc975de0fcad34ce6e2574be48d6ad11742bd270f39a",
+    "pending_deltas": [],
+    "promotion_policy": "A detected spec change must be represented as a candidate delta, pass SDNF gates, and be appended to SRS lineage before becoming approved."
+  }
+}

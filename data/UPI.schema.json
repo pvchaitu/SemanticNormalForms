@@ -1,0 +1,318 @@
+{
+  "format": "sdnf_schema_descriptor_v15_with_upgrade_tracking",
+  "generated_at": "2026-05-07T12:26:02+05:30",
+  "schema_source_policy": "web_documentation_aligned_plus_payload_inference_plus_upgrade_tracking",
+  "review_status": "draft_for_sdnf_experiment",
+  "domain": "payments",
+  "upgrade_governance": {
+    "schema_versioning_rule": "Increment schema_descriptor_version when watched spec source changes. Use major for breaking/semantic-family changes, minor for additive optional fields, patch for descriptions/source metadata.",
+    "srs_evolution_rule": "Never overwrite canonical nodes directly. Create candidate_delta, run SDNF gates, produce accepted/rejected/deferred decisions, then append lineage.",
+    "runtime_compliance_rule": "Payment-initiation allow decisions should use approved schema versions only. Inferred or changed schemas remain diagnostic/provisional until reviewed or threshold-gated.",
+    "normal_forms_for_upgrade": {
+      "AANF": "new field alias candidate check",
+      "ECNF": "sufficient evidence from spec + payload + constraints",
+      "RRNF": "role safety, e.g., payer/payee/debtor/creditor/customer/merchant",
+      "CMNF": "domain/rail separation, e.g., card vs UPI vs ISO20022",
+      "DBNF": "drift across schema/spec versions and embedding/model versions",
+      "PONF": "partition separation, e.g., identifier vs method vs status vs temporal"
+    }
+  },
+  "notes": [
+    "These are SDNF schema descriptors for experiment/onboarding, not vendor-certified official JSON schemas.",
+    "They combine public documentation cues with the attached sample payload field universe.",
+    "Use payload files separately as ECNF/value-evidence inputs.",
+    "Each schema includes spec monitoring metadata so future provider/standard changes can be tracked and converted into SRS evolution deltas."
+  ],
+  "schema_id": "NPCI_UPI_ReqPay_Inferred_v15",
+  "schema_descriptor_version": "1.1.0",
+  "provider_or_standard": "NPCI UPI-like payment payload",
+  "rail": "upi",
+  "entity": "UPIPaymentTransaction",
+  "spec_monitoring": {
+    "canonical_spec_strategy": "Track NPCI UPI circulars/notifications and UPI technology specifications. Use circular numbers and API version in URL/path/header as version anchors.",
+    "watch_sources": [
+      {
+        "label": "NPCI UPI circulars",
+        "url": "https://www.npci.org.in/circulars/upi",
+        "reference_id": "turn10search69",
+        "check_type": "circulars_review"
+      },
+      {
+        "label": "NPCI support article for UPI circular path",
+        "url": "https://www.npcisupport.org.in/portal/en/kb/articles/upi-operating-circular-path",
+        "reference_id": "turn10search70",
+        "check_type": "circular_path_review"
+      },
+      {
+        "label": "UPI API Technology Specification sample",
+        "url": "https://s3-ap-southeast-1.amazonaws.com/he-public-data/NPCI%20API%20Descriptionsb9bceb7.pdf",
+        "reference_id": "turn10search87",
+        "check_type": "api_spec_version_review"
+      }
+    ],
+    "upgrade_triggers": [
+      "new UPI operating circular",
+      "ReqPay/RespPay structure change",
+      "new transaction type",
+      "API version change",
+      "new limit/compliance rule affecting payload validation"
+    ]
+  },
+  "attributes": [
+    {
+      "name": "vpa",
+      "type": "string",
+      "required": false,
+      "semantic_family": "upi:vpa",
+      "canonical_hint": "virtual_payment_address",
+      "role": "generic_vpa",
+      "aliases": [
+        "addr",
+        "virtual_payment_address"
+      ],
+      "constraints": {
+        "pattern_hint": "^[^@]+@[^@]+$"
+      },
+      "description": "Virtual payment address.",
+      "source_basis": [
+        "turn8search15",
+        "turn10search87"
+      ],
+      "merge_policy": {
+        "do_not_merge_with_families": [
+          "payment_account:account_number",
+          "identifier",
+          "payment:amount"
+        ]
+      },
+      "change_policy": {
+        "on_new_field_in_spec": "classify semantic_family, add as candidate attribute, run SDNF gates before merging into canonical node",
+        "on_type_or_constraint_change": "create new schema version, run payload regression, mark breaking if requiredness/type/pattern changes",
+        "on_deprecation": "retain legacy mapping with deprecated=true until payload evidence shows safe removal"
+      }
+    },
+    {
+      "name": "payer_account",
+      "type": "string",
+      "required": false,
+      "semantic_family": "payment_account:payer_account",
+      "canonical_hint": "payer_account",
+      "role": "payer_account",
+      "aliases": [
+        "payer_acct"
+      ],
+      "constraints": {},
+      "description": "Payer account.",
+      "source_basis": [
+        "turn8search15",
+        "turn10search87"
+      ],
+      "merge_policy": {
+        "do_not_merge_with_families": [
+          "payment_account:payee_account",
+          "payment_account:creditor_account",
+          "payment_card:pan"
+        ]
+      },
+      "change_policy": {
+        "on_new_field_in_spec": "classify semantic_family, add as candidate attribute, run SDNF gates before merging into canonical node",
+        "on_type_or_constraint_change": "create new schema version, run payload regression, mark breaking if requiredness/type/pattern changes",
+        "on_deprecation": "retain legacy mapping with deprecated=true until payload evidence shows safe removal"
+      }
+    },
+    {
+      "name": "payee_vpa",
+      "type": "string",
+      "required": true,
+      "semantic_family": "upi:payee_vpa",
+      "canonical_hint": "payee_vpa",
+      "role": "payee",
+      "aliases": [
+        "payee_addr",
+        "beneficiary_vpa"
+      ],
+      "constraints": {
+        "pattern_hint": "^[^@]+@[^@]+$"
+      },
+      "description": "Payee VPA.",
+      "source_basis": [
+        "turn8search15",
+        "turn10search87"
+      ],
+      "merge_policy": {
+        "do_not_merge_with_families": [
+          "payment_account:payer_account",
+          "upi:payer_vpa",
+          "payment:amount"
+        ]
+      },
+      "change_policy": {
+        "on_new_field_in_spec": "classify semantic_family, add as candidate attribute, run SDNF gates before merging into canonical node",
+        "on_type_or_constraint_change": "create new schema version, run payload regression, mark breaking if requiredness/type/pattern changes",
+        "on_deprecation": "retain legacy mapping with deprecated=true until payload evidence shows safe removal"
+      }
+    },
+    {
+      "name": "txn_id",
+      "type": "string",
+      "required": true,
+      "semantic_family": "identifier:upi_transaction",
+      "canonical_hint": "transaction_identifier",
+      "role": "upi_transaction_identifier",
+      "aliases": [
+        "transaction_id",
+        "id"
+      ],
+      "constraints": {},
+      "description": "UPI transaction ID.",
+      "source_basis": [
+        "turn8search15",
+        "turn10search87"
+      ],
+      "merge_policy": {
+        "do_not_merge_with_families": [
+          "payment:method",
+          "identifier:customer",
+          "payment:status"
+        ]
+      },
+      "change_policy": {
+        "on_new_field_in_spec": "classify semantic_family, add as candidate attribute, run SDNF gates before merging into canonical node",
+        "on_type_or_constraint_change": "create new schema version, run payload regression, mark breaking if requiredness/type/pattern changes",
+        "on_deprecation": "retain legacy mapping with deprecated=true until payload evidence shows safe removal"
+      }
+    },
+    {
+      "name": "txn_amount",
+      "type": "string",
+      "required": true,
+      "semantic_family": "payment:amount",
+      "canonical_hint": "payment_amount",
+      "role": "transaction_amount",
+      "aliases": [
+        "amount",
+        "transaction_amount",
+        "instd_amt"
+      ],
+      "constraints": {
+        "pattern": "^[0-9]+(\\.[0-9]+)?$"
+      },
+      "description": "Transaction amount.",
+      "source_basis": [
+        "turn8search15"
+      ],
+      "merge_policy": {
+        "do_not_merge_with_families": [
+          "identifier",
+          "payment:method",
+          "payment:status",
+          "temporal"
+        ]
+      },
+      "change_policy": {
+        "on_new_field_in_spec": "classify semantic_family, add as candidate attribute, run SDNF gates before merging into canonical node",
+        "on_type_or_constraint_change": "create new schema version, run payload regression, mark breaking if requiredness/type/pattern changes",
+        "on_deprecation": "retain legacy mapping with deprecated=true until payload evidence shows safe removal"
+      }
+    },
+    {
+      "name": "currency",
+      "type": "string",
+      "required": true,
+      "semantic_family": "payment:currency",
+      "canonical_hint": "payment_currency",
+      "role": "currency_code",
+      "aliases": [
+        "iso_currency_code"
+      ],
+      "constraints": {
+        "pattern": "^[A-Z]{3}$"
+      },
+      "description": "Currency.",
+      "source_basis": [
+        "turn8search15"
+      ],
+      "merge_policy": {
+        "do_not_merge_with_families": [
+          "identifier",
+          "payment:amount",
+          "payment:method"
+        ]
+      },
+      "change_policy": {
+        "on_new_field_in_spec": "classify semantic_family, add as candidate attribute, run SDNF gates before merging into canonical node",
+        "on_type_or_constraint_change": "create new schema version, run payload regression, mark breaking if requiredness/type/pattern changes",
+        "on_deprecation": "retain legacy mapping with deprecated=true until payload evidence shows safe removal"
+      }
+    },
+    {
+      "name": "txn_timestamp",
+      "type": "string",
+      "required": true,
+      "semantic_family": "temporal:transaction_timestamp",
+      "canonical_hint": "transaction_timestamp",
+      "role": "transaction_timestamp",
+      "aliases": [
+        "timestamp",
+        "ts"
+      ],
+      "constraints": {
+        "format": "date-time"
+      },
+      "description": "Transaction timestamp.",
+      "source_basis": [
+        "turn8search15",
+        "turn10search87"
+      ],
+      "merge_policy": {
+        "do_not_merge_with_families": [
+          "payment:status",
+          "identifier",
+          "payment:amount"
+        ]
+      },
+      "change_policy": {
+        "on_new_field_in_spec": "classify semantic_family, add as candidate attribute, run SDNF gates before merging into canonical node",
+        "on_type_or_constraint_change": "create new schema version, run payload regression, mark breaking if requiredness/type/pattern changes",
+        "on_deprecation": "retain legacy mapping with deprecated=true until payload evidence shows safe removal"
+      }
+    },
+    {
+      "name": "txn_status",
+      "type": "string",
+      "required": false,
+      "semantic_family": "payment:status",
+      "canonical_hint": "payment_status",
+      "role": "transaction_status",
+      "aliases": [
+        "status",
+        "transaction_status"
+      ],
+      "constraints": {},
+      "description": "Transaction status.",
+      "source_basis": [
+        "turn8search15"
+      ],
+      "merge_policy": {
+        "do_not_merge_with_families": [
+          "temporal",
+          "identifier",
+          "payment:method"
+        ]
+      },
+      "change_policy": {
+        "on_new_field_in_spec": "classify semantic_family, add as candidate attribute, run SDNF gates before merging into canonical node",
+        "on_type_or_constraint_change": "create new schema version, run payload regression, mark breaking if requiredness/type/pattern changes",
+        "on_deprecation": "retain legacy mapping with deprecated=true until payload evidence shows safe removal"
+      }
+    }
+  ],
+  "schema_fingerprint_sha256": "0751faca19c6eb3324c017e6b6ca40abe9bab4a638b552b9b521996e3630bd6a",
+  "upgrade_tracking_state": {
+    "last_reviewed_at": "2026-05-07T12:26:02+05:30",
+    "last_reviewed_by": "M365 Copilot generated artifact",
+    "baseline_fingerprint_sha256": "0751faca19c6eb3324c017e6b6ca40abe9bab4a638b552b9b521996e3630bd6a",
+    "pending_deltas": [],
+    "promotion_policy": "A detected spec change must be represented as a candidate delta, pass SDNF gates, and be appended to SRS lineage before becoming approved."
+  }
+}

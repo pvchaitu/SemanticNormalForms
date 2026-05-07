@@ -1,0 +1,60 @@
+{
+  "format": "sdnf_srs_upgrade_workflow_v15",
+  "steps": [
+    {
+      "step": 1,
+      "name": "collect_spec_snapshot",
+      "input": "schema.spec_monitoring.watch_sources",
+      "output": "source_snapshot_metadata",
+      "notes": "Capture URL, title/version if visible, change marker, retrieved timestamp, and content hash if available."
+    },
+    {
+      "step": 2,
+      "name": "diff_against_last_review",
+      "input": "source_snapshot_metadata + schema.upgrade_tracking_state.baseline_fingerprint_sha256",
+      "output": "candidate_delta",
+      "notes": "Only material changes become candidate deltas."
+    },
+    {
+      "step": 3,
+      "name": "classify_delta",
+      "input": "candidate_delta",
+      "output": "change_type + risk_level",
+      "notes": "Use decision matrix in SCHEMA_MANIFEST.json."
+    },
+    {
+      "step": 4,
+      "name": "run_sdnf_gates",
+      "input": "candidate_delta + current_master_srs + payload_regression_set",
+      "output": "accepted/rejected/deferred/forked decision",
+      "notes": "AANF/ECNF/RRNF/CMNF/DBNF/PONF provide decision justification."
+    },
+    {
+      "step": 5,
+      "name": "update_srs_lineage",
+      "input": "decision",
+      "output": "append-only lineage event",
+      "notes": "Never silently overwrite canonical SRS nodes."
+    },
+    {
+      "step": 6,
+      "name": "payload_regression",
+      "input": "old payloads + new schema candidate",
+      "output": "payload_regression_report",
+      "notes": "Check previously compliant payloads and new fields."
+    },
+    {
+      "step": 7,
+      "name": "promote_or_quarantine",
+      "input": "decision + regression report",
+      "output": "schemas_current or schemas_candidate/quarantine",
+      "notes": "Runtime payment compliance should use approved schema versions only."
+    }
+  ],
+  "risk_levels": {
+    "low": "new optional field with clear semantic family and no conflict",
+    "medium": "new enum/code value or relaxed constraint",
+    "high": "new required field, type change, stricter constraint, role change, payment initiation behavior change",
+    "critical": "security/storage/authentication data policy change or field that affects allow/reject payment decision"
+  }
+}

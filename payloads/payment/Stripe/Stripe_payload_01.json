@@ -1,0 +1,12 @@
+{
+  "id": "pi_760601",
+  "amount": "1425",
+  "currency": "usd",
+  "customer_id": "cus_450271",
+  "payment_method": "card",
+  "created": 1771007200,
+  "status": "requires_payment_method",
+  "description": "Synthetic charge for BookMyShow",
+  "card_last4": "0009",
+  "card_brand": "visa"
+}

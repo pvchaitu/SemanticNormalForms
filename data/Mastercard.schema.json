@@ -1,0 +1,296 @@
+{
+  "format": "sdnf_schema_descriptor_v15_with_upgrade_tracking",
+  "generated_at": "2026-05-07T12:26:02+05:30",
+  "schema_source_policy": "web_documentation_aligned_plus_payload_inference_plus_upgrade_tracking",
+  "review_status": "draft_for_sdnf_experiment",
+  "domain": "payments",
+  "upgrade_governance": {
+    "schema_versioning_rule": "Increment schema_descriptor_version when watched spec source changes. Use major for breaking/semantic-family changes, minor for additive optional fields, patch for descriptions/source metadata.",
+    "srs_evolution_rule": "Never overwrite canonical nodes directly. Create candidate_delta, run SDNF gates, produce accepted/rejected/deferred decisions, then append lineage.",
+    "runtime_compliance_rule": "Payment-initiation allow decisions should use approved schema versions only. Inferred or changed schemas remain diagnostic/provisional until reviewed or threshold-gated.",
+    "normal_forms_for_upgrade": {
+      "AANF": "new field alias candidate check",
+      "ECNF": "sufficient evidence from spec + payload + constraints",
+      "RRNF": "role safety, e.g., payer/payee/debtor/creditor/customer/merchant",
+      "CMNF": "domain/rail separation, e.g., card vs UPI vs ISO20022",
+      "DBNF": "drift across schema/spec versions and embedding/model versions",
+      "PONF": "partition separation, e.g., identifier vs method vs status vs temporal"
+    }
+  },
+  "notes": [
+    "These are SDNF schema descriptors for experiment/onboarding, not vendor-certified official JSON schemas.",
+    "They combine public documentation cues with the attached sample payload field universe.",
+    "Use payload files separately as ECNF/value-evidence inputs.",
+    "Each schema includes spec monitoring metadata so future provider/standard changes can be tracked and converted into SRS evolution deltas."
+  ],
+  "schema_id": "Mastercard_ISO8583_CardAuthorization_v15",
+  "schema_descriptor_version": "1.1.0",
+  "provider_or_standard": "Mastercard-style ISO 8583 card authorization",
+  "rail": "card_network_iso8583",
+  "entity": "CardAuthorizationMessage",
+  "spec_monitoring": {
+    "canonical_spec_strategy": "Track ISO 8583 Maintenance Agency artifacts for base field evolution; treat Mastercard-specific usage as network/profile overlay unless proprietary Mastercard docs are supplied.",
+    "watch_sources": [
+      {
+        "label": "ISO 8583 Maintenance Agency Secretariat",
+        "url": "https://x9.org/iso-8583-mas/",
+        "reference_id": "turn10search100",
+        "check_type": "maintenance_file_update"
+      },
+      {
+        "label": "ISO 8583 standard page",
+        "url": "https://www.iso.org/standard/79451.html",
+        "reference_id": "turn8search61",
+        "check_type": "standard_version_review"
+      }
+    ],
+    "upgrade_triggers": [
+      "message class definition update",
+      "data element definition update",
+      "code table update",
+      "new version mapping in convergence document"
+    ]
+  },
+  "attributes": [
+    {
+      "name": "primary_account_number",
+      "type": "string",
+      "required": true,
+      "semantic_family": "payment_card:pan",
+      "canonical_hint": "card_primary_account_number",
+      "role": "card_account_identifier",
+      "aliases": [
+        "pan",
+        "PrimaryAccountNumber",
+        "account_number"
+      ],
+      "constraints": {
+        "pattern": "^[0-9Xx*]{12,19}$",
+        "iso8583_data_element": "DE2"
+      },
+      "description": "PAN / ISO8583 DE2.",
+      "source_basis": [
+        "turn8search16",
+        "turn8search60",
+        "turn10search100"
+      ],
+      "merge_policy": {
+        "do_not_merge_with_families": [
+          "payment:method",
+          "payment:status",
+          "temporal",
+          "identifier:transaction"
+        ]
+      },
+      "change_policy": {
+        "on_new_field_in_spec": "classify semantic_family, add as candidate attribute, run SDNF gates before merging into canonical node",
+        "on_type_or_constraint_change": "create new schema version, run payload regression, mark breaking if requiredness/type/pattern changes",
+        "on_deprecation": "retain legacy mapping with deprecated=true until payload evidence shows safe removal"
+      },
+      "sensitivity": "cardholder_data"
+    },
+    {
+      "name": "processing_code",
+      "type": "string",
+      "required": true,
+      "semantic_family": "iso8583:processing_code",
+      "canonical_hint": "processing_code",
+      "role": "transaction_processing_type",
+      "aliases": [
+        "proc_code"
+      ],
+      "constraints": {
+        "pattern": "^[0-9]{6}$",
+        "iso8583_data_element": "DE3"
+      },
+      "description": "Processing code / DE3.",
+      "source_basis": [
+        "turn8search16",
+        "turn8search60",
+        "turn10search100"
+      ],
+      "merge_policy": {
+        "do_not_merge_with_families": [
+          "payment:amount",
+          "payment_card:pan",
+          "temporal"
+        ]
+      },
+      "change_policy": {
+        "on_new_field_in_spec": "classify semantic_family, add as candidate attribute, run SDNF gates before merging into canonical node",
+        "on_type_or_constraint_change": "create new schema version, run payload regression, mark breaking if requiredness/type/pattern changes",
+        "on_deprecation": "retain legacy mapping with deprecated=true until payload evidence shows safe removal"
+      }
+    },
+    {
+      "name": "transaction_amount",
+      "type": "string",
+      "required": true,
+      "semantic_family": "payment:amount",
+      "canonical_hint": "payment_amount",
+      "role": "transaction_amount",
+      "aliases": [
+        "amount",
+        "txn_amount",
+        "instd_amt"
+      ],
+      "constraints": {
+        "pattern": "^[0-9]+(\\.[0-9]+)?$",
+        "iso8583_data_element": "DE4"
+      },
+      "description": "Transaction amount / DE4.",
+      "source_basis": [
+        "turn8search16",
+        "turn8search60"
+      ],
+      "merge_policy": {
+        "do_not_merge_with_families": [
+          "identifier",
+          "payment:method",
+          "payment:status",
+          "temporal"
+        ]
+      },
+      "change_policy": {
+        "on_new_field_in_spec": "classify semantic_family, add as candidate attribute, run SDNF gates before merging into canonical node",
+        "on_type_or_constraint_change": "create new schema version, run payload regression, mark breaking if requiredness/type/pattern changes",
+        "on_deprecation": "retain legacy mapping with deprecated=true until payload evidence shows safe removal"
+      }
+    },
+    {
+      "name": "transmission_datetime",
+      "type": "string",
+      "required": true,
+      "semantic_family": "temporal:transmission_datetime",
+      "canonical_hint": "transmission_datetime",
+      "role": "message_transmission_time",
+      "aliases": [
+        "transmission_ts"
+      ],
+      "constraints": {
+        "pattern": "^[0-9]{10}$",
+        "iso8583_data_element": "DE7"
+      },
+      "description": "Transmission date/time / DE7.",
+      "source_basis": [
+        "turn8search16",
+        "turn8search60"
+      ],
+      "merge_policy": {
+        "do_not_merge_with_families": [
+          "payment:status",
+          "payment:amount",
+          "identifier"
+        ]
+      },
+      "change_policy": {
+        "on_new_field_in_spec": "classify semantic_family, add as candidate attribute, run SDNF gates before merging into canonical node",
+        "on_type_or_constraint_change": "create new schema version, run payload regression, mark breaking if requiredness/type/pattern changes",
+        "on_deprecation": "retain legacy mapping with deprecated=true until payload evidence shows safe removal"
+      }
+    },
+    {
+      "name": "system_trace_audit_number",
+      "type": "string",
+      "required": true,
+      "semantic_family": "identifier:stan",
+      "canonical_hint": "system_trace_audit_number",
+      "role": "message_trace_identifier",
+      "aliases": [
+        "stan"
+      ],
+      "constraints": {
+        "pattern": "^[0-9]{6}$",
+        "iso8583_data_element": "DE11"
+      },
+      "description": "STAN / DE11.",
+      "source_basis": [
+        "turn8search16",
+        "turn8search60"
+      ],
+      "merge_policy": {
+        "do_not_merge_with_families": [
+          "payment:amount",
+          "payment:method",
+          "payment:status"
+        ]
+      },
+      "change_policy": {
+        "on_new_field_in_spec": "classify semantic_family, add as candidate attribute, run SDNF gates before merging into canonical node",
+        "on_type_or_constraint_change": "create new schema version, run payload regression, mark breaking if requiredness/type/pattern changes",
+        "on_deprecation": "retain legacy mapping with deprecated=true until payload evidence shows safe removal"
+      }
+    },
+    {
+      "name": "merchant_category_code",
+      "type": "string",
+      "required": false,
+      "semantic_family": "merchant:category_code",
+      "canonical_hint": "merchant_category_code",
+      "role": "merchant_classification",
+      "aliases": [
+        "mcc"
+      ],
+      "constraints": {
+        "pattern": "^[0-9]{4}$"
+      },
+      "description": "Merchant category code.",
+      "source_basis": [
+        "turn8search16",
+        "turn8search60"
+      ],
+      "merge_policy": {
+        "do_not_merge_with_families": [
+          "payment:amount",
+          "temporal",
+          "identifier:transaction"
+        ]
+      },
+      "change_policy": {
+        "on_new_field_in_spec": "classify semantic_family, add as candidate attribute, run SDNF gates before merging into canonical node",
+        "on_type_or_constraint_change": "create new schema version, run payload regression, mark breaking if requiredness/type/pattern changes",
+        "on_deprecation": "retain legacy mapping with deprecated=true until payload evidence shows safe removal"
+      }
+    },
+    {
+      "name": "card_acceptor_id",
+      "type": "string",
+      "required": false,
+      "semantic_family": "identifier:card_acceptor",
+      "canonical_hint": "card_acceptor_identifier",
+      "role": "merchant_acceptor_identifier",
+      "aliases": [
+        "card_acceptor_id_code"
+      ],
+      "constraints": {
+        "iso8583_data_element": "DE42"
+      },
+      "description": "Card acceptor ID / DE42.",
+      "source_basis": [
+        "turn8search16",
+        "turn8search60"
+      ],
+      "merge_policy": {
+        "do_not_merge_with_families": [
+          "payment:method",
+          "identifier:transaction",
+          "identifier:customer",
+          "identifier:schema"
+        ]
+      },
+      "change_policy": {
+        "on_new_field_in_spec": "classify semantic_family, add as candidate attribute, run SDNF gates before merging into canonical node",
+        "on_type_or_constraint_change": "create new schema version, run payload regression, mark breaking if requiredness/type/pattern changes",
+        "on_deprecation": "retain legacy mapping with deprecated=true until payload evidence shows safe removal"
+      }
+    }
+  ],
+  "schema_fingerprint_sha256": "a14a2977888eb9d0b010d50eda3d2ff7cf7aab343a930ce074e3ffe2e2739f42",
+  "upgrade_tracking_state": {
+    "last_reviewed_at": "2026-05-07T12:26:02+05:30",
+    "last_reviewed_by": "M365 Copilot generated artifact",
+    "baseline_fingerprint_sha256": "a14a2977888eb9d0b010d50eda3d2ff7cf7aab343a930ce074e3ffe2e2739f42",
+    "pending_deltas": [],
+    "promotion_policy": "A detected spec change must be represented as a candidate delta, pass SDNF gates, and be appended to SRS lineage before becoming approved."
+  }
+}

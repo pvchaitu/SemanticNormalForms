@@ -1,0 +1,14 @@
+{
+  "primary_account_number": "5490006343860006",
+  "processing_code": "200000",
+  "transaction_amount": "3143.45",
+  "transaction_currency": "INR",
+  "transmission_datetime": "02161421",
+  "system_trace_audit_number": "205622",
+  "expiry": "11/30",
+  "securityCode": "200",
+  "cardholder": "Asha Rao",
+  "merchant": "BigBazaar",
+  "merchant_category_code": "5406",
+  "card_acceptor_id": "MCACQ3006"
+}

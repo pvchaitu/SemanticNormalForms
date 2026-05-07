@@ -1,0 +1,362 @@
+{
+  "format": "sdnf_schema_descriptor_v15_with_upgrade_tracking",
+  "generated_at": "2026-05-07T12:26:02+05:30",
+  "schema_source_policy": "web_documentation_aligned_plus_payload_inference_plus_upgrade_tracking",
+  "review_status": "draft_for_sdnf_experiment",
+  "domain": "payments",
+  "upgrade_governance": {
+    "schema_versioning_rule": "Increment schema_descriptor_version when watched spec source changes. Use major for breaking/semantic-family changes, minor for additive optional fields, patch for descriptions/source metadata.",
+    "srs_evolution_rule": "Never overwrite canonical nodes directly. Create candidate_delta, run SDNF gates, produce accepted/rejected/deferred decisions, then append lineage.",
+    "runtime_compliance_rule": "Payment-initiation allow decisions should use approved schema versions only. Inferred or changed schemas remain diagnostic/provisional until reviewed or threshold-gated.",
+    "normal_forms_for_upgrade": {
+      "AANF": "new field alias candidate check",
+      "ECNF": "sufficient evidence from spec + payload + constraints",
+      "RRNF": "role safety, e.g., payer/payee/debtor/creditor/customer/merchant",
+      "CMNF": "domain/rail separation, e.g., card vs UPI vs ISO20022",
+      "DBNF": "drift across schema/spec versions and embedding/model versions",
+      "PONF": "partition separation, e.g., identifier vs method vs status vs temporal"
+    }
+  },
+  "notes": [
+    "These are SDNF schema descriptors for experiment/onboarding, not vendor-certified official JSON schemas.",
+    "They combine public documentation cues with the attached sample payload field universe.",
+    "Use payload files separately as ECNF/value-evidence inputs.",
+    "Each schema includes spec monitoring metadata so future provider/standard changes can be tracked and converted into SRS evolution deltas."
+  ],
+  "schema_id": "ISO20022_pacs008_CreditTransfer_v15",
+  "schema_descriptor_version": "1.1.0",
+  "provider_or_standard": "ISO 20022 pacs.008-like credit transfer",
+  "rail": "account_to_account_credit_transfer",
+  "entity": "FIToFICustomerCreditTransfer",
+  "spec_monitoring": {
+    "canonical_spec_strategy": "Track ISO 20022 catalogue, message definitions, change requests, external code sets, variants, and supplementary data. Use message id/version such as pacs.008.001.xx as version anchor.",
+    "watch_sources": [
+      {
+        "label": "ISO 20022 catalogue of messages",
+        "url": "https://www.iso20022.org/catalogue-messages",
+        "reference_id": "turn10search84",
+        "check_type": "message_version_review"
+      },
+      {
+        "label": "ISO 20022 message definitions",
+        "url": "https://www.iso20022.org/iso-20022-message-definitions",
+        "reference_id": "turn10search88",
+        "check_type": "schema_and_mdr_review"
+      },
+      {
+        "label": "ISO 20022 maintenance",
+        "url": "https://www.iso20022.org/maintenance/maintenance-iso-20022-message-definitions",
+        "reference_id": "turn10search89",
+        "check_type": "maintenance_calendar_review"
+      },
+      {
+        "label": "ISO 20022 change requests",
+        "url": "https://www.iso20022.org/maintenance/catalogue-change-requests",
+        "reference_id": "turn10search107",
+        "check_type": "change_request_review"
+      },
+      {
+        "label": "ISO 20022 external code sets",
+        "url": "https://www.iso20022.org/catalogue-messages/additional-content-messages/external-code-sets",
+        "reference_id": "turn10search109",
+        "check_type": "code_set_review"
+      }
+    ],
+    "upgrade_triggers": [
+      "new pacs.008 version",
+      "MDR/MUG/schema change",
+      "external code set quarterly update",
+      "approved change request impacting pacs/payment fields",
+      "supplementary data extension review"
+    ]
+  },
+  "attributes": [
+    {
+      "name": "msg_id",
+      "type": "string",
+      "required": true,
+      "semantic_family": "identifier:message",
+      "canonical_hint": "message_identifier",
+      "role": "group_header_message_id",
+      "aliases": [
+        "MsgId",
+        "message_id"
+      ],
+      "constraints": {
+        "max_length": 35
+      },
+      "description": "Group header message identifier.",
+      "source_basis": [
+        "turn8search10",
+        "turn10search84",
+        "turn10search88"
+      ],
+      "merge_policy": {
+        "do_not_merge_with_families": [
+          "payment:method",
+          "identifier:customer",
+          "payment:amount"
+        ]
+      },
+      "change_policy": {
+        "on_new_field_in_spec": "classify semantic_family, add as candidate attribute, run SDNF gates before merging into canonical node",
+        "on_type_or_constraint_change": "create new schema version, run payload regression, mark breaking if requiredness/type/pattern changes",
+        "on_deprecation": "retain legacy mapping with deprecated=true until payload evidence shows safe removal"
+      }
+    },
+    {
+      "name": "end_to_end_id",
+      "type": "string",
+      "required": true,
+      "semantic_family": "identifier:end_to_end_payment",
+      "canonical_hint": "end_to_end_identifier",
+      "role": "payment_chain_reference",
+      "aliases": [
+        "EndToEndId",
+        "e2e_id"
+      ],
+      "constraints": {
+        "max_length": 35
+      },
+      "description": "End-to-end payment reference.",
+      "source_basis": [
+        "turn8search10",
+        "turn8search31",
+        "turn10search84"
+      ],
+      "merge_policy": {
+        "do_not_merge_with_families": [
+          "payment:method",
+          "identifier:message",
+          "identifier:customer"
+        ]
+      },
+      "change_policy": {
+        "on_new_field_in_spec": "classify semantic_family, add as candidate attribute, run SDNF gates before merging into canonical node",
+        "on_type_or_constraint_change": "create new schema version, run payload regression, mark breaking if requiredness/type/pattern changes",
+        "on_deprecation": "retain legacy mapping with deprecated=true until payload evidence shows safe removal"
+      }
+    },
+    {
+      "name": "instd_amt",
+      "type": "string",
+      "required": true,
+      "semantic_family": "payment:amount",
+      "canonical_hint": "payment_amount",
+      "role": "instructed_amount",
+      "aliases": [
+        "InstdAmt",
+        "amount",
+        "transaction_amount",
+        "txn_amount"
+      ],
+      "constraints": {
+        "pattern": "^[0-9]+(\\.[0-9]+)?$"
+      },
+      "description": "Instructed amount.",
+      "source_basis": [
+        "turn8search10",
+        "turn8search31"
+      ],
+      "merge_policy": {
+        "do_not_merge_with_families": [
+          "identifier",
+          "payment:method",
+          "payment:status",
+          "temporal"
+        ]
+      },
+      "change_policy": {
+        "on_new_field_in_spec": "classify semantic_family, add as candidate attribute, run SDNF gates before merging into canonical node",
+        "on_type_or_constraint_change": "create new schema version, run payload regression, mark breaking if requiredness/type/pattern changes",
+        "on_deprecation": "retain legacy mapping with deprecated=true until payload evidence shows safe removal"
+      }
+    },
+    {
+      "name": "currency",
+      "type": "string",
+      "required": true,
+      "semantic_family": "payment:currency",
+      "canonical_hint": "payment_currency",
+      "role": "currency_code",
+      "aliases": [
+        "Ccy",
+        "iso_currency_code"
+      ],
+      "constraints": {
+        "pattern": "^[A-Z]{3}$"
+      },
+      "description": "Currency code.",
+      "source_basis": [
+        "turn8search10",
+        "turn10search109"
+      ],
+      "merge_policy": {
+        "do_not_merge_with_families": [
+          "identifier",
+          "payment:amount",
+          "payment:method"
+        ]
+      },
+      "change_policy": {
+        "on_new_field_in_spec": "classify semantic_family, add as candidate attribute, run SDNF gates before merging into canonical node",
+        "on_type_or_constraint_change": "create new schema version, run payload regression, mark breaking if requiredness/type/pattern changes",
+        "on_deprecation": "retain legacy mapping with deprecated=true until payload evidence shows safe removal"
+      }
+    },
+    {
+      "name": "dbtr_nm",
+      "type": "string",
+      "required": true,
+      "semantic_family": "party:debtor_name",
+      "canonical_hint": "debtor_name",
+      "role": "debtor",
+      "aliases": [
+        "Dbtr.Nm"
+      ],
+      "constraints": {},
+      "description": "Debtor name.",
+      "source_basis": [
+        "turn8search10",
+        "turn8search34"
+      ],
+      "merge_policy": {
+        "do_not_merge_with_families": [
+          "party:creditor_name",
+          "identifier",
+          "payment:amount"
+        ]
+      },
+      "change_policy": {
+        "on_new_field_in_spec": "classify semantic_family, add as candidate attribute, run SDNF gates before merging into canonical node",
+        "on_type_or_constraint_change": "create new schema version, run payload regression, mark breaking if requiredness/type/pattern changes",
+        "on_deprecation": "retain legacy mapping with deprecated=true until payload evidence shows safe removal"
+      }
+    },
+    {
+      "name": "cdtr_nm",
+      "type": "string",
+      "required": true,
+      "semantic_family": "party:creditor_name",
+      "canonical_hint": "creditor_name",
+      "role": "creditor",
+      "aliases": [
+        "Cdtr.Nm"
+      ],
+      "constraints": {},
+      "description": "Creditor name.",
+      "source_basis": [
+        "turn8search10",
+        "turn8search34"
+      ],
+      "merge_policy": {
+        "do_not_merge_with_families": [
+          "party:debtor_name",
+          "identifier",
+          "payment:amount"
+        ]
+      },
+      "change_policy": {
+        "on_new_field_in_spec": "classify semantic_family, add as candidate attribute, run SDNF gates before merging into canonical node",
+        "on_type_or_constraint_change": "create new schema version, run payload regression, mark breaking if requiredness/type/pattern changes",
+        "on_deprecation": "retain legacy mapping with deprecated=true until payload evidence shows safe removal"
+      }
+    },
+    {
+      "name": "dbtr_acct",
+      "type": "string",
+      "required": true,
+      "semantic_family": "payment_account:debtor_account",
+      "canonical_hint": "debtor_account",
+      "role": "debtor_account",
+      "aliases": [
+        "DbtrAcct"
+      ],
+      "constraints": {},
+      "description": "Debtor account.",
+      "source_basis": [
+        "turn8search10",
+        "turn8search34"
+      ],
+      "merge_policy": {
+        "do_not_merge_with_families": [
+          "payment_account:creditor_account",
+          "payment:method",
+          "payment:status"
+        ]
+      },
+      "change_policy": {
+        "on_new_field_in_spec": "classify semantic_family, add as candidate attribute, run SDNF gates before merging into canonical node",
+        "on_type_or_constraint_change": "create new schema version, run payload regression, mark breaking if requiredness/type/pattern changes",
+        "on_deprecation": "retain legacy mapping with deprecated=true until payload evidence shows safe removal"
+      }
+    },
+    {
+      "name": "cdtr_acct",
+      "type": "string",
+      "required": true,
+      "semantic_family": "payment_account:creditor_account",
+      "canonical_hint": "creditor_account",
+      "role": "creditor_account",
+      "aliases": [
+        "CdtrAcct"
+      ],
+      "constraints": {},
+      "description": "Creditor account.",
+      "source_basis": [
+        "turn8search10",
+        "turn8search34"
+      ],
+      "merge_policy": {
+        "do_not_merge_with_families": [
+          "payment_account:debtor_account",
+          "payment:method",
+          "payment:status"
+        ]
+      },
+      "change_policy": {
+        "on_new_field_in_spec": "classify semantic_family, add as candidate attribute, run SDNF gates before merging into canonical node",
+        "on_type_or_constraint_change": "create new schema version, run payload regression, mark breaking if requiredness/type/pattern changes",
+        "on_deprecation": "retain legacy mapping with deprecated=true until payload evidence shows safe removal"
+      }
+    },
+    {
+      "name": "reqd_exctn_dt",
+      "type": "string",
+      "required": false,
+      "semantic_family": "temporal:requested_execution_date",
+      "canonical_hint": "requested_execution_date",
+      "role": "requested_execution_date",
+      "aliases": [
+        "ReqdExctnDt"
+      ],
+      "constraints": {
+        "format": "date"
+      },
+      "description": "Requested execution date.",
+      "source_basis": [
+        "turn8search10"
+      ],
+      "merge_policy": {
+        "do_not_merge_with_families": [
+          "payment:status",
+          "identifier",
+          "payment:amount"
+        ]
+      },
+      "change_policy": {
+        "on_new_field_in_spec": "classify semantic_family, add as candidate attribute, run SDNF gates before merging into canonical node",
+        "on_type_or_constraint_change": "create new schema version, run payload regression, mark breaking if requiredness/type/pattern changes",
+        "on_deprecation": "retain legacy mapping with deprecated=true until payload evidence shows safe removal"
+      }
+    }
+  ],
+  "schema_fingerprint_sha256": "ca036ed92aa43162e1dad5e2d197cbcc6bb01b82ee033c18137d3cead1061efe",
+  "upgrade_tracking_state": {
+    "last_reviewed_at": "2026-05-07T12:26:02+05:30",
+    "last_reviewed_by": "M365 Copilot generated artifact",
+    "baseline_fingerprint_sha256": "ca036ed92aa43162e1dad5e2d197cbcc6bb01b82ee033c18137d3cead1061efe",
+    "pending_deltas": [],
+    "promotion_policy": "A detected spec change must be represented as a candidate delta, pass SDNF gates, and be appended to SRS lineage before becoming approved."
+  }
+}

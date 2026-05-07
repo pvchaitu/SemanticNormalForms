@@ -1,0 +1,11 @@
+{
+  "msg_id": "MSG20260003ABC",
+  "end_to_end_id": "E2E850591",
+  "instd_amt": "3020.94",
+  "currency": "INR",
+  "dbtr_nm": "Neha Iyer",
+  "cdtr_nm": "CafeMocha Ltd",
+  "dbtr_acct": "DE89SYNTH0003DBTR",
+  "cdtr_acct": "FR76SYNTH0003CDTR",
+  "reqd_exctn_dt": "2026-02-10"
+}

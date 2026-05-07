@@ -1,0 +1,13 @@
+{
+  "account_id": "acc_251842",
+  "routing": "620004866",
+  "acct_num": "BA7000008022",
+  "account_type": "savings",
+  "amount": "2243.45",
+  "iso_currency_code": "USD",
+  "merchant_name": "QuickPay",
+  "authorized_date": "2026-03-06",
+  "payment_channel": "in store",
+  "transaction_id": "txn_982658",
+  "balance_current": "11943.45"
+}

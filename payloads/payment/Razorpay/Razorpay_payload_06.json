@@ -1,0 +1,15 @@
+{
+  "payment_id": "pay_772994",
+  "order_id": "order_882022",
+  "amount": "3443.45",
+  "currency": "INR",
+  "method": "card",
+  "customer_name": "Ravi Iyer",
+  "email": "synthetic.user6@example.test",
+  "contact": "+919000000006",
+  "status": "refunded",
+  "created_at": 1770021600,
+  "cardNumber": "5290011860260004",
+  "exp": "02/33",
+  "cvv": "930"
+}

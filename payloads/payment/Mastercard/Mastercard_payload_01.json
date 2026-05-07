@@ -1,0 +1,14 @@
+{
+  "primary_account_number": "5490005654310007",
+  "processing_code": "000000",
+  "transaction_amount": "1540.60",
+  "transaction_currency": "USD",
+  "transmission_datetime": "02110916",
+  "system_trace_audit_number": "200937",
+  "expiry": "06/33",
+  "securityCode": "734",
+  "cardholder": "Arjun Patel",
+  "merchant": "BookMyShow",
+  "merchant_category_code": "5401",
+  "card_acceptor_id": "MCACQ3001"
+}

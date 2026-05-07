@@ -1,0 +1,16 @@
+{
+  "id": "pi_763606",
+  "amount": "3550",
+  "currency": "usd",
+  "customer_id": "cus_451626",
+  "payment_method": "card",
+  "created": 1771043200,
+  "status": "canceled",
+  "description": "Synthetic charge for BigBazaar",
+  "card_last4": "0009",
+  "card_brand": "mastercard",
+  "cardNumber": "4900159975600005",
+  "exp": "04/35",
+  "cid": "761",
+  "cardholder": "Kiran Khan"
+}

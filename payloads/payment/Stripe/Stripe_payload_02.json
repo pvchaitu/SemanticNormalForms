@@ -1,0 +1,16 @@
+{
+  "id": "pi_761202",
+  "amount": "1850",
+  "currency": "usd",
+  "customer_id": "cus_450542",
+  "payment_method": "card",
+  "created": 1771014400,
+  "status": "requires_confirmation",
+  "description": "Synthetic charge for IRCTC",
+  "card_last4": "0006",
+  "card_brand": "mastercard",
+  "cardNumber": "4900154459200000",
+  "exp": "12/31",
+  "cid": "469",
+  "cardholder": "Dev Kumar"
+}

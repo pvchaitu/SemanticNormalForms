@@ -1,4 +1,4 @@
-# SDNF Unified Experiment — Reviewer-Grade Audit Harness v13
+# SDNF Unified Experiment — Schema-First Master Payment SRS Harness v14
 
 This repository contains a single-file, reproducible experiment for validating the research framework:
 
@@ -7,139 +7,412 @@ This repository contains a single-file, reproducible experiment for validating t
 The main experiment file for this version is:
 
 ```text
-unified_sdnf_experiment_hybrid_v13.py
+unified_sdnf_experiment_hybrid_v14.py
 ```
 
-Version 13 evolves the earlier v10/v12 audit harness into a cleaner, more defensible, reviewer-facing experiment artifact. It preserves the successful capabilities from prior versions while correcting the v12 issues around explicit-negative merges, absent ground-truth handling, metadata filtering, DBNF interpretation, console verbosity, and missing SRS output.
+Version 14 upgrades the earlier v13 reviewer-grade audit harness from a primarily flat JSON / pairwise alias-matching experiment into a **schema-first, payload-evidenced, SDNF-governed Master Payment SRS evolution benchmark**.
 
----
-
-## 1. What Changed in v13
-
-v13 introduces the following major improvements:
-
-- **Explicit-negative hard veto** before bridge rules and final merge acceptance.
-- **Role-sensitive bridge guards** to prevent unsafe account/role merges.
-- **Canonical-equivalence AANF pass** for pairs that normalize to the same canonical key.
-- **Absent-ground-truth handling** so unavailable attributes do not incorrectly count as false negatives by default.
-- **Paper / audit / dev profiles** to control output verbosity.
-- **Metadata filtering policy** so paper-mode metrics are not polluted by schema metadata fields.
-- **SRS evolved schema export** so the experiment produces an actual Semantic Representation Schema, not only pairwise merge decisions.
-- **Corrected DBNF semantics** separating same-family version drift, controlled drift, and cross-backbone migration diagnostics.
-- **Cleaner claim-support tables** that distinguish measured results from paper claims.
-- **Valid CSV/JSON exports** for reviewer reproducibility and debugging.
-
----
-
-## 2. SDNF Normal Forms in v13
-
-v13 uses the following normal-form taxonomy.
-
-### EENF — Embedding Existence / Embedding Stability Normal Form
-
-EENF evaluates whether embeddings remain stable under repeated encoding or regeneration.
-
-Typical evidence:
+The central v14 narrative is:
 
 ```text
-q95 embedding variance
-max embedding variance
-variance reduction at G=10 or G=20
+explicit payment-type/provider schema descriptors
+        +
+production/sample payload evidence
+        +
+SDNF normal-form governance
+        ↓
+governed Master Payment SRS semantic geometry
+        ↓
+explainable pre-payment payload compliance decisions
 ```
 
-### AANF — Attribute Alias Normal Form
+In short, v14 treats provider/payment-type schema descriptors as the **intended semantic contracts**, while payload files are used as **empirical evidence** for validation, enrichment, drift/delta detection, and compliance audit.
 
-AANF evaluates whether two attributes are semantically admissible as aliases.
+---
+
+## 1. What Changed in v14
+
+v14 introduces the following major changes over v13:
+
+- **Schema-first Master Payment SRS construction** from explicit payment-type/provider schema descriptors.
+- **Payload-evidenced validation**, where payloads are used as observed evidence, not as the authoritative schema source.
+- **Payment-domain semantic geometry**, with canonical SRS nodes spanning heterogeneous payment rails and providers.
+- **Runtime-style payload compliance decisions** before payment initiation.
+- **Candidate schema delta detection** for payload fields not declared in explicit schema descriptors.
+- **Typed semantic-family safety** to prevent unsafe generic merges.
+- **Role-sensitive RRNF gates** to prevent payer/payee, debtor/creditor, customer/merchant, and similar role mistakes.
+- **Rail-aware CMNF checks**, where the Payment domain is modeled through rails/subdomains such as card, ISO20022 transfer, PSP gateway, open banking, and UPI.
+- **Partition-aware PONF checks** to keep identifiers, methods, statuses, temporal fields, amounts, card fields, account fields, parties, merchants, and metadata separated.
+- **Human-readable compact SRS output** in JSON and Markdown.
+- **Graph/explainability output** in JSON and standalone HTML.
+- **v14 artifact exports** for dataset summary, schema ingestion audit, payload profiling, field presence, unexpected fields, missing required fields, decisions, SRS mapping, lineage, conflicts, compliance, normal-form summary, and claim support.
+
+The key design shift is that v14 no longer says:
+
+```text
+Walk all JSON files and infer a schema from observed fields.
+```
+
+Instead, v14 says:
+
+```text
+Use explicit schemas as contracts, use payloads as evidence, and use SDNF normal forms to govern SRS convergence and compliance.
+```
+
+---
+
+## 2. Main Experiment File
+
+Use this file as the v14 experiment harness:
+
+```text
+unified_sdnf_experiment_hybrid_v14.py
+```
+
+This script is intended to run as a single-file experiment with no mandatory external service dependencies.
+
+If `sentence-transformers` is available, the configured embedding model is used. If it is not available, v14 uses a deterministic hashing-based embedding fallback so that the experiment remains executable offline.
+
+---
+
+## 3. Recommended Repository Structure
+
+Recommended project layout:
+
+```text
+.
+├── unified_sdnf_experiment_hybrid_v14.py
+├── readMe.md
+├── requirements.txt
+├── data/
+│   ├── INAmex.schema.json
+│   ├── ISO20022.schema.json
+│   ├── Mastercard.schema.json
+│   ├── Plaid.schema.json
+│   ├── PPVisa.schema.json
+│   ├── Razorpay.schema.json
+│   ├── Stripe.schema.json
+│   └── UPI.schema.json
+├── payloads/
+│   └── payment/
+│       ├── INAmex/
+│       │   ├── INAmex_payload_01.json
+│       │   ├── INAmex_payload_02.json
+│       │   └── ...
+│       ├── ISO20022/
+│       │   ├── ISO20022_payload_01.json
+│       │   ├── ISO20022_payload_02.json
+│       │   └── ...
+│       ├── Mastercard/
+│       ├── Plaid/
+│       ├── PPVisa/
+│       ├── Razorpay/
+│       ├── Stripe/
+│       └── UPI/
+├── ground_truth_aliases_closed_world_v12.json
+└── controlled_drift_cases.json
+```
+
+The schema files under `data/` are the authoritative schema descriptors. The payload files under `payloads/payment/<PaymentType>/` are sample or production-like payload evidence.
+
+---
+
+## 4. Payment Types and Rails Modeled in v14
+
+v14 models the Payment domain using payment types/providers and their rails/subdomains:
+
+| Payment type | Default rail / subdomain |
+|---|---|
+| `INAmex` | `card_payment` |
+| `PPVisa` | `card_payment` |
+| `Mastercard` | `card_network_iso8583` |
+| `ISO20022` | `account_to_account_credit_transfer` |
+| `Plaid` | `open_banking` |
+| `Razorpay` | `psp_gateway` |
+| `Stripe` | `psp_gateway` |
+| `UPI` | `upi` |
+
+These rails help CMNF evaluate whether a merge is within the same rail or is a safe cross-rail convergence, such as amount or currency.
+
+---
+
+## 5. Schema Descriptor Expectations
+
+Each schema file should be named:
+
+```text
+<PaymentType>.schema.json
+```
+
+Examples:
+
+```text
+INAmex.schema.json
+Stripe.schema.json
+ISO20022.schema.json
+UPI.schema.json
+```
+
+A schema descriptor may contain:
+
+```json
+{
+  "schema_id": "Stripe_PaymentIntent_v1",
+  "schema_descriptor_version": "v1.0",
+  "domain": "payments",
+  "rail": "psp_gateway",
+  "provider": "Stripe",
+  "entity": "PaymentIntent",
+  "version": "v1.0",
+  "schema_source": "internal_contract",
+  "review_status": "reviewed",
+  "spec_monitoring": {},
+  "upgrade_governance": {},
+  "attributes": [
+    {
+      "name": "payment_intent_id",
+      "type": "string",
+      "required": true,
+      "semantic_family": "identifier:payment_intent",
+      "canonical_hint": "payment_intent_identifier",
+      "role": "object_identifier",
+      "aliases": ["id", "paymentIntentId", "pi_id"],
+      "constraints": {
+        "pattern": "^pi_.*"
+      },
+      "description": "Stripe PaymentIntent identifier",
+      "merge_policy": {
+        "do_not_merge_with_families": [
+          "payment:method",
+          "payment:status",
+          "temporal"
+        ]
+      }
+    }
+  ]
+}
+```
+
+v14 is robust when optional fields are missing, but the strongest experiment results come from including:
+
+```text
+name
+type
+required
+semantic_family
+canonical_hint
+role
+aliases
+constraints
+description
+merge_policy.do_not_merge_with_families
+```
+
+---
+
+## 6. Payload Evidence Expectations
+
+Payload files should live under:
+
+```text
+payloads/payment/<PaymentType>/*.json
+```
+
+Example:
+
+```text
+payloads/payment/Stripe/Stripe_payload_01.json
+payloads/payment/Stripe/Stripe_payload_02.json
+payloads/payment/UPI/UPI_payload_01.json
+payloads/payment/UPI/UPI_payload_02.json
+```
+
+Payloads are not treated as authoritative schemas. They are used to provide evidence such as:
+
+- observed field presence,
+- observed value type,
+- value-shape pattern,
+- regex-like pattern,
+- missing required fields,
+- unexpected fields,
+- candidate schema deltas,
+- payload compliance decisions.
+
+v14 computes field presence per payment type. A typical interpretation is:
+
+```text
+6/6 fields  -> required candidate
+4-5/6       -> conditional or strong optional candidate
+2-3/6       -> optional or method-specific candidate
+1/6         -> outlier or low-confidence candidate
+```
+
+---
+
+## 7. SDNF Normal Forms in v14
+
+v14 reports the following SDNF normal forms.
+
+### 7.1 EENF — Embedding Existence / Embedding Stability Normal Form
+
+EENF evaluates embedding availability and stability. v14 supports an embedding stability diagnostic using repeated deterministic regenerations or model encodings.
+
+If `sentence-transformers` is unavailable, v14 uses deterministic hashing embeddings so the artifact can still run offline.
+
+### 7.2 AANF — Attribute Alias Normal Form
+
+AANF evaluates whether schema attributes are admissible aliases of the same canonical concept.
 
 Signals include:
 
 ```text
-embedding cosine similarity
+same canonical_hint
+same semantic_family
+schema-declared alias
 name similarity
-canonical synonym equivalence
-ontology-root compatibility
+embedding similarity
 ```
 
-v13 adds canonical-equivalence handling. For example, if `pan` and `primary_account_number` normalize to the same canonical key, AANF can pass through:
+AANF is intentionally not allowed to override hard semantic-family, role, rail, or partition vetoes.
+
+### 7.3 ECNF — Evidence Completeness Normal Form
+
+ECNF checks whether there is enough independent evidence to support a merge or compliance decision.
+
+Evidence includes:
 
 ```text
-CANONICAL_EQUIVALENCE_PASS
-```
-
-unless an explicit negative, role conflict, or context conflict blocks it.
-
-### ECNF — Evidence Completeness Normal Form
-
-ECNF evaluates whether enough independent evidence signals support a merge.
-
-Signals include:
-
-```text
+schema semantics
+canonical_hint
+semantic_family
+role
+aliases
 name similarity
-ontology match
-value co-occurrence
-regex compatibility
-value semantic signature similarity
-shape similarity
-aggregate score
-evidence signal count
+embedding similarity
+payload field evidence
+value-shape evidence
+constraint evidence
 ```
 
-### CMNF — Contextual Merge Normal Form
+Payload evidence supports ECNF, but payload evidence does not override hard semantic conflicts.
 
-CMNF governs context/domain/business-boundary safety.
+### 7.4 RRNF — Role-Respecting Normal Form
 
-If only one context is present, v13 marks cross-context CMNF as:
+RRNF prevents unsafe role merges such as:
 
 ```text
-NA_SINGLE_CONTEXT / NOT_EXERCISED
+payer != payee
+debtor != creditor
+customer != merchant
+method != identifier
+routing number != account number
 ```
 
-not as a failure.
+Role conflicts are hard vetoes for automatic merge acceptance.
 
-### DBNF — Drift Boundary Normal Form
+### 7.5 CMNF — Contextual / Rail Merge Normal Form
 
-DBNF governs model-version or representation drift.
-
-v13 separates DBNF into:
+CMNF is active in v14 because the Payment domain is modeled through rails such as:
 
 ```text
-DBNF-V: same-family model-version/checkpoint drift
-DBNF-M: cross-backbone migration diagnostic
-Controlled DBNF: claim-bearing controlled drift benchmark
+card_payment
+card_network_iso8583
+account_to_account_credit_transfer
+open_banking
+psp_gateway
+upi
 ```
 
-A cross-backbone comparison such as:
+Cross-rail convergence is allowed only for safe global concepts such as:
 
 ```text
-all-MiniLM-L6-v2 -> all-mpnet-base-v2
+payment:amount
+payment:currency
 ```
 
-is treated as a migration diagnostic by default, not as primary DBNF claim evidence.
+when explicitly enabled through:
 
-### SRS — Semantic Representation Schema
+```text
+--allow_cross_rail_amount_currency
+```
 
-v13 explicitly exports an evolved SRS. The experiment output no longer stops at predicted alias pairs.
+### 7.6 DBNF — Drift / Delta Boundary Normal Form
+
+DBNF in v14 focuses on schema/payload delta detection and future schema evolution.
+
+It detects:
+
+```text
+payload fields not declared in schema descriptors
+missing required fields
+unexpected fields
+schema-vs-payload mismatch
+candidate schema deltas
+```
+
+v14 exports candidate schema deltas in JSONL and CSV formats.
+
+### 7.7 PONF — Partition Orthogonality Normal Form
+
+PONF protects semantic partitions. It prevents broad over-merging across partitions such as:
+
+```text
+identifier
+payment:method
+payment:status
+temporal
+payment:amount
+payment:currency
+payment_card
+payment_account
+party
+merchant
+metadata
+```
+
+This is one of the main v14 fixes for the v13 issue where unrelated identifiers and method-like fields could be grouped too broadly.
 
 ---
 
-## 3. Repository Structure
+## 8. Critical v14 Semantic Safety Rules
 
-Recommended structure:
+v14 applies hard semantic vetoes before accepting merge decisions.
+
+Important examples:
 
 ```text
-unified_sdnf_experiment_hybrid_v13.py   # Main v13 experiment harness
-readMe.md                               # This README
-requirements.txt                        # Python dependencies
-data/                                   # Schema JSON files
-payloads/                               # Payload JSON files with values
-ground_truth_aliases_closed_world_v12.json
-controlled_drift_cases.json             # Optional controlled DBNF input
+identifier:* must not merge with payment:method
+identifier:* must not merge with payment:status
+identifier:* must not merge with temporal:*
+temporal:* must not merge with payment:status
+routing number must not merge with account number
+card PAN must not merge with bank account fields
+payer must not merge with payee
+debtor must not merge with creditor
+metadata must not merge with business attributes
+different identifier subtypes must remain separate
 ```
+
+Identifier examples that should remain separate unless explicitly and safely modeled:
+
+```text
+message_identifier
+end_to_end_identifier
+transaction_identifier
+payment_intent_identifier
+razorpay_payment_identifier
+order_identifier
+customer_identifier
+plaid_account_identifier
+card_acceptor_identifier
+schema_identifier
+```
+
+This is central to the precision-first v14 design.
 
 ---
 
-## 4. Setup
+## 9. Setup
 
 ### Linux / macOS
 
@@ -157,568 +430,393 @@ python -m venv venv
 pip install -r requirements.txt
 ```
 
-### Dependency and fallback behavior
+### Minimal Dependency Note
 
-If `sentence-transformers` is installed, the requested embedding model is used. If it is unavailable, v13 uses deterministic hashing embeddings so that the harness remains executable offline.
+The script primarily uses Python standard library modules. It optionally uses:
+
+```text
+numpy
+sentence-transformers
+```
+
+If `sentence-transformers` is unavailable, the script uses a deterministic hashing fallback for embeddings.
 
 ---
 
-## 5. Ground Truth Format
+## 10. Recommended v14 Audit Run
 
-v13 supports object-style alias groups:
+Use this for the full reviewer/audit run:
+
+```bash
+python unified_sdnf_experiment_hybrid_v14.py \
+  --profile audit \
+  --schemas_dir data \
+  --schema_glob "*.schema.json" \
+  --payloads_root payloads/payment \
+  --seed_srs_schema INAmex.schema.json \
+  --schema_first \
+  --payload_evidence \
+  --build_master_srs \
+  --validate_payloads \
+  --strict_semantic_vetoes \
+  --precision_first \
+  --allow_cross_rail_amount_currency \
+  --unknown_field_policy defer \
+  --evidence_mode sdnf_hybrid \
+  --ground_truth_aliases ground_truth_aliases_closed_world_v12.json \
+  --ground_truth_closed_world \
+  --absent_ground_truth_policy exclude_from_main_eval \
+  --metadata_policy paper \
+  --measure_timing \
+  --eenf_g_sweep 1,10,20 \
+  --eenf_repeats 20
+```
+
+This run produces the core v14 artifacts, including SRS, graph, compliance, and normal-form outputs.
+
+---
+
+## 11. Recommended v14 Paper-Facing Run
+
+Use this for a concise paper-facing run:
+
+```bash
+python unified_sdnf_experiment_hybrid_v14.py \
+  --profile paper \
+  --schemas_dir data \
+  --schema_glob "*.schema.json" \
+  --payloads_root payloads/payment \
+  --schema_first \
+  --payload_evidence \
+  --build_master_srs \
+  --validate_payloads \
+  --strict_semantic_vetoes \
+  --precision_first \
+  --allow_cross_rail_amount_currency \
+  --unknown_field_policy defer \
+  --evidence_mode sdnf_hybrid \
+  --ground_truth_aliases ground_truth_aliases_closed_world_v12.json \
+  --ground_truth_closed_world \
+  --absent_ground_truth_policy exclude_from_main_eval \
+  --metadata_policy paper \
+  --measure_timing
+```
+
+---
+
+## 12. Important v14 Outputs
+
+v14 exports the following files by default in paper/audit/dev profiles.
+
+### Dataset and ingestion outputs
+
+```text
+summary_v14.json
+dataset_summary_v14.csv
+schema_ingestion_audit_v14.csv
+payload_profile_v14.csv
+field_presence_report_v14.csv
+```
+
+### Payload validation and schema delta outputs
+
+```text
+unexpected_fields_v14.csv
+missing_required_fields_v14.csv
+candidate_schema_deltas_v14.jsonl
+candidate_schema_deltas_v14.csv
+payload_compliance_v14.csv
+payload_compliance_v14.json
+payload_compliance_summary_v14.csv
+```
+
+### Decision and evaluation outputs
+
+```text
+decisions_v14.csv
+predicted_pairs_v14.json
+false_positives_v14.csv
+false_negatives_v14.csv
+fp_root_causes_v14.csv
+fn_root_causes_v14.csv
+alias_confusion_v14.csv
+```
+
+### SRS outputs
+
+```text
+srs_evolved_schema_v14.audit.json
+srs_evolved_schema_v14.compact.json
+srs_evolved_schema_v14.md
+srs_evolved_schema_v14.graph.json
+srs_evolved_schema_v14.graph.html
+srs_attribute_mapping_v14.csv
+srs_lineage_v14.csv
+srs_upgrade_lineage_v14.jsonl
+srs_conflicts_v14.csv
+```
+
+### Normal-form, claim, and timing outputs
+
+```text
+normal_form_summary_v14.csv
+claim_support_summary_v14.csv
+timing_summary_v14.csv
+dbnf_summary_v14.csv
+```
+
+---
+
+## 13. Key v14 Output Meanings
+
+### `srs_evolved_schema_v14.audit.json`
+
+Full reproducibility and audit output. Includes:
+
+```text
+run configuration
+dataset summary
+embedding backend
+schemas
+canonical nodes
+decisions
+conflicts
+payload compliance records
+candidate schema deltas
+```
+
+### `srs_evolved_schema_v14.compact.json`
+
+Reviewer-friendly SRS output. Each canonical node includes:
+
+```text
+node
+meaning
+semantic_family
+role
+domain
+rails
+providers
+members
+payload_evidence_summary
+normal_forms
+decision_summary
+lineage_summary
+accepted_aliases
+rejected_near_misses
+deferred_candidates
+```
+
+### `srs_evolved_schema_v14.md`
+
+Human-readable explanation of the Master Payment SRS, organized for paper/reviewer inspection.
+
+### `srs_evolved_schema_v14.graph.json`
+
+Graph-format SRS representation with node and edge types.
+
+Node types include:
+
+```text
+domain
+rail
+provider_schema
+raw_attribute
+canonical_srs_node
+payload_file
+compliance_decision
+```
+
+Edge types include:
+
+```text
+contains
+defines
+maps_to
+compliant_with
+non_compliant_with
+```
+
+### `srs_evolved_schema_v14.graph.html`
+
+Standalone HTML explainability view. It does not require an external CDN.
+
+### `payload_compliance_v14.csv` and `payload_compliance_v14.json`
+
+Payload-level pre-payment compliance decisions.
+
+Possible decisions:
+
+```text
+ALLOW
+REJECT
+DEFER_REVIEW
+ROUTE_SCHEMA_ONBOARDING
+```
+
+### `candidate_schema_deltas_v14.jsonl`
+
+Payload-observed fields that are not declared in explicit schema descriptors. These are treated as candidate deltas, not automatic SRS members.
+
+---
+
+## 14. Runtime-Style Payload Compliance Logic
+
+For each payload, v14:
+
+1. Identifies payment type from the folder name.
+2. Loads the matching schema descriptor.
+3. Maps payload fields to schema attributes using exact name, normalized name, aliases, and canonical hints.
+4. Checks required fields.
+5. Checks value constraints when available.
+6. Detects unexpected fields.
+7. Applies normal-form interpretation.
+8. Produces a compliance decision.
+
+Decision interpretation:
+
+```text
+ALLOW
+  Required fields present, mapped fields safe, and no critical unexpected fields.
+
+REJECT
+  Required fields missing or hard constraint violation detected.
+
+DEFER_REVIEW
+  Payload is mostly understandable but includes unexpected fields needing review.
+
+ROUTE_SCHEMA_ONBOARDING
+  Payload includes many unknown fields, suggesting a new or changed schema contract.
+```
+
+---
+
+## 15. Ground Truth Format
+
+v14 supports the same general ground-truth style used in v12/v13.
+
+Example:
 
 ```json
 {
   "closed_world": true,
   "alias_groups": [
     {
-      "canonical": "primary_account_number",
-      "aliases": ["account_number", "acct_num", "pan"],
-      "basis": "Payment account/card-number identifiers."
+      "canonical": "payment_amount",
+      "aliases": ["amount", "transaction_amount", "txn_amount", "instd_amt"],
+      "basis": "Payment amount fields across payment schemas."
     },
     {
-      "canonical": "transaction_amount",
-      "aliases": ["txn_amount", "amount", "instd_amount"],
-      "basis": "Payment amount fields across schemas."
+      "canonical": "payment_currency",
+      "aliases": ["currency", "transaction_currency", "iso_currency_code"],
+      "basis": "Payment currency fields across schemas."
     }
   ],
   "true_pairs": [
     ["transaction_id", "txn_id"]
   ],
   "negative_pairs": [
+    ["payment_intent_id", "payment_method"],
+    ["transaction_status", "transaction_timestamp"],
     ["account_number", "routing_number"],
-    ["payer_account", "primary_account_number"],
-    ["account_type", "debtor_account"]
+    ["debtor_account", "creditor_account"]
   ]
 }
 ```
 
-v13 expands alias groups into unordered normalized true pairs and applies explicit negative pairs as hard vetoes for production SDNF modes.
+v14 predicted pairs are derived from accepted canonical-node co-membership.
 
 ---
 
-## 6. Important v13 Integrity Rules
+## 16. Embeddings in v14
 
-v13 follows these rules:
+v14 uses embeddings for:
 
-- Metrics are computed from current data.
-- Paper claims are not hardcoded as successful outcomes.
-- Explicit negative pairs cannot be accepted by production SDNF/hybrid modes.
-- Absent ground-truth pairs are excluded from the main evaluation by default.
-- Cross-backbone DBNF is diagnostic-only unless explicitly allowed.
-- Single-context CMNF is marked as not exercised, not failed.
-- SRS schema and mapping exports are first-class outputs.
-- Paper profile avoids large verbose console logs.
+```text
+schema attribute comparison
+AANF semantic similarity evidence
+EENF stability diagnostic
+```
+
+Embedding input typically combines:
+
+```text
+attribute name
+semantic family
+role/context
+```
+
+v14 intentionally does not let embedding similarity alone decide merges. This is important because payment identifiers, methods, statuses, and timestamps can be semantically close in generic embedding space but should remain separated by SDNF normal forms.
 
 ---
 
-## 7. Run Profiles
+## 17. HNSW / ANN Scale Note
 
-v13 supports three run profiles.
-
-### Paper profile
-
-Use this for clean paper-facing runs.
+The current v14 experiment does not require HNSW for the small Payment benchmark. Candidate generation is deterministic and pruned using schema-aware signals such as:
 
 ```text
---profile paper
+same canonical hint
+same semantic family
+name similarity
 ```
 
-Default behavior:
-
-- concise console output
-- excludes metadata-like fields by default
-- exports core summary and SRS artifacts
-- avoids large decision tables unless explicitly requested
-
-### Audit profile
-
-Use this for reviewer/debug runs.
+For larger enterprise-scale SRS construction, an optional HNSW or ANN candidate retrieval layer can be added in a future version:
 
 ```text
---profile audit
+attribute embeddings
+  -> HNSW top-k candidate retrieval
+  -> SDNF hard vetoes
+  -> AANF / ECNF / RRNF / CMNF / DBNF / PONF checks
+  -> merge / reject / defer / fork
 ```
 
-Default behavior:
-
-- includes full diagnostics
-- can include metadata fields
-- produces decision logs, FP/FN files, trace rows, bridge summaries, candidate coverage, and DBNF diagnostics
-
-### Dev profile
-
-Use this for local debugging.
-
-```text
---profile dev
-```
-
-Default behavior:
-
-- audit outputs plus extra console self-checks
+Important: HNSW should be used only for scalable candidate retrieval. It should not directly decide semantic merges.
 
 ---
 
-## 8. Recommended Paper Run
+## 18. v14 Integrity Rules
 
-This is the cleanest run for paper-facing evidence.
+v14 follows these rules:
 
-```bash
-python unified_sdnf_experiment_hybrid_v13.py \
-  --profile paper \
-  --evidence_mode all \
-  --ground_truth_aliases ground_truth_aliases_closed_world_v12.json \
-  --ground_truth_closed_world \
-  --absent_ground_truth_policy exclude_from_main_eval \
-  --metadata_policy paper \
-  --eenf_g_sweep 1,10,20 \
-  --eenf_repeats 20 \
-  --measure_timing \
-  --export_summary_json summary_v13.json \
-  --export_srs_schema srs_evolved_schema_v13.json \
-  --export_srs_mapping srs_attribute_mapping_v13.csv \
-  --export_claim_support_summary claim_support_summary_v13.csv \
-  --export_normal_form_summary normal_form_summary_v13.csv \
-  --export_alias_confusion alias_confusion_v13.csv
-```
-
-Expected primary outputs:
-
-```text
-summary_v13.json
-srs_evolved_schema_v13.json
-srs_attribute_mapping_v13.csv
-claim_support_summary_v13.csv
-normal_form_summary_v13.csv
-alias_confusion_v13.csv
-```
+- Schema descriptors are authoritative semantic contracts.
+- Payloads are empirical evidence, not the schema source of truth.
+- Unknown payload fields become candidate schema deltas.
+- Payload-inferred fields are not auto-merged into the Master SRS by default.
+- Semantic-family hard vetoes run before merge acceptance.
+- Role conflicts are hard safety blockers.
+- Identifier subtypes remain separated unless explicitly and safely modeled.
+- Metadata fields must not merge with business attributes.
+- Payment method/status/temporal/identifier partitions remain separated.
+- SRS outputs are generated in full audit, compact, Markdown, graph JSON, and graph HTML forms.
+- Payload compliance decisions are exported for auditability.
 
 ---
 
-## 9. Full Reviewer Audit Run
+## 19. Research Integrity Note
 
-Use this when you need all diagnostics for reviewer analysis.
+This artifact is intended for research, reproducibility, and reviewer validation.
 
-```bash
-python unified_sdnf_experiment_hybrid_v13.py \
-  --profile audit \
-  --evidence_mode all \
-  --ground_truth_aliases ground_truth_aliases_closed_world_v12.json \
-  --ground_truth_closed_world \
-  --absent_ground_truth_policy exclude_from_main_eval \
-  --metadata_policy audit \
-  --trace_pair acct_num PrimaryAccountNumber \
-  --trace_pair primary_account_number account_number \
-  --trace_pair currency iso_currency_code \
-  --trace_pair instd_amt txn_amount \
-  --trace_pair amount txn_amount \
-  --trace_pair pan account_number \
-  --eenf_g_sweep 1,10,20 \
-  --eenf_repeats 20 \
-  --measure_timing \
-  --export_summary_json summary_v13.json \
-  --export_decisions decisions_v13.csv \
-  --export_predicted_pairs predicted_pairs_v13.json \
-  --export_false_positives false_positives_v13.csv \
-  --export_false_negatives false_negatives_v13.csv \
-  --export_ground_truth_pairs ground_truth_pairs_expanded_v13.csv \
-  --export_candidate_coverage candidate_coverage_v13.csv \
-  --export_alias_confusion alias_confusion_v13.csv \
-  --export_absent_ground_truth_pairs absent_ground_truth_pairs_v13.csv \
-  --export_fn_root_causes fn_root_causes_v13.csv \
-  --export_fp_clusters fp_clusters_v13.csv \
-  --export_bridged_merges bridged_merges_v13.csv \
-  --export_srs_schema srs_evolved_schema_v13.json \
-  --export_srs_mapping srs_attribute_mapping_v13.csv \
-  --export_srs_lineage srs_lineage_v13.csv \
-  --export_srs_conflicts srs_conflicts_v13.csv \
-  --export_trace_pairs trace_pairs_v13.csv
-```
+For production use, avoid storing raw sensitive payment values in logs or outputs. Replace raw-value evidence with privacy-preserving summaries, hashed values, masked values, or aggregated statistics.
 
-Expected diagnostic outputs:
-
-```text
-decisions_v13.csv
-predicted_pairs_v13.json
-false_positives_v13.csv
-false_negatives_v13.csv
-ground_truth_pairs_expanded_v13.csv
-candidate_coverage_v13.csv
-alias_confusion_v13.csv
-absent_ground_truth_pairs_v13.csv
-fn_root_causes_v13.csv
-fp_clusters_v13.csv
-bridged_merges_v13.csv
-srs_evolved_schema_v13.json
-srs_attribute_mapping_v13.csv
-srs_lineage_v13.csv
-srs_conflicts_v13.csv
-trace_pairs_v13.csv
-summary_v13.json
-```
+The provided synthetic payload examples should be treated as lab/test data only.
 
 ---
 
-## 10. Cross-Backbone Migration Diagnostic Run
+## 20. Summary
 
-Use this when replacing one embedding backbone with another, for example due to security, compliance, or deprecation.
+v14 upgrades the SDNF experiment into a production-close Payment-domain semantic governance benchmark.
 
-This run is diagnostic by default, not primary DBNF claim evidence.
-
-```bash
-python unified_sdnf_experiment_hybrid_v13.py \
-  --profile audit \
-  --evidence_mode all \
-  --model all-MiniLM-L6-v2 \
-  --drift_model all-mpnet-base-v2 \
-  --dbnf_mode migration \
-  --migration_reason "security-driven model replacement" \
-  --ground_truth_aliases ground_truth_aliases_closed_world_v12.json \
-  --ground_truth_closed_world \
-  --export_srs_schema srs_evolved_schema_v13.json \
-  --export_dbnf_lineage dbnf_lineage_v13.csv \
-  --export_dbnf_forks dbnf_forks_v13.json \
-  --export_cross_model_sensitivity cross_model_sensitivity_v13.csv \
-  --export_summary_json summary_v13_migration.json
-```
-
-Expected outputs:
+The experiment now demonstrates:
 
 ```text
-summary_v13_migration.json
-srs_evolved_schema_v13.json
-dbnf_lineage_v13.csv
-dbnf_forks_v13.json
-cross_model_sensitivity_v13.csv
+heterogeneous payment schema descriptors
+  -> governed canonical Master Payment SRS
+  -> payload evidence attachment
+  -> candidate schema delta detection
+  -> normal-form-governed convergence
+  -> human-readable SRS outputs
+  -> graph explainability
+  -> pre-payment payload compliance decisions
 ```
 
-Interpretation:
-
-```text
-all-MiniLM-L6-v2 -> all-mpnet-base-v2
-```
-
-is treated as **DBNF-M / cross-backbone migration diagnostic** unless `--allow_cross_backbone_dbnf_claim` is explicitly supplied.
-
----
-
-## 11. Same-Family DBNF Version Drift Run
-
-Use this when comparing versions or checkpoints of the same embedding model family.
-
-```bash
-python unified_sdnf_experiment_hybrid_v13.py \
-  --profile audit \
-  --evidence_mode all \
-  --model enterprise-embedder-v1 \
-  --drift_model enterprise-embedder-v2 \
-  --dbnf_mode version \
-  --model_family enterprise-embedder \
-  --target_model_family enterprise-embedder \
-  --base_model_version v1 \
-  --target_model_version v2 \
-  --ground_truth_aliases ground_truth_aliases_closed_world_v12.json \
-  --ground_truth_closed_world \
-  --export_dbnf_summary dbnf_summary_v13.csv \
-  --export_dbnf_lineage dbnf_lineage_v13.csv \
-  --export_dbnf_forks dbnf_forks_v13.json \
-  --export_summary_json summary_v13_dbnf_version.json
-```
-
-Use this run when the research claim is about model-version drift rather than model-backbone replacement.
-
----
-
-## 12. Controlled DBNF Run
-
-Use this when you have controlled drift cases.
-
-```bash
-python unified_sdnf_experiment_hybrid_v13.py \
-  --profile audit \
-  --evidence_mode all \
-  --dbnf_mode controlled \
-  --controlled_drift_json controlled_drift_cases.json \
-  --ground_truth_aliases ground_truth_aliases_closed_world_v12.json \
-  --ground_truth_closed_world \
-  --export_dbnf_summary dbnf_summary_v13.csv \
-  --export_dbnf_lineage dbnf_lineage_v13.csv \
-  --export_dbnf_forks dbnf_forks_v13.json \
-  --export_summary_json summary_v13_controlled_dbnf.json
-```
-
-Example controlled drift input:
-
-```json
-{
-  "controlled_drift_cases": [
-    {
-      "attribute": "description",
-      "drifted_name": "merchant narrative text",
-      "basis": "Controlled semantic rename"
-    },
-    {
-      "attribute": "payer_name",
-      "drifted_name": "debtor identity label",
-      "basis": "Controlled role-sensitive drift"
-    }
-  ]
-}
-```
-
----
-
-## 13. Pairwise Trace Run
-
-Use trace pairs to inspect specific merge decisions.
-
-```bash
-python unified_sdnf_experiment_hybrid_v13.py \
-  --profile audit \
-  --evidence_mode all \
-  --ground_truth_aliases ground_truth_aliases_closed_world_v12.json \
-  --ground_truth_closed_world \
-  --trace_pair acct_num PrimaryAccountNumber \
-  --trace_pair primary_account_number account_number \
-  --trace_pair currency iso_currency_code \
-  --trace_pair instd_amt txn_amount \
-  --trace_pair amount txn_amount \
-  --trace_pair pan account_number \
-  --export_trace_pairs trace_pairs_v13.csv \
-  --export_summary_json summary_v13_trace.json
-```
-
----
-
-## 14. EENF Stability Sweep Only
-
-Use this to focus on embedding stability.
-
-```bash
-python unified_sdnf_experiment_hybrid_v13.py \
-  --profile paper \
-  --evidence_mode hybrid \
-  --eenf_g_sweep 1,10,20 \
-  --eenf_repeats 20 \
-  --export_eenf_sweep eenf_sweep_v13.csv \
-  --export_summary_json summary_v13_eenf.json
-```
-
----
-
-## 15. Timing Instrumentation Run
-
-Use this to measure merge-decision latency.
-
-```bash
-python unified_sdnf_experiment_hybrid_v13.py \
-  --profile paper \
-  --evidence_mode all \
-  --measure_timing \
-  --export_timing_summary timing_summary_v13.csv \
-  --export_summary_json summary_v13_timing.json
-```
-
----
-
-## 16. Supported Evidence / Ablation Modes
-
-When `--evidence_mode all` is used, v13 runs:
-
-```text
-embed_only_baseline
-sdnf_hybrid
-no_ecnf
-no_cmnf
-no_dbnf
-no_value_evidence
-vss_only
-shape_only
-name_ontology_only
-hybrid
-```
-
-Mode meanings:
-
-```text
-embed_only_baseline   Embedding-only baseline.
-sdnf_hybrid           Full SDNF hybrid evidence mode.
-no_ecnf               ECNF ablated.
-no_cmnf               CMNF ablated.
-no_dbnf               DBNF handling ablated.
-no_value_evidence     Removes VSS/shape/value evidence.
-vss_only              Uses value semantic signature only.
-shape_only            Uses value shape only.
-name_ontology_only    Uses name and ontology signals only.
-hybrid                Backward-compatible hybrid mode.
-```
-
----
-
-## 17. Main Outputs
-
-### `summary_v13.json`
-
-Top-level JSON summary containing:
-
-```text
-run_configuration
-dataset_summary
-ground_truth_audit
-alias_eval_summary
-leakage_eval_summary
-normal_form_summary
-srs_summary
-eenf_sweep
-timing_summary
-dbnf_summary
-self_checks
-claim_support_summary
-```
-
-### `alias_confusion_v13.csv`
-
-Alias precision/recall/F1 by mode.
-
-Includes:
-
-```text
-eval_scope
-mode
-predicted_pairs_count
-true_pairs_count
-TP
-FP
-FN
-precision
-labeled_precision
-recall
-F1
-closed_world
-absent_pairs_excluded_count
-explicit_negative_veto_count
-canonical_equivalence_pass_count
-metadata_excluded_count
-```
-
-### `srs_evolved_schema_v13.json`
-
-Evolved SRS schema containing:
-
-```text
-srs_version
-dataset_summary
-model
-context
-ground_truth_source
-canonical_attributes
-rejected_merges
-conflicts
-```
-
-### `srs_attribute_mapping_v13.csv`
-
-Mapping of raw attributes to canonical SRS nodes.
-
-Includes:
-
-```text
-raw_attribute
-normalized_attribute
-canonical_attribute
-source_file
-context
-ontology_root
-srs_node_id
-lineage_action
-merge_decision
-reason
-```
-
-### `dbnf_lineage_v13.csv`
-
-DBNF lineage actions for model-version or migration runs.
-
-Possible actions:
-
-```text
-PRESERVE
-REMAP
-FORK
-DEPRECATE
-REVIEW
-BLOCKED_BY_NEGATIVE_VETO
-```
-
-### `cross_model_sensitivity_v13.csv`
-
-Cross-backbone diagnostic distances when a different target model is supplied.
-
----
-
-## 18. Self-Checks in v13
-
-v13 reports self-checks in `summary_v13.json` and claim-support output.
-
-Checks include:
-
-```text
-No accepted production merge is in negative_pairs
-No bridge accepts role-sensitive unsafe merge
-Absent ground-truth pairs are separated from main evaluation by default
-Single-context CMNF is marked NOT_EXERCISED
-Cross-backbone DBNF is DIAGNOSTIC_ONLY unless explicitly allowed
-SRS export contains canonical attributes and rejected merges
-```
-
----
-
-## 19. Data Expectations
-
-Schema-style JSON example:
-
-```json
-{
-  "schema_id": "INAmex_v1",
-  "attributes": [
-    {"name": "PrimaryAccountNumber"},
-    {"name": "ExpirationDate"}
-  ]
-}
-```
-
-Payload-style JSON example:
-
-```json
-{
-  "pan": "4111111111111111",
-  "exp": "12/26",
-  "cvv": "123"
-}
-```
-
-Nested JSON is supported. The script recursively walks dictionaries and lists to collect fields and values.
-
----
-
-## 20. Research Integrity Note
-
-This artifact is intended for research, reproducibility, and reviewer validation. Avoid logging raw sensitive values in production. For production use, replace raw-value evidence with privacy-preserving summaries, hashed values, or aggregated statistics.
-
----
-
-## 21. Summary
-
-v13 turns the SDNF experiment into a cleaner and more defensible reviewer-grade artifact. It preserves the auditability of v10/v12 while adding explicit-negative safety, canonical-equivalence handling, absent-ground-truth policy, SRS exports, profile-based verbosity control, and corrected DBNF semantics.
-
-The core v13 experiment is no longer just pairwise alias detection. It is a full SDNF-to-SRS pipeline:
-
-```text
-heterogeneous schemas
-  -> evidence extraction
-  -> threshold-based SDNF validation
-  -> safe merge decisions
-  -> explicit-negative vetoes
-  -> evolved Semantic Representation Schema
-  -> paper/audit claim support
-```
+This is the recommended version for demonstrating how SDNF can standardize heterogeneous payment schemas into a governed semantic geometry while preserving role safety, partition safety, schema lineage, and compliance explainability.

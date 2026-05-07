@@ -1,0 +1,10 @@
+{
+  "id": "pi_761803",
+  "amount": "2275",
+  "currency": "usd",
+  "customer_id": "cus_450813",
+  "payment_method": "upi",
+  "created": 1771021600,
+  "status": "processing",
+  "description": "Synthetic charge for Swiggy"
+}

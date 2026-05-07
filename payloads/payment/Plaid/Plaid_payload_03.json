@@ -1,0 +1,12 @@
+{
+  "account_id": "acc_250921",
+  "routing": "620002433",
+  "acct_num": "BA7000004011",
+  "account_type": "checking",
+  "amount": "1320.94",
+  "iso_currency_code": "USD",
+  "merchant_name": "BigBazaar",
+  "authorized_date": "2026-02-25",
+  "payment_channel": "other",
+  "transaction_id": "txn_981329"
+}

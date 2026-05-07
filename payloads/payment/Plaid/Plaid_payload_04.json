@@ -1,0 +1,13 @@
+{
+  "account_id": "acc_251228",
+  "routing": "620003244",
+  "acct_num": "BA7000005348",
+  "account_type": "savings",
+  "amount": "1660.11",
+  "iso_currency_code": "EUR",
+  "merchant_name": "MedPlus",
+  "authorized_date": "2026-02-28",
+  "payment_channel": "online",
+  "transaction_id": "txn_981772",
+  "balance_current": "11360.11"
+}

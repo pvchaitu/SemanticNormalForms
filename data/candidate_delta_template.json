@@ -1,0 +1,36 @@
+{
+  "format": "sdnf_candidate_schema_delta_v15",
+  "detected_at": "YYYY-MM-DDTHH:MM:SSZ",
+  "provider_or_standard": "Stripe | Razorpay | Plaid | ISO20022 | UPI | Mastercard | PPVisa | INAmex",
+  "source_url": "https://...",
+  "source_reference_id": "optional search/tool reference id",
+  "source_change_marker": "changelog entry, circular number, document version, API version, change request id, or DSOP summary-of-changes item",
+  "change_type": "new_field | removed_field | deprecated_field | type_change | constraint_change | enum_addition | semantic_change | requiredness_change",
+  "affected_schema_id": "existing schema_id",
+  "old_attribute": null,
+  "new_or_changed_attribute": {
+    "name": "",
+    "type": "",
+    "required": false,
+    "semantic_family": "",
+    "canonical_hint": "",
+    "role": "",
+    "aliases": [],
+    "constraints": {},
+    "description": "",
+    "merge_policy": {
+      "do_not_merge_with_families": []
+    }
+  },
+  "sdnf_gate_expectations": {
+    "AANF": "candidate alias compatibility check required",
+    "ECNF": "spec evidence + payload evidence if available",
+    "RRNF": "role safety required",
+    "CMNF": "rail/domain context compatibility required",
+    "DBNF": "compare against previous schema version and embedding/model version",
+    "PONF": "partition compatibility required"
+  },
+  "decision": "pending",
+  "decision_reason": "",
+  "lineage_action": "append_to_srs_lineage_if_accepted_or_rejected"
+}
