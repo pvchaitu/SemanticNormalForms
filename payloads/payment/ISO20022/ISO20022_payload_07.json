@@ -1,0 +1,11 @@
+{
+  "msg_id": "MSG20260007ABC",
+  "end_to_end_id": "E2E85000749",
+  "instd_amt": "4659.69",
+  "currency": "EUR",
+  "dbtr_nm": "Asha Rao",
+  "cdtr_nm": "QuickPay Ltd",
+  "dbtr_acct": "DE89SYNTH0007DBTR",
+  "cdtr_acct": "FR76SYNTH0007CDTR",
+  "reqd_exctn_dt": "2026-02-25"
+}

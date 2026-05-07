@@ -1,15 +1,12 @@
 {
-  "payment_id": "pay_770998",
-  "order_id": "order_880674",
-  "amount": "2180.77",
+  "razorpay_payment_id": "pay_770998",
+  "razorpay_order_id": "order_880674",
+  "amount": 185000,
   "currency": "INR",
-  "method": "card",
-  "customer_name": "Isha Nair",
+  "method": "upi",
+  "vpa": "user2@upi",
   "email": "synthetic.user2@example.test",
   "contact": "+919000000002",
   "status": "authorized",
-  "created_at": 1770007200,
-  "cardNumber": "5290011308620009",
-  "exp": "10/29",
-  "cvv": "638"
+  "created_at": 1770007200
 }

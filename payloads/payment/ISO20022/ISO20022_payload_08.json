@@ -1,0 +1,11 @@
+{
+  "msg_id": "MSG20260008ABC",
+  "end_to_end_id": "E2E85000856",
+  "instd_amt": "4996.76",
+  "currency": "INR",
+  "dbtr_nm": "Ravi Iyer",
+  "cdtr_nm": "FreshBasket Ltd",
+  "dbtr_acct": "DE89SYNTH0008DBTR",
+  "cdtr_acct": "FR76SYNTH0008CDTR",
+  "reqd_exctn_dt": "2026-02-28"
+}

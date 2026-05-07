@@ -1,13 +1,11 @@
 {
   "account_id": "acc_250307",
-  "routing": "620000811",
-  "acct_num": "BA7000001337",
+  "routing_number": "620000811",
+  "account_number": "BA7000001337",
   "account_type": "checking",
-  "amount": "640.60",
-  "iso_currency_code": "USD",
-  "merchant_name": "Flipkart",
-  "authorized_date": "2026-02-19",
-  "payment_channel": "mobile",
+  "balance_current": "10337.27",
+  "currency": "INR",
   "transaction_id": "txn_980443",
-  "balance_current": "10340.60"
+  "transaction_amount": "937.27",
+  "transaction_date": "2026-02-21"
 }

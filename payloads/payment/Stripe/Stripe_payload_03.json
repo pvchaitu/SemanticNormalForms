@@ -1,10 +1,11 @@
 {
-  "id": "pi_761803",
-  "amount": "2275",
-  "currency": "usd",
+  "payment_intent_id": "pi_761803",
+  "amount": 2275,
+  "currency": "inr",
   "customer_id": "cus_450813",
-  "payment_method": "upi",
+  "payment_method": "netbanking",
+  "card_last4": "3333",
+  "card_brand": "visa",
   "created": 1771021600,
-  "status": "processing",
-  "description": "Synthetic charge for Swiggy"
+  "status": "processing"
 }

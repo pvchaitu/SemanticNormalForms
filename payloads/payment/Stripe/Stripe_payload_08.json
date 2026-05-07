@@ -1,0 +1,11 @@
+{
+  "payment_intent_id": "pi_764808",
+  "amount": 4400,
+  "currency": "usd",
+  "customer_id": "cus_452168",
+  "payment_method": "netbanking",
+  "card_last4": "8888",
+  "card_brand": "mastercard",
+  "created": 1771057600,
+  "status": "succeeded"
+}

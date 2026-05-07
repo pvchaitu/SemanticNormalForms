@@ -1,11 +1,11 @@
 {
   "msg_id": "MSG20260004ABC",
-  "end_to_end_id": "E2E850788",
-  "instd_amt": "3360.11",
-  "currency": "USD",
-  "dbtr_nm": "Arjun Patel",
-  "cdtr_nm": "BigBazaar Ltd",
+  "end_to_end_id": "E2E85000428",
+  "instd_amt": "3648.48",
+  "currency": "INR",
+  "dbtr_nm": "Meera Sharma",
+  "cdtr_nm": "Flipkart Ltd",
   "dbtr_acct": "DE89SYNTH0004DBTR",
   "cdtr_acct": "FR76SYNTH0004CDTR",
-  "reqd_exctn_dt": "2026-02-13"
+  "reqd_exctn_dt": "2026-02-16"
 }

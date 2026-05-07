@@ -1,13 +1,11 @@
 {
   "msg_id": "MSG20260002ABC",
-  "end_to_end_id": "E2E850394",
-  "instd_amt": "2680.77",
-  "currency": "EUR",
+  "end_to_end_id": "E2E85000214",
+  "instd_amt": "2974.34",
+  "currency": "USD",
   "dbtr_nm": "Kiran Khan",
-  "cdtr_nm": "Flipkart Ltd",
+  "cdtr_nm": "IRCTC Ltd",
   "dbtr_acct": "DE89SYNTH0002DBTR",
   "cdtr_acct": "FR76SYNTH0002CDTR",
-  "reqd_exctn_dt": "2026-02-07",
-  "acct_num": "DE89SYNTH0002DBTR",
-  "acct_role": "debtor"
+  "reqd_exctn_dt": "2026-02-10"
 }

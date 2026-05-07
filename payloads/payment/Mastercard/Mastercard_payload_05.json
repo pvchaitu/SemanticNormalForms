@@ -1,14 +1,9 @@
 {
-  "primary_account_number": "5490006205950002",
+  "primary_account_number": "5490500689550000",
   "processing_code": "000000",
-  "transaction_amount": "2803.28",
-  "transaction_currency": "EUR",
-  "transmission_datetime": "02151320",
+  "transaction_amount": "3185.55",
+  "transmission_datetime": "0215131525",
   "system_trace_audit_number": "204685",
-  "expiry": "10/29",
-  "securityCode": "127",
-  "cardholder": "Dev Kumar",
-  "merchant": "CafeMocha",
   "merchant_category_code": "5405",
   "card_acceptor_id": "MCACQ3005"
 }

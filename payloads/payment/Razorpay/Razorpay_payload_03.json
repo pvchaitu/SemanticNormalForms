@@ -1,13 +1,12 @@
 {
-  "payment_id": "pay_771497",
-  "order_id": "order_881011",
-  "amount": "2520.94",
+  "razorpay_payment_id": "pay_771497",
+  "razorpay_order_id": "order_881011",
+  "amount": 227500,
   "currency": "INR",
   "method": "netbanking",
-  "customer_name": "Vikram Reddy",
+  "vpa": "",
   "email": "synthetic.user3@example.test",
   "contact": "+919000000003",
   "status": "captured",
-  "created_at": 1770010800,
-  "bank": "HDFC"
+  "created_at": 1770010800
 }

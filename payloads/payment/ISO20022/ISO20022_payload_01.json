@@ -1,11 +1,11 @@
 {
   "msg_id": "MSG20260001ABC",
-  "end_to_end_id": "E2E850197",
-  "instd_amt": "2340.60",
-  "currency": "USD",
+  "end_to_end_id": "E2E85000107",
+  "instd_amt": "2637.27",
+  "currency": "INR",
   "dbtr_nm": "Pooja Mehta",
-  "cdtr_nm": "Swiggy Ltd",
+  "cdtr_nm": "BookMyShow Ltd",
   "dbtr_acct": "DE89SYNTH0001DBTR",
   "cdtr_acct": "FR76SYNTH0001CDTR",
-  "reqd_exctn_dt": "2026-02-04"
+  "reqd_exctn_dt": "2026-02-07"
 }

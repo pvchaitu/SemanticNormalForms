@@ -1,13 +1,10 @@
 {
-  "payer_vpa": "payer3@upi",
-  "payee_vpa": "merchant3@ybl",
-  "txn_amount": "1720.94",
-  "currency": "INR",
-  "merchant_id": "UPI13519",
+  "vpa": "payer3@upi",
   "payer_account": "XXXXXX0003",
-  "payer_name": "Ravi Iyer",
+  "payee_vpa": "merchant3@ybl",
   "txn_id": "T4040024963",
+  "txn_amount": "2011.41",
+  "currency": "INR",
   "txn_timestamp": "2026-02-13T10:21:00Z",
-  "txn_status": "PENDING",
-  "purpose_code": "P2M"
+  "txn_status": "FAILED"
 }

@@ -1,11 +1,11 @@
 {
   "msg_id": "MSG20260006ABC",
-  "end_to_end_id": "E2E851182",
-  "instd_amt": "3943.45",
+  "end_to_end_id": "E2E85000642",
+  "instd_amt": "4322.62",
   "currency": "INR",
-  "dbtr_nm": "Isha Nair",
-  "cdtr_nm": "FreshBasket Ltd",
+  "dbtr_nm": "Vikram Reddy",
+  "cdtr_nm": "BigBazaar Ltd",
   "dbtr_acct": "DE89SYNTH0006DBTR",
   "cdtr_acct": "FR76SYNTH0006CDTR",
-  "reqd_exctn_dt": "2026-02-19"
+  "reqd_exctn_dt": "2026-02-22"
 }

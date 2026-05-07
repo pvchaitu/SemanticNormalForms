@@ -1,0 +1,11 @@
+{
+  "payment_intent_id": "pi_764207",
+  "amount": 3975,
+  "currency": "usd",
+  "customer_id": "cus_451897",
+  "payment_method": "card",
+  "card_last4": "7777",
+  "card_brand": "visa",
+  "created": 1771050400,
+  "status": "processing"
+}

@@ -1,12 +1,10 @@
 {
-  "payer_vpa": "payer5@upi",
-  "payee_vpa": "merchant5@ybl",
-  "txn_amount": "2303.28",
-  "currency": "INR",
-  "merchant_id": "UPI13865",
+  "vpa": "payer5@upi",
   "payer_account": "XXXXXX0005",
-  "payer_name": "Kiran Khan",
+  "payee_vpa": "merchant5@ybl",
   "txn_id": "T4040041605",
+  "txn_amount": "2685.55",
+  "currency": "INR",
   "txn_timestamp": "2026-02-15T10:35:00Z",
-  "txn_status": "SUCCESS"
+  "txn_status": "REVERSED"
 }

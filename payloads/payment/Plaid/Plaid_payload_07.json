@@ -1,0 +1,11 @@
+{
+  "account_id": "acc_252149",
+  "routing_number": "620005677",
+  "account_number": "BA7000009359",
+  "account_type": "checking",
+  "balance_current": "12359.69",
+  "currency": "EUR",
+  "transaction_id": "txn_983101",
+  "transaction_amount": "2959.69",
+  "transaction_date": "2026-03-11"
+}

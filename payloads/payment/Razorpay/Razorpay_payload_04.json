@@ -1,13 +1,12 @@
 {
-  "payment_id": "pay_771996",
-  "order_id": "order_881348",
-  "amount": "2860.11",
+  "razorpay_payment_id": "pay_771996",
+  "razorpay_order_id": "order_881348",
+  "amount": 270000,
   "currency": "INR",
   "method": "wallet",
-  "customer_name": "Dev Kumar",
+  "vpa": "",
   "email": "synthetic.user4@example.test",
   "contact": "+919000000004",
-  "status": "failed",
-  "created_at": 1770014400,
-  "wallet": "payzapp"
+  "status": "refunded",
+  "created_at": 1770014400
 }

@@ -1,14 +1,9 @@
 {
-  "primary_account_number": "5490005930130005",
+  "primary_account_number": "5490500413730000",
   "processing_code": "000000",
-  "transaction_amount": "2220.94",
-  "transaction_currency": "INR",
-  "transmission_datetime": "02131118",
+  "transaction_amount": "2511.41",
+  "transmission_datetime": "0213111323",
   "system_trace_audit_number": "202811",
-  "expiry": "08/35",
-  "securityCode": "880",
-  "cardholder": "Isha Nair",
-  "merchant": "Swiggy",
   "merchant_category_code": "5403",
   "card_acceptor_id": "MCACQ3003"
 }

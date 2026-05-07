@@ -1,0 +1,11 @@
+{
+  "account_id": "acc_252456",
+  "routing_number": "620006488",
+  "account_number": "BA70000010696",
+  "account_type": "savings",
+  "balance_current": "12696.76",
+  "currency": "INR",
+  "transaction_id": "txn_983544",
+  "transaction_amount": "3296.76",
+  "transaction_date": "2026-03-14"
+}

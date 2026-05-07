@@ -1,13 +1,11 @@
 {
   "msg_id": "MSG20260005ABC",
-  "end_to_end_id": "E2E850985",
-  "instd_amt": "3603.28",
-  "currency": "EUR",
-  "dbtr_nm": "Meera Sharma",
-  "cdtr_nm": "MedPlus Ltd",
+  "end_to_end_id": "E2E85000535",
+  "instd_amt": "3985.55",
+  "currency": "USD",
+  "dbtr_nm": "Isha Nair",
+  "cdtr_nm": "CafeMocha Ltd",
   "dbtr_acct": "DE89SYNTH0005DBTR",
   "cdtr_acct": "FR76SYNTH0005CDTR",
-  "reqd_exctn_dt": "2026-02-16",
-  "acct_num": "DE89SYNTH0005DBTR",
-  "acct_role": "debtor"
+  "reqd_exctn_dt": "2026-02-19"
 }

@@ -1,0 +1,440 @@
+{
+  "artifact": "sdnf_v15_fixed_payloads_8_each.zip",
+  "payment_types": [
+    {
+      "payment_type": "INAmex",
+      "files": [
+        "payloads/payment/INAmex/INAmex_payload_01.json",
+        "payloads/payment/INAmex/INAmex_payload_02.json",
+        "payloads/payment/INAmex/INAmex_payload_03.json",
+        "payloads/payment/INAmex/INAmex_payload_04.json",
+        "payloads/payment/INAmex/INAmex_payload_05.json",
+        "payloads/payment/INAmex/INAmex_payload_06.json",
+        "payloads/payment/INAmex/INAmex_payload_07.json",
+        "payloads/payment/INAmex/INAmex_payload_08.json"
+      ]
+    },
+    {
+      "payment_type": "PPVisa",
+      "files": [
+        "payloads/payment/PPVisa/PPVisa_payload_01.json",
+        "payloads/payment/PPVisa/PPVisa_payload_02.json",
+        "payloads/payment/PPVisa/PPVisa_payload_03.json",
+        "payloads/payment/PPVisa/PPVisa_payload_04.json",
+        "payloads/payment/PPVisa/PPVisa_payload_05.json",
+        "payloads/payment/PPVisa/PPVisa_payload_06.json",
+        "payloads/payment/PPVisa/PPVisa_payload_07.json",
+        "payloads/payment/PPVisa/PPVisa_payload_08.json"
+      ]
+    },
+    {
+      "payment_type": "Mastercard",
+      "files": [
+        "payloads/payment/Mastercard/Mastercard_payload_01.json",
+        "payloads/payment/Mastercard/Mastercard_payload_02.json",
+        "payloads/payment/Mastercard/Mastercard_payload_03.json",
+        "payloads/payment/Mastercard/Mastercard_payload_04.json",
+        "payloads/payment/Mastercard/Mastercard_payload_05.json",
+        "payloads/payment/Mastercard/Mastercard_payload_06.json",
+        "payloads/payment/Mastercard/Mastercard_payload_07.json",
+        "payloads/payment/Mastercard/Mastercard_payload_08.json"
+      ]
+    },
+    {
+      "payment_type": "ISO20022",
+      "files": [
+        "payloads/payment/ISO20022/ISO20022_payload_01.json",
+        "payloads/payment/ISO20022/ISO20022_payload_02.json",
+        "payloads/payment/ISO20022/ISO20022_payload_03.json",
+        "payloads/payment/ISO20022/ISO20022_payload_04.json",
+        "payloads/payment/ISO20022/ISO20022_payload_05.json",
+        "payloads/payment/ISO20022/ISO20022_payload_06.json",
+        "payloads/payment/ISO20022/ISO20022_payload_07.json",
+        "payloads/payment/ISO20022/ISO20022_payload_08.json"
+      ]
+    },
+    {
+      "payment_type": "Plaid",
+      "files": [
+        "payloads/payment/Plaid/Plaid_payload_01.json",
+        "payloads/payment/Plaid/Plaid_payload_02.json",
+        "payloads/payment/Plaid/Plaid_payload_03.json",
+        "payloads/payment/Plaid/Plaid_payload_04.json",
+        "payloads/payment/Plaid/Plaid_payload_05.json",
+        "payloads/payment/Plaid/Plaid_payload_06.json",
+        "payloads/payment/Plaid/Plaid_payload_07.json",
+        "payloads/payment/Plaid/Plaid_payload_08.json"
+      ]
+    },
+    {
+      "payment_type": "Razorpay",
+      "files": [
+        "payloads/payment/Razorpay/Razorpay_payload_01.json",
+        "payloads/payment/Razorpay/Razorpay_payload_02.json",
+        "payloads/payment/Razorpay/Razorpay_payload_03.json",
+        "payloads/payment/Razorpay/Razorpay_payload_04.json",
+        "payloads/payment/Razorpay/Razorpay_payload_05.json",
+        "payloads/payment/Razorpay/Razorpay_payload_06.json",
+        "payloads/payment/Razorpay/Razorpay_payload_07.json",
+        "payloads/payment/Razorpay/Razorpay_payload_08.json"
+      ]
+    },
+    {
+      "payment_type": "Stripe",
+      "files": [
+        "payloads/payment/Stripe/Stripe_payload_01.json",
+        "payloads/payment/Stripe/Stripe_payload_02.json",
+        "payloads/payment/Stripe/Stripe_payload_03.json",
+        "payloads/payment/Stripe/Stripe_payload_04.json",
+        "payloads/payment/Stripe/Stripe_payload_05.json",
+        "payloads/payment/Stripe/Stripe_payload_06.json",
+        "payloads/payment/Stripe/Stripe_payload_07.json",
+        "payloads/payment/Stripe/Stripe_payload_08.json"
+      ]
+    },
+    {
+      "payment_type": "UPI",
+      "files": [
+        "payloads/payment/UPI/UPI_payload_01.json",
+        "payloads/payment/UPI/UPI_payload_02.json",
+        "payloads/payment/UPI/UPI_payload_03.json",
+        "payloads/payment/UPI/UPI_payload_04.json",
+        "payloads/payment/UPI/UPI_payload_05.json",
+        "payloads/payment/UPI/UPI_payload_06.json",
+        "payloads/payment/UPI/UPI_payload_07.json",
+        "payloads/payment/UPI/UPI_payload_08.json"
+      ]
+    }
+  ],
+  "payload_count_per_payment_type": 8,
+  "total_payload_files": 64,
+  "fix_strategy": [
+    "Generated only fields that are declared directly in each payment-type schema or represented by explicit aliases.",
+    "Removed payload-only fields that caused unexpected-field onboarding noise in v14 when the matching schema did not declare them.",
+    "Fixed Mastercard transmission_datetime to 10 digits to satisfy the schema pattern ^[0-9]{10}$.",
+    "Generated Razorpay and Stripe amount as integers in minor currency units to match their schema descriptors.",
+    "Kept ISO20022, UPI, Plaid, and card payload values syntactically consistent with schema constraints and role separation."
+  ],
+  "files": [
+    {
+      "payment_type": "INAmex",
+      "file": "payloads/payment/INAmex/INAmex_payload_01.json",
+      "field_count": 4
+    },
+    {
+      "payment_type": "INAmex",
+      "file": "payloads/payment/INAmex/INAmex_payload_02.json",
+      "field_count": 4
+    },
+    {
+      "payment_type": "INAmex",
+      "file": "payloads/payment/INAmex/INAmex_payload_03.json",
+      "field_count": 4
+    },
+    {
+      "payment_type": "INAmex",
+      "file": "payloads/payment/INAmex/INAmex_payload_04.json",
+      "field_count": 4
+    },
+    {
+      "payment_type": "INAmex",
+      "file": "payloads/payment/INAmex/INAmex_payload_05.json",
+      "field_count": 4
+    },
+    {
+      "payment_type": "INAmex",
+      "file": "payloads/payment/INAmex/INAmex_payload_06.json",
+      "field_count": 4
+    },
+    {
+      "payment_type": "INAmex",
+      "file": "payloads/payment/INAmex/INAmex_payload_07.json",
+      "field_count": 4
+    },
+    {
+      "payment_type": "INAmex",
+      "file": "payloads/payment/INAmex/INAmex_payload_08.json",
+      "field_count": 4
+    },
+    {
+      "payment_type": "PPVisa",
+      "file": "payloads/payment/PPVisa/PPVisa_payload_01.json",
+      "field_count": 5
+    },
+    {
+      "payment_type": "PPVisa",
+      "file": "payloads/payment/PPVisa/PPVisa_payload_02.json",
+      "field_count": 5
+    },
+    {
+      "payment_type": "PPVisa",
+      "file": "payloads/payment/PPVisa/PPVisa_payload_03.json",
+      "field_count": 5
+    },
+    {
+      "payment_type": "PPVisa",
+      "file": "payloads/payment/PPVisa/PPVisa_payload_04.json",
+      "field_count": 5
+    },
+    {
+      "payment_type": "PPVisa",
+      "file": "payloads/payment/PPVisa/PPVisa_payload_05.json",
+      "field_count": 5
+    },
+    {
+      "payment_type": "PPVisa",
+      "file": "payloads/payment/PPVisa/PPVisa_payload_06.json",
+      "field_count": 5
+    },
+    {
+      "payment_type": "PPVisa",
+      "file": "payloads/payment/PPVisa/PPVisa_payload_07.json",
+      "field_count": 5
+    },
+    {
+      "payment_type": "PPVisa",
+      "file": "payloads/payment/PPVisa/PPVisa_payload_08.json",
+      "field_count": 5
+    },
+    {
+      "payment_type": "Mastercard",
+      "file": "payloads/payment/Mastercard/Mastercard_payload_01.json",
+      "field_count": 7
+    },
+    {
+      "payment_type": "Mastercard",
+      "file": "payloads/payment/Mastercard/Mastercard_payload_02.json",
+      "field_count": 7
+    },
+    {
+      "payment_type": "Mastercard",
+      "file": "payloads/payment/Mastercard/Mastercard_payload_03.json",
+      "field_count": 7
+    },
+    {
+      "payment_type": "Mastercard",
+      "file": "payloads/payment/Mastercard/Mastercard_payload_04.json",
+      "field_count": 7
+    },
+    {
+      "payment_type": "Mastercard",
+      "file": "payloads/payment/Mastercard/Mastercard_payload_05.json",
+      "field_count": 7
+    },
+    {
+      "payment_type": "Mastercard",
+      "file": "payloads/payment/Mastercard/Mastercard_payload_06.json",
+      "field_count": 7
+    },
+    {
+      "payment_type": "Mastercard",
+      "file": "payloads/payment/Mastercard/Mastercard_payload_07.json",
+      "field_count": 7
+    },
+    {
+      "payment_type": "Mastercard",
+      "file": "payloads/payment/Mastercard/Mastercard_payload_08.json",
+      "field_count": 7
+    },
+    {
+      "payment_type": "ISO20022",
+      "file": "payloads/payment/ISO20022/ISO20022_payload_01.json",
+      "field_count": 9
+    },
+    {
+      "payment_type": "ISO20022",
+      "file": "payloads/payment/ISO20022/ISO20022_payload_02.json",
+      "field_count": 9
+    },
+    {
+      "payment_type": "ISO20022",
+      "file": "payloads/payment/ISO20022/ISO20022_payload_03.json",
+      "field_count": 9
+    },
+    {
+      "payment_type": "ISO20022",
+      "file": "payloads/payment/ISO20022/ISO20022_payload_04.json",
+      "field_count": 9
+    },
+    {
+      "payment_type": "ISO20022",
+      "file": "payloads/payment/ISO20022/ISO20022_payload_05.json",
+      "field_count": 9
+    },
+    {
+      "payment_type": "ISO20022",
+      "file": "payloads/payment/ISO20022/ISO20022_payload_06.json",
+      "field_count": 9
+    },
+    {
+      "payment_type": "ISO20022",
+      "file": "payloads/payment/ISO20022/ISO20022_payload_07.json",
+      "field_count": 9
+    },
+    {
+      "payment_type": "ISO20022",
+      "file": "payloads/payment/ISO20022/ISO20022_payload_08.json",
+      "field_count": 9
+    },
+    {
+      "payment_type": "Plaid",
+      "file": "payloads/payment/Plaid/Plaid_payload_01.json",
+      "field_count": 9
+    },
+    {
+      "payment_type": "Plaid",
+      "file": "payloads/payment/Plaid/Plaid_payload_02.json",
+      "field_count": 9
+    },
+    {
+      "payment_type": "Plaid",
+      "file": "payloads/payment/Plaid/Plaid_payload_03.json",
+      "field_count": 9
+    },
+    {
+      "payment_type": "Plaid",
+      "file": "payloads/payment/Plaid/Plaid_payload_04.json",
+      "field_count": 9
+    },
+    {
+      "payment_type": "Plaid",
+      "file": "payloads/payment/Plaid/Plaid_payload_05.json",
+      "field_count": 9
+    },
+    {
+      "payment_type": "Plaid",
+      "file": "payloads/payment/Plaid/Plaid_payload_06.json",
+      "field_count": 9
+    },
+    {
+      "payment_type": "Plaid",
+      "file": "payloads/payment/Plaid/Plaid_payload_07.json",
+      "field_count": 9
+    },
+    {
+      "payment_type": "Plaid",
+      "file": "payloads/payment/Plaid/Plaid_payload_08.json",
+      "field_count": 9
+    },
+    {
+      "payment_type": "Razorpay",
+      "file": "payloads/payment/Razorpay/Razorpay_payload_01.json",
+      "field_count": 10
+    },
+    {
+      "payment_type": "Razorpay",
+      "file": "payloads/payment/Razorpay/Razorpay_payload_02.json",
+      "field_count": 10
+    },
+    {
+      "payment_type": "Razorpay",
+      "file": "payloads/payment/Razorpay/Razorpay_payload_03.json",
+      "field_count": 10
+    },
+    {
+      "payment_type": "Razorpay",
+      "file": "payloads/payment/Razorpay/Razorpay_payload_04.json",
+      "field_count": 10
+    },
+    {
+      "payment_type": "Razorpay",
+      "file": "payloads/payment/Razorpay/Razorpay_payload_05.json",
+      "field_count": 10
+    },
+    {
+      "payment_type": "Razorpay",
+      "file": "payloads/payment/Razorpay/Razorpay_payload_06.json",
+      "field_count": 10
+    },
+    {
+      "payment_type": "Razorpay",
+      "file": "payloads/payment/Razorpay/Razorpay_payload_07.json",
+      "field_count": 10
+    },
+    {
+      "payment_type": "Razorpay",
+      "file": "payloads/payment/Razorpay/Razorpay_payload_08.json",
+      "field_count": 10
+    },
+    {
+      "payment_type": "Stripe",
+      "file": "payloads/payment/Stripe/Stripe_payload_01.json",
+      "field_count": 9
+    },
+    {
+      "payment_type": "Stripe",
+      "file": "payloads/payment/Stripe/Stripe_payload_02.json",
+      "field_count": 9
+    },
+    {
+      "payment_type": "Stripe",
+      "file": "payloads/payment/Stripe/Stripe_payload_03.json",
+      "field_count": 9
+    },
+    {
+      "payment_type": "Stripe",
+      "file": "payloads/payment/Stripe/Stripe_payload_04.json",
+      "field_count": 9
+    },
+    {
+      "payment_type": "Stripe",
+      "file": "payloads/payment/Stripe/Stripe_payload_05.json",
+      "field_count": 9
+    },
+    {
+      "payment_type": "Stripe",
+      "file": "payloads/payment/Stripe/Stripe_payload_06.json",
+      "field_count": 9
+    },
+    {
+      "payment_type": "Stripe",
+      "file": "payloads/payment/Stripe/Stripe_payload_07.json",
+      "field_count": 9
+    },
+    {
+      "payment_type": "Stripe",
+      "file": "payloads/payment/Stripe/Stripe_payload_08.json",
+      "field_count": 9
+    },
+    {
+      "payment_type": "UPI",
+      "file": "payloads/payment/UPI/UPI_payload_01.json",
+      "field_count": 8
+    },
+    {
+      "payment_type": "UPI",
+      "file": "payloads/payment/UPI/UPI_payload_02.json",
+      "field_count": 8
+    },
+    {
+      "payment_type": "UPI",
+      "file": "payloads/payment/UPI/UPI_payload_03.json",
+      "field_count": 8
+    },
+    {
+      "payment_type": "UPI",
+      "file": "payloads/payment/UPI/UPI_payload_04.json",
+      "field_count": 8
+    },
+    {
+      "payment_type": "UPI",
+      "file": "payloads/payment/UPI/UPI_payload_05.json",
+      "field_count": 8
+    },
+    {
+      "payment_type": "UPI",
+      "file": "payloads/payment/UPI/UPI_payload_06.json",
+      "field_count": 8
+    },
+    {
+      "payment_type": "UPI",
+      "file": "payloads/payment/UPI/UPI_payload_07.json",
+      "field_count": 8
+    },
+    {
+      "payment_type": "UPI",
+      "file": "payloads/payment/UPI/UPI_payload_08.json",
+      "field_count": 8
+    }
+  ]
+}

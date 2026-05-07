@@ -1,10 +1,11 @@
 {
-  "id": "pi_763005",
-  "amount": "3125",
-  "currency": "eur",
+  "payment_intent_id": "pi_763005",
+  "amount": 3125,
+  "currency": "usd",
   "customer_id": "cus_451355",
-  "payment_method": "wallet",
+  "payment_method": "card",
+  "card_last4": "5555",
+  "card_brand": "visa",
   "created": 1771036000,
-  "status": "requires_capture",
-  "description": "Synthetic charge for CafeMocha"
+  "status": "succeeded"
 }

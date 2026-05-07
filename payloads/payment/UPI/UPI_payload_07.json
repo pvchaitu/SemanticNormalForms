@@ -1,0 +1,10 @@
+{
+  "vpa": "payer7@upi",
+  "payer_account": "XXXXXX0007",
+  "payee_vpa": "merchant7@ybl",
+  "txn_id": "T4040058247",
+  "txn_amount": "3359.69",
+  "currency": "INR",
+  "txn_timestamp": "2026-02-17T10:49:00Z",
+  "txn_status": "PENDING"
+}

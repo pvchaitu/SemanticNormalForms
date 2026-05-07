@@ -1,12 +1,11 @@
 {
-  "id": "pi_762404",
-  "amount": "2700",
+  "payment_intent_id": "pi_762404",
+  "amount": 2700,
   "currency": "usd",
   "customer_id": "cus_451084",
-  "payment_method": "card",
+  "payment_method": "wallet",
+  "card_last4": "4444",
+  "card_brand": "mastercard",
   "created": 1771028800,
-  "status": "succeeded",
-  "description": "Synthetic charge for Flipkart",
-  "card_last4": "0009",
-  "card_brand": "mastercard"
+  "status": "requires_action"
 }

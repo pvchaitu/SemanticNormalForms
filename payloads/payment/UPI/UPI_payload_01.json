@@ -1,12 +1,10 @@
 {
-  "payer_vpa": "payer1@upi",
-  "payee_vpa": "merchant1@ybl",
-  "txn_amount": "1040.60",
-  "currency": "INR",
-  "merchant_id": "UPI13173",
+  "vpa": "payer1@upi",
   "payer_account": "XXXXXX0001",
-  "payer_name": "Dev Kumar",
+  "payee_vpa": "merchant1@ybl",
   "txn_id": "T4040008321",
+  "txn_amount": "1337.27",
+  "currency": "INR",
   "txn_timestamp": "2026-02-11T10:07:00Z",
   "txn_status": "SUCCESS"
 }

@@ -1,13 +1,12 @@
 {
-  "payment_id": "pay_772495",
-  "order_id": "order_881685",
-  "amount": "3103.28",
+  "razorpay_payment_id": "pay_772495",
+  "razorpay_order_id": "order_881685",
+  "amount": 312500,
   "currency": "INR",
-  "method": "upi",
-  "customer_name": "Asha Rao",
+  "method": "card",
+  "vpa": "",
   "email": "synthetic.user5@example.test",
   "contact": "+919000000005",
-  "status": "captured",
-  "created_at": 1770018000,
-  "vpa": "user5@upi"
+  "status": "failed",
+  "created_at": 1770018000
 }

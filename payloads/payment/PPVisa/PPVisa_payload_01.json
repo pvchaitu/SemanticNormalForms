@@ -1,10 +1,7 @@
 {
-  "cardNumber": "4900028961100009",
-  "ExpirationDate": "04/31",
-  "CardVerificationValue": "903",
-  "CardHolderName": "Kiran Khan",
-  "txn_amount": "1240.60",
-  "transaction_currency": "INR",
-  "merchant_id": "VISA60211",
-  "auth_code": "100719"
+  "pan": "4900200137910000",
+  "exp": "04/31",
+  "cvv": "267",
+  "cardholder": "Ravi Iyer",
+  "issuer": "Visa Network"
 }

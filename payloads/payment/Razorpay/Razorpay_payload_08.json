@@ -1,0 +1,12 @@
+{
+  "razorpay_payment_id": "pay_773992",
+  "razorpay_order_id": "order_882696",
+  "amount": 440000,
+  "currency": "INR",
+  "method": "netbanking",
+  "vpa": "",
+  "email": "synthetic.user8@example.test",
+  "contact": "+919000000008",
+  "status": "created",
+  "created_at": 1770028800
+}

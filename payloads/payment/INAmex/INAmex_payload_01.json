@@ -1,9 +1,6 @@
 {
-  "pan": "379000013791002",
-  "exp": "02/29",
-  "cvv": "173",
-  "CardHolderName": "Ravi Iyer",
-  "transaction_amount": "840.60",
-  "transaction_currency": "USD",
-  "merchant_id": "AMEX80137"
+  "PrimaryAccountNumber": "379000000113791",
+  "ExpirationDate": "02/29",
+  "CardVerificationValue": "173",
+  "CardHolderName": "Asha Rao"
 }

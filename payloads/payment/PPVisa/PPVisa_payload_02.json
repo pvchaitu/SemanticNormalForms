@@ -1,11 +1,7 @@
 {
-  "cardNumber": "4900030340200005",
-  "ExpirationDate": "05/32",
-  "CardVerificationValue": "976",
-  "CardHolderName": "Neha Iyer",
-  "txn_amount": "1580.77",
-  "transaction_currency": "USD",
-  "merchant_id": "VISA60422",
-  "auth_code": "101438",
+  "pan": "4900200275820000",
+  "exp": "05/32",
+  "cvv": "334",
+  "cardholder": "Pooja Mehta",
   "issuer": "Visa"
 }

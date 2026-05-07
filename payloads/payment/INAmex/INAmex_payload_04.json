@@ -1,9 +1,6 @@
 {
-  "pan": "379000055164001",
-  "exp": "05/32",
-  "cvv": "392",
-  "CardHolderName": "Neha Iyer",
-  "transaction_amount": "1860.11",
-  "transaction_currency": "INR",
-  "merchant_id": "AMEX80548"
+  "PrimaryAccountNumber": "379000000155164",
+  "ExpirationDate": "05/32",
+  "CardVerificationValue": "392",
+  "CardHolderName": "Kiran Khan"
 }

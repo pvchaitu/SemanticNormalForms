@@ -1,12 +1,10 @@
 {
-  "payer_vpa": "payer2@upi",
-  "payee_vpa": "merchant2@ybl",
-  "txn_amount": "1380.77",
-  "currency": "INR",
-  "merchant_id": "UPI13346",
+  "vpa": "payer2@upi",
   "payer_account": "XXXXXX0002",
-  "payer_name": "Asha Rao",
+  "payee_vpa": "merchant2@ybl",
   "txn_id": "T4040016642",
+  "txn_amount": "1674.34",
+  "currency": "INR",
   "txn_timestamp": "2026-02-12T10:14:00Z",
-  "txn_status": "SUCCESS"
+  "txn_status": "PENDING"
 }
