@@ -458,17 +458,17 @@ Fallback behavior:
 Use this for the main reviewer-facing paper profile.
 
 ```bash
-python unified_sdnf_experiment_hybrid_v17.py \
-  --output_profile paper \
-  --schemas_dir data \
-  --payloads_root payloads/payment \
-  --seed_srs_schema INAmex.schema.json \
-  --ground_truth_aliases ground_truth_aliases_closed_world_v12.json \
-  --ground_truth_closed_world \
-  --evaluation_track both \
-  --dbnf_mode version_drift \
-  --ground_truth_repair_mode closed_world_only \
-  --candidate_backend pairwise \
+python unified_sdnf_experiment_hybrid_v17.py ^
+  --output_profile paper ^
+  --schemas_dir data ^
+  --payloads_root payloads/payment ^
+  --seed_srs_schema INAmex.schema.json ^
+  --ground_truth_aliases ground_truth_aliases_closed_world_v12.json ^
+  --ground_truth_closed_world ^
+  --evaluation_track both ^
+  --dbnf_mode version_drift ^
+  --ground_truth_repair_mode closed_world_only ^
+  --candidate_backend pairwise ^
   --measure_timing
 ```
 
@@ -477,18 +477,18 @@ python unified_sdnf_experiment_hybrid_v17.py \
 Use this for deeper diagnostics and review queue inspection.
 
 ```bash
-python unified_sdnf_experiment_hybrid_v17.py \
-  --output_profile audit \
-  --schemas_dir data \
-  --payloads_root payloads/payment \
-  --seed_srs_schema INAmex.schema.json \
-  --ground_truth_aliases ground_truth_aliases_closed_world_v12.json \
-  --ground_truth_closed_world \
-  --evaluation_track both \
-  --dbnf_mode both \
-  --ground_truth_repair_mode schema_supported_review \
-  --candidate_backend auto \
-  --count_semantic_veto_conflicts_as_fn \
+python unified_sdnf_experiment_hybrid_v17.py ^
+  --output_profile audit ^
+  --schemas_dir data ^
+  --payloads_root payloads/payment ^
+  --seed_srs_schema INAmex.schema.json ^
+  --ground_truth_aliases ground_truth_aliases_closed_world_v12.json ^
+  --ground_truth_closed_world ^
+  --evaluation_track both ^
+  --dbnf_mode both ^
+  --ground_truth_repair_mode schema_supported_review ^
+  --candidate_backend auto ^
+  --count_semantic_veto_conflicts_as_fn ^
   --measure_timing
 ```
 
@@ -497,9 +497,9 @@ python unified_sdnf_experiment_hybrid_v17.py \
 Use this for a quick sanity check.
 
 ```bash
-python unified_sdnf_experiment_hybrid_v17.py \
-  --output_profile minimal \
-  --schemas_dir data \
+python unified_sdnf_experiment_hybrid_v17.py ^
+  --output_profile minimal ^
+  --schemas_dir data ^
   --payloads_root payloads/payment
 ```
 
@@ -508,9 +508,9 @@ python unified_sdnf_experiment_hybrid_v17.py \
 Use this to exercise the DBNF version-drift surface.
 
 ```bash
-python unified_sdnf_experiment_hybrid_v17.py \
-  --output_profile paper \
-  --dbnf_mode version_drift \
+python unified_sdnf_experiment_hybrid_v17.py ^
+  --output_profile paper ^
+  --dbnf_mode version_drift ^
   --measure_timing
 ```
 
@@ -519,9 +519,9 @@ python unified_sdnf_experiment_hybrid_v17.py \
 Use this for operational model migration diagnostics. This is a utility mode, not automatically a paper claim.
 
 ```bash
-python unified_sdnf_experiment_hybrid_v17.py \
-  --output_profile audit \
-  --dbnf_mode migration \
+python unified_sdnf_experiment_hybrid_v17.py ^
+  --output_profile audit ^
+  --dbnf_mode migration ^
   --dbnf_migration_model all-mpnet-base-v2
 ```
 

@@ -1,0 +1,10 @@
+metric,value
+candidate_generation_ms,79.18570000003092
+candidate_pair_count,100
+candidate_backend_requested,pairwise
+candidate_backend_used,pairwise
+hnsw_available,False
+total_runtime_ms,54784.56170000008
+embedding_backend,sentence-transformers
+dbnf_mode,version_drift
+eenf_mode,not_evaluated

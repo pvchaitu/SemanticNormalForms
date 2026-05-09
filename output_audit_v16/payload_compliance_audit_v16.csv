@@ -1,2 +1,0 @@
-RecordID,FieldName,ComplianceCheck,Status
-1,System2.order_id,Exists in new data,PASS

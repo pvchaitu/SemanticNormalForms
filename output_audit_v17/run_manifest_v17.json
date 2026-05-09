@@ -1,0 +1,43 @@
+{
+  "version": "17.0.0",
+  "profile": "audit",
+  "output_dir": "output_v17",
+  "output_files": [
+    "out_audit_v17.txt",
+    "run_manifest_v17.json",
+    "summary_audit_v17.json",
+    "srs_evolved_schema_v17.compact.json",
+    "schema_ingestion_audit_v17.csv",
+    "field_evidence_audit_v17.csv",
+    "schema_deltas_audit_v17.csv",
+    "decisions_audit_v17.csv",
+    "alias_evaluation_audit_v17.csv",
+    "payload_compliance_audit_v17.csv",
+    "normal_forms_and_claims_audit_v17.csv",
+    "scale_timing_drift_audit_v17.csv",
+    "review_queue_audit_v17.csv",
+    "sdnf_debug_bundle_v17.zip"
+  ],
+  "ground_truth_repair_mode": "schema_supported_review",
+  "count_semantic_veto_conflicts_as_fn": true,
+  "candidate_backend_requested": "auto",
+  "embedding_backend": "sentence-transformers",
+  "evidence_weights": {
+    "embedding": 0.35,
+    "name": 0.2,
+    "ontology": 0.2,
+    "canonical": 0.2,
+    "alias": 0.05
+  },
+  "ground_truth_audit": {
+    "source_path": "ground_truth_aliases_closed_world_v12.json",
+    "closed_world": true,
+    "repair_mode": "schema_supported_review",
+    "status": "OK",
+    "true_pair_count": 15,
+    "negative_pair_count": 14,
+    "overlap_count": 0
+  },
+  "roadmap_scaffolds_are_claims": false,
+  "writer_max_files": 15
+}

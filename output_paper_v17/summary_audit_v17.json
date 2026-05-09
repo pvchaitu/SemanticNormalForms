@@ -1,0 +1,117 @@
+{
+  "version": "17.0.0",
+  "profile": "paper",
+  "dataset_summary": {
+    "schema_descriptor_count": 8,
+    "total_attributes": 61,
+    "payload_observation_count": 488,
+    "total_ground_truth_pairs": 15,
+    "total_predicted_pairs_raw": 14,
+    "total_predicted_pairs_unique": 7
+  },
+  "alias_pair_metrics_strict": {
+    "measurable": true,
+    "tp": 0,
+    "fp": 7,
+    "fn": 15,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0,
+    "reviewer_diagnosed_precision": 0.0,
+    "reviewer_diagnosed_recall": 0.0,
+    "reviewer_diagnosed_f1": 0.0,
+    "false_positive_examples": [
+      "inamex_expiration_date :: ppvisa_expiration_date",
+      "inamex_primary_account_number :: ppvisa_primary_account_number",
+      "razorpay_amount :: stripe_amount",
+      "razorpay_created_at :: stripe_created",
+      "razorpay_currency :: stripe_currency",
+      "razorpay_method :: stripe_payment_method",
+      "razorpay_status :: stripe_status"
+    ],
+    "false_negative_examples": [
+      "account_number :: primary_account_number",
+      "amount :: instructed_amount",
+      "amount :: transaction_amount",
+      "comment :: description",
+      "comment :: memo",
+      "comment :: note",
+      "created :: created_at",
+      "currency :: iso_currency_code",
+      "description :: memo",
+      "description :: note",
+      "instructed_amount :: transaction_amount",
+      "memo :: note",
+      "method :: payment_method",
+      "payee_virtual_payment_address :: virtual_payment_address",
+      "status :: transaction_status"
+    ],
+    "review_true_pairs": [],
+    "fp_prevented_by_review_count": 31,
+    "fn_requiring_review_count": 0
+  },
+  "membership_metrics": {
+    "measurable": true,
+    "cluster_precision": 0.0,
+    "cluster_recall": 0.0,
+    "cluster_f1": 0.0
+  },
+  "cross_context": {
+    "cross_context_merge_count": 0,
+    "accepted_merge_count": 14,
+    "cross_context_merge_rate": 0.0,
+    "examples": []
+  },
+  "review_queue": {
+    "count": 62,
+    "reason_counts": {
+      "cross-rail compatibility uncertain": 30,
+      "evidence margin below auto-merge threshold": 4,
+      "evidence margin below auto-merge threshold; cross-rail compatibility uncertain": 26,
+      "plausible evidence but not safe enough for automatic merge": 2
+    }
+  },
+  "self_checks": {
+    "no_self_pairs_in_predictions": true,
+    "no_duplicate_pairs_in_predictions": false,
+    "alias_vs_membership_evaluated_separately": true,
+    "human_review_not_counted_as_strict_positive": true
+  },
+  "normal_form_summaries": {
+    "EENF": {
+      "status": "NOT_EVALUATED",
+      "reason": "EENF mode disabled"
+    },
+    "DBNF": {
+      "status": "NOT_EVALUATED",
+      "mode": "version_drift",
+      "reason": "DBNF scaffold/diagnostic present; no explicit drift ground truth evaluated in v17 default run",
+      "attribute_count": 61
+    },
+    "Geometry": {
+      "status": "SCAFFOLDED_NOT_EVALUATED",
+      "message": "v17 includes geometry audit scaffolding only; compactness/separation/margin/leakage are not evaluated claims.",
+      "canonical_node_count": 41,
+      "planned_metrics": [
+        "canonical_compactness",
+        "inter_canonical_separation",
+        "semantic_margin",
+        "partition_leakage"
+      ]
+    }
+  },
+  "roadmap_scaffolds": {
+    "canonical_embeddings": {
+      "status": "SCAFFOLDED_NOT_EVALUATED",
+      "node_count": 41,
+      "centroid_available_count": 41
+    },
+    "srs_snapshot": {
+      "version_label": "v17",
+      "status": "MINIMAL_SNAPSHOT",
+      "canonical_node_count": 41,
+      "member_count": 61,
+      "review_candidate_count": 64
+    }
+  }
+}

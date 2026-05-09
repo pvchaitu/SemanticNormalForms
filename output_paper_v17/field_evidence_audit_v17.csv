@@ -1,0 +1,62 @@
+payment_type,field,normalized_field,count,total_payloads,presence_ratio,presence_class,observed_type,regex,shape,distinct_count,examples
+INAmex,CardHolderName,card_holder_name,8,8,8/8,required_candidate,string,mixed,A4S1A3:1;A4S1A4:3;A5S1A4:1;A5S1A5:1;A5S1A6:1;A6S1A5:1,8,Asha Rao; Ravi Iyer; Pooja Mehta
+INAmex,CardVerificationValue,card_verification_value,8,8,8/8,required_candidate,number_string,"[0-9]{3,4}$",D3:8,8,173; 246; 319
+INAmex,ExpirationDate,expiration_date,8,8,8/8,required_candidate,string,mixed,D2P1D2:8,8,02/29; 03/30; 04/31
+INAmex,PrimaryAccountNumber,primary_account_number,8,8,8/8,required_candidate,number_string,"[0-9]{12,19}$",D15:8,8,379000000113791; 379000000127582; 379000000141373
+ISO20022,cdtr_acct,creditor_account,8,8,8/8,required_candidate,string,mixed,A2D2A5D4A4:8,8,FR76SYNTH0001CDTR; FR76SYNTH0002CDTR; FR76SYNTH0003CDTR
+ISO20022,cdtr_nm,creditor_name,8,8,8/8,required_candidate,string,mixed,A10S1A3:1;A11S1A3:1;A5S1A3:1;A6S1A3:1;A8S1A3:2;A9S1A3:2,8,BookMyShow Ltd; IRCTC Ltd; Swiggy Ltd
+ISO20022,currency,currency,8,8,8/8,required_candidate,string,[A-Z]{3}$,A3:8,3,INR; USD; EUR
+ISO20022,dbtr_acct,debtor_account,8,8,8/8,required_candidate,string,mixed,A2D2A5D4A4:8,8,DE89SYNTH0001DBTR; DE89SYNTH0002DBTR; DE89SYNTH0003DBTR
+ISO20022,dbtr_nm,debtor_name,8,8,8/8,required_candidate,string,mixed,A4S1A3:1;A4S1A4:3;A5S1A4:1;A5S1A5:1;A5S1A6:1;A6S1A5:1,8,Pooja Mehta; Kiran Khan; Neha Iyer
+ISO20022,end_to_end_id,end_to_end_identifier,8,8,8/8,required_candidate,string,mixed,A1D1A1D8:8,8,E2E85000107; E2E85000214; E2E85000321
+ISO20022,instd_amt,instructed_amount,8,8,8/8,required_candidate,number_string,[-+]?[0-9]+(.[0-9]+)?$,D4P1D2:8,8,2637.27; 2974.34; 3311.41
+ISO20022,msg_id,msg_identifier,8,8,8/8,required_candidate,string,mixed,A3D8A3:8,8,MSG20260001ABC; MSG20260002ABC; MSG20260003ABC
+ISO20022,reqd_exctn_dt,reqd_exctn_dt,8,8,8/8,required_candidate,string,\d{4}-\d{2}-\d{2}$,D4P1D2P1D2:8,8,2026-02-07; 2026-02-10; 2026-02-13
+Mastercard,card_acceptor_id,card_acceptor_identifier,8,8,8/8,required_candidate,string,mixed,A5D4:8,8,MCACQ3001; MCACQ3002; MCACQ3003
+Mastercard,merchant_category_code,merchant_category_code,8,8,8/8,required_candidate,number_string,"[0-9]{3,4}$",D4:8,8,5401; 5402; 5403
+Mastercard,primary_account_number,primary_account_number,8,8,8/8,required_candidate,number_string,"[0-9]{12,19}$",D16:8,8,5490500137910000; 5490500275820000; 5490500413730000
+Mastercard,processing_code,processing_code,8,8,8/8,required_candidate,number_string,[-+]?[0-9]+(.[0-9]+)?$,D6:8,2,000000; 200000; 000000
+Mastercard,system_trace_audit_number,system_trace_audit_number,8,8,8/8,required_candidate,number_string,[-+]?[0-9]+(.[0-9]+)?$,D6:8,8,200937; 201874; 202811
+Mastercard,transaction_amount,transaction_amount,8,8,8/8,required_candidate,number_string,[-+]?[0-9]+(.[0-9]+)?$,D4P1D2:8,8,1837.27; 2174.34; 2511.41
+Mastercard,transmission_datetime,transmission_datetime,8,8,8/8,required_candidate,number_string,[-+]?[0-9]+(.[0-9]+)?$,D10:8,8,0211091121; 0212101222; 0213111323
+PPVisa,cardholder,cardholder,8,8,8/8,required_candidate,string,mixed,A4S1A3:1;A4S1A4:3;A5S1A4:1;A5S1A5:1;A5S1A6:1;A6S1A5:1,8,Ravi Iyer; Pooja Mehta; Kiran Khan
+PPVisa,exp,expiration_date,8,8,8/8,required_candidate,string,mixed,D2P1D2:8,8,04/31; 05/32; 06/33
+PPVisa,issuer,issuer,8,8,8/8,required_candidate,string,mixed,A4:4;A4S1A7:4,2,Visa Network; Visa; Visa Network
+PPVisa,pan,primary_account_number,8,8,8/8,required_candidate,number_string,"[0-9]{12,19}$",D16:8,8,4900200137910000; 4900200275820000; 4900200413730000
+PPVisa,cvv,verification_value,8,8,8/8,required_candidate,number_string,"[0-9]{3,4}$",D3:8,8,267; 334; 401
+Plaid,account_id,account_identifier,8,8,8/8,required_candidate,string,mixed,A3P1D6:8,8,acc_250307; acc_250614; acc_250921
+Plaid,account_number,account_number,8,8,8/8,required_candidate,string,mixed,A2D10:7;A2D11:1,8,BA7000001337; BA7000002674; BA7000004011
+Plaid,account_type,account_type,8,8,8/8,required_candidate,string,mixed,A7:4;A8:4,2,checking; savings; checking
+Plaid,balance_current,balance_current,8,8,8/8,required_candidate,number_string,[-+]?[0-9]+(.[0-9]+)?$,D5P1D2:8,8,10337.27; 10674.34; 11011.41
+Plaid,currency,currency,8,8,8/8,required_candidate,string,[A-Z]{3}$,A3:8,3,INR; USD; EUR
+Plaid,routing_number,routing_number,8,8,8/8,required_candidate,number_string,[-+]?[0-9]+(.[0-9]+)?$,D9:8,8,620000811; 620001622; 620002433
+Plaid,transaction_amount,transaction_amount,8,8,8/8,required_candidate,number_string,[-+]?[0-9]+(.[0-9]+)?$,D3P1D2:1;D4P1D2:7,8,937.27; 1274.34; 1611.41
+Plaid,transaction_date,transaction_date,8,8,8/8,required_candidate,string,\d{4}-\d{2}-\d{2}$,D4P1D2P1D2:8,8,2026-02-21; 2026-02-24; 2026-02-27
+Plaid,transaction_id,transaction_identifier,8,8,8/8,required_candidate,string,mixed,A3P1D6:8,8,txn_980443; txn_980886; txn_981329
+Razorpay,amount,amount,8,8,8/8,required_candidate,integer,[-+]?[0-9]+(.[0-9]+)?$,D6:8,8,142500; 185000; 227500
+Razorpay,contact,contact,8,8,8/8,required_candidate,number_string,[-+]?[0-9]+(.[0-9]+)?$,P1D12:8,8,+919000000001; +919000000002; +919000000003
+Razorpay,created_at,created_at,8,8,8/8,required_candidate,integer,[-+]?[0-9]+(.[0-9]+)?$,D10:8,8,1770003600; 1770007200; 1770010800
+Razorpay,currency,currency,8,8,8/8,required_candidate,string,[A-Z]{3}$,A3:8,1,INR; INR; INR
+Razorpay,email,email,8,8,8/8,required_candidate,string,.+@.+$,A9P1A4D1P1A7P1A4:8,8,synthetic.user1@example.test; synthetic.user2@example.test; synthetic.user3@example.test
+Razorpay,method,method,8,8,8/8,required_candidate,string,mixed,A10:2;A3:2;A4:3;A6:1,4,card; upi; netbanking
+Razorpay,razorpay_order_id,razorpay_order_identifier,8,8,8/8,required_candidate,string,mixed,A5P1D6:8,8,order_880337; order_880674; order_881011
+Razorpay,razorpay_payment_id,razorpay_payment_identifier,8,8,8/8,required_candidate,string,mixed,A3P1D6:8,8,pay_770499; pay_770998; pay_771497
+Razorpay,status,status,8,8,8/8,required_candidate,string,mixed,A10:2;A6:1;A7:2;A8:3,5,created; authorized; captured
+Razorpay,vpa,virtual_payment_address,8,8,8/8,required_candidate,string,.+@.+$,:6;A4D1P1A3:2,3,; user2@upi; 
+Stripe,amount,amount,8,8,8/8,required_candidate,integer,"[0-9]{3,4}$",D4:8,8,1425; 1850; 2275
+Stripe,card_brand,card_brand,8,8,8/8,required_candidate,string,mixed,A10:4;A4:4,2,visa; mastercard; visa
+Stripe,card_last4,card_last4,8,8,8/8,required_candidate,number_string,"[0-9]{3,4}$",D4:8,8,1111; 2222; 3333
+Stripe,created,created,8,8,8/8,required_candidate,integer,[-+]?[0-9]+(.[0-9]+)?$,D10:8,8,1771007200; 1771014400; 1771021600
+Stripe,currency,currency,8,8,8/8,required_candidate,string,[a-z]{3}$,A3:8,2,usd; usd; inr
+Stripe,customer_id,customer_identifier,8,8,8/8,required_candidate,string,mixed,A3P1D6:8,8,cus_450271; cus_450542; cus_450813
+Stripe,payment_intent_id,payment_intent_identifier,8,8,8/8,required_candidate,string,mixed,A2P1D6:8,8,pi_760601; pi_761202; pi_761803
+Stripe,payment_method,payment_method,8,8,8/8,required_candidate,string,mixed,A10:2;A3:2;A4:3;A6:1,4,card; upi; netbanking
+Stripe,status,status,8,8,8/8,required_candidate,string,mixed,A10:2;A8:1;A8P1A12:1;A8P1A6:1;A8P1A7P1A6:1;A9:2,6,requires_payment_method; requires_confirmation; processing
+UPI,currency,currency,8,8,8/8,required_candidate,string,[A-Z]{3}$,A3:8,1,INR; INR; INR
+UPI,payee_vpa,payee_virtual_payment_address,8,8,8/8,required_candidate,string,.+@.+$,A8D1P1A3:8,8,merchant1@ybl; merchant2@ybl; merchant3@ybl
+UPI,payer_account,payer_account,8,8,8/8,required_candidate,string,mixed,A6D4:8,8,XXXXXX0001; XXXXXX0002; XXXXXX0003
+UPI,txn_amount,transaction_amount,8,8,8/8,required_candidate,number_string,[-+]?[0-9]+(.[0-9]+)?$,D4P1D2:8,8,1337.27; 1674.34; 2011.41
+UPI,txn_id,transaction_identifier,8,8,8/8,required_candidate,string,mixed,A1D10:8,8,T4040008321; T4040016642; T4040024963
+UPI,txn_status,transaction_status,8,8,8/8,required_candidate,string,mixed,A6:1;A7:6;A8:1,4,SUCCESS; PENDING; FAILED
+UPI,txn_timestamp,transaction_timestamp,8,8,8/8,required_candidate,string,mixed,D4P1D2P1D2A1D2P1D2P1D2A1:8,8,2026-02-11T10:07:00Z; 2026-02-12T10:14:00Z; 2026-02-13T10:21:00Z
+UPI,vpa,virtual_payment_address,8,8,8/8,required_candidate,string,.+@.+$,A5D1P1A3:8,8,payer1@upi; payer2@upi; payer3@upi

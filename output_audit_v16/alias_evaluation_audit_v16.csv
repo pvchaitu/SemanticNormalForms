@@ -1,7 +1,0 @@
-RowType,AttributeA,AttributeB,Track,EvalScope,NormalizedA,NormalizedB,SemanticFamilyA,SemanticFamilyB,CanonicalHints,DecisionReason,GTReviewSuggestion
-PREDICTED_PAIR,System1.customer_name,System2.client_name,RBC,strict_eval,system1customername,system2clientname,Name/Text,Name/Text,Csystem1customername,Name/Schema-based match,
-PREDICTED_PAIR,System1.address_line1,System2.address_line_1,RBC,strict_eval,system1addressline1,system2addressline1,Location,Location,Csystem1addressline1,Name/Schema-based match,
-PREDICTED_PAIR,System2.address_line_1,System3.street_address,RBC,strict_eval,system2addressline1,system3streetaddress,Location,Location,Csystem1addressline1,Name/Schema-based match,
-PREDICTED_PAIR,System1.account_number,System2.bank_account_number,HYBRID,strict_eval,system1accountnumber,system2bankaccountnumber,Identifier/Code,Identifier/Code,Csystem1accountnumber vs Csystem2bankaccountnumber,Multiple evidence (hybrid support),
-PREDICTED_PAIR,System1.address_line1,System3.street_address,HYBRID,excluded_absent_pair,system1addressline1,system3streetaddress,Location,Location,Csystem1addressline1,Multiple evidence (hybrid support),Verify and add alias to ground truth cluster
-GROUND_TRUTH_PAIR,System1.account_number,System2.primary_account_number,,strict_eval,system1accountnumber,system2primaryaccountnumber,Identifier/Code,Identifier/Code,Csystem1accountnumber,Semantic conflict (veto) prevented merge,
