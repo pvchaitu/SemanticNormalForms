@@ -1,0 +1,11 @@
+Source,FieldName,CanonicalCluster,PresentInSchema
+System1,System1.account_number,Csystem1accountnumber,Yes
+System2,System2.primary_account_number,Csystem1accountnumber,Yes
+System1,System1.customer_name,Csystem1customername,Yes
+System2,System2.client_name,Csystem1customername,Yes
+System1,System1.customer_id,Csystem1customerid,Yes
+System2,System2.bank_account_number,Csystem2bankaccountnumber,Yes
+System1,System1.address_line1,Csystem1addressline1,Yes
+System2,System2.address_line_1,Csystem1addressline1,Yes
+System3,System3.street_address,Csystem1addressline1,Yes
+System2,System2.order_id,Csystem2orderid,Yes

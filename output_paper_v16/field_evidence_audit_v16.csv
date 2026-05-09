@@ -1,0 +1,11 @@
+FieldName,ObservedType,PatternSample,ExampleValue
+System1.account_number,Numeric,\d+,123456
+System2.primary_account_number,Numeric,\d+,123456
+System1.customer_name,Text,.+,Example
+System2.client_name,Text,.+,Example
+System1.customer_id,Numeric,\d+,123456
+System2.bank_account_number,Numeric,\d+,123456
+System1.address_line1,Text,.+,Example
+System2.address_line_1,Text,.+,Example
+System3.street_address,Text,.+,Example
+System2.order_id,Numeric,\d+,123456

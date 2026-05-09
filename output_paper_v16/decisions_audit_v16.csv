@@ -1,0 +1,8 @@
+AttributeA,AttributeB,Track,StructuralConfidence,EmbeddingConfidence,Decision,Reason
+System1.customer_name,System2.client_name,RBC,0.90,0.01,MERGE,Name/Schema-based match
+System1.address_line1,System2.address_line_1,RBC,0.85,0.05,MERGE,Name/Schema-based match
+System2.address_line_1,System3.street_address,RBC,0.80,0.10,MERGE,Name/Schema-based match
+System1.account_number,System2.bank_account_number,HYBRID,0.70,0.50,MERGE,Multiple evidence (hybrid) support
+System1.address_line1,System3.street_address,EMBED,0.60,0.90,MERGE,High embedding similarity
+System3.street_address,System1.address_line1,RBC,0.60,0.80,MERGE,Name/Schema-based match
+System1.account_number,System2.primary_account_number,NO_MERGE,0.90,0.02,NO_MERGE,Semantic conflict prevented merging (GT alias not merged)

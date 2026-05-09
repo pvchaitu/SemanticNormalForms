@@ -1,0 +1,36 @@
+{
+  "System1.account_number": {
+    "source_fields": [
+      "System1.account_number",
+      "System2.primary_account_number"
+    ]
+  },
+  "System1.customer_name": {
+    "source_fields": [
+      "System1.customer_name",
+      "System2.client_name"
+    ]
+  },
+  "System1.customer_id": {
+    "source_fields": [
+      "System1.customer_id"
+    ]
+  },
+  "System2.bank_account_number": {
+    "source_fields": [
+      "System2.bank_account_number"
+    ]
+  },
+  "System1.address_line1": {
+    "source_fields": [
+      "System1.address_line1",
+      "System2.address_line_1",
+      "System3.street_address"
+    ]
+  },
+  "System2.order_id": {
+    "source_fields": [
+      "System2.order_id"
+    ]
+  }
+}

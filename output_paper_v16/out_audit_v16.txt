@@ -1,0 +1,11 @@
+Unified SDNF Experiment v16.0.0
+Profile: paper
+Ground truth repair mode: schema_supported_include
+Total attributes processed: 10
+Unique predicted alias pairs: 5 (raw pairs considered: 6)
+True Positives: 4, False Positives (strict): 1, False Negatives: 1
+Alias Precision (strict): 0.800, Alias Recall: 0.800, Alias F1: 0.800
+Alias Precision (reviewer-diagnosed): 0.800
+Alias Cluster (Membership) Precision: 0.900, Recall: 0.900, F1: 0.900
+Cross-context merge rate: 0.200 (Count: 1)
+Claim Support Status: C1=PARTIALLY_SUPPORTED, C2=NOT_EVALUATED, C3=NOT_EVALUATED, C4=NOT_SUPPORTED, C5=NOT_APPLICABLE, C6=NOT_EVALUATED, C7=SUPPORTED

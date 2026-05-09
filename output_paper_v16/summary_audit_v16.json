@@ -1,0 +1,44 @@
+{
+  "dataset_summary": {
+    "total_attributes": 10,
+    "total_ground_truth_pairs": 4,
+    "total_predicted_pairs_raw": 6,
+    "total_predicted_pairs_unique": 5
+  },
+  "alias_pair_metrics_strict": {
+    "precision": 0.8,
+    "recall": 0.8,
+    "f1": 0.8000000000000002
+  },
+  "alias_pair_metrics_reviewer": {
+    "precision": 0.8,
+    "recall": 0.8,
+    "f1": 0.8000000000000002
+  },
+  "membership_metrics": {
+    "cluster_precision": 0.9,
+    "cluster_recall": 0.9,
+    "cluster_f1": 0.9
+  },
+  "cross_context_merge_rate": 0.2,
+  "claim_statuses": {
+    "C1": "PARTIALLY_SUPPORTED",
+    "C2": "NOT_EVALUATED",
+    "C3": "NOT_EVALUATED",
+    "C4": "NOT_SUPPORTED",
+    "C5": "NOT_APPLICABLE",
+    "C6": "NOT_EVALUATED",
+    "C7": "SUPPORTED"
+  },
+  "self_checks": {
+    "no_self_pairs_in_predictions": true,
+    "no_duplicate_pairs_in_predictions": false,
+    "alias_vs_membership_evaluated_separately": true,
+    "cross_context_merge_count": 1,
+    "cross_context_merge_rate_reported": true,
+    "EENF_status": "NOT_APPLICABLE",
+    "drift_ground_truth_provided": true,
+    "drift_detection_accuracy": "100.0%",
+    "DBNF_status": "SUPPORTED"
+  }
+}
