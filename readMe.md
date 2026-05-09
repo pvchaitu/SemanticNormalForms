@@ -1,220 +1,215 @@
-# SDNF Unified Experiment — Schema-First Master Payment SRS Harness v15
+## SDNF Unified Experiment — Schema-First Master Payment SRS Harness v16
 
-## 1. Overview
+### 1. Overview
+
 This repository contains a **single-file, reproducible experiment** for validating:
 **Semantic Data Normal Forms (SDNF): Extending Normalization Theory to Vector Embedding Spaces**.
 
-The main experiment file:
+Main experiment file:
+unified_sdnf_experiment_hybrid_v16.py
 
-unified_sdnf_experiment_hybrid_v15.py
-
-v15 evolves v14 into a **production-grade, output-governed SDNF evaluation harness** with strict audit discipline and scalable evaluation design.
+Version v16 evolves v15 into a **reviewer-safe, precision-governed SDNF evaluation harness** with:
+- strict correctness discipline
+- explicit claim validation
+- conservative evaluation semantics
+- improved alias evaluation fidelity
 
 ---
 
-## 2. What’s New in v15
+### 2. What’s New in v16
 
-### 2.1 Output Budget Enforcement
-- Hard **file output ceiling (default = 12, max = 15)**
-- Centralized writer ensures **no uncontrolled file generation**
+#### 2.1 Alias Evaluation Fixes (Critical)
+- Self-pairs excluded from metrics (diagnostics-only)
+- Duplicate alias pairs normalized and deduplicated
+- Separation of:
+  - **Pair-based evaluation**
+  - **Canonical cluster membership evaluation**
+- Prevents inflated precision/recall
 
-### 2.2 Output Profiles
+#### 2.2 Ground Truth Repair Modes
+New controlled evaluation mode:
+
+| Mode | Behavior |
+|------|---------|
+| closed_world_only | Strict evaluation (default, paper-safe) |
+| schema_supported_review | Flags potential GT gaps for reviewer |
+| schema_supported_include | Includes schema-supported missing aliases |
+
+✅ No implicit expansion — always controlled
+
+#### 2.3 False Positive / False Negative Diagnostics
+- FP classification by root cause:
+  - Algorithmic error (counted in strict precision)
+  - Likely GT gap (excluded from reviewer precision)
+- FN enhancements:
+  - Optional semantic-veto counting via:
+    --count_semantic_veto_conflicts_as_fn
+
+#### 2.4 Cross-Context Merge Safety
+- Explicit detection of unsafe merges across contexts
+- New metric:
+  - **cross_rail_merge_rate**
+- Any unsafe merges → claim compliance failure
+
+#### 2.5 Claim & Normal Form Safeguards
+Every paper claim now explicitly labeled:
+
+- SUPPORTED
+- PARTIALLY_SUPPORTED
+- REVISED
+- NOT_SUPPORTED
+- NOT_APPLICABLE
+- NOT_EVALUATED
+
+Important:
+- **EENF** → NOT_APPLICABLE (if deterministic run)
+- **DBNF** → NOT_EVALUATED without drift ground truth
+
+✅ Ensures fully reviewer-auditable claims
+
+---
+
+### 3. Output Profiles (Maintained with Discipline)
+
 | Profile | Files | Purpose |
 |--------|------|--------|
-| minimal | 3 | Quick sanity check |
-| paper | 12 | Paper-ready reproducible outputs |
-| audit | 13 | Reviewer-grade audit (includes debug ZIP) |
-| debug | 14 | Full introspection including README export |
+| minimal | 3 | Quick validation |
+| paper | ~12 | Paper-ready outputs |
+| audit | ~13 | Full diagnostics |
+| debug | ≤15 | Deep introspection |
 
-### 2.3 Dual Evaluation Tracks
-- **Production Track** → precision-first (paper-safe)
-- **Discovery Track** → recall-oriented (exploratory)
-
-### 2.4 DBNF Enhancements
-Two explicit modes:
-
-1. **version_drift (paper claim)**
-   - Same-model version evolution
-   - Supports **drift detection + fork governance**
-
-2. **migration (utility only)**
-   - Cross-model transitions (e.g., MiniLM → MPNet)
-   - Uses **rank-order geometry preservation**, not cosine
-
-### 2.5 EENF Stress Testing
-- Deterministic mode
-- Perturbation stress-test mode (G sweep)
-- Reports variance reduction metrics
-
-### 2.6 Payload Compliance Diagnostics
-- Constraint validation with **pattern mismatch reasoning**
-- Schema vs payload mismatch detection
-- Decision types:
-  - ALLOW
-  - REJECT
-  - DEFER_REVIEW
-  - ROUTE_SCHEMA_ONBOARDING
-
-### 2.7 HNSW Scale Audit
-- Brute-force vs ANN comparison
-- Optional `hnswlib` integration
-- Partition-aware estimation
+✅ Output cap preserved (≤15 files)
 
 ---
 
-## 3. Core v15 Outputs
+### 4. Core Outputs (v16)
 
-### Mandatory Outputs (paper profile)
-1. out_audit_v15.txt
-2. run_manifest_v15.json
-3. summary_audit_v15.json
-4. srs_evolved_schema_v15.compact.json
-5. schema_ingestion_audit_v15.csv
-6. field_evidence_audit_v15.csv
-7. schema_deltas_audit_v15.csv
-8. decisions_audit_v15.csv
-9. alias_evaluation_audit_v15.csv
-10. payload_compliance_audit_v15.csv
-11. normal_forms_and_claims_audit_v15.csv
-12. scale_timing_drift_audit_v15.csv
+#### Mandatory (paper profile)
+- out_audit_v16.txt
+- run_manifest_v16.json
+- summary_audit_v16.json
+- srs_evolved_schema_v16.compact.json
+- schema_ingestion_audit_v16.csv
+- field_evidence_audit_v16.csv
+- decisions_audit_v16.csv
+- alias_evaluation_audit_v16.csv
+- payload_compliance_audit_v16.csv
+- normal_forms_and_claims_audit_v16.csv
+- scale_timing_drift_audit_v16.csv
 
-Optional:
-- sdnf_debug_bundle_v15.zip
-- readme_v15.md
+#### Optional
+- sdnf_debug_bundle_v16.zip
 
 ---
 
-## 4. Core Design Principles (Unchanged from v14)
+### 5. Core Design Principles (Strictly Preserved)
+
 - Schema-first governance
-- Payload as evidence (not schema source)
-- SDNF normal forms enforce safety:
+- Payload = evidence (NOT schema)
+- Normal-form safety enforcement:
   - AANF
   - ECNF
   - RRNF
   - CMNF
   - DBNF
   - PONF
-- Strict semantic vetoes
-- Partition-aware merging
+- Semantic veto enforcement
+- Context-aware merging (no unsafe cross-rail joins)
+- Conservative evaluation philosophy
 
 ---
 
-## 5. Repository Structure
+### 6. Key Improvements Over v15
 
-```
-.
-├── unified_sdnf_experiment_hybrid_v15.py
-├── readme.md
-├── requirements.txt
-├── data/
-├── payloads/payment/
-├── ground_truth_aliases_closed_world_v12.json
-└── drift_ground_truth.json
-```
+| Area | v15 | v16 |
+|------|-----|-----|
+| Alias evaluation | basic pair metrics | corrected + deduplicated + separated |
+| Ground truth | static | repair modes with governance |
+| Precision | inflated risk | reviewer-safe precision |
+| FP handling | unified | root-cause classified |
+| FN handling | basic | semantic veto-aware |
+| Cross-context safety | implicit | explicit + enforced |
+| Claim validation | implicit | explicit statuses |
 
 ---
 
-## 6. Setup
+### 7. Setup
 
-### Linux / macOS
+#### Linux / macOS
 ```
 python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### Windows
+#### Windows
 ```
 python -m venv venv
 venv\Scripts\activate
-.\venv\Scripts\Activate.ps1
 pip install -r requirements.txt
 ```
 
-Optional dependencies:
+Optional:
 - numpy
 - sentence-transformers
 - hnswlib
 
-Fallback embedding:
-- Deterministic hashing (offline-safe)
+Fallback:
+- deterministic hashing (offline safe)
 
 ---
 
-## 7. Recommended Runs
+### 8. Recommended Runs (v16)
 
-### Paper Run
+#### Paper-Grade Run (Strict Closed World)
 ```
-python unified_sdnf_experiment_hybrid_v15.py ^
---output_profile paper ^
---schemas_dir data ^
---payloads_root payloads/payment ^
---seed_srs_schema INAmex.schema.json ^
---ground_truth_aliases ground_truth_aliases_closed_world_v12.json ^
---ground_truth_closed_world ^
---evaluation_track both ^
---dbnf_mode version_drift ^
---eenf_mode perturbation_stress_test
+python unified_sdnf_experiment_hybrid_v16.py ^
+  --profile paper ^
+  --ground_truth_repair_mode closed_world_only
 ```
 
-### Full Audit Run
+#### Expanded Evaluation Run
 ```
-python unified_sdnf_experiment_hybrid_v15.py ^
---output_profile audit ^
---schemas_dir data ^
---payloads_root payloads/payment ^
---seed_srs_schema INAmex.schema.json ^
---ground_truth_aliases ground_truth_aliases_closed_world_v12.json ^
---ground_truth_closed_world ^
---evaluation_track both ^
---dbnf_mode version_drift ^
---eenf_mode deterministic_report ^
---measure_timing ^
---max_output_files=15
+python unified_sdnf_experiment_hybrid_v16.py ^
+  --profile paper ^
+  --ground_truth_repair_mode schema_supported_include
 ```
 
-### Minimal Run
+#### Full Audit Run
 ```
-python unified_sdnf_experiment_hybrid_v15.py --output_profile minimal
+python unified_sdnf_experiment_hybrid_v16.py ^
+  --profile audit ^
+  --ground_truth_repair_mode schema_supported_review ^
+  --count_semantic_veto_conflicts_as_fn
 ```
 
 ---
 
-## 8. Key Differences vs v14
+### 9. Research Positioning (v16 Clarification)
 
-| Area | v14 | v15 |
-|------|----|----|
-| Output files | 30+ | capped ≤15 |
-| DBNF | delta detection | version drift + migration |
-| Evaluation | single | production + discovery |
-| EENF | static | stress testing |
-| Scale | conceptual | measurable HNSW audit |
-| Output quality | verbose | paper-optimized |
+#### Paper-Valid Claims
+- Precision-first semantic merging
+- Normal-form-based governance
+- Controlled alias evaluation
+- Safe schema evolution
 
----
+#### Conditionally Valid
+- DBNF (requires drift ground truth)
+- EENF (requires perturbation evidence)
 
-## 9. Research Positioning (Important)
-
-### Paper Claims (Supported)
-- DBNF version drift governance
-- Precision-first merging
-- Normal-form-driven safety
-- Payload compliance system
-
-### Utilities (NOT paper claims)
-- DBNF migration
-- Debug bundle
-- Deep introspection outputs
+#### Not Paper Claims
+- Debug bundles
+- Repair modes (evaluation utilities)
 
 ---
 
-## 10. Summary
+### 10. Summary
 
-v15 transforms the SDNF experiment into a **paper-ready, audit-safe, and scale-aware system** by:
+v16 represents a **reviewer-safe evolution** of SDNF experimentation by:
+- fixing alias evaluation correctness
+- enforcing conservative precision accounting
+- introducing ground-truth governance
+- explicitly validating all research claims
 
-- Enforcing output discipline
-- Separating production vs discovery semantics
-- Formalizing DBNF into publishable vs utility modes
-- Adding measurable scale characteristics (HNSW)
+✅ This version is the **recommended baseline for TMLR submission**.
 
-This version is the **recommended baseline for TMLR/JMLR submission**.
