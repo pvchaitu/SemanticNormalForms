@@ -463,7 +463,7 @@ python unified_sdnf_experiment_hybrid_v17.py ^
   --schemas_dir data ^
   --payloads_root payloads/payment ^
   --seed_srs_schema INAmex.schema.json ^
-  --ground_truth_aliases ground_truth_aliases_closed_world_v12.json ^
+  --ground_truth_aliases ground_truth_aliases_closed_world_v17.json ^
   --ground_truth_closed_world ^
   --evaluation_track both ^
   --dbnf_mode version_drift ^
@@ -482,7 +482,7 @@ python unified_sdnf_experiment_hybrid_v17.py ^
   --schemas_dir data ^
   --payloads_root payloads/payment ^
   --seed_srs_schema INAmex.schema.json ^
-  --ground_truth_aliases ground_truth_aliases_closed_world_v12.json ^
+  --ground_truth_aliases ground_truth_aliases_closed_world_v17.json ^
   --ground_truth_closed_world ^
   --evaluation_track both ^
   --dbnf_mode both ^
@@ -551,7 +551,7 @@ python unified_sdnf_experiment_hybrid_v17.py ^
 ### Ground truth
 
 ```text
---ground_truth_aliases ground_truth_aliases_closed_world_v12.json
+--ground_truth_aliases ground_truth_aliases_closed_world_v17.json
 --ground_truth_closed_world
 --no_ground_truth_closed_world
 --ground_truth_repair_mode {closed_world_only,schema_supported_review,schema_supported_include}

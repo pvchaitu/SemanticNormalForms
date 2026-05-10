@@ -1,0 +1,134 @@
+{
+  "version": "17.0.0",
+  "profile": "paper",
+  "dataset_summary": {
+    "schema_descriptor_count": 8,
+    "total_attributes": 61,
+    "payload_observation_count": 488,
+    "total_ground_truth_pairs": 245,
+    "total_predicted_pairs_raw": 14,
+    "total_predicted_pairs_unique": 7
+  },
+  "alias_pair_metrics_strict": {
+    "measurable": true,
+    "tp": 7,
+    "fp": 0,
+    "fn": 238,
+    "precision": 1.0,
+    "recall": 0.02857142857142857,
+    "f1": 0.05555555555555556,
+    "reviewer_diagnosed_precision": 1.0,
+    "reviewer_diagnosed_recall": 0.1510204081632653,
+    "reviewer_diagnosed_f1": 0.2624113475177305,
+    "false_positive_examples": [],
+    "false_negative_examples": [
+      "account_identifier :: plaid_account_identifier",
+      "account_number :: bank_account_number",
+      "account_number :: plaid_account_number",
+      "account_type :: plaid_account_type",
+      "account_type :: subtype",
+      "account_type :: type",
+      "addr :: razorpay_virtual_payment_address",
+      "addr :: upi_virtual_payment_address",
+      "addr :: virtual_payment_address",
+      "amount :: instructed_amount",
+      "amount :: iso20022_instructed_amount",
+      "amount :: mastercard_transaction_amount",
+      "amount :: payment_amount",
+      "amount :: plaid_transaction_amount",
+      "amount :: razorpay_amount",
+      "amount :: stripe_amount",
+      "amount :: transaction_amount",
+      "amount :: upi_transaction_amount",
+      "balance :: balance_current",
+      "balance :: current_balance"
+    ],
+    "review_true_pairs": [
+      "inamex_card_holder_name :: ppvisa_cardholder",
+      "inamex_card_verification_value :: ppvisa_verification_value",
+      "inamex_primary_account_number :: mastercard_primary_account_number",
+      "iso20022_currency :: plaid_currency",
+      "iso20022_currency :: razorpay_currency",
+      "iso20022_currency :: stripe_currency",
+      "iso20022_currency :: upi_currency",
+      "iso20022_instructed_amount :: mastercard_transaction_amount",
+      "iso20022_instructed_amount :: plaid_transaction_amount",
+      "iso20022_instructed_amount :: razorpay_amount",
+      "iso20022_instructed_amount :: stripe_amount",
+      "iso20022_instructed_amount :: upi_transaction_amount",
+      "mastercard_primary_account_number :: ppvisa_primary_account_number",
+      "mastercard_transaction_amount :: plaid_transaction_amount",
+      "mastercard_transaction_amount :: razorpay_amount",
+      "mastercard_transaction_amount :: stripe_amount",
+      "mastercard_transaction_amount :: upi_transaction_amount",
+      "plaid_currency :: razorpay_currency",
+      "plaid_currency :: stripe_currency",
+      "plaid_currency :: upi_currency"
+    ],
+    "fp_prevented_by_review_count": 0,
+    "fn_requiring_review_count": 30
+  },
+  "membership_metrics": {
+    "measurable": true,
+    "cluster_precision": 1.0,
+    "cluster_recall": 0.15510204081632653,
+    "cluster_f1": 0.2685512367491166
+  },
+  "cross_context": {
+    "cross_context_merge_count": 0,
+    "accepted_merge_count": 14,
+    "cross_context_merge_rate": 0.0,
+    "examples": []
+  },
+  "review_queue": {
+    "count": 60,
+    "reason_counts": {
+      "cross-rail compatibility uncertain": 30,
+      "evidence margin below auto-merge threshold": 4,
+      "evidence margin below auto-merge threshold; cross-rail compatibility uncertain": 26
+    }
+  },
+  "self_checks": {
+    "no_self_pairs_in_predictions": true,
+    "no_duplicate_pairs_in_predictions": false,
+    "alias_vs_membership_evaluated_separately": true,
+    "human_review_not_counted_as_strict_positive": true
+  },
+  "normal_form_summaries": {
+    "EENF": {
+      "status": "NOT_EVALUATED",
+      "reason": "EENF mode disabled"
+    },
+    "DBNF": {
+      "status": "NOT_EVALUATED",
+      "mode": "version_drift",
+      "reason": "DBNF scaffold/diagnostic present; no explicit drift ground truth evaluated in v17 default run",
+      "attribute_count": 61
+    },
+    "Geometry": {
+      "status": "SCAFFOLDED_NOT_EVALUATED",
+      "message": "v17 includes geometry audit scaffolding only; compactness/separation/margin/leakage are not evaluated claims.",
+      "canonical_node_count": 41,
+      "planned_metrics": [
+        "canonical_compactness",
+        "inter_canonical_separation",
+        "semantic_margin",
+        "partition_leakage"
+      ]
+    }
+  },
+  "roadmap_scaffolds": {
+    "canonical_embeddings": {
+      "status": "SCAFFOLDED_NOT_EVALUATED",
+      "node_count": 41,
+      "centroid_available_count": 41
+    },
+    "srs_snapshot": {
+      "version_label": "v17",
+      "status": "MINIMAL_SNAPSHOT",
+      "canonical_node_count": 41,
+      "member_count": 61,
+      "review_candidate_count": 60
+    }
+  }
+}
