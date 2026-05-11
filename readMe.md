@@ -29,6 +29,9 @@ The central v18.1 objective is:
 - auto-allow **cross-rail merges for global families** (payment:amount, payment:currency),
 - fix **is_broad_compatible_but_ambiguous** to not flag same-canonical-key pairs,
 - keep roadmap scaffolds ready for future SDNF geometry and HNSW enhancements without treating those scaffolds as evaluated paper claims.
+- introduce **dual evaluation framework** (schema-truth effectiveness view + lexicon-quality closure view),
+- replace review queue with **consolidated reviewer CSV** (TP/FP/FN/TN based on schema-truth canonical_key grouping),
+- separate schema effectiveness FN from lexicon-quality FN to avoid conflation of evaluation concerns,
 
 ---
 
@@ -142,6 +145,51 @@ This prevents same-canonical-key pairs from being flagged as "broad compatible b
 
 ---
 
+### 2.9 Schema-Truth / True Effectiveness Evaluation (v18.1 Patch)
+
+v18.1 introduces a **schema-truth evaluation view** that derives expected merge pairs directly from loaded schema descriptors rather than from token-slug alias-closure ground truth:
+
+- **`derive_schema_expected_pairs(descs)`**: Groups all `SchemaAttribute` members by `canonical_key`. For each group with N>=2 members, generates all undirected `Pair` combinations among their `provider_field` identifiers.
+- **`evaluate_schema_truth(expected, predicted)`**: Computes TP/FP/FN/Precision/Recall/F1 by comparing schema-truth expected pairs against ACCEPT_MERGE predicted pairs.
+- **`build_schema_truth_side_by_side(...)`**: Builds a side-by-side audit table showing each expected pair, whether it was predicted (Y/N), and decision metadata.
+
+Schema-truth metrics are the **canonical effectiveness measure** for v18.1. They appear in:
+
+- console output and `out_audit_v18_1.txt` (full side-by-side table),
+- `summary_audit_v18_1.json` under `schema_truth_report`,
+- `alias_evaluation_audit_v18_1.csv` with `schema_truth.*` prefixed metric keys.
+
+**Why schema-truth?** The previous lexicon-quality evaluation used slug-normalized alias-closure pairs from the ground truth JSON. These can produce hundreds of FN that reflect alias-closure incompleteness rather than actual merge failures. Schema-truth evaluates at the `provider_field` level using the schema descriptors' own `canonical_key` grouping.
+
+### 2.10 Lexicon-Quality View (Relabeled)
+
+The existing `evaluate_alias_metrics()` evaluation is preserved but relabeled as the **lexicon-quality view**.
+
+Important distinctions:
+
+- Lexicon-quality FN are **NOT** counted as schema effectiveness FN.
+- Lexicon-quality metrics are written to `summary_audit_v18_1.json` under the `lexicon_quality` key.
+- Lexicon-quality metrics are added to `alias_evaluation_audit_v18_1.csv` with `lexicon_quality.*` prefixed keys.
+- A dedicated section listing lexicon-quality FN examples (top 50) is printed to console and `out_audit_v18_1.txt`, explicitly labeled: *"Lexicon-quality FN list (token-alias closure gaps; NOT counted as schema effectiveness FN)"*.
+
+This separation ensures reviewers understand that high lexicon-quality FN counts reflect ground-truth file completeness issues, not system merge failures.
+
+### 2.11 Consolidated Reviewer CSV (TP/FP/FN/TN)
+
+v18.1 replaces the previously often-empty `review_queue_audit_v18_1.csv` with a **consolidated reviewer sheet** that ALWAYS contains all TP, FP, FN, and TN rows classified using the **schema-truth view** (canonical_key grouping).
+
+Key design:
+
+- **Universe**: All evaluated decision pairs plus any expected schema-truth pairs not evaluated by the candidate retriever (added as FN).
+- **Classification**: `expected_schema_pair(a,b) = True` if both fields belong to the same `canonical_key` group.
+  - **TP** if expected and predicted.
+  - **FP** if not expected and predicted.
+  - **FN** if expected and not predicted.
+  - **TN** if not expected and not predicted.
+- **Base columns**: `fn_id`, `source_field`, `target_field`, `semantic_score`, `context_signature`, `model_reason`, `human_decision (ACCEPT/REJECT/HOLD)`, `human_comments`, `record_type`.
+- **fn_id** uses stable prefixed numbering: `TP_0001`, `FP_0001`, `FN_0001`, `TN_0001`.
+- **Extra columns**: `DecisionType`, `CanonicalNode`, `Track`, `EvidenceScore`, `EmbeddingSimilarity`, `NameSimilarity`, `HardVetoes`, `PromotionRule`, `AuditFlags`, `ExpectedSchemaTruth(bool)`.
+
 ## 3. Core Design Principles
 
 v18.1 preserves the core SDNF experiment philosophy:
@@ -209,15 +257,24 @@ Reviewer-diagnosed metrics are reported separately from strict metrics. They hel
 
 They do not silently replace strict precision/recall.
 
-### 4.3 Pair-Based Alias Metrics vs Membership Metrics
+### 4.3 Three Evaluation Views
 
-v18.1 keeps two separate evaluation views:
+v18.1 maintains three intentionally separate evaluation views:
 
-- **Pair-based alias metrics**
-  - strict TP / FP / FN over predicted alias pairs.
+- **Schema-truth effectiveness** (canonical view)
+  - Derives expected pairs from schema descriptors' `canonical_key` grouping.
+  - Operates in `provider_field` space.
+  - This is the **canonical effectiveness measure** for TP/FP/FN reporting.
+  - Used to classify rows in the consolidated reviewer CSV.
+
+- **Lexicon-quality** (alias-closure view)
+  - Uses `load_ground_truth()` true_pairs in slug-normalized token space.
+  - Measures completeness of the ground-truth alias file.
+  - FN in this view reflect alias-closure gaps, **NOT** system merge failures.
 
 - **Canonical-cluster membership metrics**
-  - evaluates whether canonical SRS grouping is directionally aligned with expected membership.
+  - Evaluates whether canonical SRS grouping is directionally aligned with expected membership.
+  - Reported separately in `membership_metrics`.
 
 These are intentionally separate to avoid inflated or misleading precision/recall.
 
@@ -267,6 +324,21 @@ v18.1 introduces four auditable promotion paths that convert potential FNs into 
 All promotion paths are recorded in the `promotion_rule` field of the decision audit.
 
 ---
+
+### 4.7 Dual Evaluation Framework (v18.1 Patch)
+
+v18.1 introduces a dual evaluation framework that clearly separates **system effectiveness** from **ground-truth quality**:
+
+| View | Space | Source | Role |
+|---|---|---|---|
+| Schema-truth | `provider_field` pairs | Schema descriptors' `canonical_key` | Primary effectiveness metric |
+| Lexicon-quality | Slug-normalized token pairs | `ground_truth_aliases` JSON | Ground-truth completeness diagnostic |
+
+**Schema-truth** answers: *"Did the system correctly merge fields that the schema says should merge?"*
+
+**Lexicon-quality** answers: *"How complete is the ground-truth alias file relative to the system's predictions?"*
+
+This separation prevents the common v17/v18 problem where hundreds of lexicon-quality FN were conflated with actual system merge failures.
 
 ## 5. Output Profiles
 
@@ -328,18 +400,21 @@ readme_v18_1.md
 
 Console-style run summary:
 
-- version,
-- profile,
-- ground-truth repair mode,
-- candidate backend,
-- total attributes,
-- strict alias metrics if measurable,
+- version, profile, ground-truth repair mode, candidate backend,
+- total attributes, strict alias metrics if measurable,
 - reviewer-diagnosed metrics if measurable,
-- review queue count,
-- cross-context merge rate,
-- duplicate-pair self-check,
-- claim support summary,
+- review queue count, cross-context merge rate,
+- duplicate-pair self-check, claim support summary,
 - decision distribution (ACCEPT_MERGE, HUMAN_REVIEW, HUMAN_REVIEW_GT_CONFLICT, REJECT_UNSAFE, DEFER).
+
+**v18.1 patch additions:**
+
+- **Schema-truth / True Effectiveness View** section:
+  - Expected pairs count, predicted pairs count, TP/FP/FN, Precision/Recall/F1.
+  - Side-by-side table (first 100 rows): canonical_key, field_a, field_b, predicted (Y/N), EvidenceScore.
+- **Lexicon-quality View** section:
+  - Lexicon-quality TP/FP/FN, Precision/Recall/F1.
+  - Lexicon-quality FN list (top 50), explicitly labeled as NOT counted as schema effectiveness FN.
 
 ### `run_manifest_v18_1.json`
 
@@ -359,15 +434,14 @@ Run configuration and reproducibility metadata:
 
 Structured summary of:
 
-- dataset counts,
-- strict alias metrics,
-- membership metrics,
-- cross-context safety,
-- review queue statistics,
-- self-checks,
-- normal-form summaries,
-- roadmap scaffold summaries,
-- decision distribution.
+- dataset counts, strict alias metrics, membership metrics,
+- cross-context safety, review queue statistics, self-checks,
+- normal-form summaries, roadmap scaffold summaries, decision distribution.
+
+**v18.1 patch additions:**
+
+- `schema_truth_report`: Schema-truth metrics (expected_pairs, predicted_pairs_unique, TP, FP, FN, precision, recall, F1) and side-by-side preview rows (first 50).
+- `lexicon_quality`: Full lexicon-quality alias metrics (same structure as `alias_pair_metrics_strict` but relabeled).
 
 ### `srs_evolved_schema_v18_1.compact.json`
 
@@ -426,17 +500,21 @@ Detailed pairwise decision audit:
 
 ### `alias_evaluation_audit_v18_1.csv`
 
-Alias evaluation metrics and self-checks:
+Alias evaluation metrics and self-checks (Metric/Value format):
 
-- TP,
-- FP,
-- FN,
-- strict precision/recall/F1,
+- TP, FP, FN, strict precision/recall/F1,
 - reviewer-diagnosed precision/recall/F1,
-- raw predicted pair count,
-- unique predicted pair count,
-- duplicate-pair check,
-- self-pair check.
+- raw predicted pair count, unique predicted pair count,
+- duplicate-pair check, self-pair check.
+
+**v18.1 patch additions (prefixed metric keys):**
+
+- `schema_truth.expected_pairs`, `schema_truth.predicted_pairs_unique`
+- `schema_truth.tp`, `schema_truth.fp`, `schema_truth.fn`
+- `schema_truth.precision`, `schema_truth.recall`, `schema_truth.f1`
+- `lexicon_quality.true_pairs`
+- `lexicon_quality.tp`, `lexicon_quality.fp`, `lexicon_quality.fn`
+- `lexicon_quality.precision`, `lexicon_quality.recall`, `lexicon_quality.f1`
 
 ### `payload_compliance_audit_v18_1.csv`
 
@@ -452,16 +530,47 @@ Timing, candidate backend, embedding backend, and DBNF/EENF diagnostic surfaces.
 
 ### `review_queue_audit_v18_1.csv`
 
-Human review queue:
+**v18.1 patch: Consolidated human reviewer sheet.**
 
-- ambiguous candidates,
-- GT/semantic-veto conflicts,
-- evidence margin issues,
-- canonical hint conflicts,
-- subtype ambiguity,
-- cross-rail uncertainty.
+This file is now ALWAYS populated as a consolidated TP/FP/FN/TN reviewer sheet based on **schema-truth classification** (canonical_key grouping).
 
----
+**Base columns** (matching `fn_tp_human_review_v18_1.csv` format):
+
+| Column | Description |
+|---|---|
+| `fn_id` | Prefixed ID: `TP_0001`, `FP_0001`, `FN_0001`, `TN_0001` |
+| `source_field` | First field in the pair |
+| `target_field` | Second field in the pair |
+| `semantic_score` | Evidence score or embedding similarity if available |
+| `context_signature` | canonical_key for expected pairs; canonical_node for others |
+| `model_reason` | Human-friendly reason from decision_reason and/or hard vetoes |
+| `human_decision (ACCEPT/REJECT/HOLD)` | Blank for human reviewer to fill |
+| `human_comments` | Blank for human reviewer to fill |
+| `record_type` | One of: `TP`, `FP`, `FN`, `TN` |
+
+**Extra columns** (appended after base columns):
+
+| Column | Description |
+|---|---|
+| `DecisionType` | Original decision type (ACCEPT_MERGE, HUMAN_REVIEW, etc.) |
+| `CanonicalNode` | Canonical node assigned by the system |
+| `Track` | Evaluation track (production, discovery) |
+| `EvidenceScore` | Numeric evidence score |
+| `EmbeddingSimilarity` | Embedding cosine similarity |
+| `NameSimilarity` | Name/token similarity |
+| `HardVetoes` | List of hard vetoes applied |
+| `PromotionRule` | Promotion rule used (if any) |
+| `AuditFlags` | Audit flags recorded |
+| `ExpectedSchemaTruth(bool)` | Whether the pair is expected per schema-truth |
+
+**Classification logic:**
+
+- **TP**: expected_schema_pair AND predicted_accept
+- **FP**: NOT expected_schema_pair AND predicted_accept
+- **FN**: expected_schema_pair AND NOT predicted_accept
+- **TN**: NOT expected_schema_pair AND NOT predicted_accept
+
+**Important**: FN/TP/FP/TN use ONLY the schema-truth view. Lexicon-quality closure items are NOT treated as FN.
 
 ## 8. Setup
 
@@ -835,18 +944,25 @@ After a paper or audit run:
 1. Open `summary_audit_v18_1.json`.
 2. Check `self_checks`.
 3. Confirm:
-   - `no_self_pairs_in_predictions = true`
-   - `no_duplicate_pairs_in_predictions = true`
-   - `alias_vs_membership_evaluated_separately = true`
-   - `human_review_not_counted_as_strict_positive = true`
-4. Open `review_queue_audit_v18_1.csv`.
-5. Review ambiguous pairs before tuning thresholds or updating ground truth.
+   - `no_self_pairs_in_predictions` = true
+   - `no_duplicate_pairs_in_predictions` = true
+   - `alias_vs_membership_evaluated_separately` = true
+   - `human_review_not_counted_as_strict_positive` = true
+4. Review `schema_truth_report` metrics — this is the canonical effectiveness view.
+   - Check TP, FP, FN counts and Precision/Recall/F1.
+   - If FN is high, review the side-by-side table to identify which expected pairs were missed.
+5. Open `review_queue_audit_v18_1.csv` (consolidated reviewer sheet).
+   - Filter by `record_type = FP` to review false merges.
+   - Filter by `record_type = FN` to review missed merges.
+   - Fill in `human_decision` (ACCEPT/REJECT/HOLD) and `human_comments` for each row.
+   - Use `ExpectedSchemaTruth(bool)` and `context_signature` to understand the expected grouping.
 6. Open `decisions_audit_v18_1.csv`.
-7. Inspect all `REJECT_UNSAFE`, `HUMAN_REVIEW`, and `HUMAN_REVIEW_GT_CONFLICT` cases.
-8. Check `promotion_rule` column to audit which promotion paths were used.
-9. Only after review, consider updating schema descriptors, alias ground truth, or thresholds.
-
----
+   - Inspect all `REJECT_UNSAFE`, `HUMAN_REVIEW`, and `HUMAN_REVIEW_GT_CONFLICT` cases.
+   - Check `promotion_rule` column to audit which promotion paths were used.
+7. Review the `lexicon_quality` metrics in `summary_audit_v18_1.json`.
+   - Lexicon-quality FN reflect ground-truth alias file incompleteness, not system merge failures.
+   - Use lexicon-quality FN list to identify ground-truth file updates needed.
+8. Only after review, consider updating schema descriptors, alias ground truth, or thresholds.
 
 ## 16. Interpreting v18.1 Results
 
@@ -859,6 +975,10 @@ After a paper or audit run:
 - Claim statuses are conservative and evidence-backed.
 - Promotion paths recover true pairs that v17/v18 routed to HUMAN_REVIEW.
 - FN count is significantly lower than v18 while FP count remains near zero.
+- **Schema-truth precision near 1.0** — very few false merges.
+- **Schema-truth recall increasing** — system correctly identifies expected canonical groupings.
+- **Lexicon-quality FN clearly separated** — high lexicon-quality FN does NOT indicate system failure.
+- **Consolidated reviewer CSV contains all four quadrants** (TP/FP/FN/TN) for complete audit coverage.
 
 ### Warning Signs
 
@@ -866,10 +986,11 @@ After a paper or audit run:
 - High number of semantic veto conflicts.
 - Unexpected payload fields in `schema_deltas_audit_v18_1.csv`.
 - Large gap between strict recall and reviewer-diagnosed recall.
-- DBNF marked supported without explicit drift evidence. This should not happen in a paper-safe run.
+- DBNF marked supported without explicit drift evidence.
 - Promotion rules creating false positives — check FP examples in alias evaluation audit.
-
----
+- **Schema-truth FP > 0** — investigate whether false merges are due to incorrect `canonical_key` assignments or overly aggressive promotion paths.
+- **Schema-truth FN high** — check whether candidate retriever is missing expected pairs (look for FN rows with `DecisionType = NOT_EVALUATED` in the consolidated reviewer CSV).
+- **Lexicon-quality FN very high** — indicates the ground-truth alias file needs updating, not necessarily a system problem.
 
 ## 17. Version Guidance
 
@@ -925,11 +1046,15 @@ v18.1 is a reviewer-grade, precision-governed SDNF experiment harness that:
 - fixes semantic_vetoes to not block same-canonical-key pairs,
 - auto-allows cross-rail for global families (payment:amount, payment:currency),
 - fixes is_broad_compatible_but_ambiguous for canonical_key matches,
+- **introduces dual evaluation framework** separating schema-truth effectiveness from lexicon-quality closure,
+- **replaces review queue with consolidated reviewer CSV** (TP/FP/FN/TN based on schema-truth canonical_key grouping),
+- **adds schema-truth metrics** to console, out_audit, summary_audit, and alias_evaluation_audit,
+- **relabels existing alias evaluation as lexicon-quality** with explicit separation from effectiveness FN,
 - keeps strict and reviewer-diagnosed metrics separate,
-- preserves output budgeting under the 15-file limit,
+- preserves output budgeting under the 15-file limit (no new output files added),
 - keeps roadmap scaffolds ready without overclaiming,
 - supports reproducible paper, audit, and minimal runs,
-- reduces FN from ~238 to ~30–50 while preserving precision near 1.0.
+- reduces FN from ~238 to ~30-50 while preserving precision near 1.0.
 
 Recommended baseline file:
 
@@ -942,3 +1067,4 @@ Recommended README file:
 ```text
 readMe_v18_1.md
 ```
+
