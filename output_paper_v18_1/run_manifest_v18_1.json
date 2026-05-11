@@ -56,8 +56,8 @@
     "card_primary_account_number": {
       "compatible_across_rails": false,
       "compatible_rails": [
-        "card_payment",
-        "card_network_iso8583"
+        "card_network_iso8583",
+        "card_payment"
       ],
       "deny_families": [
         "payment_account:account_number"
