@@ -1197,7 +1197,7 @@ def evaluate_pair(a: SchemaAttribute, b: SchemaAttribute, args: argparse.Namespa
     elif same_canon and not vetoes and score >= (args.auto_merge_threshold - args.review_margin):
         typ, reason, action = "ACCEPT_MERGE", f"soft_match_zone:score={score:.4f},margin={args.review_margin}", "MERGE_BY_SOFT_MATCH"
         promotion_rule = "soft_match_zone_promotion"
-        elif aanf_pass and ecnf_pass and all(checks[x]["status"] == "PASS" for x in ["RRNF", "CMNF", "PONF"]) and score >= args.auto_merge_threshold and (canon_compat or same_family):
+    elif aanf_pass and ecnf_pass and all(checks[x]["status"] == "PASS" for x in ["RRNF", "CMNF", "PONF"]) and score >= args.auto_merge_threshold and (canon_compat or same_family):
         typ, reason, action = "ACCEPT_MERGE", "AANF/ECNF/RRNF/CMNF/PONF passed with clear compatibility", "MERGE_INTO_CANONICAL_NODE"
     elif (aanf_pass and ecnf_pass and (canonical_conflict or ambiguous_subtype or low_margin or uncertain_cross_rail)):
         # v18: BEFORE routing to HUMAN_REVIEW, try canonical-safe auto-promotion

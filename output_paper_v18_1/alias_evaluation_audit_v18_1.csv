@@ -1,0 +1,20 @@
+Metric,Value
+measurable,True
+tp,38
+fp,0
+fn,207
+precision,1.0
+recall,0.15510204081632653
+f1,0.2685512367491166
+reviewer_diagnosed_precision,1.0
+reviewer_diagnosed_recall,0.15510204081632653
+reviewer_diagnosed_f1,0.2685512367491166
+false_positive_examples,
+false_negative_examples,account_identifier :: plaid_account_identifier; account_number :: bank_account_number; account_number :: plaid_account_number; account_type :: plaid_account_type; account_type :: subtype; account_type :: type; addr :: razorpay_virtual_payment_address; addr :: upi_virtual_payment_address; addr :: virtual_payment_address; amount :: instructed_amount; amount :: iso20022_instructed_amount; amount :: mastercard_transaction_amount; amount :: payment_amount; amount :: plaid_transaction_amount; amount :: razorpay_amount; amount :: stripe_amount; amount :: transaction_amount; amount :: upi_transaction_amount; balance :: balance_current; balance :: current_balance
+review_true_pairs,
+fp_prevented_by_review_count,0
+fn_requiring_review_count,0
+raw_predicted_pair_count,76
+unique_predicted_pair_count,38
+no_duplicate_pairs_in_predictions,False
+no_self_pairs_in_predictions,True

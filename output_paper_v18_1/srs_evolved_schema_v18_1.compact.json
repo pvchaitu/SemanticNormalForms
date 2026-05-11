@@ -16,25 +16,25 @@
     ],
     "review_candidates": [],
     "rejected_near_misses": [
-      "ISO20022.msg_id <-> Plaid.account_id: identifier subtypes must remain separate: identifier:message vs identifier:plaid_account",
       "Plaid.account_id <-> Plaid.account_type: explicit negative pair hard veto",
-      "Plaid.account_id <-> Plaid.transaction_id: explicit negative pair hard veto",
       "Plaid.account_id <-> Stripe.customer_id: identifier subtypes must remain separate: identifier:plaid_account vs identifier:customer",
+      "Plaid.account_id <-> ISO20022.msg_id: identifier subtypes must remain separate: identifier:plaid_account vs identifier:message",
+      "Plaid.account_id <-> Plaid.transaction_id: explicit negative pair hard veto",
       "Plaid.account_id <-> UPI.txn_id: explicit negative pair hard veto",
-      "ISO20022.msg_id <-> Plaid.account_id: identifier subtypes must remain separate: identifier:message vs identifier:plaid_account",
       "Plaid.account_id <-> Plaid.account_type: explicit negative pair hard veto",
-      "Plaid.account_id <-> Plaid.transaction_id: explicit negative pair hard veto",
       "Plaid.account_id <-> Stripe.customer_id: identifier subtypes must remain separate: identifier:plaid_account vs identifier:customer",
+      "Plaid.account_id <-> ISO20022.msg_id: identifier subtypes must remain separate: identifier:plaid_account vs identifier:message",
+      "Plaid.account_id <-> Plaid.transaction_id: explicit negative pair hard veto",
       "Plaid.account_id <-> UPI.txn_id: explicit negative pair hard veto"
     ],
     "deferred_candidates": [
-      "ISO20022.dbtr_acct <-> Plaid.account_id: insufficient evidence",
-      "ISO20022.cdtr_acct <-> Plaid.account_id: insufficient evidence",
       "Plaid.account_id <-> Plaid.account_number: insufficient evidence",
+      "Plaid.account_id <-> ISO20022.cdtr_acct: insufficient evidence",
+      "Plaid.account_id <-> ISO20022.dbtr_acct: insufficient evidence",
       "Plaid.account_id <-> UPI.payer_account: insufficient evidence",
-      "ISO20022.dbtr_acct <-> Plaid.account_id: insufficient evidence",
-      "ISO20022.cdtr_acct <-> Plaid.account_id: insufficient evidence",
       "Plaid.account_id <-> Plaid.account_number: insufficient evidence",
+      "Plaid.account_id <-> ISO20022.cdtr_acct: insufficient evidence",
+      "Plaid.account_id <-> ISO20022.dbtr_acct: insufficient evidence",
       "Plaid.account_id <-> UPI.payer_account: insufficient evidence"
     ]
   },
@@ -55,15 +55,15 @@
     ],
     "review_candidates": [],
     "rejected_near_misses": [
-      "ISO20022.dbtr_acct <-> Plaid.account_type: explicit negative pair hard veto",
-      "ISO20022.cdtr_acct <-> Plaid.account_type: explicit negative pair hard veto",
       "Plaid.account_id <-> Plaid.account_type: explicit negative pair hard veto",
-      "Plaid.account_number <-> Plaid.account_type: account/card subtypes are ambiguous: payment_account:account_number vs payment_account:account_type",
+      "Plaid.account_type <-> Plaid.account_number: account/card subtypes are ambiguous: payment_account:account_type vs payment_account:account_number",
+      "Plaid.account_type <-> ISO20022.cdtr_acct: account/card subtypes are ambiguous: payment_account:account_type vs payment_account:creditor_account",
+      "Plaid.account_type <-> ISO20022.dbtr_acct: account/card subtypes are ambiguous: payment_account:account_type vs payment_account:debtor_account",
       "Plaid.account_type <-> UPI.payer_account: account/card subtypes are ambiguous: payment_account:account_type vs payment_account:payer_account",
-      "ISO20022.dbtr_acct <-> Plaid.account_type: explicit negative pair hard veto",
-      "ISO20022.cdtr_acct <-> Plaid.account_type: explicit negative pair hard veto",
       "Plaid.account_id <-> Plaid.account_type: explicit negative pair hard veto",
-      "Plaid.account_number <-> Plaid.account_type: account/card subtypes are ambiguous: payment_account:account_number vs payment_account:account_type",
+      "Plaid.account_type <-> Plaid.account_number: account/card subtypes are ambiguous: payment_account:account_type vs payment_account:account_number",
+      "Plaid.account_type <-> ISO20022.cdtr_acct: account/card subtypes are ambiguous: payment_account:account_type vs payment_account:creditor_account",
+      "Plaid.account_type <-> ISO20022.dbtr_acct: account/card subtypes are ambiguous: payment_account:account_type vs payment_account:debtor_account",
       "Plaid.account_type <-> UPI.payer_account: account/card subtypes are ambiguous: payment_account:account_type vs payment_account:payer_account"
     ],
     "deferred_candidates": []
@@ -83,25 +83,24 @@
     "source_fields": [
       "Plaid.account_number"
     ],
-    "review_candidates": [
-      "INAmex.PrimaryAccountNumber <-> Plaid.account_number: ground-truth pair blocked by semantic veto; requires review",
-      "Mastercard.primary_account_number <-> Plaid.account_number: ground-truth pair blocked by semantic veto; requires review",
-      "Plaid.account_number <-> PPVisa.pan: ground-truth pair blocked by semantic veto; requires review",
-      "INAmex.PrimaryAccountNumber <-> Plaid.account_number: ground-truth pair blocked by semantic veto; requires review",
-      "Mastercard.primary_account_number <-> Plaid.account_number: ground-truth pair blocked by semantic veto; requires review",
-      "Plaid.account_number <-> PPVisa.pan: ground-truth pair blocked by semantic veto; requires review"
-    ],
+    "review_candidates": [],
     "rejected_near_misses": [
-      "ISO20022.dbtr_acct <-> Plaid.account_number: account/card subtypes are ambiguous: payment_account:debtor_account vs payment_account:account_number",
-      "ISO20022.cdtr_acct <-> Plaid.account_number: account/card subtypes are ambiguous: payment_account:creditor_account vs payment_account:account_number",
-      "Plaid.routing_number <-> Plaid.account_number: explicit negative pair hard veto",
-      "Plaid.account_number <-> Plaid.account_type: account/card subtypes are ambiguous: payment_account:account_number vs payment_account:account_type",
-      "Plaid.account_number <-> UPI.payer_account: explicit negative pair hard veto",
-      "ISO20022.dbtr_acct <-> Plaid.account_number: account/card subtypes are ambiguous: payment_account:debtor_account vs payment_account:account_number",
-      "ISO20022.cdtr_acct <-> Plaid.account_number: account/card subtypes are ambiguous: payment_account:creditor_account vs payment_account:account_number",
-      "Plaid.routing_number <-> Plaid.account_number: explicit negative pair hard veto",
-      "Plaid.account_number <-> Plaid.account_type: account/card subtypes are ambiguous: payment_account:account_number vs payment_account:account_type",
-      "Plaid.account_number <-> UPI.payer_account: explicit negative pair hard veto"
+      "Plaid.account_type <-> Plaid.account_number: account/card subtypes are ambiguous: payment_account:account_type vs payment_account:account_number",
+      "Plaid.account_number <-> INAmex.PrimaryAccountNumber: explicit negative pair hard veto",
+      "Plaid.account_number <-> Mastercard.primary_account_number: explicit negative pair hard veto",
+      "Plaid.account_number <-> PPVisa.pan: explicit negative pair hard veto",
+      "Plaid.account_number <-> ISO20022.cdtr_acct: account/card subtypes are ambiguous: payment_account:account_number vs payment_account:creditor_account",
+      "Plaid.account_number <-> ISO20022.dbtr_acct: account/card subtypes are ambiguous: payment_account:account_number vs payment_account:debtor_account",
+      "Plaid.account_number <-> UPI.payer_account: account/card subtypes are ambiguous: payment_account:account_number vs payment_account:payer_account",
+      "Plaid.account_number <-> Plaid.routing_number: explicit negative pair hard veto",
+      "Plaid.account_type <-> Plaid.account_number: account/card subtypes are ambiguous: payment_account:account_type vs payment_account:account_number",
+      "Plaid.account_number <-> INAmex.PrimaryAccountNumber: explicit negative pair hard veto",
+      "Plaid.account_number <-> Mastercard.primary_account_number: explicit negative pair hard veto",
+      "Plaid.account_number <-> PPVisa.pan: explicit negative pair hard veto",
+      "Plaid.account_number <-> ISO20022.cdtr_acct: account/card subtypes are ambiguous: payment_account:account_number vs payment_account:creditor_account",
+      "Plaid.account_number <-> ISO20022.dbtr_acct: account/card subtypes are ambiguous: payment_account:account_number vs payment_account:debtor_account",
+      "Plaid.account_number <-> UPI.payer_account: account/card subtypes are ambiguous: payment_account:account_number vs payment_account:payer_account",
+      "Plaid.account_number <-> Plaid.routing_number: explicit negative pair hard veto"
     ],
     "deferred_candidates": [
       "Plaid.account_id <-> Plaid.account_number: insufficient evidence",
@@ -144,8 +143,8 @@
     ],
     "review_candidates": [],
     "rejected_near_misses": [
-      "Stripe.card_last4 <-> Stripe.card_brand: account/card subtypes are ambiguous: payment_card:last4 vs payment_card:brand",
-      "Stripe.card_last4 <-> Stripe.card_brand: account/card subtypes are ambiguous: payment_card:last4 vs payment_card:brand"
+      "Stripe.card_brand <-> Stripe.card_last4: explicit negative pair hard veto",
+      "Stripe.card_brand <-> Stripe.card_last4: explicit negative pair hard veto"
     ],
     "deferred_candidates": []
   },
@@ -170,9 +169,9 @@
     "rejected_near_misses": [],
     "deferred_candidates": [
       "INAmex.ExpirationDate <-> Plaid.transaction_date: insufficient evidence",
-      "Plaid.transaction_date <-> PPVisa.exp: insufficient evidence",
+      "PPVisa.exp <-> Plaid.transaction_date: insufficient evidence",
       "INAmex.ExpirationDate <-> Plaid.transaction_date: insufficient evidence",
-      "Plaid.transaction_date <-> PPVisa.exp: insufficient evidence"
+      "PPVisa.exp <-> Plaid.transaction_date: insufficient evidence"
     ]
   },
   "card_issuer": {
@@ -211,8 +210,8 @@
     ],
     "review_candidates": [],
     "rejected_near_misses": [
-      "Stripe.card_last4 <-> Stripe.card_brand: account/card subtypes are ambiguous: payment_card:last4 vs payment_card:brand",
-      "Stripe.card_last4 <-> Stripe.card_brand: account/card subtypes are ambiguous: payment_card:last4 vs payment_card:brand"
+      "Stripe.card_brand <-> Stripe.card_last4: explicit negative pair hard veto",
+      "Stripe.card_brand <-> Stripe.card_last4: explicit negative pair hard veto"
     ],
     "deferred_candidates": []
   },
@@ -236,19 +235,15 @@
       "Mastercard.primary_account_number",
       "PPVisa.pan"
     ],
-    "review_candidates": [
-      "INAmex.PrimaryAccountNumber <-> Mastercard.primary_account_number: cross-rail compatibility uncertain",
-      "INAmex.PrimaryAccountNumber <-> Plaid.account_number: ground-truth pair blocked by semantic veto; requires review",
-      "Mastercard.primary_account_number <-> Plaid.account_number: ground-truth pair blocked by semantic veto; requires review",
-      "Mastercard.primary_account_number <-> PPVisa.pan: cross-rail compatibility uncertain",
-      "Plaid.account_number <-> PPVisa.pan: ground-truth pair blocked by semantic veto; requires review",
-      "INAmex.PrimaryAccountNumber <-> Mastercard.primary_account_number: cross-rail compatibility uncertain",
-      "INAmex.PrimaryAccountNumber <-> Plaid.account_number: ground-truth pair blocked by semantic veto; requires review",
-      "Mastercard.primary_account_number <-> Plaid.account_number: ground-truth pair blocked by semantic veto; requires review",
-      "Mastercard.primary_account_number <-> PPVisa.pan: cross-rail compatibility uncertain",
-      "Plaid.account_number <-> PPVisa.pan: ground-truth pair blocked by semantic veto; requires review"
+    "review_candidates": [],
+    "rejected_near_misses": [
+      "Plaid.account_number <-> INAmex.PrimaryAccountNumber: explicit negative pair hard veto",
+      "Plaid.account_number <-> Mastercard.primary_account_number: explicit negative pair hard veto",
+      "Plaid.account_number <-> PPVisa.pan: explicit negative pair hard veto",
+      "Plaid.account_number <-> INAmex.PrimaryAccountNumber: explicit negative pair hard veto",
+      "Plaid.account_number <-> Mastercard.primary_account_number: explicit negative pair hard veto",
+      "Plaid.account_number <-> PPVisa.pan: explicit negative pair hard veto"
     ],
-    "rejected_near_misses": [],
     "deferred_candidates": []
   },
   "card_verification_value": {
@@ -268,10 +263,7 @@
       "INAmex.CardVerificationValue",
       "PPVisa.cvv"
     ],
-    "review_candidates": [
-      "INAmex.CardVerificationValue <-> PPVisa.cvv: evidence margin below auto-merge threshold",
-      "INAmex.CardVerificationValue <-> PPVisa.cvv: evidence margin below auto-merge threshold"
-    ],
+    "review_candidates": [],
     "rejected_near_misses": [],
     "deferred_candidates": []
   },
@@ -292,10 +284,7 @@
       "INAmex.CardHolderName",
       "PPVisa.cardholder"
     ],
-    "review_candidates": [
-      "INAmex.CardHolderName <-> PPVisa.cardholder: evidence margin below auto-merge threshold",
-      "INAmex.CardHolderName <-> PPVisa.cardholder: evidence margin below auto-merge threshold"
-    ],
+    "review_candidates": [],
     "rejected_near_misses": [],
     "deferred_candidates": []
   },
@@ -337,20 +326,20 @@
     ],
     "review_candidates": [],
     "rejected_near_misses": [
-      "ISO20022.dbtr_acct <-> ISO20022.cdtr_acct: account/card subtypes are ambiguous: payment_account:debtor_account vs payment_account:creditor_account; role conflict: debtor vs creditor; schema-declared do_not_merge_with_families veto",
-      "ISO20022.cdtr_acct <-> Plaid.account_number: account/card subtypes are ambiguous: payment_account:creditor_account vs payment_account:account_number",
-      "ISO20022.cdtr_acct <-> Plaid.account_type: explicit negative pair hard veto",
-      "ISO20022.cdtr_acct <-> UPI.payer_account: account/card subtypes are ambiguous: payment_account:creditor_account vs payment_account:payer_account; schema-declared do_not_merge_with_families veto",
-      "ISO20022.dbtr_acct <-> ISO20022.cdtr_acct: account/card subtypes are ambiguous: payment_account:debtor_account vs payment_account:creditor_account; role conflict: debtor vs creditor; schema-declared do_not_merge_with_families veto",
-      "ISO20022.cdtr_acct <-> Plaid.account_number: account/card subtypes are ambiguous: payment_account:creditor_account vs payment_account:account_number",
-      "ISO20022.cdtr_acct <-> Plaid.account_type: explicit negative pair hard veto",
-      "ISO20022.cdtr_acct <-> UPI.payer_account: account/card subtypes are ambiguous: payment_account:creditor_account vs payment_account:payer_account; schema-declared do_not_merge_with_families veto"
+      "Plaid.account_type <-> ISO20022.cdtr_acct: account/card subtypes are ambiguous: payment_account:account_type vs payment_account:creditor_account",
+      "Plaid.account_number <-> ISO20022.cdtr_acct: account/card subtypes are ambiguous: payment_account:account_number vs payment_account:creditor_account",
+      "ISO20022.cdtr_acct <-> ISO20022.dbtr_acct: explicit negative pair hard veto",
+      "ISO20022.cdtr_acct <-> UPI.payer_account: explicit negative pair hard veto",
+      "Plaid.account_type <-> ISO20022.cdtr_acct: account/card subtypes are ambiguous: payment_account:account_type vs payment_account:creditor_account",
+      "Plaid.account_number <-> ISO20022.cdtr_acct: account/card subtypes are ambiguous: payment_account:account_number vs payment_account:creditor_account",
+      "ISO20022.cdtr_acct <-> ISO20022.dbtr_acct: explicit negative pair hard veto",
+      "ISO20022.cdtr_acct <-> UPI.payer_account: explicit negative pair hard veto"
     ],
     "deferred_candidates": [
-      "ISO20022.cdtr_nm <-> ISO20022.cdtr_acct: insufficient evidence",
-      "ISO20022.cdtr_acct <-> Plaid.account_id: insufficient evidence",
-      "ISO20022.cdtr_nm <-> ISO20022.cdtr_acct: insufficient evidence",
-      "ISO20022.cdtr_acct <-> Plaid.account_id: insufficient evidence"
+      "Plaid.account_id <-> ISO20022.cdtr_acct: insufficient evidence",
+      "ISO20022.cdtr_acct <-> ISO20022.cdtr_nm: insufficient evidence",
+      "Plaid.account_id <-> ISO20022.cdtr_acct: insufficient evidence",
+      "ISO20022.cdtr_acct <-> ISO20022.cdtr_nm: insufficient evidence"
     ]
   },
   "creditor_name": {
@@ -370,12 +359,12 @@
     ],
     "review_candidates": [],
     "rejected_near_misses": [
-      "ISO20022.dbtr_nm <-> ISO20022.cdtr_nm: role conflict: debtor vs creditor; schema-declared do_not_merge_with_families veto",
-      "ISO20022.dbtr_nm <-> ISO20022.cdtr_nm: role conflict: debtor vs creditor; schema-declared do_not_merge_with_families veto"
+      "ISO20022.cdtr_nm <-> ISO20022.dbtr_nm: explicit negative pair hard veto",
+      "ISO20022.cdtr_nm <-> ISO20022.dbtr_nm: explicit negative pair hard veto"
     ],
     "deferred_candidates": [
-      "ISO20022.cdtr_nm <-> ISO20022.cdtr_acct: insufficient evidence",
-      "ISO20022.cdtr_nm <-> ISO20022.cdtr_acct: insufficient evidence"
+      "ISO20022.cdtr_acct <-> ISO20022.cdtr_nm: insufficient evidence",
+      "ISO20022.cdtr_acct <-> ISO20022.cdtr_nm: insufficient evidence"
     ]
   },
   "current_balance": {
@@ -452,14 +441,14 @@
     ],
     "review_candidates": [],
     "rejected_near_misses": [
-      "ISO20022.msg_id <-> Stripe.customer_id: identifier subtypes must remain separate: identifier:message vs identifier:customer; schema-declared do_not_merge_with_families veto",
       "Plaid.account_id <-> Stripe.customer_id: identifier subtypes must remain separate: identifier:plaid_account vs identifier:customer",
-      "Plaid.transaction_id <-> Stripe.customer_id: identifier subtypes must remain separate: identifier:transaction vs identifier:customer; schema-declared do_not_merge_with_families veto",
-      "Stripe.customer_id <-> UPI.txn_id: identifier subtypes must remain separate: identifier:customer vs identifier:upi_transaction; schema-declared do_not_merge_with_families veto",
-      "ISO20022.msg_id <-> Stripe.customer_id: identifier subtypes must remain separate: identifier:message vs identifier:customer; schema-declared do_not_merge_with_families veto",
+      "Stripe.customer_id <-> ISO20022.msg_id: identifier subtypes must remain separate: identifier:customer vs identifier:message; schema-declared do_not_merge_with_families veto",
+      "Stripe.customer_id <-> Plaid.transaction_id: explicit negative pair hard veto",
+      "Stripe.customer_id <-> UPI.txn_id: explicit negative pair hard veto",
       "Plaid.account_id <-> Stripe.customer_id: identifier subtypes must remain separate: identifier:plaid_account vs identifier:customer",
-      "Plaid.transaction_id <-> Stripe.customer_id: identifier subtypes must remain separate: identifier:transaction vs identifier:customer; schema-declared do_not_merge_with_families veto",
-      "Stripe.customer_id <-> UPI.txn_id: identifier subtypes must remain separate: identifier:customer vs identifier:upi_transaction; schema-declared do_not_merge_with_families veto"
+      "Stripe.customer_id <-> ISO20022.msg_id: identifier subtypes must remain separate: identifier:customer vs identifier:message; schema-declared do_not_merge_with_families veto",
+      "Stripe.customer_id <-> Plaid.transaction_id: explicit negative pair hard veto",
+      "Stripe.customer_id <-> UPI.txn_id: explicit negative pair hard veto"
     ],
     "deferred_candidates": []
   },
@@ -480,20 +469,20 @@
     ],
     "review_candidates": [],
     "rejected_near_misses": [
-      "ISO20022.dbtr_acct <-> ISO20022.cdtr_acct: account/card subtypes are ambiguous: payment_account:debtor_account vs payment_account:creditor_account; role conflict: debtor vs creditor; schema-declared do_not_merge_with_families veto",
-      "ISO20022.dbtr_acct <-> Plaid.account_number: account/card subtypes are ambiguous: payment_account:debtor_account vs payment_account:account_number",
-      "ISO20022.dbtr_acct <-> Plaid.account_type: explicit negative pair hard veto",
-      "ISO20022.dbtr_acct <-> UPI.payer_account: account/card subtypes are ambiguous: payment_account:debtor_account vs payment_account:payer_account",
-      "ISO20022.dbtr_acct <-> ISO20022.cdtr_acct: account/card subtypes are ambiguous: payment_account:debtor_account vs payment_account:creditor_account; role conflict: debtor vs creditor; schema-declared do_not_merge_with_families veto",
-      "ISO20022.dbtr_acct <-> Plaid.account_number: account/card subtypes are ambiguous: payment_account:debtor_account vs payment_account:account_number",
-      "ISO20022.dbtr_acct <-> Plaid.account_type: explicit negative pair hard veto",
-      "ISO20022.dbtr_acct <-> UPI.payer_account: account/card subtypes are ambiguous: payment_account:debtor_account vs payment_account:payer_account"
+      "Plaid.account_type <-> ISO20022.dbtr_acct: account/card subtypes are ambiguous: payment_account:account_type vs payment_account:debtor_account",
+      "Plaid.account_number <-> ISO20022.dbtr_acct: account/card subtypes are ambiguous: payment_account:account_number vs payment_account:debtor_account",
+      "ISO20022.cdtr_acct <-> ISO20022.dbtr_acct: explicit negative pair hard veto",
+      "ISO20022.dbtr_acct <-> UPI.payer_account: explicit negative pair hard veto",
+      "Plaid.account_type <-> ISO20022.dbtr_acct: account/card subtypes are ambiguous: payment_account:account_type vs payment_account:debtor_account",
+      "Plaid.account_number <-> ISO20022.dbtr_acct: account/card subtypes are ambiguous: payment_account:account_number vs payment_account:debtor_account",
+      "ISO20022.cdtr_acct <-> ISO20022.dbtr_acct: explicit negative pair hard veto",
+      "ISO20022.dbtr_acct <-> UPI.payer_account: explicit negative pair hard veto"
     ],
     "deferred_candidates": [
-      "ISO20022.dbtr_nm <-> ISO20022.dbtr_acct: insufficient evidence",
-      "ISO20022.dbtr_acct <-> Plaid.account_id: insufficient evidence",
-      "ISO20022.dbtr_nm <-> ISO20022.dbtr_acct: insufficient evidence",
-      "ISO20022.dbtr_acct <-> Plaid.account_id: insufficient evidence"
+      "Plaid.account_id <-> ISO20022.dbtr_acct: insufficient evidence",
+      "ISO20022.dbtr_acct <-> ISO20022.dbtr_nm: insufficient evidence",
+      "Plaid.account_id <-> ISO20022.dbtr_acct: insufficient evidence",
+      "ISO20022.dbtr_acct <-> ISO20022.dbtr_nm: insufficient evidence"
     ]
   },
   "debtor_name": {
@@ -513,12 +502,12 @@
     ],
     "review_candidates": [],
     "rejected_near_misses": [
-      "ISO20022.dbtr_nm <-> ISO20022.cdtr_nm: role conflict: debtor vs creditor; schema-declared do_not_merge_with_families veto",
-      "ISO20022.dbtr_nm <-> ISO20022.cdtr_nm: role conflict: debtor vs creditor; schema-declared do_not_merge_with_families veto"
+      "ISO20022.cdtr_nm <-> ISO20022.dbtr_nm: explicit negative pair hard veto",
+      "ISO20022.cdtr_nm <-> ISO20022.dbtr_nm: explicit negative pair hard veto"
     ],
     "deferred_candidates": [
-      "ISO20022.dbtr_nm <-> ISO20022.dbtr_acct: insufficient evidence",
-      "ISO20022.dbtr_nm <-> ISO20022.dbtr_acct: insufficient evidence"
+      "ISO20022.dbtr_acct <-> ISO20022.dbtr_nm: insufficient evidence",
+      "ISO20022.dbtr_acct <-> ISO20022.dbtr_nm: insufficient evidence"
     ]
   },
   "end_to_end_identifier": {
@@ -576,13 +565,13 @@
     ],
     "review_candidates": [],
     "rejected_near_misses": [
-      "ISO20022.msg_id <-> Plaid.account_id: identifier subtypes must remain separate: identifier:message vs identifier:plaid_account",
+      "Plaid.account_id <-> ISO20022.msg_id: identifier subtypes must remain separate: identifier:plaid_account vs identifier:message",
+      "Stripe.customer_id <-> ISO20022.msg_id: identifier subtypes must remain separate: identifier:customer vs identifier:message; schema-declared do_not_merge_with_families veto",
       "ISO20022.msg_id <-> Plaid.transaction_id: identifier subtypes must remain separate: identifier:message vs identifier:transaction",
-      "ISO20022.msg_id <-> Stripe.customer_id: identifier subtypes must remain separate: identifier:message vs identifier:customer; schema-declared do_not_merge_with_families veto",
       "ISO20022.msg_id <-> UPI.txn_id: identifier subtypes must remain separate: identifier:message vs identifier:upi_transaction",
-      "ISO20022.msg_id <-> Plaid.account_id: identifier subtypes must remain separate: identifier:message vs identifier:plaid_account",
+      "Plaid.account_id <-> ISO20022.msg_id: identifier subtypes must remain separate: identifier:plaid_account vs identifier:message",
+      "Stripe.customer_id <-> ISO20022.msg_id: identifier subtypes must remain separate: identifier:customer vs identifier:message; schema-declared do_not_merge_with_families veto",
       "ISO20022.msg_id <-> Plaid.transaction_id: identifier subtypes must remain separate: identifier:message vs identifier:transaction",
-      "ISO20022.msg_id <-> Stripe.customer_id: identifier subtypes must remain separate: identifier:message vs identifier:customer; schema-declared do_not_merge_with_families veto",
       "ISO20022.msg_id <-> UPI.txn_id: identifier subtypes must remain separate: identifier:message vs identifier:upi_transaction"
     ],
     "deferred_candidates": []
@@ -604,8 +593,8 @@
     ],
     "review_candidates": [],
     "rejected_near_misses": [
-      "Razorpay.razorpay_payment_id <-> Razorpay.razorpay_order_id: explicit negative pair hard veto",
-      "Razorpay.razorpay_payment_id <-> Razorpay.razorpay_order_id: explicit negative pair hard veto"
+      "Razorpay.razorpay_order_id <-> Razorpay.razorpay_payment_id: explicit negative pair hard veto",
+      "Razorpay.razorpay_order_id <-> Razorpay.razorpay_payment_id: explicit negative pair hard veto"
     ],
     "deferred_candidates": []
   },
@@ -624,13 +613,13 @@
     "source_fields": [
       "UPI.payee_vpa"
     ],
-    "review_candidates": [
-      "Razorpay.vpa <-> UPI.payee_vpa: ground-truth pair blocked by semantic veto; requires review",
-      "UPI.vpa <-> UPI.payee_vpa: plausible evidence but not safe enough for automatic merge",
-      "Razorpay.vpa <-> UPI.payee_vpa: ground-truth pair blocked by semantic veto; requires review",
-      "UPI.vpa <-> UPI.payee_vpa: plausible evidence but not safe enough for automatic merge"
+    "review_candidates": [],
+    "rejected_near_misses": [
+      "UPI.payee_vpa <-> Razorpay.vpa: explicit negative pair hard veto",
+      "UPI.payee_vpa <-> UPI.vpa: explicit negative pair hard veto",
+      "UPI.payee_vpa <-> Razorpay.vpa: explicit negative pair hard veto",
+      "UPI.payee_vpa <-> UPI.vpa: explicit negative pair hard veto"
     ],
-    "rejected_near_misses": [],
     "deferred_candidates": []
   },
   "payer_account": {
@@ -650,14 +639,14 @@
     ],
     "review_candidates": [],
     "rejected_near_misses": [
-      "ISO20022.dbtr_acct <-> UPI.payer_account: account/card subtypes are ambiguous: payment_account:debtor_account vs payment_account:payer_account",
-      "ISO20022.cdtr_acct <-> UPI.payer_account: account/card subtypes are ambiguous: payment_account:creditor_account vs payment_account:payer_account; schema-declared do_not_merge_with_families veto",
-      "Plaid.account_number <-> UPI.payer_account: explicit negative pair hard veto",
       "Plaid.account_type <-> UPI.payer_account: account/card subtypes are ambiguous: payment_account:account_type vs payment_account:payer_account",
-      "ISO20022.dbtr_acct <-> UPI.payer_account: account/card subtypes are ambiguous: payment_account:debtor_account vs payment_account:payer_account",
-      "ISO20022.cdtr_acct <-> UPI.payer_account: account/card subtypes are ambiguous: payment_account:creditor_account vs payment_account:payer_account; schema-declared do_not_merge_with_families veto",
-      "Plaid.account_number <-> UPI.payer_account: explicit negative pair hard veto",
-      "Plaid.account_type <-> UPI.payer_account: account/card subtypes are ambiguous: payment_account:account_type vs payment_account:payer_account"
+      "Plaid.account_number <-> UPI.payer_account: account/card subtypes are ambiguous: payment_account:account_number vs payment_account:payer_account",
+      "ISO20022.cdtr_acct <-> UPI.payer_account: explicit negative pair hard veto",
+      "ISO20022.dbtr_acct <-> UPI.payer_account: explicit negative pair hard veto",
+      "Plaid.account_type <-> UPI.payer_account: account/card subtypes are ambiguous: payment_account:account_type vs payment_account:payer_account",
+      "Plaid.account_number <-> UPI.payer_account: account/card subtypes are ambiguous: payment_account:account_number vs payment_account:payer_account",
+      "ISO20022.cdtr_acct <-> UPI.payer_account: explicit negative pair hard veto",
+      "ISO20022.dbtr_acct <-> UPI.payer_account: explicit negative pair hard veto"
     ],
     "deferred_candidates": [
       "Plaid.account_id <-> UPI.payer_account: insufficient evidence",
@@ -693,49 +682,28 @@
       "Stripe.amount",
       "UPI.txn_amount"
     ],
-    "review_candidates": [
-      "ISO20022.instd_amt <-> Mastercard.transaction_amount: evidence margin below auto-merge threshold; cross-rail compatibility uncertain",
-      "ISO20022.instd_amt <-> Plaid.transaction_amount: evidence margin below auto-merge threshold; cross-rail compatibility uncertain",
-      "ISO20022.instd_amt <-> Razorpay.amount: evidence margin below auto-merge threshold; cross-rail compatibility uncertain",
-      "ISO20022.instd_amt <-> Stripe.amount: evidence margin below auto-merge threshold; cross-rail compatibility uncertain",
-      "ISO20022.instd_amt <-> UPI.txn_amount: evidence margin below auto-merge threshold; cross-rail compatibility uncertain",
-      "Mastercard.transaction_amount <-> Plaid.transaction_amount: cross-rail compatibility uncertain",
-      "Mastercard.transaction_amount <-> Razorpay.amount: evidence margin below auto-merge threshold; cross-rail compatibility uncertain",
-      "Mastercard.transaction_amount <-> Stripe.amount: evidence margin below auto-merge threshold; cross-rail compatibility uncertain",
-      "Mastercard.transaction_amount <-> UPI.txn_amount: cross-rail compatibility uncertain",
-      "Plaid.transaction_amount <-> Razorpay.amount: evidence margin below auto-merge threshold; cross-rail compatibility uncertain",
-      "Plaid.transaction_amount <-> Stripe.amount: evidence margin below auto-merge threshold; cross-rail compatibility uncertain",
-      "Plaid.transaction_amount <-> UPI.txn_amount: cross-rail compatibility uncertain",
-      "Razorpay.amount <-> UPI.txn_amount: evidence margin below auto-merge threshold; cross-rail compatibility uncertain",
-      "Stripe.amount <-> UPI.txn_amount: evidence margin below auto-merge threshold; cross-rail compatibility uncertain",
-      "ISO20022.instd_amt <-> Mastercard.transaction_amount: evidence margin below auto-merge threshold; cross-rail compatibility uncertain",
-      "ISO20022.instd_amt <-> Plaid.transaction_amount: evidence margin below auto-merge threshold; cross-rail compatibility uncertain",
-      "ISO20022.instd_amt <-> Razorpay.amount: evidence margin below auto-merge threshold; cross-rail compatibility uncertain",
-      "ISO20022.instd_amt <-> Stripe.amount: evidence margin below auto-merge threshold; cross-rail compatibility uncertain",
-      "ISO20022.instd_amt <-> UPI.txn_amount: evidence margin below auto-merge threshold; cross-rail compatibility uncertain",
-      "Mastercard.transaction_amount <-> Plaid.transaction_amount: cross-rail compatibility uncertain"
-    ],
+    "review_candidates": [],
     "rejected_near_misses": [
-      "Mastercard.transaction_amount <-> Plaid.transaction_id: identifier must not merge with payment/temporal",
-      "Mastercard.transaction_amount <-> Plaid.transaction_date: schema-declared do_not_merge_with_families veto",
-      "Mastercard.transaction_amount <-> UPI.txn_id: identifier must not merge with payment/temporal",
-      "Mastercard.transaction_amount <-> UPI.txn_timestamp: schema-declared do_not_merge_with_families veto",
       "Mastercard.transaction_amount <-> UPI.txn_status: schema-declared do_not_merge_with_families veto",
-      "Plaid.transaction_id <-> Plaid.transaction_amount: identifier must not merge with payment/temporal",
-      "Plaid.transaction_id <-> UPI.txn_amount: identifier must not merge with payment/temporal",
-      "Plaid.transaction_amount <-> Plaid.transaction_date: schema-declared do_not_merge_with_families veto",
-      "Plaid.transaction_amount <-> UPI.txn_id: identifier must not merge with payment/temporal",
-      "Plaid.transaction_amount <-> UPI.txn_timestamp: schema-declared do_not_merge_with_families veto",
       "Plaid.transaction_amount <-> UPI.txn_status: schema-declared do_not_merge_with_families veto",
-      "Plaid.transaction_date <-> UPI.txn_amount: schema-declared do_not_merge_with_families veto",
-      "UPI.txn_id <-> UPI.txn_amount: identifier must not merge with payment/temporal",
-      "UPI.txn_amount <-> UPI.txn_timestamp: schema-declared do_not_merge_with_families veto",
       "UPI.txn_amount <-> UPI.txn_status: schema-declared do_not_merge_with_families veto",
-      "Mastercard.transaction_amount <-> Plaid.transaction_id: identifier must not merge with payment/temporal",
       "Mastercard.transaction_amount <-> Plaid.transaction_date: schema-declared do_not_merge_with_families veto",
+      "Plaid.transaction_amount <-> Plaid.transaction_date: schema-declared do_not_merge_with_families veto",
+      "UPI.txn_amount <-> Plaid.transaction_date: schema-declared do_not_merge_with_families veto",
+      "Mastercard.transaction_amount <-> Plaid.transaction_id: identifier must not merge with payment/temporal",
       "Mastercard.transaction_amount <-> UPI.txn_id: identifier must not merge with payment/temporal",
+      "Plaid.transaction_amount <-> Plaid.transaction_id: identifier must not merge with payment/temporal",
+      "Plaid.transaction_amount <-> UPI.txn_id: identifier must not merge with payment/temporal",
+      "UPI.txn_amount <-> Plaid.transaction_id: identifier must not merge with payment/temporal",
+      "UPI.txn_amount <-> UPI.txn_id: identifier must not merge with payment/temporal",
       "Mastercard.transaction_amount <-> UPI.txn_timestamp: schema-declared do_not_merge_with_families veto",
-      "Mastercard.transaction_amount <-> UPI.txn_status: schema-declared do_not_merge_with_families veto"
+      "Plaid.transaction_amount <-> UPI.txn_timestamp: schema-declared do_not_merge_with_families veto",
+      "UPI.txn_amount <-> UPI.txn_timestamp: schema-declared do_not_merge_with_families veto",
+      "Mastercard.transaction_amount <-> UPI.txn_status: schema-declared do_not_merge_with_families veto",
+      "Plaid.transaction_amount <-> UPI.txn_status: schema-declared do_not_merge_with_families veto",
+      "UPI.txn_amount <-> UPI.txn_status: schema-declared do_not_merge_with_families veto",
+      "Mastercard.transaction_amount <-> Plaid.transaction_date: schema-declared do_not_merge_with_families veto",
+      "Plaid.transaction_amount <-> Plaid.transaction_date: schema-declared do_not_merge_with_families veto"
     ],
     "deferred_candidates": []
   },
@@ -765,26 +733,7 @@
       "Stripe.currency",
       "UPI.currency"
     ],
-    "review_candidates": [
-      "ISO20022.currency <-> Plaid.currency: cross-rail compatibility uncertain",
-      "ISO20022.currency <-> Razorpay.currency: cross-rail compatibility uncertain",
-      "ISO20022.currency <-> Stripe.currency: cross-rail compatibility uncertain",
-      "ISO20022.currency <-> UPI.currency: cross-rail compatibility uncertain",
-      "Plaid.currency <-> Razorpay.currency: cross-rail compatibility uncertain",
-      "Plaid.currency <-> Stripe.currency: cross-rail compatibility uncertain",
-      "Plaid.currency <-> UPI.currency: cross-rail compatibility uncertain",
-      "Razorpay.currency <-> UPI.currency: cross-rail compatibility uncertain",
-      "Stripe.currency <-> UPI.currency: cross-rail compatibility uncertain",
-      "ISO20022.currency <-> Plaid.currency: cross-rail compatibility uncertain",
-      "ISO20022.currency <-> Razorpay.currency: cross-rail compatibility uncertain",
-      "ISO20022.currency <-> Stripe.currency: cross-rail compatibility uncertain",
-      "ISO20022.currency <-> UPI.currency: cross-rail compatibility uncertain",
-      "Plaid.currency <-> Razorpay.currency: cross-rail compatibility uncertain",
-      "Plaid.currency <-> Stripe.currency: cross-rail compatibility uncertain",
-      "Plaid.currency <-> UPI.currency: cross-rail compatibility uncertain",
-      "Razorpay.currency <-> UPI.currency: cross-rail compatibility uncertain",
-      "Stripe.currency <-> UPI.currency: cross-rail compatibility uncertain"
-    ],
+    "review_candidates": [],
     "rejected_near_misses": [],
     "deferred_candidates": []
   },
@@ -805,10 +754,10 @@
     ],
     "review_candidates": [],
     "rejected_near_misses": [
-      "Razorpay.razorpay_payment_id <-> Razorpay.razorpay_order_id: explicit negative pair hard veto",
-      "Razorpay.razorpay_payment_id <-> Stripe.payment_intent_id: identifier subtypes must remain separate: identifier:razorpay_payment vs identifier:payment_intent",
-      "Razorpay.razorpay_payment_id <-> Razorpay.razorpay_order_id: explicit negative pair hard veto",
-      "Razorpay.razorpay_payment_id <-> Stripe.payment_intent_id: identifier subtypes must remain separate: identifier:razorpay_payment vs identifier:payment_intent"
+      "Razorpay.razorpay_order_id <-> Razorpay.razorpay_payment_id: explicit negative pair hard veto",
+      "Razorpay.razorpay_payment_id <-> Stripe.payment_intent_id: explicit negative pair hard veto",
+      "Razorpay.razorpay_order_id <-> Razorpay.razorpay_payment_id: explicit negative pair hard veto",
+      "Razorpay.razorpay_payment_id <-> Stripe.payment_intent_id: explicit negative pair hard veto"
     ],
     "deferred_candidates": []
   },
@@ -829,8 +778,8 @@
     ],
     "review_candidates": [],
     "rejected_near_misses": [
-      "Razorpay.razorpay_payment_id <-> Stripe.payment_intent_id: identifier subtypes must remain separate: identifier:razorpay_payment vs identifier:payment_intent",
-      "Razorpay.razorpay_payment_id <-> Stripe.payment_intent_id: identifier subtypes must remain separate: identifier:razorpay_payment vs identifier:payment_intent"
+      "Razorpay.razorpay_payment_id <-> Stripe.payment_intent_id: explicit negative pair hard veto",
+      "Razorpay.razorpay_payment_id <-> Stripe.payment_intent_id: explicit negative pair hard veto"
     ],
     "deferred_candidates": []
   },
@@ -875,27 +824,22 @@
       "Stripe.status",
       "UPI.txn_status"
     ],
-    "review_candidates": [
-      "Razorpay.status <-> UPI.txn_status: evidence margin below auto-merge threshold; cross-rail compatibility uncertain",
-      "Stripe.status <-> UPI.txn_status: evidence margin below auto-merge threshold; cross-rail compatibility uncertain",
-      "Razorpay.status <-> UPI.txn_status: evidence margin below auto-merge threshold; cross-rail compatibility uncertain",
-      "Stripe.status <-> UPI.txn_status: evidence margin below auto-merge threshold; cross-rail compatibility uncertain"
-    ],
+    "review_candidates": [],
     "rejected_near_misses": [
       "Mastercard.transaction_amount <-> UPI.txn_status: schema-declared do_not_merge_with_families veto",
-      "Plaid.transaction_id <-> UPI.txn_status: identifier must not merge with payment/temporal",
       "Plaid.transaction_amount <-> UPI.txn_status: schema-declared do_not_merge_with_families veto",
-      "Plaid.transaction_date <-> UPI.txn_status: temporal must not merge with status; schema-declared do_not_merge_with_families veto",
-      "UPI.txn_id <-> UPI.txn_status: identifier must not merge with payment/temporal; schema-declared do_not_merge_with_families veto",
       "UPI.txn_amount <-> UPI.txn_status: schema-declared do_not_merge_with_families veto",
-      "UPI.txn_timestamp <-> UPI.txn_status: temporal must not merge with status; schema-declared do_not_merge_with_families veto",
+      "UPI.txn_status <-> Plaid.transaction_date: temporal must not merge with status; schema-declared do_not_merge_with_families veto",
+      "UPI.txn_status <-> Plaid.transaction_id: identifier must not merge with payment/temporal",
+      "UPI.txn_status <-> UPI.txn_id: identifier must not merge with payment/temporal; schema-declared do_not_merge_with_families veto",
+      "UPI.txn_status <-> UPI.txn_timestamp: temporal must not merge with status; schema-declared do_not_merge_with_families veto",
       "Mastercard.transaction_amount <-> UPI.txn_status: schema-declared do_not_merge_with_families veto",
-      "Plaid.transaction_id <-> UPI.txn_status: identifier must not merge with payment/temporal",
       "Plaid.transaction_amount <-> UPI.txn_status: schema-declared do_not_merge_with_families veto",
-      "Plaid.transaction_date <-> UPI.txn_status: temporal must not merge with status; schema-declared do_not_merge_with_families veto",
-      "UPI.txn_id <-> UPI.txn_status: identifier must not merge with payment/temporal; schema-declared do_not_merge_with_families veto",
       "UPI.txn_amount <-> UPI.txn_status: schema-declared do_not_merge_with_families veto",
-      "UPI.txn_timestamp <-> UPI.txn_status: temporal must not merge with status; schema-declared do_not_merge_with_families veto"
+      "UPI.txn_status <-> Plaid.transaction_date: temporal must not merge with status; schema-declared do_not_merge_with_families veto",
+      "UPI.txn_status <-> Plaid.transaction_id: identifier must not merge with payment/temporal",
+      "UPI.txn_status <-> UPI.txn_id: identifier must not merge with payment/temporal; schema-declared do_not_merge_with_families veto",
+      "UPI.txn_status <-> UPI.txn_timestamp: temporal must not merge with status; schema-declared do_not_merge_with_families veto"
     ],
     "deferred_candidates": []
   },
@@ -954,8 +898,8 @@
     ],
     "review_candidates": [],
     "rejected_near_misses": [
-      "Plaid.routing_number <-> Plaid.account_number: explicit negative pair hard veto",
-      "Plaid.routing_number <-> Plaid.account_number: explicit negative pair hard veto"
+      "Plaid.account_number <-> Plaid.routing_number: explicit negative pair hard veto",
+      "Plaid.account_number <-> Plaid.routing_number: explicit negative pair hard veto"
     ],
     "deferred_candidates": []
   },
@@ -996,24 +940,24 @@
     "review_candidates": [],
     "rejected_near_misses": [
       "Mastercard.transaction_amount <-> Plaid.transaction_date: schema-declared do_not_merge_with_families veto",
-      "Plaid.transaction_id <-> Plaid.transaction_date: identifier must not merge with payment/temporal",
       "Plaid.transaction_amount <-> Plaid.transaction_date: schema-declared do_not_merge_with_families veto",
+      "UPI.txn_amount <-> Plaid.transaction_date: schema-declared do_not_merge_with_families veto",
+      "UPI.txn_status <-> Plaid.transaction_date: temporal must not merge with status; schema-declared do_not_merge_with_families veto",
+      "Plaid.transaction_date <-> Plaid.transaction_id: identifier must not merge with payment/temporal",
       "Plaid.transaction_date <-> UPI.txn_id: identifier must not merge with payment/temporal",
-      "Plaid.transaction_date <-> UPI.txn_amount: schema-declared do_not_merge_with_families veto",
-      "Plaid.transaction_date <-> UPI.txn_status: temporal must not merge with status; schema-declared do_not_merge_with_families veto",
       "Mastercard.transaction_amount <-> Plaid.transaction_date: schema-declared do_not_merge_with_families veto",
-      "Plaid.transaction_id <-> Plaid.transaction_date: identifier must not merge with payment/temporal",
       "Plaid.transaction_amount <-> Plaid.transaction_date: schema-declared do_not_merge_with_families veto",
-      "Plaid.transaction_date <-> UPI.txn_id: identifier must not merge with payment/temporal",
-      "Plaid.transaction_date <-> UPI.txn_amount: schema-declared do_not_merge_with_families veto",
-      "Plaid.transaction_date <-> UPI.txn_status: temporal must not merge with status; schema-declared do_not_merge_with_families veto"
+      "UPI.txn_amount <-> Plaid.transaction_date: schema-declared do_not_merge_with_families veto",
+      "UPI.txn_status <-> Plaid.transaction_date: temporal must not merge with status; schema-declared do_not_merge_with_families veto",
+      "Plaid.transaction_date <-> Plaid.transaction_id: identifier must not merge with payment/temporal",
+      "Plaid.transaction_date <-> UPI.txn_id: identifier must not merge with payment/temporal"
     ],
     "deferred_candidates": [
       "INAmex.ExpirationDate <-> Plaid.transaction_date: insufficient evidence",
-      "Plaid.transaction_date <-> PPVisa.exp: insufficient evidence",
+      "PPVisa.exp <-> Plaid.transaction_date: insufficient evidence",
       "Plaid.transaction_date <-> UPI.txn_timestamp: insufficient evidence",
       "INAmex.ExpirationDate <-> Plaid.transaction_date: insufficient evidence",
-      "Plaid.transaction_date <-> PPVisa.exp: insufficient evidence",
+      "PPVisa.exp <-> Plaid.transaction_date: insufficient evidence",
       "Plaid.transaction_date <-> UPI.txn_timestamp: insufficient evidence"
     ]
   },
@@ -1037,26 +981,26 @@
     ],
     "review_candidates": [],
     "rejected_near_misses": [
+      "Plaid.account_id <-> Plaid.transaction_id: explicit negative pair hard veto",
+      "Plaid.account_id <-> UPI.txn_id: explicit negative pair hard veto",
+      "Stripe.customer_id <-> Plaid.transaction_id: explicit negative pair hard veto",
+      "Stripe.customer_id <-> UPI.txn_id: explicit negative pair hard veto",
       "ISO20022.msg_id <-> Plaid.transaction_id: identifier subtypes must remain separate: identifier:message vs identifier:transaction",
       "ISO20022.msg_id <-> UPI.txn_id: identifier subtypes must remain separate: identifier:message vs identifier:upi_transaction",
       "Mastercard.transaction_amount <-> Plaid.transaction_id: identifier must not merge with payment/temporal",
       "Mastercard.transaction_amount <-> UPI.txn_id: identifier must not merge with payment/temporal",
-      "Plaid.account_id <-> Plaid.transaction_id: explicit negative pair hard veto",
-      "Plaid.account_id <-> UPI.txn_id: explicit negative pair hard veto",
-      "Plaid.transaction_id <-> Plaid.transaction_amount: identifier must not merge with payment/temporal",
-      "Plaid.transaction_id <-> Plaid.transaction_date: identifier must not merge with payment/temporal",
-      "Plaid.transaction_id <-> Stripe.customer_id: identifier subtypes must remain separate: identifier:transaction vs identifier:customer; schema-declared do_not_merge_with_families veto",
-      "Plaid.transaction_id <-> UPI.txn_id: identifier subtypes must remain separate: identifier:transaction vs identifier:upi_transaction",
-      "Plaid.transaction_id <-> UPI.txn_amount: identifier must not merge with payment/temporal",
-      "Plaid.transaction_id <-> UPI.txn_timestamp: identifier must not merge with payment/temporal",
-      "Plaid.transaction_id <-> UPI.txn_status: identifier must not merge with payment/temporal",
+      "Plaid.transaction_amount <-> Plaid.transaction_id: identifier must not merge with payment/temporal",
       "Plaid.transaction_amount <-> UPI.txn_id: identifier must not merge with payment/temporal",
+      "UPI.txn_amount <-> Plaid.transaction_id: identifier must not merge with payment/temporal",
+      "UPI.txn_amount <-> UPI.txn_id: identifier must not merge with payment/temporal",
+      "UPI.txn_status <-> Plaid.transaction_id: identifier must not merge with payment/temporal",
+      "UPI.txn_status <-> UPI.txn_id: identifier must not merge with payment/temporal; schema-declared do_not_merge_with_families veto",
+      "Plaid.transaction_date <-> Plaid.transaction_id: identifier must not merge with payment/temporal",
       "Plaid.transaction_date <-> UPI.txn_id: identifier must not merge with payment/temporal",
-      "Stripe.customer_id <-> UPI.txn_id: identifier subtypes must remain separate: identifier:customer vs identifier:upi_transaction; schema-declared do_not_merge_with_families veto",
-      "UPI.txn_id <-> UPI.txn_amount: identifier must not merge with payment/temporal",
+      "Plaid.transaction_id <-> UPI.txn_timestamp: identifier must not merge with payment/temporal",
       "UPI.txn_id <-> UPI.txn_timestamp: identifier must not merge with payment/temporal",
-      "UPI.txn_id <-> UPI.txn_status: identifier must not merge with payment/temporal; schema-declared do_not_merge_with_families veto",
-      "ISO20022.msg_id <-> Plaid.transaction_id: identifier subtypes must remain separate: identifier:message vs identifier:transaction"
+      "Plaid.account_id <-> Plaid.transaction_id: explicit negative pair hard veto",
+      "Plaid.account_id <-> UPI.txn_id: explicit negative pair hard veto"
     ],
     "deferred_candidates": []
   },
@@ -1078,17 +1022,17 @@
     "review_candidates": [],
     "rejected_near_misses": [
       "Mastercard.transaction_amount <-> UPI.txn_timestamp: schema-declared do_not_merge_with_families veto",
-      "Plaid.transaction_id <-> UPI.txn_timestamp: identifier must not merge with payment/temporal",
       "Plaid.transaction_amount <-> UPI.txn_timestamp: schema-declared do_not_merge_with_families veto",
-      "UPI.txn_id <-> UPI.txn_timestamp: identifier must not merge with payment/temporal",
       "UPI.txn_amount <-> UPI.txn_timestamp: schema-declared do_not_merge_with_families veto",
-      "UPI.txn_timestamp <-> UPI.txn_status: temporal must not merge with status; schema-declared do_not_merge_with_families veto",
+      "UPI.txn_status <-> UPI.txn_timestamp: temporal must not merge with status; schema-declared do_not_merge_with_families veto",
+      "Plaid.transaction_id <-> UPI.txn_timestamp: identifier must not merge with payment/temporal",
+      "UPI.txn_id <-> UPI.txn_timestamp: identifier must not merge with payment/temporal",
       "Mastercard.transaction_amount <-> UPI.txn_timestamp: schema-declared do_not_merge_with_families veto",
-      "Plaid.transaction_id <-> UPI.txn_timestamp: identifier must not merge with payment/temporal",
       "Plaid.transaction_amount <-> UPI.txn_timestamp: schema-declared do_not_merge_with_families veto",
-      "UPI.txn_id <-> UPI.txn_timestamp: identifier must not merge with payment/temporal",
       "UPI.txn_amount <-> UPI.txn_timestamp: schema-declared do_not_merge_with_families veto",
-      "UPI.txn_timestamp <-> UPI.txn_status: temporal must not merge with status; schema-declared do_not_merge_with_families veto"
+      "UPI.txn_status <-> UPI.txn_timestamp: temporal must not merge with status; schema-declared do_not_merge_with_families veto",
+      "Plaid.transaction_id <-> UPI.txn_timestamp: identifier must not merge with payment/temporal",
+      "UPI.txn_id <-> UPI.txn_timestamp: identifier must not merge with payment/temporal"
     ],
     "deferred_candidates": [
       "Plaid.transaction_date <-> UPI.txn_timestamp: insufficient evidence",
@@ -1132,15 +1076,13 @@
       "Razorpay.vpa",
       "UPI.vpa"
     ],
-    "review_candidates": [
-      "Razorpay.vpa <-> UPI.vpa: cross-rail compatibility uncertain",
-      "Razorpay.vpa <-> UPI.payee_vpa: ground-truth pair blocked by semantic veto; requires review",
-      "UPI.vpa <-> UPI.payee_vpa: plausible evidence but not safe enough for automatic merge",
-      "Razorpay.vpa <-> UPI.vpa: cross-rail compatibility uncertain",
-      "Razorpay.vpa <-> UPI.payee_vpa: ground-truth pair blocked by semantic veto; requires review",
-      "UPI.vpa <-> UPI.payee_vpa: plausible evidence but not safe enough for automatic merge"
+    "review_candidates": [],
+    "rejected_near_misses": [
+      "UPI.payee_vpa <-> Razorpay.vpa: explicit negative pair hard veto",
+      "UPI.payee_vpa <-> UPI.vpa: explicit negative pair hard veto",
+      "UPI.payee_vpa <-> Razorpay.vpa: explicit negative pair hard veto",
+      "UPI.payee_vpa <-> UPI.vpa: explicit negative pair hard veto"
     ],
-    "rejected_near_misses": [],
     "deferred_candidates": []
   }
 }

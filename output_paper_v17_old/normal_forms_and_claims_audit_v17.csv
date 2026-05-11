@@ -1,8 +1,0 @@
-Claim,Status,Evidence
-C1_alias_resolution,PARTIALLY_SUPPORTED,strict_precision=0.0
-C2_eenf_stability,NOT_EVALUATED,"{""reason"": ""EENF mode disabled"", ""status"": ""NOT_EVALUATED""}"
-C3_dbnf_drift,NOT_EVALUATED,"{""attribute_count"": 61, ""mode"": ""version_drift"", ""reason"": ""DBNF scaffold/diagnostic present; no explicit drift ground truth evaluated in v17 default run"", ""status"": ""NOT_EVALUATED""}"
-C4_context_safety,SUPPORTED,"{""accepted_merge_count"": 14, ""cross_context_merge_count"": 0, ""cross_context_merge_rate"": 0.0, ""examples"": []}"
-C5_payload_compliance,PARTIALLY_SUPPORTED,payload compliance diagnostics executed when payloads are available
-C6_geometry_convergence,SCAFFOLDED_NOT_EVALUATED,"{""canonical_node_count"": 41, ""message"": ""v17 includes geometry audit scaffolding only; compactness/separation/margin/leakage are not evaluated claims."", ""planned_metrics"": [""canonical_compactness"", ""inter_canonical_separation"", ""semantic_margin"", ""partition_leakage""], ""status"": ""SCAFFOLDED_NOT_EVALUATED""}"
-C7_reviewer_auditability,SUPPORTED,"decisions, alias metrics, review queue, manifest, and claim rows exported"
