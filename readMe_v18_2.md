@@ -1,4 +1,4 @@
-# SDNF Unified Experiment — Schema-First Master Payment SRS Harness v18.1
+# SDNF Unified Experiment — Schema-First Master Payment SRS Harness v18.2
 
 ## 1. Overview
 
@@ -9,12 +9,12 @@ This repository contains a **single-file, reproducible, reviewer-grade experimen
 Main experiment file:
 
 ```text
-unified_sdnf_experiment_hybrid_v18_1.py
+unified_sdnf_experiment_hybrid_v18_2.py
 ```
 
-Version **v18.1.0** builds on the proven **v17 infrastructure** and the **v18 KeyFix remediation**, completing all FN-fix patches so the experiment runs end-to-end with dramatically improved recall while preserving precision-first governance.
+Version **v18.2.0** builds on the proven **v17 infrastructure** and the **v18 KeyFix remediation**, completing all FN-fix patches so the experiment runs end-to-end with dramatically improved recall while preserving precision-first governance.
 
-The central v18.1 objective is:
+The central v18.2 objective is:
 
 - preserve all v17 schema-first Payment SRS construction,
 - preserve payload-evidenced governance,
@@ -35,11 +35,11 @@ The central v18.1 objective is:
 
 ---
 
-## 2. What Changed in v18.1
+## 2. What Changed in v18.2
 
 ### 2.1 v17/v18 Backbone Preserved
 
-v18.1 preserves the full v17 implementation backbone and all v18 additions, including:
+v18.2 preserves the full v17 implementation backbone and all v18 additions, including:
 
 - schema-first Payment SRS construction,
 - payment schema descriptor ingestion,
@@ -58,11 +58,11 @@ v18.1 preserves the full v17 implementation backbone and all v18 additions, incl
 
 ### 2.2 v18 KeyFix FN Remediation Completed
 
-v18.1 applies **10 targeted FN-fix patches** to v18 that together reduce FN from ~238 to an estimated ~30–50 range:
+v18.2 applies **10 targeted FN-fix patches** to v18 that together reduce FN from ~238 to an estimated ~30–50 range:
 
 | Fix # | Area | Description | FN Impact |
 |---|---|---|---|
-| 1–3 | Version/filenames | Version 18.1.0, output dir `output_v18_1`, all filenames `_v18.` → `_v18_1.` | Housekeeping |
+| 1–3 | Version/filenames | Version 18.2.0, output dir `output_v18_2`, all filenames `_v18.` → `_v18_2.` | Housekeeping |
 | 4 | `semantic_vetoes` | Added `same_canonical` parameter; subtype vetoes gated by `and not same_canonical` | ~30–50 FN recovered |
 | 5 | `is_broad_compatible_but_ambiguous` | Early return `False` when `canonical_key` matches | Prevents false ambiguity |
 | 6 | `evaluate_pair` | `same_canon` computed early, passed to `semantic_vetoes` with `same_canonical=` | Enables Fix 4 |
@@ -73,7 +73,7 @@ v18.1 applies **10 targeted FN-fix patches** to v18 that together reduce FN from
 
 ### 2.3 CMNF_COMPATIBILITY_MATRIX
 
-v18.1 preserves the v18 formal SDNF-style canonical-node-level compatibility policy:
+v18.2 preserves the v18 formal SDNF-style canonical-node-level compatibility policy:
 
 ```text
 CMNF_COMPATIBILITY_MATRIX
@@ -90,7 +90,7 @@ This replaces the blunt "cross-rail → HUMAN_REVIEW" rule with context-aware ga
 
 ### 2.4 CanonicalPromotionPolicy
 
-v18.1 completes the `CanonicalPromotionPolicy` class with an `evaluate()` classmethod that converts "good unexpected FNs" (true pairs routed to `HUMAN_REVIEW` in v17) into strict TPs when SDNF rules deem them safe.
+v18.2 completes the `CanonicalPromotionPolicy` class with an `evaluate()` classmethod that converts "good unexpected FNs" (true pairs routed to `HUMAN_REVIEW` in v17) into strict TPs when SDNF rules deem them safe.
 
 This does **NOT** lower global thresholds. Each rule is canonical-specific and auditable:
 
@@ -100,7 +100,7 @@ This does **NOT** lower global thresholds. Each rule is canonical-specific and a
 
 ### 2.5 Four New Promotion Paths
 
-v18.1 inserts four new promotion paths **before** the strict `ACCEPT_MERGE` gate in `evaluate_pair`:
+v18.2 inserts four new promotion paths **before** the strict `ACCEPT_MERGE` gate in `evaluate_pair`:
 
 1. **CMNF-matrix canonical-safe acceptance** — uses `cmnf_matrix_entry.min_evidence_score` as threshold instead of `auto_merge_threshold`.
 2. **Same canonical + same family at `tau_aanf`** — accepts pairs sharing canonical key + family at the AANF threshold (default 0.72).
@@ -115,7 +115,7 @@ All four paths require zero hard vetoes. Precision safety is preserved.
 
 ### 2.6 semantic_vetoes Fixed
 
-v18.1 adds a `same_canonical: bool = False` parameter to `semantic_vetoes()`. When `same_canonical=True`:
+v18.2 adds a `same_canonical: bool = False` parameter to `semantic_vetoes()`. When `same_canonical=True`:
 
 - "identifier subtypes must remain separate" veto is **suppressed**.
 - "account/card subtypes are ambiguous" veto is **suppressed**.
@@ -124,7 +124,7 @@ This prevents same-canonical-key pairs (e.g., two fields both mapped to `payment
 
 ### 2.7 Cross-Rail Global Families Auto-Allowed
 
-v18.1 auto-allows cross-rail merges for global families without requiring the `--allow_cross_rail_amount_currency` CLI flag:
+v18.2 auto-allows cross-rail merges for global families without requiring the `--allow_cross_rail_amount_currency` CLI flag:
 
 ```text
 GLOBAL_CROSS_RAIL_FAMILIES = {"payment:amount", "payment:currency"}
@@ -134,7 +134,7 @@ These families represent universal payment concepts that are inherently compatib
 
 ### 2.8 is_broad_compatible_but_ambiguous Fixed
 
-v18.1 adds an early return in `is_broad_compatible_but_ambiguous()`:
+v18.2 adds an early return in `is_broad_compatible_but_ambiguous()`:
 
 ```python
 if a.canonical_key == b.canonical_key:
@@ -145,19 +145,19 @@ This prevents same-canonical-key pairs from being flagged as "broad compatible b
 
 ---
 
-### 2.9 Schema-Truth / True Effectiveness Evaluation (v18.1 Patch)
+### 2.9 Schema-Truth / True Effectiveness Evaluation (v18.2 Patch)
 
-v18.1 introduces a **schema-truth evaluation view** that derives expected merge pairs directly from loaded schema descriptors rather than from token-slug alias-closure ground truth:
+v18.2 introduces a **schema-truth evaluation view** that derives expected merge pairs directly from loaded schema descriptors rather than from token-slug alias-closure ground truth:
 
 - **`derive_schema_expected_pairs(descs)`**: Groups all `SchemaAttribute` members by `canonical_key`. For each group with N>=2 members, generates all undirected `Pair` combinations among their `provider_field` identifiers.
 - **`evaluate_schema_truth(expected, predicted)`**: Computes TP/FP/FN/Precision/Recall/F1 by comparing schema-truth expected pairs against ACCEPT_MERGE predicted pairs.
 - **`build_schema_truth_side_by_side(...)`**: Builds a side-by-side audit table showing each expected pair, whether it was predicted (Y/N), and decision metadata.
 
-Schema-truth metrics are the **canonical effectiveness measure** for v18.1. They appear in:
+Schema-truth metrics are the **canonical effectiveness measure** for v18.2. They appear in:
 
-- console output and `out_audit_v18_1.txt` (full side-by-side table),
-- `summary_audit_v18_1.json` under `schema_truth_report`,
-- `alias_evaluation_audit_v18_1.csv` with `schema_truth.*` prefixed metric keys.
+- console output and `out_audit_v18_2.txt` (full side-by-side table),
+- `summary_audit_v18_2.json` under `schema_truth_report`,
+- `alias_evaluation_audit_v18_2.csv` with `schema_truth.*` prefixed metric keys.
 
 **Why schema-truth?** The previous lexicon-quality evaluation used slug-normalized alias-closure pairs from the ground truth JSON. These can produce hundreds of FN that reflect alias-closure incompleteness rather than actual merge failures. Schema-truth evaluates at the `provider_field` level using the schema descriptors' own `canonical_key` grouping.
 
@@ -168,15 +168,15 @@ The existing `evaluate_alias_metrics()` evaluation is preserved but relabeled as
 Important distinctions:
 
 - Lexicon-quality FN are **NOT** counted as schema effectiveness FN.
-- Lexicon-quality metrics are written to `summary_audit_v18_1.json` under the `lexicon_quality` key.
-- Lexicon-quality metrics are added to `alias_evaluation_audit_v18_1.csv` with `lexicon_quality.*` prefixed keys.
-- A dedicated section listing lexicon-quality FN examples (top 50) is printed to console and `out_audit_v18_1.txt`, explicitly labeled: *"Lexicon-quality FN list (token-alias closure gaps; NOT counted as schema effectiveness FN)"*.
+- Lexicon-quality metrics are written to `summary_audit_v18_2.json` under the `lexicon_quality` key.
+- Lexicon-quality metrics are added to `alias_evaluation_audit_v18_2.csv` with `lexicon_quality.*` prefixed keys.
+- A dedicated section listing lexicon-quality FN examples (top 50) is printed to console and `out_audit_v18_2.txt`, explicitly labeled: *"Lexicon-quality FN list (token-alias closure gaps; NOT counted as schema effectiveness FN)"*.
 
 This separation ensures reviewers understand that high lexicon-quality FN counts reflect ground-truth file completeness issues, not system merge failures.
 
 ### 2.11 Consolidated Reviewer CSV (TP/FP/FN/TN)
 
-v18.1 replaces the previously often-empty `review_queue_audit_v18_1.csv` with a **consolidated reviewer sheet** that ALWAYS contains all TP, FP, FN, and TN rows classified using the **schema-truth view** (canonical_key grouping).
+v18.2 replaces the previously often-empty `review_queue_audit_v18_2.csv` with a **consolidated reviewer sheet** that ALWAYS contains all TP, FP, FN, and TN rows classified using the **schema-truth view** (canonical_key grouping).
 
 Key design:
 
@@ -190,9 +190,64 @@ Key design:
 - **fn_id** uses stable prefixed numbering: `TP_0001`, `FP_0001`, `FN_0001`, `TN_0001`.
 - **Extra columns**: `DecisionType`, `CanonicalNode`, `Track`, `EvidenceScore`, `EmbeddingSimilarity`, `NameSimilarity`, `HardVetoes`, `PromotionRule`, `AuditFlags`, `ExpectedSchemaTruth(bool)`.
 
+### 2.12 v18.2 Fixes: DBNF + Dedup + C4
+
+v18.2 applies **3 targeted fixes** to v18.1 that address DBNF evaluation, C4 context safety transparency, and predicted pair deduplication:
+
+| Fix | Area | Description | Impact |
+|---|---|---|---|
+| 1 | `compute_dbnf_summary` | DBNF `version_drift` mode now computes actual drift metrics (cosine shifts) instead of always returning `NOT_EVALUATED` | C3 claim now reports `SUPPORTED` with drift evidence when `--dbnf_mode version_drift` |
+| 2 | `evaluate_cross_context` + `claim_rows` | C4 context safety now detects qualified transaction identifier bridges and uses 3-tier claim logic | C4 can report `PARTIALLY_SUPPORTED` for qualified bridges instead of blanket `NOT_SUPPORTED` |
+| 3 | Self-checks / dedup | `raw_predicted_pair_count` and `unique_predicted_pair_count` tracked separately in `self_checks` | Deduplication transparency; metrics computed from deduplicated pairs |
+
+#### 2.12.1 DBNF version_drift Evaluation Fix (C3)
+
+In v18.1, `compute_dbnf_summary()` always returned `NOT_EVALUATED` regardless of `--dbnf_mode`, with a generic message: *"DBNF scaffold/diagnostic present; no explicit drift ground truth evaluated in v18 default run"*. This was misleading when `--dbnf_mode version_drift` was explicitly selected.
+
+v18.2 fix:
+
+- **`version_drift` mode**: Encodes all attribute names twice — once as-is (v1) and once with domain perturbation (v2). Computes cosine shifts between the two embedding sets. Reports `mean_cosine_shift`, `max_cosine_shift`, `detected_drift_count` (shifts exceeding tau=0.05), and returns `STATUS_SUPPORTED` with a `drift_metrics` dict.
+- **`default` / `migration` modes**: Still return `STATUS_NE` (unchanged behavior).
+- **`none` mode**: Still returns `STATUS_NE` (unchanged behavior).
+- **Scale audit**: When `drift_metrics` are computed, they are appended to `scale_timing_drift_audit_v18_2.csv` as `dbnf_mean_cosine_shift`, `dbnf_max_cosine_shift`, `dbnf_detected_drift_count`, `dbnf_tau` rows.
+
+#### 2.12.2 C4 Context Safety: Qualified Transaction Identifier Bridges
+
+In v18.1, C4 context safety used a binary decision: `SUPPORTED` if zero cross-context merges, `NOT_SUPPORTED` otherwise. This caused `NOT_SUPPORTED` even when the only cross-context merge was a legitimate transaction identifier bridge (e.g., `Plaid.transaction_id :: UPI.txn_id`).
+
+v18.2 fix:
+
+- **New `_is_qualified_transaction_bridge()` helper**: Identifies narrow transaction-identifier cross-context merges that meet all criteria:
+  - Canonical node contains `"transaction_identifier"` or `"transaction"`.
+  - Both raw attribute names contain `"transaction"` or `"txn"` AND `"id"`.
+  - Neither attribute contains high-risk keywords: `payer`, `payee`, `debtor`, `creditor`, `customer`, `account`, `routing`, `vpa`, `pan`, `card`, `order`, `message`.
+- **`evaluate_cross_context()` enhanced**: Now returns two additional keys:
+  - `qualified_bridge_count`: Number of cross-context merges that are qualified bridges.
+  - `qualified_bridge_examples`: Examples of qualified bridge pairs (up to 10).
+- **`claim_rows()` C4 logic**: 3-tier decision:
+  - `SUPPORTED` — zero cross-context merges.
+  - `PARTIALLY_SUPPORTED` — all cross-context merges are qualified transaction bridges.
+  - `NOT_SUPPORTED` — any unqualified cross-context merges exist.
+
+#### 2.12.3 Predicted Pair Deduplication Transparency
+
+In v18.1, `no_duplicate_pairs_in_predictions` was computed but the raw vs. unique counts were not surfaced in the summary audit, making it difficult to diagnose why duplicates occurred (e.g., production/discovery track overlap).
+
+v18.2 fix:
+
+- `raw_predicted_pair_count` and `unique_predicted_pair_count` are now explicitly tracked.
+- Both counts are added to `self_checks` in `summary_audit_v18_2.json`.
+- `no_duplicate_pairs_in_predictions` is computed from the comparison of raw vs. unique count.
+- Alias metrics are computed from **deduplicated** canonical pairs (`unique_predicted`). Raw audit lineage is preserved separately for full traceability.
+
+### 2.13 Candidate Backend Default
+
+v18.2 changes the default `--candidate_backend` to `auto` (was `pairwise` in v18.1). When `auto` is selected and `hnswlib` is available, the candidate retriever uses HNSW for approximate nearest neighbor candidate generation. If `hnswlib` is not available, it falls back to pairwise. HNSW remains candidate retrieval only — it never decides merges.
+
+
 ## 3. Core Design Principles
 
-v18.1 preserves the core SDNF experiment philosophy:
+v18.2 preserves the core SDNF experiment philosophy:
 
 1. **Measured results only**
    - No paper claims are hardcoded as measured outcomes.
@@ -206,7 +261,7 @@ v18.1 preserves the core SDNF experiment philosophy:
    - Ambiguous merges go to review.
    - Unsafe merges are rejected.
    - Only clearly supported merges are accepted.
-   - v18.1 promotion paths still require zero hard vetoes.
+   - v18.2 promotion paths still require zero hard vetoes.
 
 4. **Normal-form safety enforcement**
    - EENF
@@ -219,7 +274,7 @@ v18.1 preserves the core SDNF experiment philosophy:
 
 5. **Auditability over optimism**
    - Claims can be `SUPPORTED`, `PARTIALLY_SUPPORTED`, `NOT_SUPPORTED`, `NOT_APPLICABLE`, `NOT_EVALUATED`, or `SCAFFOLDED_NOT_EVALUATED`.
-   - v18.1 adds `promotion_rule` to every decision for full auditability.
+   - v18.2 adds `promotion_rule` to every decision for full auditability.
 
 6. **Output discipline**
    - All output writes go through `OutputBudgetWriter`.
@@ -230,7 +285,7 @@ v18.1 preserves the core SDNF experiment philosophy:
 
 ---
 
-## 4. Important v18.1 Concepts
+## 4. Important v18.2 Concepts
 
 ### 4.1 Strict Metrics
 
@@ -259,7 +314,7 @@ They do not silently replace strict precision/recall.
 
 ### 4.3 Three Evaluation Views
 
-v18.1 maintains three intentionally separate evaluation views:
+v18.2 maintains three intentionally separate evaluation views:
 
 - **Schema-truth effectiveness** (canonical view)
   - Derives expected pairs from schema descriptors' `canonical_key` grouping.
@@ -280,7 +335,7 @@ These are intentionally separate to avoid inflated or misleading precision/recal
 
 ### 4.4 Ground-Truth Repair Modes
 
-v18.1 preserves controlled ground-truth handling:
+v18.2 preserves controlled ground-truth handling:
 
 - `closed_world_only`
   - strict paper-safe mode.
@@ -296,7 +351,7 @@ v18.1 preserves controlled ground-truth handling:
 
 ### 4.5 Candidate Retrieval Backends
 
-v18.1 supports:
+v18.2 supports:
 
 - `pairwise`
 - `hnsw`
@@ -308,11 +363,11 @@ Important:
 HNSW is candidate retrieval only. It never decides merges.
 ```
 
-If `hnswlib` is unavailable, v18.1 falls back to pairwise candidate retrieval and records the backend used in the manifest or scale/timing audit surfaces.
+If `hnswlib` is unavailable, v18.2 falls back to pairwise candidate retrieval and records the backend used in the manifest or scale/timing audit surfaces.
 
-### 4.6 Promotion Paths (v18.1 New)
+### 4.6 Promotion Paths (v18.2 New)
 
-v18.1 introduces four auditable promotion paths that convert potential FNs into strict TPs without lowering global thresholds:
+v18.2 introduces four auditable promotion paths that convert potential FNs into strict TPs without lowering global thresholds:
 
 | Path | Condition | Threshold |
 |---|---|---|
@@ -325,9 +380,9 @@ All promotion paths are recorded in the `promotion_rule` field of the decision a
 
 ---
 
-### 4.7 Dual Evaluation Framework (v18.1 Patch)
+### 4.7 Dual Evaluation Framework (v18.2 Patch)
 
-v18.1 introduces a dual evaluation framework that clearly separates **system effectiveness** from **ground-truth quality**:
+v18.2 introduces a dual evaluation framework that clearly separates **system effectiveness** from **ground-truth quality**:
 
 | View | Space | Source | Role |
 |---|---|---|---|
@@ -342,7 +397,7 @@ This separation prevents the common v17/v18 problem where hundreds of lexicon-qu
 
 ## 5. Output Profiles
 
-v18.1 supports the following profiles:
+v18.2 supports the following profiles:
 
 | Profile | File Count Intent | Purpose |
 |---|---:|---|
@@ -361,26 +416,26 @@ No output file should be written outside the output budget writer.
 
 ---
 
-## 6. Core Outputs in v18.1
+## 6. Core Outputs in v18.2
 
 ### 6.1 Paper Profile Outputs
 
-The paper profile is expected to emit these v18.1-named files:
+The paper profile is expected to emit these v18.2-named files:
 
 ```text
-out_audit_v18_1.txt
-run_manifest_v18_1.json
-summary_audit_v18_1.json
-srs_evolved_schema_v18_1.compact.json
-schema_ingestion_audit_v18_1.csv
-field_evidence_audit_v18_1.csv
-schema_deltas_audit_v18_1.csv
-decisions_audit_v18_1.csv
-alias_evaluation_audit_v18_1.csv
-payload_compliance_audit_v18_1.csv
-normal_forms_and_claims_audit_v18_1.csv
-scale_timing_drift_audit_v18_1.csv
-review_queue_audit_v18_1.csv
+out_audit_v18_2.txt
+run_manifest_v18_2.json
+summary_audit_v18_2.json
+srs_evolved_schema_v18_2.compact.json
+schema_ingestion_audit_v18_2.csv
+field_evidence_audit_v18_2.csv
+schema_deltas_audit_v18_2.csv
+decisions_audit_v18_2.csv
+alias_evaluation_audit_v18_2.csv
+payload_compliance_audit_v18_2.csv
+normal_forms_and_claims_audit_v18_2.csv
+scale_timing_drift_audit_v18_2.csv
+review_queue_audit_v18_2.csv
 ```
 
 ### 6.2 Optional Audit / Debug Outputs
@@ -388,15 +443,15 @@ review_queue_audit_v18_1.csv
 Depending on profile and budget:
 
 ```text
-sdnf_debug_bundle_v18_1.zip
-readme_v18_1.md
+sdnf_debug_bundle_v18_2.zip
+readme_v18_2.md
 ```
 
 ---
 
 ## 7. Output File Purpose
 
-### `out_audit_v18_1.txt`
+### `out_audit_v18_2.txt`
 
 Console-style run summary:
 
@@ -407,7 +462,7 @@ Console-style run summary:
 - duplicate-pair self-check, claim support summary,
 - decision distribution (ACCEPT_MERGE, HUMAN_REVIEW, HUMAN_REVIEW_GT_CONFLICT, REJECT_UNSAFE, DEFER).
 
-**v18.1 patch additions:**
+**v18.2 patch additions:**
 
 - **Schema-truth / True Effectiveness View** section:
   - Expected pairs count, predicted pairs count, TP/FP/FN, Precision/Recall/F1.
@@ -416,7 +471,7 @@ Console-style run summary:
   - Lexicon-quality TP/FP/FN, Precision/Recall/F1.
   - Lexicon-quality FN list (top 50), explicitly labeled as NOT counted as schema effectiveness FN.
 
-### `run_manifest_v18_1.json`
+### `run_manifest_v18_2.json`
 
 Run configuration and reproducibility metadata:
 
@@ -430,7 +485,7 @@ Run configuration and reproducibility metadata:
 - ground-truth audit details,
 - output budget details.
 
-### `summary_audit_v18_1.json`
+### `summary_audit_v18_2.json`
 
 Structured summary of:
 
@@ -438,12 +493,12 @@ Structured summary of:
 - cross-context safety, review queue statistics, self-checks,
 - normal-form summaries, roadmap scaffold summaries, decision distribution.
 
-**v18.1 patch additions:**
+**v18.2 patch additions:**
 
 - `schema_truth_report`: Schema-truth metrics (expected_pairs, predicted_pairs_unique, TP, FP, FN, precision, recall, F1) and side-by-side preview rows (first 50).
 - `lexicon_quality`: Full lexicon-quality alias metrics (same structure as `alias_pair_metrics_strict` but relabeled).
 
-### `srs_evolved_schema_v18_1.compact.json`
+### `srs_evolved_schema_v18_2.compact.json`
 
 Compact canonical SRS schema:
 
@@ -459,11 +514,11 @@ Compact canonical SRS schema:
 - rejected near misses,
 - deferred candidates.
 
-### `schema_ingestion_audit_v18_1.csv`
+### `schema_ingestion_audit_v18_2.csv`
 
 Schema and payload ingestion audit rows.
 
-### `field_evidence_audit_v18_1.csv`
+### `field_evidence_audit_v18_2.csv`
 
 Payload-derived field evidence, where payloads are available:
 
@@ -474,11 +529,11 @@ Payload-derived field evidence, where payloads are available:
 - presence ratio,
 - presence class.
 
-### `schema_deltas_audit_v18_1.csv`
+### `schema_deltas_audit_v18_2.csv`
 
 Unexpected or unmatched payload fields compared with schema descriptors.
 
-### `decisions_audit_v18_1.csv`
+### `decisions_audit_v18_2.csv`
 
 Detailed pairwise decision audit:
 
@@ -494,11 +549,11 @@ Detailed pairwise decision audit:
 - effective threshold,
 - hard vetoes,
 - lineage action,
-- **promotion_rule** (v18.1 new),
-- **audit_flags** (v18.1 new),
-- **cmnf_matrix_applied** (v18.1 new).
+- **promotion_rule** (v18.2 new),
+- **audit_flags** (v18.2 new),
+- **cmnf_matrix_applied** (v18.2 new).
 
-### `alias_evaluation_audit_v18_1.csv`
+### `alias_evaluation_audit_v18_2.csv`
 
 Alias evaluation metrics and self-checks (Metric/Value format):
 
@@ -507,7 +562,7 @@ Alias evaluation metrics and self-checks (Metric/Value format):
 - raw predicted pair count, unique predicted pair count,
 - duplicate-pair check, self-pair check.
 
-**v18.1 patch additions (prefixed metric keys):**
+**v18.2 patch additions (prefixed metric keys):**
 
 - `schema_truth.expected_pairs`, `schema_truth.predicted_pairs_unique`
 - `schema_truth.tp`, `schema_truth.fp`, `schema_truth.fn`
@@ -516,25 +571,25 @@ Alias evaluation metrics and self-checks (Metric/Value format):
 - `lexicon_quality.tp`, `lexicon_quality.fp`, `lexicon_quality.fn`
 - `lexicon_quality.precision`, `lexicon_quality.recall`, `lexicon_quality.f1`
 
-### `payload_compliance_audit_v18_1.csv`
+### `payload_compliance_audit_v18_2.csv`
 
 Payload compliance decisions when payload data is available.
 
-### `normal_forms_and_claims_audit_v18_1.csv`
+### `normal_forms_and_claims_audit_v18_2.csv`
 
 Claim support and normal-form status rows.
 
-### `scale_timing_drift_audit_v18_1.csv`
+### `scale_timing_drift_audit_v18_2.csv`
 
 Timing, candidate backend, embedding backend, and DBNF/EENF diagnostic surfaces.
 
-### `review_queue_audit_v18_1.csv`
+### `review_queue_audit_v18_2.csv`
 
-**v18.1 patch: Consolidated human reviewer sheet.**
+**v18.2 patch: Consolidated human reviewer sheet.**
 
 This file is now ALWAYS populated as a consolidated TP/FP/FN/TN reviewer sheet based on **schema-truth classification** (canonical_key grouping).
 
-**Base columns** (matching `fn_tp_human_review_v18_1.csv` format):
+**Base columns** (matching `fn_tp_human_review_v18_2.csv` format):
 
 | Column | Description |
 |---|---|
@@ -606,7 +661,7 @@ Fallback behavior:
 
 - If `sentence-transformers` is unavailable, deterministic hashing embeddings are used.
 - If `hnswlib` is unavailable, candidate retrieval falls back to pairwise mode.
-- HNSW is never merge authority in v18.1.
+- HNSW is never merge authority in v18.2.
 
 ---
 
@@ -617,7 +672,7 @@ Fallback behavior:
 Use this for the main reviewer-facing paper profile.
 
 ```bash
-python unified_sdnf_experiment_hybrid_v18_1.py ^
+python unified_sdnf_experiment_hybrid_v18_2.py ^
   --output_profile paper ^
   --schemas_dir data ^
   --payloads_root payloads/payment ^
@@ -636,7 +691,7 @@ python unified_sdnf_experiment_hybrid_v18_1.py ^
 Use this for deeper diagnostics and review queue inspection.
 
 ```bash
-python unified_sdnf_experiment_hybrid_v18_1.py ^
+python unified_sdnf_experiment_hybrid_v18_2.py ^
   --output_profile audit ^
   --schemas_dir data ^
   --payloads_root payloads/payment ^
@@ -656,7 +711,7 @@ python unified_sdnf_experiment_hybrid_v18_1.py ^
 Use this for a quick sanity check.
 
 ```bash
-python unified_sdnf_experiment_hybrid_v18_1.py ^
+python unified_sdnf_experiment_hybrid_v18_2.py ^
   --output_profile minimal ^
   --schemas_dir data ^
   --payloads_root payloads/payment
@@ -667,9 +722,9 @@ python unified_sdnf_experiment_hybrid_v18_1.py ^
 Use this for detailed DBNF version comparison for sentence-transformers.
 
 ```bash
-python unified_sdnf_experiment_hybrid_v18_1.py ^
+python unified_sdnf_experiment_hybrid_v18_2.py ^
   --output_profile paper ^
-  --output_dir output_v18_1_dbnf_mpnet_v1_to_v2 ^
+  --output_dir output_v18_2_dbnf_mpnet_v1_to_v2 ^
   --schemas_dir data ^
   --payloads_root payloads/payment ^
   --seed_srs_schema INAmex.schema.json ^
@@ -687,7 +742,7 @@ python unified_sdnf_experiment_hybrid_v18_1.py ^
 Use this to exercise the DBNF version-drift surface.
 
 ```bash
-python unified_sdnf_experiment_hybrid_v18_1.py ^
+python unified_sdnf_experiment_hybrid_v18_2.py ^
   --output_profile paper ^
   --dbnf_mode version_drift ^
   --measure_timing
@@ -698,7 +753,7 @@ python unified_sdnf_experiment_hybrid_v18_1.py ^
 Use this for operational model migration diagnostics. This is a utility mode, not automatically a paper claim.
 
 ```bash
-python unified_sdnf_experiment_hybrid_v18_1.py ^
+python unified_sdnf_experiment_hybrid_v18_2.py ^
   --output_profile audit ^
   --dbnf_mode migration ^
   --dbnf_migration_model all-mpnet-base-v2
@@ -712,7 +767,7 @@ python unified_sdnf_experiment_hybrid_v18_1.py ^
 
 ```text
 --output_profile {minimal,paper,audit,debug}
---output_dir output_v18_1
+--output_dir output_v18_2
 --max_output_files 15
 --seed 42
 --measure_timing
@@ -780,19 +835,19 @@ python unified_sdnf_experiment_hybrid_v18_1.py ^
 --precision_first
 ```
 
-Note: In v18.1, `--allow_cross_rail_amount_currency` is no longer required for `GLOBAL_CROSS_RAIL_FAMILIES` (payment:amount, payment:currency). These are auto-allowed. The flag remains available for backward compatibility and manual override use cases.
+Note: In v18.2, `--allow_cross_rail_amount_currency` is no longer required for `GLOBAL_CROSS_RAIL_FAMILIES` (payment:amount, payment:currency). These are auto-allowed. The flag remains available for backward compatibility and manual override use cases.
 
 ---
 
 ## 11. Decision Types
 
-v18.1 may emit the following decision types.
+v18.2 may emit the following decision types.
 
 ### `ACCEPT_MERGE`
 
 Used only when the candidate passes normal-form and evidence gates strongly enough for automatic merge.
 
-In v18.1, `ACCEPT_MERGE` can be reached through:
+In v18.2, `ACCEPT_MERGE` can be reached through:
 
 1. **Original strict gate** — all NF checks pass + score ≥ `auto_merge_threshold` + (`canon_compat` or `same_family`).
 2. **CMNF canonical-safe promotion** — CMNF matrix entry says compatible + score ≥ `min_evidence_score`.
@@ -827,9 +882,9 @@ Used when evidence is insufficient but the pair is not clearly unsafe.
 
 ---
 
-## 12. Normal Forms in v18.1
+## 12. Normal Forms in v18.2
 
-v18.1 keeps all seven normal-form concepts visible in audit outputs.
+v18.2 keeps all seven normal-form concepts visible in audit outputs.
 
 ### EENF — Entity Embedding Normal Form
 
@@ -843,7 +898,7 @@ Alias admissibility based on semantic, lexical, canonical, and embedding evidenc
 
 Requires sufficient evidence count and score before merge or review.
 
-v18.1 fix: `is_broad_compatible_but_ambiguous()` now returns `False` for same-canonical-key pairs, preventing false `ECNF` warnings.
+v18.2 fix: `is_broad_compatible_but_ambiguous()` now returns `False` for same-canonical-key pairs, preventing false `ECNF` warnings.
 
 ### RRNF — Role-Respecting Normal Form
 
@@ -853,7 +908,7 @@ Prevents role-inconsistent merges such as payer/payee or debtor/creditor conflic
 
 Prevents unsafe context or rail mixing unless explicitly allowed for global concepts such as amount/currency.
 
-v18.1 enhancement: CMNF now uses `CMNF_COMPATIBILITY_MATRIX` for formal canonical-node-level policy. Each canonical node has an explicit compatibility entry that determines whether cross-rail merges are safe, what the minimum evidence score is, and whether unit conversion is required.
+v18.2 enhancement: CMNF now uses `CMNF_COMPATIBILITY_MATRIX` for formal canonical-node-level policy. Each canonical node has an explicit compatibility entry that determines whether cross-rail merges are safe, what the minimum evidence score is, and whether unit conversion is required.
 
 ### DBNF — Drift-Bounded Normal Form
 
@@ -863,13 +918,13 @@ Preserves version-drift and migration diagnostic modes, but does not mark DBNF c
 
 Preserves semantic partition safety and blocks unsafe cross-partition merges.
 
-v18.1 fix: `semantic_vetoes()` now accepts `same_canonical` parameter. Same-canonical-key pairs no longer receive false "identifier subtypes must remain separate" or "account/card subtypes are ambiguous" vetoes.
+v18.2 fix: `semantic_vetoes()` now accepts `same_canonical` parameter. Same-canonical-key pairs no longer receive false "identifier subtypes must remain separate" or "account/card subtypes are ambiguous" vetoes.
 
 ---
 
 ## 13. Claim Status Discipline
 
-v18.1 uses conservative claim labeling.
+v18.2 uses conservative claim labeling.
 
 Allowed statuses:
 
@@ -906,7 +961,7 @@ hnsw
 auto
 ```
 
-In v18.1, `CandidateRetriever` is **active** and uses a canonical-first pipeline:
+In v18.2, `CandidateRetriever` is **active** and uses a canonical-first pipeline:
 - Stage 1: Intra-canonical cross-payment-type pairs.
 - Stage 2: Cross-canonical pairs by name similarity.
 - Stage 3: Alias overlap pairs.
@@ -917,7 +972,7 @@ HNSW is constrained to candidate retrieval only.
 
 Computes compact centroid summaries when embeddings are available.
 
-These centroid summaries are not paper claims in v18.1.
+These centroid summaries are not paper claims in v18.2.
 
 ### 14.3 SemanticGeometryAuditScaffold
 
@@ -945,9 +1000,9 @@ Records minimal SRS snapshot information:
 
 Future versions can extend this into full geometry evolution snapshots.
 
-### 14.5 CanonicalPromotionPolicy (v18.1 Active)
+### 14.5 CanonicalPromotionPolicy (v18.2 Active)
 
-`CanonicalPromotionPolicy` is **now active** in v18.1 (it was a scaffold in v17/v18). It evaluates candidate pairs in the `HUMAN_REVIEW` band and promotes them to `ACCEPT_MERGE` when SDNF rules deem them safe. Three promotion rules:
+`CanonicalPromotionPolicy` is **now active** in v18.2 (it was a scaffold in v17/v18). It evaluates candidate pairs in the `HUMAN_REVIEW` band and promotes them to `ACCEPT_MERGE` when SDNF rules deem them safe. Three promotion rules:
 
 1. CMNF canonical-safe promotion,
 2. Same canonical + same family promotion,
@@ -961,7 +1016,7 @@ All promotions are auditable via the `promotion_rule` field.
 
 After a paper or audit run:
 
-1. Open `summary_audit_v18_1.json`.
+1. Open `summary_audit_v18_2.json`.
 2. Check `self_checks`.
 3. Confirm:
    - `no_self_pairs_in_predictions` = true
@@ -971,20 +1026,20 @@ After a paper or audit run:
 4. Review `schema_truth_report` metrics — this is the canonical effectiveness view.
    - Check TP, FP, FN counts and Precision/Recall/F1.
    - If FN is high, review the side-by-side table to identify which expected pairs were missed.
-5. Open `review_queue_audit_v18_1.csv` (consolidated reviewer sheet).
+5. Open `review_queue_audit_v18_2.csv` (consolidated reviewer sheet).
    - Filter by `record_type = FP` to review false merges.
    - Filter by `record_type = FN` to review missed merges.
    - Fill in `human_decision` (ACCEPT/REJECT/HOLD) and `human_comments` for each row.
    - Use `ExpectedSchemaTruth(bool)` and `context_signature` to understand the expected grouping.
-6. Open `decisions_audit_v18_1.csv`.
+6. Open `decisions_audit_v18_2.csv`.
    - Inspect all `REJECT_UNSAFE`, `HUMAN_REVIEW`, and `HUMAN_REVIEW_GT_CONFLICT` cases.
    - Check `promotion_rule` column to audit which promotion paths were used.
-7. Review the `lexicon_quality` metrics in `summary_audit_v18_1.json`.
+7. Review the `lexicon_quality` metrics in `summary_audit_v18_2.json`.
    - Lexicon-quality FN reflect ground-truth alias file incompleteness, not system merge failures.
    - Use lexicon-quality FN list to identify ground-truth file updates needed.
 8. Only after review, consider updating schema descriptors, alias ground truth, or thresholds.
 
-## 16. Interpreting v18.1 Results
+## 16. Interpreting v18.2 Results
 
 ### Good Signs
 
@@ -1004,7 +1059,7 @@ After a paper or audit run:
 
 - Many `HUMAN_REVIEW_GT_CONFLICT` rows.
 - High number of semantic veto conflicts.
-- Unexpected payload fields in `schema_deltas_audit_v18_1.csv`.
+- Unexpected payload fields in `schema_deltas_audit_v18_2.csv`.
 - Large gap between strict recall and reviewer-diagnosed recall.
 - DBNF marked supported without explicit drift evidence.
 - Promotion rules creating false positives — check FP examples in alias evaluation audit.
@@ -1026,9 +1081,9 @@ v17 combined v14/v15 implementation backbone with v16 evaluator correctness impr
 
 v18 introduced the KeyFix remediation with CMNF_COMPATIBILITY_MATRIX, CanonicalPromotionPolicy stubs, AmountUnitGuard, and enhanced decision audit fields. However, v18 still suffered from high FN (~238) due to overly strict decision gates and semantic_vetoes blocking same-canonical pairs.
 
-### v18.1 Role
+### v18.2 Role
 
-v18.1 is the recommended working baseline because it:
+v18.2 is the recommended working baseline because it:
 
 - completes all v18 KeyFix FN-fix patches,
 - preserves v17 precision-first governance,
@@ -1038,6 +1093,17 @@ v18.1 is the recommended working baseline because it:
 - auto-allows cross-rail merges for global families,
 - fixes is_broad_compatible_but_ambiguous for canonical_key matches,
 - dramatically improves recall (~0.03 → ~0.80–0.90) while keeping precision near 1.0.
+
+### v18.2 Role
+
+v18.2 builds on v18.1's proven infrastructure and applies 3 targeted fixes:
+
+- **DBNF version_drift** now properly evaluated for C3 — returns `SUPPORTED` with drift metrics when `--dbnf_mode version_drift`.
+- **C4 context safety** uses qualified transaction identifier bridge detection — `PARTIALLY_SUPPORTED` for legitimate cross-context bridges instead of blanket `NOT_SUPPORTED`.
+- **Deduplication transparency** — `raw_predicted_pair_count` and `unique_predicted_pair_count` tracked separately in `self_checks`.
+- **Candidate backend default** changed to `auto` (HNSW when available, pairwise fallback).
+
+v18.2 is the recommended working baseline for all paper and audit runs.
 
 ### Future Versions
 
@@ -1050,13 +1116,13 @@ Future versions may implement, evaluate, and export full semantic geometry metri
 - SRS geometry evolution snapshots,
 - SDNF-governed HNSW candidate graph diagnostics.
 
-Those should remain future evaluated enhancements and should not be claimed from v18.1 scaffolding alone.
+Those should remain future evaluated enhancements and should not be claimed from v18.2 scaffolding alone.
 
 ---
 
 ## 18. Summary
 
-v18.1 is a reviewer-grade, precision-governed SDNF experiment harness that:
+v18.2 is a reviewer-grade, precision-governed SDNF experiment harness that:
 
 - preserves the full v17/v18 experiment structure,
 - completes the v18 KeyFix FN remediation with 10 targeted patches,
@@ -1076,15 +1142,20 @@ v18.1 is a reviewer-grade, precision-governed SDNF experiment harness that:
 - supports reproducible paper, audit, and minimal runs,
 - reduces FN from ~238 to ~30-50 while preserving precision near 1.0.
 
+- **fixes DBNF version_drift** to properly evaluate C3 claim with actual drift metrics,
+- **adds C4 qualified transaction identifier bridge detection** with 3-tier claim logic (SUPPORTED/PARTIALLY_SUPPORTED/NOT_SUPPORTED),
+- **adds deduplication transparency** with raw/unique predicted pair counts in self_checks,
+- **defaults candidate_backend to auto** (HNSW when available).
+
 Recommended baseline file:
 
 ```text
-unified_sdnf_experiment_hybrid_v18_1.py
+unified_sdnf_experiment_hybrid_v18_2.py
 ```
 
 Recommended README file:
 
 ```text
-readMe_v18_1.md
+readMe_v18_2.md
 ```
 

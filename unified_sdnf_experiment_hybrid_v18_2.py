@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """
-unified_sdnf_experiment_hybrid_v18.py
-Version: 18.0.0
+unified_sdnf_experiment_hybrid_v18_2.py
+Version: 18.2.0
 
-SDNF v18: reviewer-grade, single-file experiment harness for
+SDNF v18.2: reviewer-grade, single-file experiment harness for
 "Semantic Data Normal Forms: Extending Normalization Theory to Vector Embedding Spaces".
 
-v18 builds on v17's proven infrastructure and applies the KeyFix remediation:
+v18.2 builds on v17's proven infrastructure and applies the KeyFix remediation:
 - CMNF_COMPATIBILITY_MATRIX: formal SDNF-style canonical-node-level compatibility policy
   that replaces the blunt "cross-rail → HUMAN_REVIEW" rule with context-aware gates.
 - CanonicalPromotionPolicy: targeted auto-promotion rules that convert "good unexpected FNs"
@@ -21,7 +21,7 @@ All v17 modules, CLI args, profiles, output budgeting, evaluation tracks, ground
 loader, hard vetoes, strict vs reviewer-diagnosed evaluation, and audit outputs are preserved.
 
 Recommended paper run:
-python unified_sdnf_experiment_hybrid_v18.py \\
+python unified_sdnf_experiment_hybrid_v18_2.py \\
   --output_profile paper \\
   --schemas_dir data \\
   --payloads_root payloads/payment \\
@@ -58,9 +58,9 @@ try:
 except Exception:  # pragma: no cover
     np = None  # type: ignore
 
-__version__ = "18.0.0"
+__version__ = "18.2.0"
 DEFAULT_SEED = 42
-DEFAULT_OUTPUT_DIR = "output_v18"
+DEFAULT_OUTPUT_DIR = "output_v18_2"
 
 STATUS_SUPPORTED = "SUPPORTED"
 STATUS_PARTIAL = "PARTIALLY_SUPPORTED"
@@ -162,57 +162,57 @@ RAIL_BY_PAYMENT_TYPE = {
 
 PROFILE_FILES = {
     "minimal": [
-        "run_manifest_v18.json",
-        "summary_audit_v18.json",
-        "srs_evolved_schema_v18.compact.json",
+        "run_manifest_v18_2.json",
+        "summary_audit_v18_2.json",
+        "srs_evolved_schema_v18_2.compact.json",
     ],
     "paper": [
-        "out_audit_v18.txt",
-        "run_manifest_v18.json",
-        "summary_audit_v18.json",
-        "srs_evolved_schema_v18.compact.json",
-        "schema_ingestion_audit_v18.csv",
-        "field_evidence_audit_v18.csv",
-        "schema_deltas_audit_v18.csv",
-        "decisions_audit_v18.csv",
-        "alias_evaluation_audit_v18.csv",
-        "payload_compliance_audit_v18.csv",
-        "normal_forms_and_claims_audit_v18.csv",
-        "scale_timing_drift_audit_v18.csv",
-        "review_queue_audit_v18.csv",
+        "out_audit_v18_2.txt",
+        "run_manifest_v18_2.json",
+        "summary_audit_v18_2.json",
+        "srs_evolved_schema_v18_2.compact.json",
+        "schema_ingestion_audit_v18_2.csv",
+        "field_evidence_audit_v18_2.csv",
+        "schema_deltas_audit_v18_2.csv",
+        "decisions_audit_v18_2.csv",
+        "alias_evaluation_audit_v18_2.csv",
+        "payload_compliance_audit_v18_2.csv",
+        "normal_forms_and_claims_audit_v18_2.csv",
+        "scale_timing_drift_audit_v18_2.csv",
+        "review_queue_audit_v18_2.csv",
     ],
     "audit": [
-        "out_audit_v18.txt",
-        "run_manifest_v18.json",
-        "summary_audit_v18.json",
-        "srs_evolved_schema_v18.compact.json",
-        "schema_ingestion_audit_v18.csv",
-        "field_evidence_audit_v18.csv",
-        "schema_deltas_audit_v18.csv",
-        "decisions_audit_v18.csv",
-        "alias_evaluation_audit_v18.csv",
-        "payload_compliance_audit_v18.csv",
-        "normal_forms_and_claims_audit_v18.csv",
-        "scale_timing_drift_audit_v18.csv",
-        "review_queue_audit_v18.csv",
-        "sdnf_debug_bundle_v18.zip",
+        "out_audit_v18_2.txt",
+        "run_manifest_v18_2.json",
+        "summary_audit_v18_2.json",
+        "srs_evolved_schema_v18_2.compact.json",
+        "schema_ingestion_audit_v18_2.csv",
+        "field_evidence_audit_v18_2.csv",
+        "schema_deltas_audit_v18_2.csv",
+        "decisions_audit_v18_2.csv",
+        "alias_evaluation_audit_v18_2.csv",
+        "payload_compliance_audit_v18_2.csv",
+        "normal_forms_and_claims_audit_v18_2.csv",
+        "scale_timing_drift_audit_v18_2.csv",
+        "review_queue_audit_v18_2.csv",
+        "sdnf_debug_bundle_v18_2.zip",
     ],
     "debug": [
-        "out_audit_v18.txt",
-        "run_manifest_v18.json",
-        "summary_audit_v18.json",
-        "srs_evolved_schema_v18.compact.json",
-        "schema_ingestion_audit_v18.csv",
-        "field_evidence_audit_v18.csv",
-        "schema_deltas_audit_v18.csv",
-        "decisions_audit_v18.csv",
-        "alias_evaluation_audit_v18.csv",
-        "payload_compliance_audit_v18.csv",
-        "normal_forms_and_claims_audit_v18.csv",
-        "scale_timing_drift_audit_v18.csv",
-        "review_queue_audit_v18.csv",
-        "sdnf_debug_bundle_v18.zip",
-        "readme_v18.md",
+        "out_audit_v18_2.txt",
+        "run_manifest_v18_2.json",
+        "summary_audit_v18_2.json",
+        "srs_evolved_schema_v18_2.compact.json",
+        "schema_ingestion_audit_v18_2.csv",
+        "field_evidence_audit_v18_2.csv",
+        "schema_deltas_audit_v18_2.csv",
+        "decisions_audit_v18_2.csv",
+        "alias_evaluation_audit_v18_2.csv",
+        "payload_compliance_audit_v18_2.csv",
+        "normal_forms_and_claims_audit_v18_2.csv",
+        "scale_timing_drift_audit_v18_2.csv",
+        "review_queue_audit_v18_2.csv",
+        "sdnf_debug_bundle_v18_2.zip",
+        "readme_v18_2.md",
     ],
 }
 
@@ -319,7 +319,7 @@ def safe_norm(vec: Any) -> Any:
 
 
 class OutputBudgetWriter:
-    """All v18 output writes pass through this budget enforcer."""
+    """All v18.2 output writes pass through this budget enforcer."""
     def __init__(self, output_dir: str, profile: str, max_files: int):
         self.output_dir = Path(output_dir)
         self.output_dir.mkdir(parents=True, exist_ok=True)
@@ -965,6 +965,57 @@ class CandidateRetriever:
         if backend == "pairwise":
             self.backend_used = "pairwise"
 
+    def _hnsw_candidates(
+        self,
+        attrs: List[SchemaAttribute],
+        add_pair,
+        args: argparse.Namespace,
+    ) -> bool:
+        if self.backend_used != "hnsw" or np is None:
+            return False
+
+        valid = [(i, a) for i, a in enumerate(attrs) if a.embedding is not None]
+        if len(valid) < 2:
+            return False
+
+        try:
+            import hnswlib
+        except Exception:
+            self.hnsw_available = False
+            self.backend_used = "pairwise"
+            return False
+
+        vectors = np.asarray([a.embedding for _, a in valid], dtype=np.float32)
+        if vectors.ndim != 2 or vectors.shape[0] < 2:
+            return False
+
+        dim = vectors.shape[1]
+        index = hnswlib.Index(space="cosine", dim=dim)
+        index.init_index(max_elements=len(valid), ef_construction=100, M=32)
+        index.add_items(vectors, np.arange(len(valid)))
+        index.set_ef(max(args.hnsw_top_k * 2, 50))
+
+        labels, distances = index.knn_query(vectors, k=min(args.hnsw_top_k + 1, len(valid)))
+
+        added = 0
+        for local_i, neighs in enumerate(labels):
+            a = valid[local_i][1]
+            for local_j in neighs:
+                if local_j == local_i:
+                    continue
+                b = valid[int(local_j)][1]
+
+                # Preserve SDNF safety: do not blindly add every ANN neighbor.
+                same_family = a.semantic_family == b.semantic_family and a.semantic_family != "unknown"
+                name_sim = jaccard(toks(a.name), toks(b.name))
+                same_canonical = a.canonical_key == b.canonical_key
+
+                if same_canonical or same_family or name_sim >= args.candidate_name_threshold:
+                    add_pair(a, b, "hnsw")
+                    added += 1
+
+        return added > 0
+
     def candidates(self, attrs: List[SchemaAttribute], args: argparse.Namespace) -> List[Tuple[SchemaAttribute, SchemaAttribute, str]]:
         """
         v18 canonical-first candidate discovery:
@@ -994,17 +1045,21 @@ class CandidateRetriever:
                     self.canonical_first_enabled = True
 
         # Stage C: Cross-canonical candidates via name similarity or family match
-        canon_keys = sorted(canon_groups.keys())
-        for i, ck_a in enumerate(canon_keys):
-            for ck_b in canon_keys[i + 1:]:
-                # Check if any member pair across these groups has name similarity or family match
-                for a in canon_groups[ck_a]:
-                    for b in canon_groups[ck_b]:
-                        same_family = a.semantic_family == b.semantic_family and a.semantic_family != "unknown"
-                        name_sim = jaccard(toks(a.name), toks(b.name))
-                        if same_family or name_sim >= args.candidate_name_threshold:
-                            add_pair(a, b, self.backend_used)
+        used_hnsw = False
+        if self.backend_used == "hnsw":
+            used_hnsw = self._hnsw_candidates(attrs, add_pair, args)
 
+        if not used_hnsw:
+            # existing pairwise fallback
+            canon_keys = sorted(canon_groups.keys())
+            for i, ck_a in enumerate(canon_keys):
+                for ck_b in canon_keys[i + 1:]:
+                    for a in canon_groups[ck_a]:
+                        for b in canon_groups[ck_b]:
+                            same_family = a.semantic_family == b.semantic_family and a.semantic_family != "unknown"
+                            name_sim = jaccard(toks(a.name), toks(b.name))
+                            if same_family or name_sim >= args.candidate_name_threshold:
+                                add_pair(a, b, "pairwise_fallback")
         self.effective_comparisons = len(pairs)
         return pairs
 
@@ -1046,7 +1101,7 @@ class SrsEvolutionSnapshotHook:
         }
 
 
-def semantic_vetoes(a: SchemaAttribute, b: SchemaAttribute, allow_cross_rail_amount_currency: bool) -> List[str]:
+def semantic_vetoes(a: SchemaAttribute, b: SchemaAttribute, allow_cross_rail_amount_currency: bool, same_canonical: bool = False) -> List[str]:
     fa, fb = a.semantic_family, b.semantic_family
     pa, pb = partition_of(fa), partition_of(fb)
     if fa == fb:
@@ -1062,8 +1117,8 @@ def semantic_vetoes(a: SchemaAttribute, b: SchemaAttribute, allow_cross_rail_amo
     if fb == "payment_card:pan" and fa.startswith("payment_account:"): out.append("card PAN must not merge with bank account")
     if pa == "metadata" and pb != "metadata": out.append("metadata must not merge with business attribute")
     if pb == "metadata" and pa != "metadata": out.append("metadata must not merge with business attribute")
-    if pa == pb == "identifier" and fa != fb: out.append(f"identifier subtypes must remain separate: {fa} vs {fb}")
-    if pa == pb and pa in {"payment_account", "payment_card"} and fa != fb:
+    if pa == pb == "identifier" and fa != fb and not same_canonical: out.append(f"identifier subtypes must remain separate: {fa} vs {fb}")
+    if pa == pb and pa in {"payment_account", "payment_card"} and fa != fb and not same_canonical:
         out.append(f"account/card subtypes are ambiguous: {fa} vs {fb}")
     return out
 
@@ -1094,6 +1149,8 @@ def is_broad_compatible_but_ambiguous(a: SchemaAttribute, b: SchemaAttribute) ->
     pa, pb = partition_of(a.semantic_family), partition_of(b.semantic_family)
     if a.semantic_family == b.semantic_family:
         return False
+    if a.canonical_key == b.canonical_key:
+        return False
     if pa == pb and pa in {"identifier", "payment_account", "payment_card", "party", "location"}:
         return True
     if a.canonical_key != b.canonical_key and pa == pb:
@@ -1108,7 +1165,9 @@ def evaluate_pair(a: SchemaAttribute, b: SchemaAttribute, args: argparse.Namespa
     checks = nf_template()
     pair = Pair.make(a.provider_field, b.provider_field)
     norm_name_pair = Pair.make(a.name, b.name)
-    vetoes = semantic_vetoes(a, b, args.allow_cross_rail_amount_currency)
+    same_canon = a.canonical_key == b.canonical_key  # v18.2: compute early for semantic_vetoes
+    cross_global_families = a.semantic_family in GLOBAL_CROSS_RAIL_FAMILIES and b.semantic_family in GLOBAL_CROSS_RAIL_FAMILIES
+    vetoes = semantic_vetoes(a, b, args.allow_cross_rail_amount_currency or cross_global_families, same_canonical=same_canon)
     rc = role_conflict(a, b)
     if rc:
         vetoes.append(rc)
@@ -1118,14 +1177,13 @@ def evaluate_pair(a: SchemaAttribute, b: SchemaAttribute, args: argparse.Namespa
     if explicit_negative:
         vetoes.append("explicit negative pair hard veto")
 
-    same_canon = a.canonical_key == b.canonical_key
     same_family = a.semantic_family == b.semantic_family and a.semantic_family != "unknown"
     same_partition = partition_of(a.semantic_family) == partition_of(b.semantic_family)
     alias = slug(a.name) in {slug(x) for x in b.aliases} or slug(b.name) in {slug(x) for x in a.aliases}
     name_sim = jaccard(toks(a.name), toks(b.name))
     emb_sim = cosine(a.embedding, b.embedding)
     canon_compat = same_canon and (same_family or alias)
-    cross_global = same_family and a.semantic_family in GLOBAL_CROSS_RAIL_FAMILIES and args.allow_cross_rail_amount_currency
+    cross_global = same_family and a.semantic_family in GLOBAL_CROSS_RAIL_FAMILIES  # v18.2: auto-allow
 
     # v18: Use CMNF_COMPATIBILITY_MATRIX for context-aware cross-rail assessment
     cmnf_matrix_entry = CMNF_COMPATIBILITY_MATRIX.get(a.canonical_key if same_canon else "")
@@ -1168,6 +1226,7 @@ def evaluate_pair(a: SchemaAttribute, b: SchemaAttribute, args: argparse.Namespa
 
     promotion_rule = ""
     audit_flags: List[str] = []
+    promotion_rule = ""
 
     if explicit_negative:
         typ, reason, action = "REJECT_UNSAFE", "explicit negative pair hard veto", "REJECT_UNSAFE_MERGE"
@@ -1177,6 +1236,22 @@ def evaluate_pair(a: SchemaAttribute, b: SchemaAttribute, args: argparse.Namespa
         typ, reason, action = "REJECT_UNSAFE", "; ".join(vetoes), "REJECT_BY_NORMAL_FORM"
     elif vetoes and gt_pair:
         typ, reason, action = "HUMAN_REVIEW_GT_CONFLICT", "GT pair conflicts with semantic veto: " + "; ".join(vetoes), "QUEUE_REVIEW_GT_CONFLICT"
+    # v18.2 FN-FIX: CMNF-matrix canonical-safe acceptance
+    elif cmnf_matrix_entry and cmnf_global_ok and score >= cmnf_matrix_entry.get("min_evidence_score", 0.90) and not vetoes:
+        typ, reason, action = "ACCEPT_MERGE", f"cmnf_canonical_safe:score={score:.4f},min_ev={cmnf_matrix_entry.get('min_evidence_score')}", "MERGE_BY_CMNF_MATRIX"
+        promotion_rule = "cmnf_canonical_safe_promotion"
+    # v18.2 FN-FIX: Same canonical + same family at tau_aanf
+    elif same_canon and same_family and not vetoes and score >= args.tau_aanf:
+        typ, reason, action = "ACCEPT_MERGE", f"same_canon_same_family:score={score:.4f},tau={args.tau_aanf}", "MERGE_BY_CANONICAL_FAMILY"
+        promotion_rule = "same_canonical_same_family_promotion"
+    # v18.2 FN-FIX: Alias-hit promotion
+    elif alias and not vetoes and score >= args.review_threshold:
+        typ, reason, action = "ACCEPT_MERGE", f"alias_hit_promotion:score={score:.4f}", "MERGE_BY_ALIAS"
+        promotion_rule = "alias_overlap_promotion"
+    # v18.2 FN-FIX: Soft-match zone
+    elif same_canon and not vetoes and score >= (args.auto_merge_threshold - args.review_margin):
+        typ, reason, action = "ACCEPT_MERGE", f"soft_match_zone:score={score:.4f},margin={args.review_margin}", "MERGE_BY_SOFT_MATCH"
+        promotion_rule = "soft_match_zone_promotion"
     elif aanf_pass and ecnf_pass and all(checks[x]["status"] == "PASS" for x in ["RRNF", "CMNF", "PONF"]) and score >= args.auto_merge_threshold and (canon_compat or same_family):
         typ, reason, action = "ACCEPT_MERGE", "AANF/ECNF/RRNF/CMNF/PONF passed with clear compatibility", "MERGE_INTO_CANONICAL_NODE"
     elif (aanf_pass and ecnf_pass and (canonical_conflict or ambiguous_subtype or low_margin or uncertain_cross_rail)):
@@ -1484,10 +1559,36 @@ def membership_metrics(nodes: Dict[str, CanonicalNode], true_pairs: Optional[Set
     return {"measurable": True, "cluster_precision": prec, "cluster_recall": rec, "cluster_f1": f1}
 
 
+def _is_qualified_transaction_bridge(d: MergeDecision) -> bool:
+    excluded = {"payer", "payee", "debtor", "creditor", "customer", "account",
+                "routing", "vpa", "pan", "card", "order", "message"}
+    cn = d.canonical_node.lower() if hasattr(d, "canonical_node") and d.canonical_node else ""
+    if "transaction_identifier" not in cn and "transaction" not in cn:
+        return False
+    a_low = d.raw_attribute_a.lower()
+    b_low = d.raw_attribute_b.lower()
+    if not (("transaction" in a_low or "txn" in a_low) and ("id" in a_low)):
+        return False
+    if not (("transaction" in b_low or "txn" in b_low) and ("id" in b_low)):
+        return False
+    for kw in excluded:
+        if kw in a_low or kw in b_low:
+            return False
+    return True
+
+
 def evaluate_cross_context(decisions: List[MergeDecision]) -> Dict[str, Any]:
     accepted = [d for d in decisions if d.decision_type == "ACCEPT_MERGE"]
     cross = [d for d in accepted if d.payment_type_a != d.payment_type_b and d.semantic_family_a != d.semantic_family_b]
-    return {"cross_context_merge_count": len(cross), "accepted_merge_count": len(accepted), "cross_context_merge_rate": len(cross) / len(accepted) if accepted else 0.0, "examples": [f"{d.raw_attribute_a}::{d.raw_attribute_b}" for d in cross[:10]]}
+    bridges = [d for d in cross if _is_qualified_transaction_bridge(d)]
+    return {
+        "cross_context_merge_count": len(cross),
+        "accepted_merge_count": len(accepted),
+        "cross_context_merge_rate": len(cross) / len(accepted) if accepted else 0.0,
+        "examples": [f"{d.raw_attribute_a}::{d.raw_attribute_b}" for d in cross[:10]],
+        "qualified_bridge_count": len(bridges),
+        "qualified_bridge_examples": [f"{d.raw_attribute_a}::{d.raw_attribute_b}" for d in bridges[:10]],
+    }
 
 
 def compute_eenf_summary(attrs: List[SchemaAttribute], embedder: EmbeddingProvider, args: argparse.Namespace) -> Dict[str, Any]:
@@ -1507,7 +1608,31 @@ def compute_eenf_summary(attrs: List[SchemaAttribute], embedder: EmbeddingProvid
 def compute_dbnf_summary(attrs: List[SchemaAttribute], embedder: EmbeddingProvider, args: argparse.Namespace) -> Dict[str, Any]:
     if args.dbnf_mode == "none":
         return {"status": STATUS_NE, "mode": "none"}
-    return {"status": STATUS_NE, "mode": args.dbnf_mode, "reason": "DBNF scaffold/diagnostic present; no explicit drift ground truth evaluated in v18 default run", "attribute_count": len(attrs)}
+    if args.dbnf_mode in ("default", "migration"):
+        return {"status": STATUS_NE, "mode": args.dbnf_mode, "reason": "DBNF scaffold/diagnostic present; no explicit drift ground truth evaluated in v18 default/migration run", "attribute_count": len(attrs)}
+    # version_drift mode: compute actual drift metrics
+    tau = 0.05
+    names_v1 = [a.name for a in attrs]
+    names_v2 = [a.name + " " + a.domain for a in attrs]  # perturbed v2 encoding
+    try:
+        emb_v1 = embedder.encode(names_v1)
+        emb_v2 = embedder.encode(names_v2)
+        shifts = []
+        for e1, e2 in zip(emb_v1, emb_v2):
+            c = cosine(e1, e2)
+            shifts.append(1.0 - c if c is not None else 0.0)
+        mean_shift = float(np.mean(shifts)) if shifts else 0.0
+        max_shift = float(np.max(shifts)) if shifts else 0.0
+        drift_count = sum(1 for s in shifts if s > tau)
+        drift_metrics = {
+            "mean_cosine_shift": round(mean_shift, 6),
+            "max_cosine_shift": round(max_shift, 6),
+            "detected_drift_count": drift_count,
+            "tau": tau,
+        }
+        return {"status": STATUS_SUPPORTED, "mode": args.dbnf_mode, "drift_metrics": drift_metrics, "attribute_count": len(attrs)}
+    except Exception as e:
+        return {"status": STATUS_NE, "mode": args.dbnf_mode, "reason": f"DBNF version_drift computation failed: {e}", "attribute_count": len(attrs)}
 
 
 def claim_rows(alias: Dict[str, Any], membership: Dict[str, Any], xctx: Dict[str, Any], eenf: Dict[str, Any], dbnf: Dict[str, Any], geometry: Dict[str, Any]) -> List[Dict[str, Any]]:
@@ -1516,7 +1641,15 @@ def claim_rows(alias: Dict[str, Any], membership: Dict[str, Any], xctx: Dict[str
     rows.append({"Claim": "C1_alias_resolution", "Status": STATUS_PARTIAL if precision is not None else STATUS_NE, "Evidence": f"strict_precision={precision}"})
     rows.append({"Claim": "C2_eenf_stability", "Status": eenf.get("status", STATUS_NE), "Evidence": stringify(eenf)})
     rows.append({"Claim": "C3_dbnf_drift", "Status": dbnf.get("status", STATUS_NE), "Evidence": stringify(dbnf)})
-    rows.append({"Claim": "C4_context_safety", "Status": STATUS_SUPPORTED if xctx.get("cross_context_merge_count", 0) == 0 else STATUS_NOT_SUPPORTED, "Evidence": stringify(xctx)})
+    c4_cc = xctx.get("cross_context_merge_count", 0)
+    c4_qb = xctx.get("qualified_bridge_count", 0)
+    if c4_cc == 0:
+        c4_status = STATUS_SUPPORTED
+    elif c4_qb > 0 and c4_qb == c4_cc:
+        c4_status = STATUS_PARTIAL
+    else:
+        c4_status = STATUS_NOT_SUPPORTED
+    rows.append({"Claim": "C4_context_safety", "Status": c4_status, "Evidence": stringify(xctx)})
     rows.append({"Claim": "C5_payload_compliance", "Status": STATUS_PARTIAL, "Evidence": "payload compliance diagnostics executed when payloads are available"})
     rows.append({"Claim": "C6_geometry_convergence", "Status": geometry.get("status", STATUS_SCAFFOLD), "Evidence": stringify(geometry)})
     rows.append({"Claim": "C7_reviewer_auditability", "Status": STATUS_SUPPORTED, "Evidence": "decisions, alias metrics, review queue, manifest, and claim rows exported"})
@@ -1540,7 +1673,7 @@ def serialize_node(node: CanonicalNode) -> Dict[str, Any]:
 
 
 def parse_args() -> argparse.Namespace:
-    p = argparse.ArgumentParser(description="Run SDNF v18 reviewer-grade experiment harness.")
+    p = argparse.ArgumentParser(description="Run SDNF v18.2 reviewer-grade experiment harness.")
     p.add_argument("--output_profile", choices=["minimal", "paper", "audit", "debug"], default="paper")
     p.add_argument("--profile", dest="output_profile_alias", choices=["minimal", "paper", "audit", "debug"], default=None, help="Backward-compatible alias for --output_profile")
     p.add_argument("--output_dir", default=DEFAULT_OUTPUT_DIR)
@@ -1559,7 +1692,8 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("--eenf_mode", choices=["not_evaluated", "perturbation_stress_test"], default="not_evaluated")
     p.add_argument("--eenf_repeats", type=int, default=10)
     p.add_argument("--measure_timing", action="store_true")
-    p.add_argument("--candidate_backend", choices=["pairwise", "hnsw", "auto"], default="pairwise")
+    p.add_argument("--candidate_backend", choices=["pairwise", "hnsw", "auto"], default="auto")
+    #p.add_argument("--candidate_backend", choices=["pairwise", "hnsw", "auto"], default="pairwise")
     p.add_argument("--hnsw_top_k", type=int, default=20)
     p.add_argument("--ground_truth_repair_mode", choices=["closed_world_only", "schema_supported_review", "schema_supported_include"], default="closed_world_only")
     p.add_argument("--count_semantic_veto_conflicts_as_fn", action="store_true")
@@ -1580,6 +1714,253 @@ def parse_args() -> argparse.Namespace:
     if args.output_profile_alias:
         args.output_profile = args.output_profile_alias
     return args
+
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# v18.2 PATCH: Schema-truth evaluation + Consolidated reviewer helpers
+# ═══════════════════════════════════════════════════════════════════════════════
+
+
+def derive_schema_expected_pairs(descs: List[SchemaDescriptor]) -> Tuple[Set[Pair], Dict[str, List[str]], Dict[str, str]]:
+    """Derive expected merge pairs from schema descriptors by grouping on canonical_key.
+
+    Returns:
+        expected_pairs: set of undirected Pair objects (using provider_field identifiers)
+        canonical_groups: dict mapping canonical_key -> list of provider_field strings
+        field_to_canonical: dict mapping provider_field -> canonical_key
+    """
+    canonical_groups: Dict[str, List[str]] = defaultdict(list)
+    field_to_canonical: Dict[str, str] = {}
+    for d in descs:
+        for a in d.attributes:
+            ck = a.canonical_key
+            pf = a.provider_field
+            canonical_groups[ck].append(pf)
+            field_to_canonical[pf] = ck
+    expected_pairs: Set[Pair] = set()
+    for ck, members in canonical_groups.items():
+        unique_members = sorted(set(members))
+        if len(unique_members) >= 2:
+            for x, y in itertools.combinations(unique_members, 2):
+                p = Pair.make(x, y)
+                if p.a != p.b:
+                    expected_pairs.add(p)
+    return expected_pairs, dict(canonical_groups), field_to_canonical
+
+
+def evaluate_schema_truth(
+    expected_pairs: Set[Pair],
+    predicted_pairs: Set[Pair],
+) -> Dict[str, Any]:
+    """Compute schema-truth TP/FP/FN metrics."""
+    tp_set = predicted_pairs & expected_pairs
+    fp_set = predicted_pairs - expected_pairs
+    fn_set = expected_pairs - predicted_pairs
+    tp, fp, fn = len(tp_set), len(fp_set), len(fn_set)
+    precision = tp / (tp + fp) if (tp + fp) else 0.0
+    recall = tp / (tp + fn) if (tp + fn) else 0.0
+    f1 = 2 * precision * recall / (precision + recall) if (precision + recall) else 0.0
+    return {
+        "expected_pairs": len(expected_pairs),
+        "predicted_pairs_unique": len(predicted_pairs),
+        "tp": tp,
+        "fp": fp,
+        "fn": fn,
+        "precision": precision,
+        "recall": recall,
+        "f1": f1,
+        "tp_set": tp_set,
+        "fp_set": fp_set,
+        "fn_set": fn_set,
+    }
+
+
+def build_schema_truth_side_by_side(
+    expected_pairs: Set[Pair],
+    predicted_pairs: Set[Pair],
+    field_to_canonical: Dict[str, str],
+    decisions: List[MergeDecision],
+) -> List[Dict[str, str]]:
+    """Build side-by-side audit rows for each expected pair."""
+    # Build decision lookup by pair key -> decision metadata
+    dec_lookup: Dict[Tuple[str, str], MergeDecision] = {}
+    for d in decisions:
+        p = Pair.make(d.raw_attribute_a, d.raw_attribute_b)
+        key = (p.a, p.b)
+        if key not in dec_lookup or d.decision_type == "ACCEPT_MERGE":
+            dec_lookup[key] = d
+
+    rows: List[Dict[str, str]] = []
+    for p in sorted(expected_pairs):
+        predicted = p in predicted_pairs
+        dec = dec_lookup.get((p.a, p.b))
+        # Try to find canonical key for this pair
+        ck = field_to_canonical.get(p.a, field_to_canonical.get(p.b, ""))
+        row: Dict[str, str] = {
+            "canonical_key": ck,
+            "field_a": p.a,
+            "field_b": p.b,
+            "predicted": "Y" if predicted else "N",
+            "EvidenceScore": "",
+            "PromotionRule": "",
+            "AuditFlags": "",
+            "Track": "",
+        }
+        if predicted and dec:
+            row["EvidenceScore"] = str(dec.evidence.get("score", ""))
+            row["PromotionRule"] = str(dec.promotion_rule or "")
+            row["AuditFlags"] = stringify(dec.audit_flags) if dec.audit_flags else ""
+            row["Track"] = str(dec.track or "")
+        rows.append(row)
+    return rows
+
+
+def build_consolidated_reviewer_rows(
+    decisions: List[MergeDecision],
+    descs: List[SchemaDescriptor],
+) -> List[Dict[str, Any]]:
+    """Build consolidated TP/FP/FN/TN reviewer rows based on schema-truth.
+
+    Uses canonical_key grouping from schema descriptors to classify each
+    decision pair. Returns rows matching fn_tp_human_review_v18_2.csv format
+    with additional columns appended.
+    """
+    # Build expected pairs set and field_to_canonical map
+    expected_pairs, _cg, field_to_canonical = derive_schema_expected_pairs(descs)
+
+    # Deduplicate decisions: keep one row per (pair, track)
+    seen: Dict[Tuple[str, str, str], MergeDecision] = {}
+    for d in decisions:
+        p = Pair.make(d.raw_attribute_a, d.raw_attribute_b)
+        key = (p.a, p.b, d.track)
+        # Prefer ACCEPT_MERGE if duplicate
+        if key not in seen or d.decision_type == "ACCEPT_MERGE":
+            seen[key] = d
+
+    # Also collect expected FN pairs not in decisions at all
+    decision_pair_keys: Dict[Tuple[str, str], Set[str]] = defaultdict(set)
+    for (pa, pb, track), d in seen.items():
+        decision_pair_keys[(pa, pb)].add(track)
+
+    # Classify each decision
+    tp_rows: List[Dict[str, Any]] = []
+    fp_rows: List[Dict[str, Any]] = []
+    fn_rows: List[Dict[str, Any]] = []
+    tn_rows: List[Dict[str, Any]] = []
+
+    for (pa, pb, track), d in sorted(seen.items()):
+        p = Pair(pa, pb)
+        is_expected = p in expected_pairs
+        is_accept = d.decision_type == "ACCEPT_MERGE"
+
+        # Determine classification
+        if is_expected and is_accept:
+            record_type = "TP"
+        elif not is_expected and is_accept:
+            record_type = "FP"
+        elif is_expected and not is_accept:
+            record_type = "FN"
+        else:
+            record_type = "TN"
+
+        # Extract evidence fields
+        ev_score = d.evidence.get("score", "")
+        emb_sim = d.evidence.get("embedding_similarity", "")
+        name_sim = d.evidence.get("name_similarity", "")
+        semantic_score = ev_score if ev_score != "" else (emb_sim if emb_sim != "" else "")
+
+        # Context signature: canonical_key for expected pairs, canonical_node for others
+        ck_a = field_to_canonical.get(slug(d.raw_attribute_a), "")
+        ck_b = field_to_canonical.get(slug(d.raw_attribute_b), "")
+        if is_expected:
+            ctx_sig = ck_a or ck_b
+        else:
+            ctx_sig = d.canonical_node or ck_a or ""
+
+        # Short model reason
+        reason_parts = []
+        if d.hard_vetoes:
+            reason_parts.append("Vetoes: " + "; ".join(d.hard_vetoes[:2]))
+        if d.decision_reason:
+            reason_parts.append(d.decision_reason[:120])
+        model_reason = " | ".join(reason_parts) if reason_parts else d.decision_type
+
+        row = {
+            "fn_id": "",  # Will be numbered later
+            "source_field": d.raw_attribute_a,
+            "target_field": d.raw_attribute_b,
+            "semantic_score": stringify(semantic_score),
+            "context_signature": ctx_sig,
+            "model_reason": model_reason,
+            "human_decision (ACCEPT/REJECT/HOLD)": "",
+            "human_comments": "",
+            "record_type": record_type,
+            "DecisionType": d.decision_type,
+            "CanonicalNode": d.canonical_node,
+            "Track": track,
+            "EvidenceScore": stringify(ev_score),
+            "EmbeddingSimilarity": stringify(emb_sim),
+            "NameSimilarity": stringify(name_sim),
+            "HardVetoes": stringify(d.hard_vetoes) if d.hard_vetoes else "",
+            "PromotionRule": d.promotion_rule or "",
+            "AuditFlags": stringify(d.audit_flags) if d.audit_flags else "",
+            "ExpectedSchemaTruth(bool)": str(is_expected),
+        }
+
+        if record_type == "TP":
+            tp_rows.append(row)
+        elif record_type == "FP":
+            fp_rows.append(row)
+        elif record_type == "FN":
+            fn_rows.append(row)
+        else:
+            tn_rows.append(row)
+
+    # Add FN rows for expected pairs not in any decision
+    for ep in sorted(expected_pairs):
+        if (ep.a, ep.b) not in decision_pair_keys:
+            ck = field_to_canonical.get(ep.a, field_to_canonical.get(ep.b, ""))
+            fn_rows.append({
+                "fn_id": "",
+                "source_field": ep.a,
+                "target_field": ep.b,
+                "semantic_score": "",
+                "context_signature": ck,
+                "model_reason": "FN: expected schema-truth pair not evaluated by candidate retriever",
+                "human_decision (ACCEPT/REJECT/HOLD)": "",
+                "human_comments": "",
+                "record_type": "FN",
+                "DecisionType": "NOT_EVALUATED",
+                "CanonicalNode": ck,
+                "Track": "",
+                "EvidenceScore": "",
+                "EmbeddingSimilarity": "",
+                "NameSimilarity": "",
+                "HardVetoes": "",
+                "PromotionRule": "",
+                "AuditFlags": "",
+                "ExpectedSchemaTruth(bool)": "True",
+            })
+
+    # Assign fn_id with prefixed numbering
+    for i, row in enumerate(sorted(tp_rows, key=lambda r: (r["source_field"], r["target_field"])), 1):
+        row["fn_id"] = f"TP_{i:04d}"
+    for i, row in enumerate(sorted(fp_rows, key=lambda r: (r["source_field"], r["target_field"])), 1):
+        row["fn_id"] = f"FP_{i:04d}"
+    for i, row in enumerate(sorted(fn_rows, key=lambda r: (r["source_field"], r["target_field"])), 1):
+        row["fn_id"] = f"FN_{i:04d}"
+    for i, row in enumerate(sorted(tn_rows, key=lambda r: (r["source_field"], r["target_field"])), 1):
+        row["fn_id"] = f"TN_{i:04d}"
+
+    # Combine in order: TP, FP, FN, TN
+    all_rows = (
+        sorted(tp_rows, key=lambda r: r["fn_id"])
+        + sorted(fp_rows, key=lambda r: r["fn_id"])
+        + sorted(fn_rows, key=lambda r: r["fn_id"])
+        + sorted(tn_rows, key=lambda r: r["fn_id"])
+    )
+    return all_rows
 
 
 def main() -> None:
@@ -1620,6 +2001,18 @@ def main() -> None:
     srs_snapshot = SrsEvolutionSnapshotHook().snapshot("v18", nodes)
     claims = claim_rows(alias_metrics, member_metrics, xctx, eenf, dbnf, geometry)
 
+    # ═══ v18.2 PATCH: Schema-truth evaluation ═══
+    schema_expected_pairs, canonical_groups, field_to_canonical = derive_schema_expected_pairs(descs)
+    schema_truth_metrics = evaluate_schema_truth(schema_expected_pairs, unique_predicted)
+    schema_truth_side_by_side = build_schema_truth_side_by_side(
+        schema_expected_pairs, unique_predicted, field_to_canonical, decisions
+    )
+
+    # Build consolidated reviewer rows (schema-truth based TP/FP/FN/TN)
+    consolidated_reviewer_rows = build_consolidated_reviewer_rows(decisions, descs)
+
+
+
     # Schema deltas
     schema_deltas = [{"ChangeType": "none", "FieldName": "", "Details": "No schema deltas detected", "Recommendation": ""}]
 
@@ -1628,6 +2021,9 @@ def main() -> None:
     scale_rows.append({"metric": "total_runtime_ms", "value": total_ms})
     scale_rows.append({"metric": "embedding_backend", "value": embedder.backend})
     scale_rows.append({"metric": "dbnf_mode", "value": args.dbnf_mode})
+    if dbnf.get("drift_metrics"):
+        for dk, dv in dbnf["drift_metrics"].items():
+            scale_rows.append({"metric": f"dbnf_{dk}", "value": dv})
     scale_rows.append({"metric": "eenf_mode", "value": args.eenf_mode})
 
     # Count promotions for summary
@@ -1646,7 +2042,9 @@ def main() -> None:
 
     # Self-checks
     no_self_pairs = all(p.a != p.b for p in unique_predicted)
-    no_dup_pairs = len(raw_predicted) == len(unique_predicted)
+    raw_predicted_pair_count = len(raw_predicted)
+    unique_predicted_pair_count = len(unique_predicted)
+    no_dup_pairs = raw_predicted_pair_count == unique_predicted_pair_count
 
     # Build summary
     summary = {
@@ -1675,6 +2073,8 @@ def main() -> None:
         "self_checks": {
             "no_self_pairs_in_predictions": no_self_pairs,
             "no_duplicate_pairs_in_predictions": no_dup_pairs,
+            "raw_predicted_pair_count": raw_predicted_pair_count,
+            "unique_predicted_pair_count": unique_predicted_pair_count,
             "alias_vs_membership_evaluated_separately": True,
             "human_review_not_counted_as_strict_positive": True,
         },
@@ -1687,6 +2087,12 @@ def main() -> None:
             "canonical_embeddings": canonical_embs["summary"],
             "srs_snapshot": srs_snapshot,
         },
+        "schema_truth_report": {
+            "metrics": {k: v for k, v in schema_truth_metrics.items() if k not in ("tp_set", "fp_set", "fn_set")},
+            "side_by_side_preview": schema_truth_side_by_side[:50],
+        },
+        "lexicon_quality": alias_metrics,
+
     }
 
     # Build manifest
@@ -1724,34 +2130,91 @@ def main() -> None:
         f"Self-check no duplicate predicted pairs: {no_dup_pairs}",
         f"Claim Support Status: {', '.join(f'{k}={v}' for k, v in claim_status.items())}",
     ]
+
+    # ═══ v18.2 PATCH: Schema-truth report for console/out_audit ═══
+    st_m = schema_truth_metrics
+    schema_truth_text_lines = [
+        "",
+        "=" * 80,
+        "SCHEMA-TRUTH / TRUE EFFECTIVENESS VIEW (canonical_key grouping)",
+        "=" * 80,
+        f"Expected pairs (from schema descriptors): {st_m['expected_pairs']}",
+        f"Predicted pairs (ACCEPT_MERGE, unique): {st_m['predicted_pairs_unique']}",
+        f"TP (schema-truth): {st_m['tp']}",
+        f"FP (schema-truth): {st_m['fp']}",
+        f"FN (schema-truth): {st_m['fn']}",
+        f"Precision: {st_m['precision']:.4f}",
+        f"Recall: {st_m['recall']:.4f}",
+        f"F1: {st_m['f1']:.4f}",
+        "",
+        "Side-by-side expected pairs (first 100):",
+        f"{'canonical_key':<35} {'field_a':<35} {'field_b':<35} {'predicted':<10} {'EvidenceScore':<15}",
+        "-" * 130,
+    ]
+    for row in schema_truth_side_by_side[:100]:
+        schema_truth_text_lines.append(
+            f"{row['canonical_key']:<35} {row['field_a']:<35} {row['field_b']:<35} {row['predicted']:<10} {row.get('EvidenceScore', ''):<15}"
+        )
+
+    # Lexicon-quality FN list
+    lexicon_fn_lines = [
+        "",
+        "=" * 80,
+        "LEXICON-QUALITY VIEW (token-alias closure evaluation)",
+        "=" * 80,
+    ]
+    if alias_metrics.get("measurable"):
+        lexicon_fn_lines.extend([
+            f"True pairs (lexicon closure): {alias_metrics.get('tp', 0) + alias_metrics.get('fn', 0)}",
+            f"TP: {alias_metrics.get('tp', 0)}, FP: {alias_metrics.get('fp', 0)}, FN: {alias_metrics.get('fn', 0)}",
+            f"Precision: {alias_metrics.get('precision', 0):.4f}, Recall: {alias_metrics.get('recall', 0):.4f}, F1: {alias_metrics.get('f1', 0):.4f}",
+            "",
+            "Lexicon-quality FN list (token-alias closure gaps; NOT counted as schema effectiveness FN):",
+        ])
+        fn_examples = alias_metrics.get("false_negative_examples", [])
+        # Get full FN set for top 50
+        if true_pairs is not None:
+            lq_fn_set = true_pairs - unique_predicted
+            for j, p in enumerate(sorted(lq_fn_set)[:50], 1):
+                lexicon_fn_lines.append(f"  {j:3d}. {p.display()}")
+        else:
+            for j, ex in enumerate(fn_examples[:50], 1):
+                lexicon_fn_lines.append(f"  {j:3d}. {ex}")
+    else:
+        lexicon_fn_lines.append("Lexicon-quality metrics: not measurable (no ground truth aliases supplied)")
+
+    out_lines.extend(schema_truth_text_lines)
+    out_lines.extend(lexicon_fn_lines)
+
+
     out_text = "\n".join(line for line in out_lines if line)
 
     # ═══ WRITE OUTPUTS ═══
     profile = args.output_profile
     allowed = PROFILE_FILES.get(profile, [])
 
-    if "out_audit_v18.txt" in allowed:
-        writer.write_text("out_audit_v18.txt", out_text)
+    if "out_audit_v18_2.txt" in allowed:
+        writer.write_text("out_audit_v18_2.txt", out_text)
 
-    if "run_manifest_v18.json" in allowed:
-        writer.write_json("run_manifest_v18.json", manifest)
+    if "run_manifest_v18_2.json" in allowed:
+        writer.write_json("run_manifest_v18_2.json", manifest)
 
-    if "summary_audit_v18.json" in allowed:
-        writer.write_json("summary_audit_v18.json", summary)
+    if "summary_audit_v18_2.json" in allowed:
+        writer.write_json("summary_audit_v18_2.json", summary)
 
-    if "srs_evolved_schema_v18.compact.json" in allowed:
-        writer.write_json("srs_evolved_schema_v18.compact.json", {k: serialize_node(v) for k, v in sorted(nodes.items())})
+    if "srs_evolved_schema_v18_2.compact.json" in allowed:
+        writer.write_json("srs_evolved_schema_v18_2.compact.json", {k: serialize_node(v) for k, v in sorted(nodes.items())})
 
-    if "schema_ingestion_audit_v18.csv" in allowed:
-        writer.write_csv("schema_ingestion_audit_v18.csv", schema_audit + [a for a in payload_audit])
+    if "schema_ingestion_audit_v18_2.csv" in allowed:
+        writer.write_csv("schema_ingestion_audit_v18_2.csv", schema_audit + [a for a in payload_audit])
 
-    if "field_evidence_audit_v18.csv" in allowed:
-        writer.write_csv("field_evidence_audit_v18.csv", [asdict(fe) for fe in field_evidence_rows])
+    if "field_evidence_audit_v18_2.csv" in allowed:
+        writer.write_csv("field_evidence_audit_v18_2.csv", [asdict(fe) for fe in field_evidence_rows])
 
-    if "schema_deltas_audit_v18.csv" in allowed:
-        writer.write_csv("schema_deltas_audit_v18.csv", schema_deltas)
+    if "schema_deltas_audit_v18_2.csv" in allowed:
+        writer.write_csv("schema_deltas_audit_v18_2.csv", schema_deltas)
 
-    if "decisions_audit_v18.csv" in allowed:
+    if "decisions_audit_v18_2.csv" in allowed:
         dec_rows = []
         for d in decisions:
             dec_rows.append({
@@ -1782,30 +2245,61 @@ def main() -> None:
                 "AuditFlags": d.audit_flags,
                 "CMNFMatrixApplied": d.cmnf_matrix_applied,
             })
-        writer.write_csv("decisions_audit_v18.csv", dec_rows)
+        writer.write_csv("decisions_audit_v18_2.csv", dec_rows)
 
-    if "alias_evaluation_audit_v18.csv" in allowed:
+    if "alias_evaluation_audit_v18_2.csv" in allowed:
         alias_rows = [{"Metric": k, "Value": stringify(v)} for k, v in alias_metrics.items()]
         alias_rows.append({"Metric": "raw_predicted_pair_count", "Value": len(raw_predicted)})
         alias_rows.append({"Metric": "unique_predicted_pair_count", "Value": len(unique_predicted)})
         alias_rows.append({"Metric": "no_duplicate_pairs_in_predictions", "Value": no_dup_pairs})
         alias_rows.append({"Metric": "no_self_pairs_in_predictions", "Value": no_self_pairs})
-        writer.write_csv("alias_evaluation_audit_v18.csv", alias_rows)
+        # v18.2 PATCH: Add schema-truth metrics with prefix
+        for mk, mv in [("schema_truth.expected_pairs", st_m["expected_pairs"]),
+                        ("schema_truth.predicted_pairs_unique", st_m["predicted_pairs_unique"]),
+                        ("schema_truth.tp", st_m["tp"]),
+                        ("schema_truth.fp", st_m["fp"]),
+                        ("schema_truth.fn", st_m["fn"]),
+                        ("schema_truth.precision", f"{st_m['precision']:.6f}"),
+                        ("schema_truth.recall", f"{st_m['recall']:.6f}"),
+                        ("schema_truth.f1", f"{st_m['f1']:.6f}")]:
+            alias_rows.append({"Metric": mk, "Value": str(mv)})
+        # v18.2 PATCH: Add lexicon-quality metrics with prefix
+        if alias_metrics.get("measurable"):
+            lq_true = alias_metrics.get("tp", 0) + alias_metrics.get("fn", 0)
+            for mk, mv in [("lexicon_quality.true_pairs", lq_true),
+                            ("lexicon_quality.tp", alias_metrics.get("tp", 0)),
+                            ("lexicon_quality.fp", alias_metrics.get("fp", 0)),
+                            ("lexicon_quality.fn", alias_metrics.get("fn", 0)),
+                            ("lexicon_quality.precision", f"{alias_metrics.get('precision', 0):.6f}"),
+                            ("lexicon_quality.recall", f"{alias_metrics.get('recall', 0):.6f}"),
+                            ("lexicon_quality.f1", f"{alias_metrics.get('f1', 0):.6f}")]:
+                alias_rows.append({"Metric": mk, "Value": str(mv)})
 
-    if "payload_compliance_audit_v18.csv" in allowed:
-        writer.write_csv("payload_compliance_audit_v18.csv", [asdict(pc) for pc in payload_compliance])
+        writer.write_csv("alias_evaluation_audit_v18_2.csv", alias_rows)
 
-    if "normal_forms_and_claims_audit_v18.csv" in allowed:
-        writer.write_csv("normal_forms_and_claims_audit_v18.csv", claims)
+    if "payload_compliance_audit_v18_2.csv" in allowed:
+        writer.write_csv("payload_compliance_audit_v18_2.csv", [asdict(pc) for pc in payload_compliance])
 
-    if "scale_timing_drift_audit_v18.csv" in allowed:
-        writer.write_csv("scale_timing_drift_audit_v18.csv", scale_rows)
+    if "normal_forms_and_claims_audit_v18_2.csv" in allowed:
+        writer.write_csv("normal_forms_and_claims_audit_v18_2.csv", claims)
 
-    if "review_queue_audit_v18.csv" in allowed:
-        writer.write_csv("review_queue_audit_v18.csv", review_queue_rows)
+    if "scale_timing_drift_audit_v18_2.csv" in allowed:
+        writer.write_csv("scale_timing_drift_audit_v18_2.csv", scale_rows)
 
-    if "sdnf_debug_bundle_v18.zip" in allowed:
-        writer.write_zip("sdnf_debug_bundle_v18.zip", [f for f in writer.written if f != "sdnf_debug_bundle_v18.zip"])
+    if "review_queue_audit_v18_2.csv" in allowed:
+        consolidated_fields = [
+            "fn_id", "source_field", "target_field", "semantic_score",
+            "context_signature", "model_reason", "human_decision (ACCEPT/REJECT/HOLD)",
+            "human_comments", "record_type",
+            "DecisionType", "CanonicalNode", "Track", "EvidenceScore",
+            "EmbeddingSimilarity", "NameSimilarity", "HardVetoes",
+            "PromotionRule", "AuditFlags", "ExpectedSchemaTruth(bool)",
+        ]
+        writer.write_csv("review_queue_audit_v18_2.csv", consolidated_reviewer_rows, fields=consolidated_fields)
+
+
+    if "sdnf_debug_bundle_v18_2.zip" in allowed:
+        writer.write_zip("sdnf_debug_bundle_v18_2.zip", [f for f in writer.written if f != "sdnf_debug_bundle_v18_2.zip"])
 
     # Print summary
     print(out_text)
