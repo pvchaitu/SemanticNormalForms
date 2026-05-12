@@ -965,6 +965,57 @@ class CandidateRetriever:
         if backend == "pairwise":
             self.backend_used = "pairwise"
 
+    def _hnsw_candidates(
+        self,
+        attrs: List[SchemaAttribute],
+        add_pair,
+        args: argparse.Namespace,
+    ) -> bool:
+        if self.backend_used != "hnsw" or np is None:
+            return False
+
+        valid = [(i, a) for i, a in enumerate(attrs) if a.embedding is not None]
+        if len(valid) < 2:
+            return False
+
+        try:
+            import hnswlib
+        except Exception:
+            self.hnsw_available = False
+            self.backend_used = "pairwise"
+            return False
+
+        vectors = np.asarray([a.embedding for _, a in valid], dtype=np.float32)
+        if vectors.ndim != 2 or vectors.shape[0] < 2:
+            return False
+
+        dim = vectors.shape[1]
+        index = hnswlib.Index(space="cosine", dim=dim)
+        index.init_index(max_elements=len(valid), ef_construction=100, M=32)
+        index.add_items(vectors, np.arange(len(valid)))
+        index.set_ef(max(args.hnsw_top_k * 2, 50))
+
+        labels, distances = index.knn_query(vectors, k=min(args.hnsw_top_k + 1, len(valid)))
+
+        added = 0
+        for local_i, neighs in enumerate(labels):
+            a = valid[local_i][1]
+            for local_j in neighs:
+                if local_j == local_i:
+                    continue
+                b = valid[int(local_j)][1]
+
+                # Preserve SDNF safety: do not blindly add every ANN neighbor.
+                same_family = a.semantic_family == b.semantic_family and a.semantic_family != "unknown"
+                name_sim = jaccard(toks(a.name), toks(b.name))
+                same_canonical = a.canonical_key == b.canonical_key
+
+                if same_canonical or same_family or name_sim >= args.candidate_name_threshold:
+                    add_pair(a, b, "hnsw")
+                    added += 1
+
+        return added > 0
+
     def candidates(self, attrs: List[SchemaAttribute], args: argparse.Namespace) -> List[Tuple[SchemaAttribute, SchemaAttribute, str]]:
         """
         v18 canonical-first candidate discovery:
@@ -994,17 +1045,21 @@ class CandidateRetriever:
                     self.canonical_first_enabled = True
 
         # Stage C: Cross-canonical candidates via name similarity or family match
-        canon_keys = sorted(canon_groups.keys())
-        for i, ck_a in enumerate(canon_keys):
-            for ck_b in canon_keys[i + 1:]:
-                # Check if any member pair across these groups has name similarity or family match
-                for a in canon_groups[ck_a]:
-                    for b in canon_groups[ck_b]:
-                        same_family = a.semantic_family == b.semantic_family and a.semantic_family != "unknown"
-                        name_sim = jaccard(toks(a.name), toks(b.name))
-                        if same_family or name_sim >= args.candidate_name_threshold:
-                            add_pair(a, b, self.backend_used)
+        used_hnsw = False
+        if self.backend_used == "hnsw":
+            used_hnsw = self._hnsw_candidates(attrs, add_pair, args)
 
+        if not used_hnsw:
+            # existing pairwise fallback
+            canon_keys = sorted(canon_groups.keys())
+            for i, ck_a in enumerate(canon_keys):
+                for ck_b in canon_keys[i + 1:]:
+                    for a in canon_groups[ck_a]:
+                        for b in canon_groups[ck_b]:
+                            same_family = a.semantic_family == b.semantic_family and a.semantic_family != "unknown"
+                            name_sim = jaccard(toks(a.name), toks(b.name))
+                            if same_family or name_sim >= args.candidate_name_threshold:
+                                add_pair(a, b, "pairwise_fallback")
         self.effective_comparisons = len(pairs)
         return pairs
 

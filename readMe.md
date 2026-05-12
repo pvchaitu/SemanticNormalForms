@@ -627,7 +627,7 @@ python unified_sdnf_experiment_hybrid_v18_1.py ^
   --evaluation_track both ^
   --dbnf_mode version_drift ^
   --ground_truth_repair_mode closed_world_only ^
-  --candidate_backend pairwise ^
+  --candidate_backend auto ^
   --measure_timing
 ```
 
@@ -663,6 +663,26 @@ python unified_sdnf_experiment_hybrid_v18_1.py ^
 ```
 
 ### 9.4 Version-Drift DBNF Diagnostic Run
+
+Use this for detailed DBNF version comparison for sentence-transformers.
+
+```bash
+python unified_sdnf_experiment_hybrid_v18_1.py ^
+  --output_profile paper ^
+  --output_dir output_v18_1_dbnf_mpnet_v1_to_v2 ^
+  --schemas_dir data ^
+  --payloads_root payloads/payment ^
+  --seed_srs_schema INAmex.schema.json ^
+  --ground_truth_aliases ground_truth_aliases_closed_world_v17.json ^
+  --ground_truth_closed_world ^
+  --evaluation_track both ^
+  --model sentence-transformers/all-mpnet-base-v2 ^
+  --dbnf_mode version_drift ^
+  --dbnf_model_version sentence-transformers/all-mpnet-base-v1 ^
+  --ground_truth_repair_mode closed_world_only ^
+  --candidate_backend auto ^
+  --measure_timing
+```
 
 Use this to exercise the DBNF version-drift surface.
 
