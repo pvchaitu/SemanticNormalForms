@@ -1,0 +1,12 @@
+metric,value
+candidate_generation_ms,65.99880000017583
+candidate_pair_count,91
+candidate_backend_requested,auto
+candidate_backend_used,hnsw
+hnsw_available,True
+canonical_first_enabled,True
+effective_comparisons,91
+total_runtime_ms,23831.495500000194
+embedding_backend,sentence-transformers
+dbnf_mode,version_drift
+eenf_mode,not_evaluated
