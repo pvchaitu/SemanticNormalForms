@@ -746,8 +746,10 @@
     ],
     "review_candidates": [],
     "rejected_near_misses": [
+      "Plaid.transaction_id <-> Razorpay.razorpay_payment_id: identifier subtypes must remain separate: identifier:transaction vs identifier:razorpay_payment",
       "Razorpay.razorpay_payment_id <-> Razorpay.razorpay_order_id: explicit negative pair hard veto",
       "Razorpay.razorpay_payment_id <-> Stripe.payment_intent_id: explicit negative pair hard veto",
+      "Plaid.transaction_id <-> Razorpay.razorpay_payment_id: identifier subtypes must remain separate: identifier:transaction vs identifier:razorpay_payment",
       "Razorpay.razorpay_payment_id <-> Razorpay.razorpay_order_id: explicit negative pair hard veto",
       "Razorpay.razorpay_payment_id <-> Stripe.payment_intent_id: explicit negative pair hard veto"
     ],
@@ -770,8 +772,12 @@
     ],
     "review_candidates": [],
     "rejected_near_misses": [
+      "Plaid.transaction_id <-> Stripe.payment_intent_id: identifier subtypes must remain separate: identifier:transaction vs identifier:payment_intent",
       "Razorpay.razorpay_payment_id <-> Stripe.payment_intent_id: explicit negative pair hard veto",
-      "Razorpay.razorpay_payment_id <-> Stripe.payment_intent_id: explicit negative pair hard veto"
+      "UPI.txn_id <-> Stripe.payment_intent_id: identifier subtypes must remain separate: identifier:upi_transaction vs identifier:payment_intent",
+      "Plaid.transaction_id <-> Stripe.payment_intent_id: identifier subtypes must remain separate: identifier:transaction vs identifier:payment_intent",
+      "Razorpay.razorpay_payment_id <-> Stripe.payment_intent_id: explicit negative pair hard veto",
+      "UPI.txn_id <-> Stripe.payment_intent_id: identifier subtypes must remain separate: identifier:upi_transaction vs identifier:payment_intent"
     ],
     "deferred_candidates": []
   },
@@ -976,6 +982,8 @@
       "Plaid.transaction_id <-> Plaid.transaction_amount: identifier must not merge with payment/temporal",
       "Plaid.transaction_id <-> Plaid.transaction_date: identifier must not merge with payment/temporal",
       "Plaid.transaction_id <-> UPI.txn_timestamp: identifier must not merge with payment/temporal",
+      "Plaid.transaction_id <-> Stripe.payment_intent_id: identifier subtypes must remain separate: identifier:transaction vs identifier:payment_intent",
+      "Plaid.transaction_id <-> Razorpay.razorpay_payment_id: identifier subtypes must remain separate: identifier:transaction vs identifier:razorpay_payment",
       "Plaid.transaction_id <-> Stripe.customer_id: explicit negative pair hard veto",
       "Plaid.transaction_id <-> UPI.txn_amount: identifier must not merge with payment/temporal",
       "Plaid.transaction_id <-> UPI.txn_status: identifier must not merge with payment/temporal",
@@ -983,12 +991,10 @@
       "UPI.txn_id <-> UPI.txn_timestamp: identifier must not merge with payment/temporal",
       "UPI.txn_id <-> UPI.txn_status: identifier must not merge with payment/temporal; schema-declared do_not_merge_with_families veto",
       "UPI.txn_id <-> UPI.txn_amount: identifier must not merge with payment/temporal",
+      "UPI.txn_id <-> Stripe.payment_intent_id: identifier subtypes must remain separate: identifier:upi_transaction vs identifier:payment_intent",
       "UPI.txn_id <-> Stripe.customer_id: explicit negative pair hard veto",
       "ISO20022.msg_id <-> UPI.txn_id: identifier subtypes must remain separate: identifier:message vs identifier:upi_transaction",
-      "ISO20022.msg_id <-> Plaid.transaction_id: identifier subtypes must remain separate: identifier:message vs identifier:transaction",
-      "Plaid.account_id <-> Plaid.transaction_id: explicit negative pair hard veto",
-      "Plaid.account_id <-> UPI.txn_id: explicit negative pair hard veto",
-      "Plaid.transaction_id <-> Plaid.transaction_amount: identifier must not merge with payment/temporal"
+      "ISO20022.msg_id <-> Plaid.transaction_id: identifier subtypes must remain separate: identifier:message vs identifier:transaction"
     ],
     "deferred_candidates": []
   },

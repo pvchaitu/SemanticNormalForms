@@ -74,9 +74,9 @@
   "canonical_promotion_summary": {
     "total_promotions": 76,
     "promotion_counts_by_rule": {
-      "cmnf_canonical_safe_promotion": 36,
-      "same_canonical_same_family_promotion": 32,
-      "alias_overlap_promotion": 8
+      "cmnf_canonical_safe_promotion": 40,
+      "alias_overlap_promotion": 8,
+      "same_canonical_same_family_promotion": 28
     },
     "cmnf_matrix_entries_used": 10
   },
@@ -94,21 +94,15 @@
       "reason": "EENF mode disabled"
     },
     "DBNF": {
-      "mode": "version_drift",
-      "attribute_count": 61,
       "status": "SUPPORTED",
+      "mode": "version_drift",
       "drift_metrics": {
-        "mean_cosine_shift": 0.269422,
-        "max_cosine_shift": 0.564628,
-        "detected_drift_count": 44,
-        "tau": 0.166831,
-        "tau_source": "adaptive",
-        "attribute_count": 61,
-        "drift_type": "simulated_context_perturbation",
-        "saturation_flag": false,
-        "saturation_rate": 0.7213,
-        "saturation_note": ""
-      }
+        "mean_cosine_shift": 0.282596,
+        "max_cosine_shift": 0.589751,
+        "detected_drift_count": 60,
+        "tau": 0.05
+      },
+      "attribute_count": 61
     },
     "Geometry": {
       "status": "SCAFFOLDED_NOT_EVALUATED",
@@ -136,16 +130,6 @@
       "review_candidate_count": 0
     }
   },
-  "learned_lexicon_summary": {
-    "schema_fingerprint": "350d86541702b909",
-    "learned_prefix_count": 1,
-    "learned_prefixes": [
-      "razorpay_"
-    ],
-    "learned_abbrev_count": 47,
-    "equivalence_class_count": 31,
-    "total_tokens_mapped": 82
-  },
   "schema_truth_report": {
     "metrics": {
       "expected_pairs": 38,
@@ -163,7 +147,7 @@
         "field_a": "inamex_card_holder_name",
         "field_b": "ppvisa_cardholder",
         "predicted": "Y",
-        "EvidenceScore": "0.6822430267510532",
+        "EvidenceScore": "0.7166246277195243",
         "PromotionRule": "alias_overlap_promotion",
         "AuditFlags": "",
         "Track": "discovery"
@@ -173,7 +157,7 @@
         "field_a": "inamex_card_verification_value",
         "field_b": "ppvisa_verification_value",
         "predicted": "Y",
-        "EvidenceScore": "0.810905888569577",
+        "EvidenceScore": "0.831333725300228",
         "PromotionRule": "cmnf_canonical_safe_promotion",
         "AuditFlags": "",
         "Track": "discovery"
@@ -183,7 +167,7 @@
         "field_a": "inamex_expiration_date",
         "field_b": "ppvisa_expiration_date",
         "predicted": "Y",
-        "EvidenceScore": "0.893962160821743",
+        "EvidenceScore": "0.9047252838016643",
         "PromotionRule": "cmnf_canonical_safe_promotion",
         "AuditFlags": "",
         "Track": "discovery"
@@ -193,7 +177,7 @@
         "field_a": "inamex_primary_account_number",
         "field_b": "mastercard_primary_account_number",
         "predicted": "Y",
-        "EvidenceScore": "0.9423870794878167",
+        "EvidenceScore": "0.9327086247185132",
         "PromotionRule": "cmnf_canonical_safe_promotion",
         "AuditFlags": "",
         "Track": "discovery"
@@ -203,8 +187,8 @@
         "field_a": "inamex_primary_account_number",
         "field_b": "ppvisa_primary_account_number",
         "predicted": "Y",
-        "EvidenceScore": "0.8869325895797866",
-        "PromotionRule": "same_canonical_same_family_promotion",
+        "EvidenceScore": "0.9052246579991008",
+        "PromotionRule": "cmnf_canonical_safe_promotion",
         "AuditFlags": "",
         "Track": "discovery"
       },
@@ -213,7 +197,7 @@
         "field_a": "iso20022_currency",
         "field_b": "plaid_currency",
         "predicted": "Y",
-        "EvidenceScore": "0.843383943654918",
+        "EvidenceScore": "0.8688214051786121",
         "PromotionRule": "same_canonical_same_family_promotion",
         "AuditFlags": "",
         "Track": "discovery"
@@ -223,8 +207,8 @@
         "field_a": "iso20022_currency",
         "field_b": "razorpay_currency",
         "predicted": "Y",
-        "EvidenceScore": "0.8690502246700502",
-        "PromotionRule": "same_canonical_same_family_promotion",
+        "EvidenceScore": "0.9102887387276847",
+        "PromotionRule": "cmnf_canonical_safe_promotion",
         "AuditFlags": "",
         "Track": "discovery"
       },
@@ -233,7 +217,7 @@
         "field_a": "iso20022_currency",
         "field_b": "stripe_currency",
         "predicted": "Y",
-        "EvidenceScore": "0.8730656028159443",
+        "EvidenceScore": "0.8905217359042753",
         "PromotionRule": "same_canonical_same_family_promotion",
         "AuditFlags": "",
         "Track": "discovery"
@@ -243,7 +227,7 @@
         "field_a": "iso20022_currency",
         "field_b": "upi_currency",
         "predicted": "Y",
-        "EvidenceScore": "0.8863815540634081",
+        "EvidenceScore": "0.8827470606242435",
         "PromotionRule": "same_canonical_same_family_promotion",
         "AuditFlags": "",
         "Track": "discovery"
@@ -253,7 +237,7 @@
         "field_a": "iso20022_instructed_amount",
         "field_b": "mastercard_transaction_amount",
         "predicted": "Y",
-        "EvidenceScore": "0.6749932882155116",
+        "EvidenceScore": "0.6793792915161835",
         "PromotionRule": "alias_overlap_promotion",
         "AuditFlags": "",
         "Track": "discovery"
@@ -263,7 +247,7 @@
         "field_a": "iso20022_instructed_amount",
         "field_b": "plaid_transaction_amount",
         "predicted": "Y",
-        "EvidenceScore": "0.663439820528296",
+        "EvidenceScore": "0.6644449246295542",
         "PromotionRule": "alias_overlap_promotion",
         "AuditFlags": "",
         "Track": "discovery"
@@ -273,7 +257,7 @@
         "field_a": "iso20022_instructed_amount",
         "field_b": "razorpay_amount",
         "predicted": "Y",
-        "EvidenceScore": "0.7007846893768079",
+        "EvidenceScore": "0.7420212662040127",
         "PromotionRule": "cmnf_canonical_safe_promotion",
         "AuditFlags": "",
         "Track": "discovery"
@@ -283,7 +267,7 @@
         "field_a": "iso20022_instructed_amount",
         "field_b": "stripe_amount",
         "predicted": "Y",
-        "EvidenceScore": "0.7058571413937634",
+        "EvidenceScore": "0.7050380376197866",
         "PromotionRule": "cmnf_canonical_safe_promotion",
         "AuditFlags": "",
         "Track": "discovery"
@@ -293,7 +277,7 @@
         "field_a": "iso20022_instructed_amount",
         "field_b": "upi_transaction_amount",
         "predicted": "Y",
-        "EvidenceScore": "0.6843910837085688",
+        "EvidenceScore": "0.7051397193706881",
         "PromotionRule": "cmnf_canonical_safe_promotion",
         "AuditFlags": "",
         "Track": "discovery"
@@ -303,7 +287,7 @@
         "field_a": "mastercard_primary_account_number",
         "field_b": "ppvisa_primary_account_number",
         "predicted": "Y",
-        "EvidenceScore": "0.9083613140256566",
+        "EvidenceScore": "0.9190765293621451",
         "PromotionRule": "cmnf_canonical_safe_promotion",
         "AuditFlags": "",
         "Track": "discovery"
@@ -313,7 +297,7 @@
         "field_a": "mastercard_transaction_amount",
         "field_b": "plaid_transaction_amount",
         "predicted": "Y",
-        "EvidenceScore": "0.8620695593486776",
+        "EvidenceScore": "0.89709667585691",
         "PromotionRule": "cmnf_canonical_safe_promotion",
         "AuditFlags": "",
         "Track": "discovery"
@@ -323,7 +307,7 @@
         "field_a": "mastercard_transaction_amount",
         "field_b": "razorpay_amount",
         "predicted": "Y",
-        "EvidenceScore": "0.7370253761584925",
+        "EvidenceScore": "0.7627822127620683",
         "PromotionRule": "cmnf_canonical_safe_promotion",
         "AuditFlags": "",
         "Track": "discovery"
@@ -333,7 +317,7 @@
         "field_a": "mastercard_transaction_amount",
         "field_b": "stripe_amount",
         "predicted": "Y",
-        "EvidenceScore": "0.7739295488793073",
+        "EvidenceScore": "0.8042930897381332",
         "PromotionRule": "cmnf_canonical_safe_promotion",
         "AuditFlags": "",
         "Track": "discovery"
@@ -343,7 +327,7 @@
         "field_a": "mastercard_transaction_amount",
         "field_b": "upi_transaction_amount",
         "predicted": "Y",
-        "EvidenceScore": "0.8772530183507581",
+        "EvidenceScore": "0.8762633244081879",
         "PromotionRule": "cmnf_canonical_safe_promotion",
         "AuditFlags": "",
         "Track": "discovery"
@@ -353,7 +337,7 @@
         "field_a": "plaid_currency",
         "field_b": "razorpay_currency",
         "predicted": "Y",
-        "EvidenceScore": "0.8696275376540612",
+        "EvidenceScore": "0.8064012179212176",
         "PromotionRule": "same_canonical_same_family_promotion",
         "AuditFlags": "",
         "Track": "discovery"
@@ -363,7 +347,7 @@
         "field_a": "plaid_currency",
         "field_b": "stripe_currency",
         "predicted": "Y",
-        "EvidenceScore": "0.8731301552489024",
+        "EvidenceScore": "0.8399333304841616",
         "PromotionRule": "same_canonical_same_family_promotion",
         "AuditFlags": "",
         "Track": "discovery"
@@ -373,7 +357,7 @@
         "field_a": "plaid_currency",
         "field_b": "upi_currency",
         "predicted": "Y",
-        "EvidenceScore": "0.8612782563469754",
+        "EvidenceScore": "0.8006284850234883",
         "PromotionRule": "same_canonical_same_family_promotion",
         "AuditFlags": "",
         "Track": "discovery"
@@ -383,7 +367,7 @@
         "field_a": "plaid_transaction_amount",
         "field_b": "razorpay_amount",
         "predicted": "Y",
-        "EvidenceScore": "0.7542244598210177",
+        "EvidenceScore": "0.7520578916429523",
         "PromotionRule": "cmnf_canonical_safe_promotion",
         "AuditFlags": "",
         "Track": "discovery"
@@ -393,7 +377,7 @@
         "field_a": "plaid_transaction_amount",
         "field_b": "stripe_amount",
         "predicted": "Y",
-        "EvidenceScore": "0.7695841788978137",
+        "EvidenceScore": "0.79571660303729",
         "PromotionRule": "cmnf_canonical_safe_promotion",
         "AuditFlags": "",
         "Track": "discovery"
@@ -403,7 +387,7 @@
         "field_a": "plaid_transaction_amount",
         "field_b": "upi_transaction_amount",
         "predicted": "Y",
-        "EvidenceScore": "0.864741893640319",
+        "EvidenceScore": "0.8789564477351572",
         "PromotionRule": "cmnf_canonical_safe_promotion",
         "AuditFlags": "",
         "Track": "discovery"
@@ -413,7 +397,7 @@
         "field_a": "plaid_transaction_identifier",
         "field_b": "upi_transaction_identifier",
         "predicted": "Y",
-        "EvidenceScore": "0.6933854463390907",
+        "EvidenceScore": "0.6732067887338066",
         "PromotionRule": "alias_overlap_promotion",
         "AuditFlags": "",
         "Track": "discovery"
@@ -423,7 +407,7 @@
         "field_a": "razorpay_amount",
         "field_b": "stripe_amount",
         "predicted": "Y",
-        "EvidenceScore": "0.86823553405094",
+        "EvidenceScore": "0.840910034265278",
         "PromotionRule": "cmnf_canonical_safe_promotion",
         "AuditFlags": "",
         "Track": "discovery"
@@ -433,7 +417,7 @@
         "field_a": "razorpay_amount",
         "field_b": "upi_transaction_amount",
         "predicted": "Y",
-        "EvidenceScore": "0.7187702047272145",
+        "EvidenceScore": "0.7468109435755529",
         "PromotionRule": "cmnf_canonical_safe_promotion",
         "AuditFlags": "",
         "Track": "discovery"
@@ -443,7 +427,7 @@
         "field_a": "razorpay_created_at",
         "field_b": "stripe_created",
         "predicted": "Y",
-        "EvidenceScore": "0.7690397020796296",
+        "EvidenceScore": "0.7859401537144163",
         "PromotionRule": "same_canonical_same_family_promotion",
         "AuditFlags": "",
         "Track": "discovery"
@@ -453,7 +437,7 @@
         "field_a": "razorpay_currency",
         "field_b": "stripe_currency",
         "predicted": "Y",
-        "EvidenceScore": "0.8849434015755534",
+        "EvidenceScore": "0.859954461000819",
         "PromotionRule": "same_canonical_same_family_promotion",
         "AuditFlags": "",
         "Track": "discovery"
@@ -463,7 +447,7 @@
         "field_a": "razorpay_currency",
         "field_b": "upi_currency",
         "predicted": "Y",
-        "EvidenceScore": "0.8756947880903944",
+        "EvidenceScore": "0.8164059954712348",
         "PromotionRule": "same_canonical_same_family_promotion",
         "AuditFlags": "",
         "Track": "discovery"
@@ -473,7 +457,7 @@
         "field_a": "razorpay_method",
         "field_b": "stripe_payment_method",
         "predicted": "Y",
-        "EvidenceScore": "0.7731308906465414",
+        "EvidenceScore": "0.7701546694217979",
         "PromotionRule": "same_canonical_same_family_promotion",
         "AuditFlags": "",
         "Track": "discovery"
@@ -483,7 +467,7 @@
         "field_a": "razorpay_status",
         "field_b": "stripe_status",
         "predicted": "Y",
-        "EvidenceScore": "0.880523890744095",
+        "EvidenceScore": "0.84485111584234",
         "PromotionRule": "cmnf_canonical_safe_promotion",
         "AuditFlags": "",
         "Track": "discovery"
@@ -493,7 +477,7 @@
         "field_a": "razorpay_status",
         "field_b": "upi_transaction_status",
         "predicted": "Y",
-        "EvidenceScore": "0.7460994853352971",
+        "EvidenceScore": "0.7586000121438681",
         "PromotionRule": "same_canonical_same_family_promotion",
         "AuditFlags": "",
         "Track": "discovery"
@@ -503,7 +487,7 @@
         "field_a": "razorpay_virtual_payment_address",
         "field_b": "upi_virtual_payment_address",
         "predicted": "Y",
-        "EvidenceScore": "0.9394508150764378",
+        "EvidenceScore": "0.9138618257105892",
         "PromotionRule": "same_canonical_same_family_promotion",
         "AuditFlags": "",
         "Track": "discovery"
@@ -513,7 +497,7 @@
         "field_a": "stripe_amount",
         "field_b": "upi_transaction_amount",
         "predicted": "Y",
-        "EvidenceScore": "0.7518896065927524",
+        "EvidenceScore": "0.7701817011742366",
         "PromotionRule": "cmnf_canonical_safe_promotion",
         "AuditFlags": "",
         "Track": "discovery"
@@ -523,7 +507,7 @@
         "field_a": "stripe_currency",
         "field_b": "upi_currency",
         "predicted": "Y",
-        "EvidenceScore": "0.8904232170224958",
+        "EvidenceScore": "0.8240546285667711",
         "PromotionRule": "same_canonical_same_family_promotion",
         "AuditFlags": "",
         "Track": "discovery"
@@ -533,7 +517,7 @@
         "field_a": "stripe_status",
         "field_b": "upi_transaction_status",
         "predicted": "Y",
-        "EvidenceScore": "0.7714709985748814",
+        "EvidenceScore": "0.7875952247731279",
         "PromotionRule": "same_canonical_same_family_promotion",
         "AuditFlags": "",
         "Track": "discovery"

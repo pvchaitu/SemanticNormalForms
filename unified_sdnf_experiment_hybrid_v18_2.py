@@ -180,6 +180,7 @@ PROFILE_FILES = {
         "normal_forms_and_claims_audit_v18_2.csv",
         "scale_timing_drift_audit_v18_2.csv",
         "review_queue_audit_v18_2.csv",
+        "learned_lexicon_v18_2.json",
     ],
     "audit": [
         "out_audit_v18_2.txt",

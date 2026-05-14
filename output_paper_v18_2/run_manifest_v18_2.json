@@ -15,7 +15,8 @@
     "payload_compliance_audit_v18_2.csv",
     "normal_forms_and_claims_audit_v18_2.csv",
     "scale_timing_drift_audit_v18_2.csv",
-    "review_queue_audit_v18_2.csv"
+    "review_queue_audit_v18_2.csv",
+    "learned_lexicon_v18_2.json"
   ],
   "ground_truth_repair_mode": "closed_world_only",
   "count_semantic_veto_conflicts_as_fn": false,
@@ -109,5 +110,15 @@
     }
   },
   "roadmap_scaffolds_are_claims": false,
+  "learned_lexicon_summary": {
+    "schema_fingerprint": "350d86541702b909",
+    "learned_prefix_count": 1,
+    "learned_prefixes": [
+      "razorpay_"
+    ],
+    "learned_abbrev_count": 47,
+    "equivalence_class_count": 31,
+    "total_tokens_mapped": 82
+  },
   "writer_max_files": 15
 }

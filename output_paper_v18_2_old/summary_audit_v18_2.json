@@ -94,21 +94,15 @@
       "reason": "EENF mode disabled"
     },
     "DBNF": {
-      "mode": "version_drift",
-      "attribute_count": 61,
       "status": "SUPPORTED",
+      "mode": "version_drift",
       "drift_metrics": {
-        "mean_cosine_shift": 0.269422,
-        "max_cosine_shift": 0.564628,
-        "detected_drift_count": 44,
-        "tau": 0.166831,
-        "tau_source": "adaptive",
-        "attribute_count": 61,
-        "drift_type": "simulated_context_perturbation",
-        "saturation_flag": false,
-        "saturation_rate": 0.7213,
-        "saturation_note": ""
-      }
+        "mean_cosine_shift": 0.251737,
+        "max_cosine_shift": 0.630395,
+        "detected_drift_count": 58,
+        "tau": 0.05
+      },
+      "attribute_count": 61
     },
     "Geometry": {
       "status": "SCAFFOLDED_NOT_EVALUATED",
@@ -135,16 +129,6 @@
       "member_count": 61,
       "review_candidate_count": 0
     }
-  },
-  "learned_lexicon_summary": {
-    "schema_fingerprint": "350d86541702b909",
-    "learned_prefix_count": 1,
-    "learned_prefixes": [
-      "razorpay_"
-    ],
-    "learned_abbrev_count": 47,
-    "equivalence_class_count": 31,
-    "total_tokens_mapped": 82
   },
   "schema_truth_report": {
     "metrics": {
@@ -353,7 +337,7 @@
         "field_a": "plaid_currency",
         "field_b": "razorpay_currency",
         "predicted": "Y",
-        "EvidenceScore": "0.8696275376540612",
+        "EvidenceScore": "0.8196275376540612",
         "PromotionRule": "same_canonical_same_family_promotion",
         "AuditFlags": "",
         "Track": "discovery"
@@ -363,7 +347,7 @@
         "field_a": "plaid_currency",
         "field_b": "stripe_currency",
         "predicted": "Y",
-        "EvidenceScore": "0.8731301552489024",
+        "EvidenceScore": "0.8231301552489023",
         "PromotionRule": "same_canonical_same_family_promotion",
         "AuditFlags": "",
         "Track": "discovery"
@@ -373,7 +357,7 @@
         "field_a": "plaid_currency",
         "field_b": "upi_currency",
         "predicted": "Y",
-        "EvidenceScore": "0.8612782563469754",
+        "EvidenceScore": "0.8112782563469754",
         "PromotionRule": "same_canonical_same_family_promotion",
         "AuditFlags": "",
         "Track": "discovery"
@@ -423,7 +407,7 @@
         "field_a": "razorpay_amount",
         "field_b": "stripe_amount",
         "predicted": "Y",
-        "EvidenceScore": "0.86823553405094",
+        "EvidenceScore": "0.81823553405094",
         "PromotionRule": "cmnf_canonical_safe_promotion",
         "AuditFlags": "",
         "Track": "discovery"
@@ -453,7 +437,7 @@
         "field_a": "razorpay_currency",
         "field_b": "stripe_currency",
         "predicted": "Y",
-        "EvidenceScore": "0.8849434015755534",
+        "EvidenceScore": "0.8349434015755535",
         "PromotionRule": "same_canonical_same_family_promotion",
         "AuditFlags": "",
         "Track": "discovery"
@@ -463,7 +447,7 @@
         "field_a": "razorpay_currency",
         "field_b": "upi_currency",
         "predicted": "Y",
-        "EvidenceScore": "0.8756947880903944",
+        "EvidenceScore": "0.8256947880903944",
         "PromotionRule": "same_canonical_same_family_promotion",
         "AuditFlags": "",
         "Track": "discovery"
@@ -483,7 +467,7 @@
         "field_a": "razorpay_status",
         "field_b": "stripe_status",
         "predicted": "Y",
-        "EvidenceScore": "0.880523890744095",
+        "EvidenceScore": "0.8305238907440949",
         "PromotionRule": "cmnf_canonical_safe_promotion",
         "AuditFlags": "",
         "Track": "discovery"
@@ -523,7 +507,7 @@
         "field_a": "stripe_currency",
         "field_b": "upi_currency",
         "predicted": "Y",
-        "EvidenceScore": "0.8904232170224958",
+        "EvidenceScore": "0.8404232170224958",
         "PromotionRule": "same_canonical_same_family_promotion",
         "AuditFlags": "",
         "Track": "discovery"

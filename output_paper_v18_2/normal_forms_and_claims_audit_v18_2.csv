@@ -1,7 +1,7 @@
 Claim,Status,Evidence
 C1_alias_resolution,PARTIALLY_SUPPORTED,strict_precision=1.0
 C2_eenf_stability,NOT_EVALUATED,"{""reason"": ""EENF mode disabled"", ""status"": ""NOT_EVALUATED""}"
-C3_dbnf_drift,SUPPORTED,"{""attribute_count"": 61, ""drift_metrics"": {""detected_drift_count"": 58, ""max_cosine_shift"": 0.630395, ""mean_cosine_shift"": 0.251737, ""tau"": 0.05}, ""mode"": ""version_drift"", ""status"": ""SUPPORTED""}"
+C3_dbnf_drift,SUPPORTED,"{""attribute_count"": 61, ""drift_metrics"": {""attribute_count"": 61, ""detected_drift_count"": 44, ""drift_type"": ""simulated_context_perturbation"", ""max_cosine_shift"": 0.564628, ""mean_cosine_shift"": 0.269422, ""saturation_flag"": false, ""saturation_note"": """", ""saturation_rate"": 0.7213, ""tau"": 0.166831, ""tau_source"": ""adaptive""}, ""mode"": ""version_drift"", ""status"": ""SUPPORTED""}"
 C4_context_safety,PARTIALLY_SUPPORTED,"{""accepted_merge_count"": 76, ""cross_context_merge_count"": 2, ""cross_context_merge_rate"": 0.02631578947368421, ""examples"": [""Plaid.transaction_id::UPI.txn_id"", ""Plaid.transaction_id::UPI.txn_id""], ""qualified_bridge_count"": 2, ""qualified_bridge_examples"": [""Plaid.transaction_id::UPI.txn_id"", ""Plaid.transaction_id::UPI.txn_id""]}"
 C5_payload_compliance,PARTIALLY_SUPPORTED,payload compliance diagnostics executed when payloads are available
 C6_geometry_convergence,SCAFFOLDED_NOT_EVALUATED,"{""canonical_node_count"": 41, ""message"": ""v18 includes geometry audit scaffolding only; compactness/separation/margin/leakage are not evaluated claims."", ""planned_metrics"": [""canonical_compactness"", ""inter_canonical_separation"", ""semantic_margin"", ""partition_leakage""], ""status"": ""SCAFFOLDED_NOT_EVALUATED""}"

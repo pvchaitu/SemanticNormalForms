@@ -8,7 +8,7 @@ True Positives: 38, False Positives: 0, False Negatives: 207
 Alias Precision (strict): 1.000, Alias Recall: 0.155, Alias F1: 0.269
 Alias Precision (reviewer-diagnosed): 1.000, Recall: 0.155, F1: 0.269
 Review queue count: 0
-Canonical promotions applied: 76 ({'cmnf_canonical_safe_promotion': 42, 'alias_overlap_promotion': 8, 'same_canonical_same_family_promotion': 26})
+Canonical promotions applied: 76 ({'cmnf_canonical_safe_promotion': 40, 'alias_overlap_promotion': 8, 'same_canonical_same_family_promotion': 28})
 Cross-context merge rate: 0.026 (Count: 2)
 Self-check no duplicate predicted pairs: False
 Claim Support Status: C1_alias_resolution=PARTIALLY_SUPPORTED, C2_eenf_stability=NOT_EVALUATED, C3_dbnf_drift=SUPPORTED, C4_context_safety=PARTIALLY_SUPPORTED, C5_payload_compliance=PARTIALLY_SUPPORTED, C6_geometry_convergence=SCAFFOLDED_NOT_EVALUATED, C7_reviewer_auditability=SUPPORTED
@@ -45,24 +45,24 @@ canonical_key                       field_a                             field_b 
                                     mastercard_transaction_amount       razorpay_amount                     Y          0.7627822127620683
                                     mastercard_transaction_amount       stripe_amount                       Y          0.8042930897381332
                                     mastercard_transaction_amount       upi_transaction_amount              Y          0.8762633244081879
-                                    plaid_currency                      razorpay_currency                   Y          0.8564012179212176
-                                    plaid_currency                      stripe_currency                     Y          0.8899333304841617
-                                    plaid_currency                      upi_currency                        Y          0.8506284850234883
+                                    plaid_currency                      razorpay_currency                   Y          0.8064012179212176
+                                    plaid_currency                      stripe_currency                     Y          0.8399333304841616
+                                    plaid_currency                      upi_currency                        Y          0.8006284850234883
                                     plaid_transaction_amount            razorpay_amount                     Y          0.7520578916429523
                                     plaid_transaction_amount            stripe_amount                       Y          0.79571660303729
                                     plaid_transaction_amount            upi_transaction_amount              Y          0.8789564477351572
                                     plaid_transaction_identifier        upi_transaction_identifier          Y          0.6732067887338066
-                                    razorpay_amount                     stripe_amount                       Y          0.890910034265278
+                                    razorpay_amount                     stripe_amount                       Y          0.840910034265278
                                     razorpay_amount                     upi_transaction_amount              Y          0.7468109435755529
                                     razorpay_created_at                 stripe_created                      Y          0.7859401537144163
-                                    razorpay_currency                   stripe_currency                     Y          0.909954461000819
-                                    razorpay_currency                   upi_currency                        Y          0.8664059954712348
+                                    razorpay_currency                   stripe_currency                     Y          0.859954461000819
+                                    razorpay_currency                   upi_currency                        Y          0.8164059954712348
                                     razorpay_method                     stripe_payment_method               Y          0.7701546694217979
-                                    razorpay_status                     stripe_status                       Y          0.8948511158423399
+                                    razorpay_status                     stripe_status                       Y          0.84485111584234
                                     razorpay_status                     upi_transaction_status              Y          0.7586000121438681
                                     razorpay_virtual_payment_address    upi_virtual_payment_address         Y          0.9138618257105892
                                     stripe_amount                       upi_transaction_amount              Y          0.7701817011742366
-                                    stripe_currency                     upi_currency                        Y          0.8740546285667711
+                                    stripe_currency                     upi_currency                        Y          0.8240546285667711
                                     stripe_status                       upi_transaction_status              Y          0.7875952247731279
 ================================================================================
 LEXICON-QUALITY VIEW (token-alias closure evaluation)

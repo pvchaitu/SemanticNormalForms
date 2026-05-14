@@ -1,0 +1,16 @@
+metric,value
+candidate_generation_ms,71.92460000002757
+candidate_pair_count,91
+candidate_backend_requested,auto
+candidate_backend_used,hnsw
+hnsw_available,True
+canonical_first_enabled,True
+effective_comparisons,91
+total_runtime_ms,27899.000399999903
+embedding_backend,sentence-transformers
+dbnf_mode,version_drift
+dbnf_mean_cosine_shift,0.282596
+dbnf_max_cosine_shift,0.589751
+dbnf_detected_drift_count,60
+dbnf_tau,0.05
+eenf_mode,not_evaluated

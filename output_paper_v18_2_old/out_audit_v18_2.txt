@@ -45,24 +45,24 @@ canonical_key                       field_a                             field_b 
                                     mastercard_transaction_amount       razorpay_amount                     Y          0.7370253761584925
                                     mastercard_transaction_amount       stripe_amount                       Y          0.7739295488793073
                                     mastercard_transaction_amount       upi_transaction_amount              Y          0.8772530183507581
-                                    plaid_currency                      razorpay_currency                   Y          0.8696275376540612
-                                    plaid_currency                      stripe_currency                     Y          0.8731301552489024
-                                    plaid_currency                      upi_currency                        Y          0.8612782563469754
+                                    plaid_currency                      razorpay_currency                   Y          0.8196275376540612
+                                    plaid_currency                      stripe_currency                     Y          0.8231301552489023
+                                    plaid_currency                      upi_currency                        Y          0.8112782563469754
                                     plaid_transaction_amount            razorpay_amount                     Y          0.7542244598210177
                                     plaid_transaction_amount            stripe_amount                       Y          0.7695841788978137
                                     plaid_transaction_amount            upi_transaction_amount              Y          0.864741893640319
                                     plaid_transaction_identifier        upi_transaction_identifier          Y          0.6933854463390907
-                                    razorpay_amount                     stripe_amount                       Y          0.86823553405094
+                                    razorpay_amount                     stripe_amount                       Y          0.81823553405094
                                     razorpay_amount                     upi_transaction_amount              Y          0.7187702047272145
                                     razorpay_created_at                 stripe_created                      Y          0.7690397020796296
-                                    razorpay_currency                   stripe_currency                     Y          0.8849434015755534
-                                    razorpay_currency                   upi_currency                        Y          0.8756947880903944
+                                    razorpay_currency                   stripe_currency                     Y          0.8349434015755535
+                                    razorpay_currency                   upi_currency                        Y          0.8256947880903944
                                     razorpay_method                     stripe_payment_method               Y          0.7731308906465414
-                                    razorpay_status                     stripe_status                       Y          0.880523890744095
+                                    razorpay_status                     stripe_status                       Y          0.8305238907440949
                                     razorpay_status                     upi_transaction_status              Y          0.7460994853352971
                                     razorpay_virtual_payment_address    upi_virtual_payment_address         Y          0.9394508150764378
                                     stripe_amount                       upi_transaction_amount              Y          0.7518896065927524
-                                    stripe_currency                     upi_currency                        Y          0.8904232170224958
+                                    stripe_currency                     upi_currency                        Y          0.8404232170224958
                                     stripe_status                       upi_transaction_status              Y          0.7714709985748814
 ================================================================================
 LEXICON-QUALITY VIEW (token-alias closure evaluation)
