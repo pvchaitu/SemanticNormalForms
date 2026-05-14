@@ -1,5 +1,5 @@
 {
-  "version": "18.1.0",
+  "version": "18.2.0",
   "profile": "paper",
   "dataset_summary": {
     "schema_descriptor_count": 8,
@@ -60,6 +60,11 @@
     "examples": [
       "Plaid.transaction_id::UPI.txn_id",
       "Plaid.transaction_id::UPI.txn_id"
+    ],
+    "qualified_bridge_count": 2,
+    "qualified_bridge_examples": [
+      "Plaid.transaction_id::UPI.txn_id",
+      "Plaid.transaction_id::UPI.txn_id"
     ]
   },
   "review_queue": {
@@ -78,6 +83,8 @@
   "self_checks": {
     "no_self_pairs_in_predictions": true,
     "no_duplicate_pairs_in_predictions": false,
+    "raw_predicted_pair_count": 76,
+    "unique_predicted_pair_count": 38,
     "alias_vs_membership_evaluated_separately": true,
     "human_review_not_counted_as_strict_positive": true
   },
@@ -87,9 +94,14 @@
       "reason": "EENF mode disabled"
     },
     "DBNF": {
-      "status": "NOT_EVALUATED",
+      "status": "SUPPORTED",
       "mode": "version_drift",
-      "reason": "DBNF scaffold/diagnostic present; no explicit drift ground truth evaluated in v18 default run",
+      "drift_metrics": {
+        "mean_cosine_shift": 0.251737,
+        "max_cosine_shift": 0.630395,
+        "detected_drift_count": 58,
+        "tau": 0.05
+      },
       "attribute_count": 61
     },
     "Geometry": {

@@ -1,21 +1,21 @@
 {
-  "version": "18.1.0",
+  "version": "18.2.0",
   "profile": "paper",
-  "output_dir": "output_v18_1_dbnf_mpnet_v1_to_v2",
+  "output_dir": "output_v18_2",
   "output_files": [
-    "out_audit_v18_1.txt",
-    "run_manifest_v18_1.json",
-    "summary_audit_v18_1.json",
-    "srs_evolved_schema_v18_1.compact.json",
-    "schema_ingestion_audit_v18_1.csv",
-    "field_evidence_audit_v18_1.csv",
-    "schema_deltas_audit_v18_1.csv",
-    "decisions_audit_v18_1.csv",
-    "alias_evaluation_audit_v18_1.csv",
-    "payload_compliance_audit_v18_1.csv",
-    "normal_forms_and_claims_audit_v18_1.csv",
-    "scale_timing_drift_audit_v18_1.csv",
-    "review_queue_audit_v18_1.csv"
+    "out_audit_v18_2.txt",
+    "run_manifest_v18_2.json",
+    "summary_audit_v18_2.json",
+    "srs_evolved_schema_v18_2.compact.json",
+    "schema_ingestion_audit_v18_2.csv",
+    "field_evidence_audit_v18_2.csv",
+    "schema_deltas_audit_v18_2.csv",
+    "decisions_audit_v18_2.csv",
+    "alias_evaluation_audit_v18_2.csv",
+    "payload_compliance_audit_v18_2.csv",
+    "normal_forms_and_claims_audit_v18_2.csv",
+    "scale_timing_drift_audit_v18_2.csv",
+    "review_queue_audit_v18_2.csv"
   ],
   "ground_truth_repair_mode": "closed_world_only",
   "count_semantic_veto_conflicts_as_fn": false,
@@ -56,8 +56,8 @@
     "card_primary_account_number": {
       "compatible_across_rails": false,
       "compatible_rails": [
-        "card_payment",
-        "card_network_iso8583"
+        "card_network_iso8583",
+        "card_payment"
       ],
       "deny_families": [
         "payment_account:account_number"

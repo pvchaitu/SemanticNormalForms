@@ -1,4 +1,4 @@
-Unified SDNF Experiment v18.1.0
+Unified SDNF Experiment v18.2.0
 Profile: paper
 Ground truth repair mode: closed_world_only
 Candidate backend requested/used: auto
@@ -11,7 +11,7 @@ Review queue count: 0
 Canonical promotions applied: 76 ({'cmnf_canonical_safe_promotion': 40, 'alias_overlap_promotion': 8, 'same_canonical_same_family_promotion': 28})
 Cross-context merge rate: 0.026 (Count: 2)
 Self-check no duplicate predicted pairs: False
-Claim Support Status: C1_alias_resolution=PARTIALLY_SUPPORTED, C2_eenf_stability=NOT_EVALUATED, C3_dbnf_drift=NOT_EVALUATED, C4_context_safety=NOT_SUPPORTED, C5_payload_compliance=PARTIALLY_SUPPORTED, C6_geometry_convergence=SCAFFOLDED_NOT_EVALUATED, C7_reviewer_auditability=SUPPORTED
+Claim Support Status: C1_alias_resolution=PARTIALLY_SUPPORTED, C2_eenf_stability=NOT_EVALUATED, C3_dbnf_drift=SUPPORTED, C4_context_safety=PARTIALLY_SUPPORTED, C5_payload_compliance=PARTIALLY_SUPPORTED, C6_geometry_convergence=SCAFFOLDED_NOT_EVALUATED, C7_reviewer_auditability=SUPPORTED
 ================================================================================
 SCHEMA-TRUTH / TRUE EFFECTIVENESS VIEW (canonical_key grouping)
 ================================================================================
