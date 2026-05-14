@@ -1,0 +1,533 @@
+diff --git a/unified_sdnf_experiment_hybrid_v18_2.py b/unified_sdnf_experiment_hybrid_v18_2.py
+--- a/unified_sdnf_experiment_hybrid_v18_2.py
++++ b/unified_sdnf_experiment_hybrid_v18_2.py
+@@ -196,6 +196,7 @@
+         "scale_timing_drift_audit_v18_2.csv",
+         "review_queue_audit_v18_2.csv",
+         "sdnf_debug_bundle_v18_2.zip",
++        "learned_lexicon_v18_2.json",
+     ],
+     "debug": [
+         "out_audit_v18_2.txt",
+@@ -212,6 +213,7 @@
+         "scale_timing_drift_audit_v18_2.csv",
+         "review_queue_audit_v18_2.csv",
+         "sdnf_debug_bundle_v18_2.zip",
++        "learned_lexicon_v18_2.json",
+         "readme_v18_2.md",
+     ],
+ }
+@@ -691,6 +693,278 @@
+             return list(self.model.encode(texts, normalize_embeddings=True, show_progress_bar=False))
+         rng = random.Random(hashlib.md5(f"{name}:{domain}".encode()).hexdigest())
+         return [safe_norm([rng.gauss(0, 1) for _ in range(self.dim)]) for _ in range(G)]
++
++
++# ═══════════════════════════════════════════════════════════════════════════════
++# v18.2 NEW: Domain-Independent Automatic Lexicon Learning
++# ═══════════════════════════════════════════════════════════════════════════════
++
++class _UnionFind:
++    """Minimal disjoint-set / union-find for equivalence class construction."""
++    def __init__(self):
++        self._parent: Dict[str, str] = {}
++        self._rank: Dict[str, int] = {}
++
++    def find(self, x: str) -> str:
++        if x not in self._parent:
++            self._parent[x] = x
++            self._rank[x] = 0
++        root = x
++        while self._parent[root] != root:
++            root = self._parent[root]
++        while self._parent[x] != root:
++            self._parent[x], x = root, self._parent[x]
++        return root
++
++    def union(self, a: str, b: str) -> None:
++        ra, rb = self.find(a), self.find(b)
++        if ra == rb:
++            return
++        if self._rank[ra] < self._rank[rb]:
++            ra, rb = rb, ra
++        self._parent[rb] = ra
++        if self._rank[ra] == self._rank[rb]:
++            self._rank[ra] += 1
++
++    def groups(self) -> Dict[str, Set[str]]:
++        result: Dict[str, Set[str]] = defaultdict(set)
++        for x in self._parent:
++            result[self.find(x)].add(x)
++        return dict(result)
++
++
++GENERIC_TOKENS_GUARD = frozenset({"id", "type", "name", "status", "date", "time", "code", "value"})
++
++
++def _hierarchy_conflict(t1: str, t2: str) -> bool:
++    """Return True if merging t1 and t2 would collapse a type/subtype hierarchy."""
++    p1, p2 = set(t1.split("_")), set(t2.split("_"))
++    if ("subtype" in p1) != ("subtype" in p2):
++        return True
++    if t1 == "type" and t2 != "type" and "type" in p2:
++        return True
++    if t2 == "type" and t1 != "type" and "type" in p1:
++        return True
++    return False
++
++
++def _role_conflict_check(t1: str, t2: str, token_meta: Dict[str, Dict[str, Any]]) -> bool:
++    """Return True if two tokens carry conflicting roles (payer/payee etc.)."""
++    roles1 = token_meta.get(t1, {}).get("roles", set())
++    roles2 = token_meta.get(t2, {}).get("roles", set())
++    for r1 in roles1:
++        for r2 in roles2:
++            r1t = set(r1.lower().replace("_", " ").split())
++            r2t = set(r2.lower().replace("_", " ").split())
++            for ca, cb in ROLE_CONFLICTS:
++                if ca in r1t and cb in r2t:
++                    return True
++    return False
++
++
++class LearnedLexicon:
++    """Domain-independent lexicon learned from schema descriptors."""
++
++    def __init__(self) -> None:
++        self.prefixes: Set[str] = set()
++        self.abbrev_map: Dict[str, str] = {}
++        self.representative_map: Dict[str, str] = {}
++        self.schema_fingerprint: str = ""
++
++    @staticmethod
++    def _compute_schema_fingerprint(descs: List["SchemaDescriptor"]) -> str:
++        parts = []
++        for d in sorted(descs, key=lambda x: x.schema_id):
++            parts.append(f"{d.schema_id}:{d.schema_descriptor_version}:{len(d.attributes)}")
++        return hashlib.sha256("|".join(parts).encode()).hexdigest()[:16]
++
++    # ── phase 1: learn prefixes ──────────────────────────────────────────
++    def learn_prefixes_from_schemas(self, descs: List["SchemaDescriptor"]) -> Set[str]:
++        provider_tokens: Set[str] = set()
++        for d in descs:
++            for source in [Path(d.path).stem.replace(".schema", ""), d.schema_id, d.provider]:
++                for tok in re.split(r"[_\-.\ s/]+", source.lower()):
++                    if tok and len(tok) >= 2:
++                        provider_tokens.add(tok)
++        noise = frozenset({"schema", "payment", "card", "account", "transaction", "api",
++                           "object", "entity", "descriptor", "payload", "inferred", "like",
++                           "style", "generic", "the", "and", "for", "with", "from", "plus",
++                           "v1", "v2", "v15", "v16", "v17", "v18"})
++        provider_tokens -= noise
++        all_names = [a.name.lower() for d in descs for a in d.attributes]
++        confirmed: Set[str] = set()
++        for tok in provider_tokens:
++            pfx = tok + "_"
++            if sum(1 for n in all_names if n.startswith(pfx) and len(n) > len(pfx)) >= 1:
++                confirmed.add(pfx)
++        self.prefixes = confirmed
++        return confirmed
++
++    # ── phase 2: learn abbreviations ─────────────────────────────────────
++    def learn_abbrev_from_aliases(self, descs: List["SchemaDescriptor"]) -> Dict[str, str]:
++        candidates: Dict[str, Dict[str, int]] = defaultdict(lambda: defaultdict(int))
++        token_families: Dict[str, Set[str]] = defaultdict(set)
++        for d in descs:
++            for a in d.attributes:
++                ns = slug(a.name)
++                canon = slug(a.canonical_hint) if a.canonical_hint else ""
++                family = a.semantic_family or ""
++                forms = list({f for f in [ns] + [slug(x) for x in a.aliases] + ([canon] if canon else []) if f})
++                for f in forms:
++                    token_families[f].add(family)
++                for i, fa in enumerate(forms):
++                    for fb in forms[i + 1:]:
++                        if fa == fb:
++                            continue
++                        short, long_ = (fa, fb) if len(fa) < len(fb) else (fb, fa)
++                        if len(short) <= 1 or short in GENERIC_TOKENS_GUARD:
++                            continue
++                        candidates[short][long_] += 1
++                name_toks = set(ns.split("_"))
++                for al in a.aliases:
++                    al_s = slug(al)
++                    al_toks = set(al_s.split("_"))
++                    if name_toks & al_toks and name_toks != al_toks:
++                        short, long_ = (al_s, ns) if len(al_s) < len(ns) else (ns, al_s)
++                        if short not in GENERIC_TOKENS_GUARD and len(short) > 1:
++                            candidates[short][long_] += 1
++        abbrev: Dict[str, str] = {}
++        for short, longs in candidates.items():
++            best = max(longs, key=longs.get)
++            needed = 3 if short in GENERIC_TOKENS_GUARD else 1
++            if longs[best] >= needed:
++                if short in GENERIC_TOKENS_GUARD:
++                    if not (token_families.get(short, set()) & token_families.get(best, set())):
++                        continue
++                abbrev[short] = best
++        self.abbrev_map = abbrev
++        return abbrev
++
++    # ── phase 3: equivalence classes ─────────────────────────────────────
++    def build_equivalence_classes(self, descs: List["SchemaDescriptor"]) -> Dict[str, str]:
++        uf = _UnionFind()
++        token_meta: Dict[str, Dict[str, Any]] = {}
++        canon_groups: Dict[str, Set[str]] = defaultdict(set)
++        for d in descs:
++            for a in d.attributes:
++                canon = slug(a.canonical_hint) if a.canonical_hint else ""
++                family, role = a.semantic_family or "", a.role or ""
++                ns = slug(a.name)
++                forms: Set[str] = {ns}
++                for al in a.aliases:
++                    al_s = slug(al)
++                    if al_s:
++                        forms.add(al_s)
++                if canon:
++                    forms.add(canon)
++                for f in list(forms):
++                    for pfx in self.prefixes:
++                        if f.startswith(pfx) and len(f) > len(pfx):
++                            forms.add(f[len(pfx):])
++                for f in list(forms):
++                    if f in self.abbrev_map:
++                        forms.add(self.abbrev_map[f])
++                for f in forms:
++                    if f not in token_meta:
++                        token_meta[f] = {"families": set(), "roles": set(), "canons": set()}
++                    token_meta[f]["families"].add(family)
++                    token_meta[f]["roles"].add(role)
++                    if canon:
++                        token_meta[f]["canons"].add(canon)
++                if canon:
++                    for f in forms:
++                        canon_groups[canon].add(f)
++        for canon, members in canon_groups.items():
++            ml = sorted(members)
++            for i, t1 in enumerate(ml):
++                for t2 in ml[i + 1:]:
++                    if _hierarchy_conflict(t1, t2):
++                        continue
++                    if _role_conflict_check(t1, t2, token_meta):
++                        continue
++                    uf.union(t1, t2)
++        fam_groups: Dict[str, Set[str]] = defaultdict(set)
++        for tok, meta in token_meta.items():
++            if not meta["canons"]:
++                for fam in meta["families"]:
++                    if fam and fam != "unknown":
++                        fam_groups[fam].add(tok)
++        for fam, tokens in fam_groups.items():
++            tl = sorted(tokens)
++            for i, t1 in enumerate(tl):
++                for t2 in tl[i + 1:]:
++                    if _hierarchy_conflict(t1, t2):
++                        continue
++                    if _role_conflict_check(t1, t2, token_meta):
++                        continue
++                    uf.union(t1, t2)
++        groups = uf.groups()
++        rep: Dict[str, str] = {}
++        for root, members in groups.items():
++            best = root
++            for m in sorted(members):
++                mc = token_meta.get(m, {}).get("canons", set())
++                if mc:
++                    best = sorted(mc)[0]
++                    break
++            for m in members:
++                rep[m] = best
++        self.representative_map = rep
++        return rep
++
++    # ── runtime helpers ──────────────────────────────────────────────────
++    def normalize_token(self, t: str) -> str:
++        t = slug(t)
++        for pfx in sorted(self.prefixes, key=len, reverse=True):
++            if t.startswith(pfx) and len(t) > len(pfx):
++                t = t[len(pfx):]
++                break
++        if t in self.abbrev_map:
++            t = self.abbrev_map[t]
++        if t in self.representative_map:
++            t = self.representative_map[t]
++        return t
++
++    def same_equivalence_class(self, a: str, b: str) -> bool:
++        return self.normalize_token(a) == self.normalize_token(b)
++
++    def learn_from_schemas(self, descs: List["SchemaDescriptor"]) -> None:
++        self.schema_fingerprint = self._compute_schema_fingerprint(descs)
++        self.learn_prefixes_from_schemas(descs)
++        self.learn_abbrev_from_aliases(descs)
++        self.build_equivalence_classes(descs)
++
++    def save(self, path: Path) -> None:
++        data = {"schema_fingerprint": self.schema_fingerprint,
++                "prefixes": sorted(self.prefixes),
++                "abbrev_map": self.abbrev_map,
++                "representative_map": self.representative_map}
++        with path.open("w", encoding="utf-8") as f:
++            json.dump(data, f, indent=2, ensure_ascii=False, sort_keys=True)
++
++    def load(self, path: Path, expected_fingerprint: str) -> bool:
++        if not path.exists():
++            return False
++        try:
++            with path.open("r", encoding="utf-8") as f:
++                data = json.load(f)
++            if data.get("schema_fingerprint") != expected_fingerprint:
++                return False
++            self.schema_fingerprint = data["schema_fingerprint"]
++            self.prefixes = set(data.get("prefixes", []))
++            self.abbrev_map = data.get("abbrev_map", {})
++            self.representative_map = data.get("representative_map", {})
++            return True
++        except Exception:
++            return False
++
++    def summary(self) -> Dict[str, Any]:
++        return {"schema_fingerprint": self.schema_fingerprint,
++                "learned_prefix_count": len(self.prefixes),
++                "learned_prefixes": sorted(self.prefixes),
++                "learned_abbrev_count": len(self.abbrev_map),
++                "equivalence_class_count": len(set(self.representative_map.values())),
++                "total_tokens_mapped": len(self.representative_map)}
+ 
+ 
+ def partition_of(family: str) -> str:
+@@ -1010,8 +1284,12 @@
+                 name_sim = jaccard(toks(a.name), toks(b.name))
+                 same_canonical = a.canonical_key == b.canonical_key
+ 
+-                if same_canonical or same_family or name_sim >= args.candidate_name_threshold:
+-                    add_pair(a, b, "hnsw")
++                lexicon_match = False
++                _ll_h = getattr(args, '_learned_lexicon', None)
++                if _ll_h and _ll_h.same_equivalence_class(a.name, b.name):
++                    lexicon_match = True
++                if same_canonical or same_family or name_sim >= args.candidate_name_threshold or lexicon_match:
++                    add_pair(a, b, "hnsw" if not lexicon_match else "lexicon_closure_hnsw")
+                     added += 1
+ 
+         return added > 0
+@@ -1058,8 +1336,10 @@
+                         for b in canon_groups[ck_b]:
+                             same_family = a.semantic_family == b.semantic_family and a.semantic_family != "unknown"
+                             name_sim = jaccard(toks(a.name), toks(b.name))
+-                            if same_family or name_sim >= args.candidate_name_threshold:
+-                                add_pair(a, b, "pairwise_fallback")
++                            _ll_pw = getattr(args, '_learned_lexicon', None)
++                            lexicon_match_pw = _ll_pw.same_equivalence_class(a.name, b.name) if _ll_pw else False
++                            if same_family or name_sim >= args.candidate_name_threshold or lexicon_match_pw:
++                                add_pair(a, b, "lexicon_closure" if lexicon_match_pw else "pairwise_fallback")
+         self.effective_comparisons = len(pairs)
+         return pairs
+ 
+@@ -1180,6 +1460,10 @@
+     same_family = a.semantic_family == b.semantic_family and a.semantic_family != "unknown"
+     same_partition = partition_of(a.semantic_family) == partition_of(b.semantic_family)
+     alias = slug(a.name) in {slug(x) for x in b.aliases} or slug(b.name) in {slug(x) for x in a.aliases}
++    # v18.2: Lexicon closure alias check (domain-independent)
++    _ll_ep = getattr(args, '_learned_lexicon', None)
++    if not alias and _ll_ep and _ll_ep.same_equivalence_class(a.name, b.name):
++        alias = True
+     name_sim = jaccard(toks(a.name), toks(b.name))
+     emb_sim = cosine(a.embedding, b.embedding)
+     canon_compat = same_canon and (same_family or alias)
+@@ -1605,35 +1889,95 @@
+     return {"status": STATUS_SUPPORTED if vals else STATUS_NE, "q95_variance": q95, "sampled_attribute_count": len(vals), "mode": args.eenf_mode}
+ 
+ 
+-def compute_dbnf_summary(attrs: List[SchemaAttribute], embedder: EmbeddingProvider, args: argparse.Namespace) -> Dict[str, Any]:
++def compute_dbnf_summary(attrs: List[SchemaAttribute], embedder: EmbeddingProvider, args: argparse.Namespace, learned_lexicon: Optional["LearnedLexicon"] = None) -> Dict[str, Any]:
+     if args.dbnf_mode == "none":
+         return {"status": STATUS_NE, "mode": "none"}
+-    if args.dbnf_mode in ("default", "migration"):
+-        return {"status": STATUS_NE, "mode": args.dbnf_mode, "reason": "DBNF scaffold/diagnostic present; no explicit drift ground truth evaluated in v18 default/migration run", "attribute_count": len(attrs)}
+-    # version_drift mode: compute actual drift metrics
+-    tau = 0.05
+-    names_v1 = [a.name for a in attrs]
+-    names_v2 = [a.name + " " + a.domain for a in attrs]  # perturbed v2 encoding
+-    try:
+-        emb_v1 = embedder.encode(names_v1)
+-        emb_v2 = embedder.encode(names_v2)
+-        shifts = []
+-        for e1, e2 in zip(emb_v1, emb_v2):
+-            c = cosine(e1, e2)
+-            shifts.append(1.0 - c if c is not None else 0.0)
+-        mean_shift = float(np.mean(shifts)) if shifts else 0.0
+-        max_shift = float(np.max(shifts)) if shifts else 0.0
+-        drift_count = sum(1 for s in shifts if s > tau)
+-        drift_metrics = {
+-            "mean_cosine_shift": round(mean_shift, 6),
+-            "max_cosine_shift": round(max_shift, 6),
+-            "detected_drift_count": drift_count,
+-            "tau": tau,
+-        }
+-        return {"status": STATUS_SUPPORTED, "mode": args.dbnf_mode, "drift_metrics": drift_metrics, "attribute_count": len(attrs)}
+-    except Exception as e:
+-        return {"status": STATUS_NE, "mode": args.dbnf_mode, "reason": f"DBNF version_drift computation failed: {e}", "attribute_count": len(attrs)}
+-
++
++    dbnf_tau = getattr(args, "dbnf_tau", None)
++    tau_source = "user" if dbnf_tau is not None else "adaptive"
++
++    def _norm(a: SchemaAttribute) -> str:
++        if learned_lexicon:
++            return learned_lexicon.normalize_token(a.name)
++        return slug(a.name)
++
++    def _run_version_drift() -> Dict[str, Any]:
++        normalized = [_norm(a) for a in attrs]
++        migration_model = getattr(args, "dbnf_migration_model", None)
++        is_real = bool(migration_model)
++        try:
++            if is_real:
++                emb2 = EmbeddingProvider(migration_model, args.seed)
++                ev1, ev2 = embedder.encode(normalized), emb2.encode(normalized)
++                dtype = "real_model_comparison"
++            else:
++                ev1 = embedder.encode(normalized)
++                ev2 = embedder.encode([_norm(a) + " " + a.rail for a in attrs])
++                dtype = "simulated_context_perturbation"
++            shifts = [1.0 - (cosine(e1, e2) or 1.0) for e1, e2 in zip(ev1, ev2)]
++            tau = dbnf_tau
++            if tau is None:
++                ec = embedder.encode([n + " context" for n in normalized])
++                csh = [1.0 - (cosine(e1, e2) or 1.0) for e1, e2 in zip(ev1, ec)]
++                tau = max(0.05, float(np.percentile(csh, 95))) if np is not None and csh else 0.05
++            ms = float(np.mean(shifts)) if np is not None and shifts else 0.0
++            mx = float(np.max(shifts)) if np is not None and shifts else 0.0
++            dc = sum(1 for s in shifts if s > tau)
++            ac = len(attrs)
++            sr = dc / ac if ac else 0.0
++            return {"mean_cosine_shift": round(ms, 6), "max_cosine_shift": round(mx, 6),
++                    "detected_drift_count": dc, "tau": round(tau, 6), "tau_source": tau_source,
++                    "attribute_count": ac, "drift_type": dtype,
++                    "saturation_flag": sr > 0.8, "saturation_rate": round(sr, 4),
++                    "saturation_note": "Likely lexical instability or incorrect tau" if sr > 0.8 else ""}
++        except Exception as e:
++            return {"error": str(e)}
++
++    def _run_migration() -> Dict[str, Any]:
++        migration_model = getattr(args, "dbnf_migration_model", None)
++        if not migration_model:
++            return {"status": STATUS_NE, "reason": "No --dbnf_migration_model specified"}
++        normalized = [_norm(a) for a in attrs]
++        try:
++            emb2 = EmbeddingProvider(migration_model, args.seed)
++            ev1, ev2 = embedder.encode(normalized), emb2.encode(normalized)
++            shifts = [1.0 - (cosine(e1, e2) or 1.0) for e1, e2 in zip(ev1, ev2)]
++            tau = dbnf_tau if dbnf_tau is not None else 0.05
++            ms = float(np.mean(shifts)) if np is not None and shifts else 0.0
++            mx = float(np.max(shifts)) if np is not None and shifts else 0.0
++            dc = sum(1 for s in shifts if s > tau)
++            ac = len(attrs)
++            sr = dc / ac if ac else 0.0
++            return {"mean_cosine_shift": round(ms, 6), "max_cosine_shift": round(mx, 6),
++                    "detected_drift_count": dc, "tau": round(tau, 6), "tau_source": tau_source,
++                    "attribute_count": ac, "drift_type": "migration",
++                    "saturation_flag": sr > 0.8, "saturation_rate": round(sr, 4),
++                    "migration_model": migration_model}
++        except Exception as e:
++            return {"error": str(e)}
++
++    result: Dict[str, Any] = {"mode": args.dbnf_mode, "attribute_count": len(attrs)}
++    if args.dbnf_mode == "version_drift":
++        d = _run_version_drift()
++        if "error" in d:
++            return {"status": STATUS_NE, "mode": args.dbnf_mode, "reason": f"DBNF failed: {d['error']}", "attribute_count": len(attrs)}
++        result["status"] = STATUS_SUPPORTED
++        result["drift_metrics"] = d
++    elif args.dbnf_mode == "migration":
++        m = _run_migration()
++        if "error" in m:
++            return {"status": STATUS_NE, "mode": args.dbnf_mode, "reason": f"DBNF failed: {m['error']}", "attribute_count": len(attrs)}
++        result["status"] = STATUS_SUPPORTED
++        result["drift_metrics"] = m
++    elif args.dbnf_mode == "both":
++        vd, mg = _run_version_drift(), _run_migration()
++        result["status"] = STATUS_SUPPORTED
++        result["version_drift_metrics"] = vd if "error" not in vd else {"status": STATUS_NE, "reason": vd.get("error")}
++        result["migration_metrics"] = mg if "error" not in mg else {"status": STATUS_NE, "reason": mg.get("error")}
++        result["drift_metrics"] = vd if "error" not in vd else (mg if "error" not in mg else {})
++    else:
++        return {"status": STATUS_NE, "mode": args.dbnf_mode, "reason": f"Unknown DBNF mode", "attribute_count": len(attrs)}
++    return result
+ 
+ def claim_rows(alias: Dict[str, Any], membership: Dict[str, Any], xctx: Dict[str, Any], eenf: Dict[str, Any], dbnf: Dict[str, Any], geometry: Dict[str, Any]) -> List[Dict[str, Any]]:
+     precision = alias.get("precision") if alias.get("measurable") else None
+@@ -1689,6 +2033,7 @@
+     p.add_argument("--dbnf_mode", choices=["none", "version_drift", "migration", "both"], default="none")
+     p.add_argument("--dbnf_model_version", default=None)
+     p.add_argument("--dbnf_migration_model", default=None)
++    p.add_argument("--dbnf_tau", type=float, default=None, help="DBNF drift threshold tau. If not set, tau is calibrated adaptively.")
+     p.add_argument("--eenf_mode", choices=["not_evaluated", "perturbation_stress_test"], default="not_evaluated")
+     p.add_argument("--eenf_repeats", type=int, default=10)
+     p.add_argument("--measure_timing", action="store_true")
+@@ -1974,6 +2319,14 @@
+     descs, schema_audit = load_schema_descriptors(args, embedder)
+     all_attrs = [a for d in descs for a in d.attributes]
+ 
++    # v18.2: Domain-independent automatic lexicon learning
++    learned_lexicon = LearnedLexicon()
++    _lexicon_fp = LearnedLexicon._compute_schema_fingerprint(descs)
++    _lexicon_path = Path(args.output_dir) / "learned_lexicon_v18_2.json"
++    if not learned_lexicon.load(_lexicon_path, _lexicon_fp):
++        learned_lexicon.learn_from_schemas(descs)
++    args._learned_lexicon = learned_lexicon
++
+     # Load payloads
+     obs, files_by_type, payload_audit = load_payloads(Path(args.payloads_root))
+     field_evidence_rows, evidence_idx = build_field_evidence(obs, files_by_type)
+@@ -1995,7 +2348,7 @@
+     member_metrics = membership_metrics(nodes, true_pairs)
+     xctx = evaluate_cross_context(decisions)
+     eenf = compute_eenf_summary(all_attrs, embedder, args)
+-    dbnf = compute_dbnf_summary(all_attrs, embedder, args)
++    dbnf = compute_dbnf_summary(all_attrs, embedder, args, learned_lexicon)
+     geometry = SemanticGeometryAuditScaffold().summarize(nodes)
+     canonical_embs = CanonicalEmbeddingBuilder().build(nodes)
+     srs_snapshot = SrsEvolutionSnapshotHook().snapshot("v18", nodes)
+@@ -2021,9 +2374,11 @@
+     scale_rows.append({"metric": "total_runtime_ms", "value": total_ms})
+     scale_rows.append({"metric": "embedding_backend", "value": embedder.backend})
+     scale_rows.append({"metric": "dbnf_mode", "value": args.dbnf_mode})
+-    if dbnf.get("drift_metrics"):
+-        for dk, dv in dbnf["drift_metrics"].items():
+-            scale_rows.append({"metric": f"dbnf_{dk}", "value": dv})
++    for _dbnf_key in ["drift_metrics", "version_drift_metrics", "migration_metrics"]:
++        if dbnf.get(_dbnf_key) and isinstance(dbnf[_dbnf_key], dict):
++            _pfx = "dbnf_" if _dbnf_key == "drift_metrics" else f"dbnf_{_dbnf_key.replace('_metrics', '')}_"
++            for dk, dv in dbnf[_dbnf_key].items():
++                scale_rows.append({"metric": f"{_pfx}{dk}", "value": dv})
+     scale_rows.append({"metric": "eenf_mode", "value": args.eenf_mode})
+ 
+     # Count promotions for summary
+@@ -2087,6 +2442,7 @@
+             "canonical_embeddings": canonical_embs["summary"],
+             "srs_snapshot": srs_snapshot,
+         },
++        "learned_lexicon_summary": learned_lexicon.summary(),
+         "schema_truth_report": {
+             "metrics": {k: v for k, v in schema_truth_metrics.items() if k not in ("tp_set", "fp_set", "fn_set")},
+             "side_by_side_preview": schema_truth_side_by_side[:50],
+@@ -2109,6 +2465,7 @@
+         "ground_truth_audit": gt_audit,
+         "cmnf_compatibility_matrix": {k: {kk: (list(vv) if isinstance(vv, set) else vv) for kk, vv in v.items()} for k, v in CMNF_COMPATIBILITY_MATRIX.items()},
+         "roadmap_scaffolds_are_claims": False,
++        "learned_lexicon_summary": learned_lexicon.summary(),
+         "writer_max_files": args.max_output_files,
+     }
+ 
+@@ -2301,6 +2658,9 @@
+     if "sdnf_debug_bundle_v18_2.zip" in allowed:
+         writer.write_zip("sdnf_debug_bundle_v18_2.zip", [f for f in writer.written if f != "sdnf_debug_bundle_v18_2.zip"])
+ 
++    if "learned_lexicon_v18_2.json" in allowed:
++        learned_lexicon.save(writer.path("learned_lexicon_v18_2.json"))
++
+     # Print summary
+     print(out_text)
+ 

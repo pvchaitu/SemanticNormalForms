@@ -32,6 +32,11 @@ The central v18.2 objective is:
 - introduce **dual evaluation framework** (schema-truth effectiveness view + lexicon-quality closure view),
 - replace review queue with **consolidated reviewer CSV** (TP/FP/FN/TN based on schema-truth canonical_key grouping),
 - separate schema effectiveness FN from lexicon-quality FN to avoid conflation of evaluation concerns,
+- introduce **Domain-Independent Automatic Lexicon Learning** (`LearnedLexicon`) for eliminating lexicon-quality FNs caused by provider prefixes, abbreviations, and alias-closure gaps — without hardcoding domain-specific maps,
+- introduce **DBNF improvements**: fixed mode handling (`none`/`version_drift`/`migration`/`both`), lexical normalization before drift computation, adaptive tau calibration, saturation detection, real two-model comparison support,
+- add `learned_lexicon_v18_2.json` persistence for audit/debug profiles,
+- enhance candidate retrieval with `lexicon_closure` candidate source in both HNSW and pairwise paths,
+- add `--dbnf_tau` CLI argument for user-specified drift threshold,
 
 ---
 
@@ -444,6 +449,7 @@ Depending on profile and budget:
 
 ```text
 sdnf_debug_bundle_v18_2.zip
+learned_lexicon_v18_2.json
 readme_v18_2.md
 ```
 
@@ -484,6 +490,9 @@ Run configuration and reproducibility metadata:
 - evidence weights,
 - ground-truth audit details,
 - output budget details.
+
+**v18.2 patch additions:**
+- `learned_lexicon_summary`: Learned lexicon statistics for reproducibility verification.
 
 ### `summary_audit_v18_2.json`
 
@@ -823,6 +832,7 @@ python unified_sdnf_experiment_hybrid_v18_2.py ^
 --dbnf_mode {none,version_drift,migration,both}
 --dbnf_model_version <model-or-version>
 --dbnf_migration_model all-mpnet-base-v2
+--dbnf_tau <float>
 --eenf_mode {not_evaluated,perturbation_stress_test}
 --eenf_repeats 10
 ```
@@ -1010,6 +1020,22 @@ Future versions can extend this into full geometry evolution snapshots.
 
 All promotions are auditable via the `promotion_rule` field.
 
+#### 14.6 LearnedLexicon (v18.2 Active)
+
+`LearnedLexicon` is **now active** in v18.2. It provides domain-independent lexicon learning that eliminates most lexicon-quality FNs caused by provider prefixes, abbreviations, and alias-closure gaps.
+
+Three learning phases:
+- `learn_prefixes_from_schemas()` — auto-discovers provider prefixes.
+- `learn_abbrev_from_aliases()` — discovers abbreviation expansions from aliases.
+- `build_equivalence_classes()` — builds canonical closure via union-find with hierarchy/role/identifier guards.
+
+Runtime:
+- `normalize_token()` is used in alias detection, candidate retrieval, and DBNF input normalization.
+- `same_equivalence_class()` checks if two tokens resolve to the same canonical representative.
+
+Persistence:
+- `learned_lexicon_v18_2.json` is written in audit/debug profiles with schema fingerprint validation for warm-start on subsequent runs.
+
 ---
 
 ## 15. Recommended Review Workflow
@@ -1096,12 +1122,15 @@ v18.2 is the recommended working baseline because it:
 
 ### v18.2 Role
 
-v18.2 builds on v18.1's proven infrastructure and applies 3 targeted fixes:
+v18.2 builds on v18.1's proven infrastructure and applies 3 targeted fixes plus 2 major new capabilities:
 
 - **DBNF version_drift** now properly evaluated for C3 — returns `SUPPORTED` with drift metrics when `--dbnf_mode version_drift`.
 - **C4 context safety** uses qualified transaction identifier bridge detection — `PARTIALLY_SUPPORTED` for legitimate cross-context bridges instead of blanket `NOT_SUPPORTED`.
 - **Deduplication transparency** — `raw_predicted_pair_count` and `unique_predicted_pair_count` tracked separately in `self_checks`.
 - **Candidate backend default** changed to `auto` (HNSW when available, pairwise fallback).
+
+- **Domain-Independent Automatic Lexicon Learning** — `LearnedLexicon` eliminates most lexicon-quality FNs from provider prefixes, abbreviations, and alias-closure gaps without hardcoded domain knowledge.
+- **DBNF improvements** — fixed mode handling, lexical normalization, adaptive tau, saturation detection, real two-model comparison.
 
 v18.2 is the recommended working baseline for all paper and audit runs.
 
@@ -1145,7 +1174,12 @@ v18.2 is a reviewer-grade, precision-governed SDNF experiment harness that:
 - **fixes DBNF version_drift** to properly evaluate C3 claim with actual drift metrics,
 - **adds C4 qualified transaction identifier bridge detection** with 3-tier claim logic (SUPPORTED/PARTIALLY_SUPPORTED/NOT_SUPPORTED),
 - **adds deduplication transparency** with raw/unique predicted pair counts in self_checks,
-- **defaults candidate_backend to auto** (HNSW when available).
+- **defaults candidate_backend to auto** (HNSW when available),
+- introduces **Domain-Independent Automatic Lexicon Learning** (`LearnedLexicon`) with three learning phases (prefix discovery, abbreviation expansion, equivalence class closure),
+- introduces **DBNF improvements** with fixed mode handling, lexical normalization, adaptive tau, saturation detection, and real two-model comparison,
+- adds `learned_lexicon_v18_2.json` persistence for audit/debug profiles,
+- enhances candidate retrieval with `lexicon_closure` candidate source,
+- adds `--dbnf_tau` CLI argument for user-specified drift threshold.
 
 Recommended baseline file:
 

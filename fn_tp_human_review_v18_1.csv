@@ -1,0 +1,284 @@
+fn_id,source_field,target_field,semantic_score,context_signature,model_reason,human_decision (ACCEPT/REJECT/HOLD),human_comments,record_type
+FN_0001,account_identifier,plaid_account_identifier,,account_identifier,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0002,account_number,bank_account_number,,bank_account_number,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0003,account_number,plaid_account_number,,bank_account_number,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0004,account_type,plaid_account_type,,account_type,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0005,account_type,subtype,,account_type,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0006,account_type,type,,account_type,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0007,addr,razorpay_virtual_payment_address,,virtual_payment_address,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0008,addr,upi_virtual_payment_address,,virtual_payment_address,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0009,addr,virtual_payment_address,,virtual_payment_address,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0010,amount,instructed_amount,,payment_amount,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0011,amount,iso20022_instructed_amount,,payment_amount,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0012,amount,mastercard_transaction_amount,,payment_amount,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0013,amount,payment_amount,,payment_amount,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0014,amount,plaid_transaction_amount,,payment_amount,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0015,amount,razorpay_amount,,payment_amount,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0016,amount,stripe_amount,,payment_amount,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0017,amount,transaction_amount,,payment_amount,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0018,amount,upi_transaction_amount,,payment_amount,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0019,balance,balance_current,,current_balance,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0020,balance,current_balance,,current_balance,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0021,balance,plaid_balance_current,,current_balance,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0022,balance_current,current_balance,,current_balance,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0023,balance_current,plaid_balance_current,,current_balance,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0024,bank_account_number,plaid_account_number,,bank_account_number,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0025,beneficiary_virtual_payment_address,payee_addr,,payee_vpa,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0026,beneficiary_virtual_payment_address,payee_virtual_payment_address,,payee_vpa,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0027,beneficiary_virtual_payment_address,upi_payee_virtual_payment_address,,payee_vpa,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0028,brand,card_brand,,card_brand,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0029,brand,network,,card_brand,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0030,brand,stripe_card_brand,,card_brand,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0031,card_acceptor_identifier,card_acceptor_identifier_code,,card_acceptor_identifier,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0032,card_acceptor_identifier,mastercard_card_acceptor_identifier,,card_acceptor_identifier,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0033,card_acceptor_identifier_code,mastercard_card_acceptor_identifier,,card_acceptor_identifier,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0034,card_brand,network,,card_brand,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0035,card_brand,stripe_card_brand,,card_brand,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0036,card_expiration_date,expiration_date,,card_expiration_date,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0037,card_expiration_date,inamex_expiration_date,,card_expiration_date,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0038,card_expiration_date,ppvisa_expiration_date,,card_expiration_date,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0039,card_holder_name,cardholder,,cardholder_name,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0040,card_holder_name,cardholder_name,,cardholder_name,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0041,card_holder_name,inamex_card_holder_name,,cardholder_name,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0042,card_holder_name,ppvisa_cardholder,,cardholder_name,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0043,card_issuer,issuer,,card_issuer,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0044,card_issuer,ppvisa_issuer,,card_issuer,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0045,card_last4,last4,,card_last4,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0046,card_last4,stripe_card_last4,,card_last4,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0047,card_number,card_primary_account_number,,card_primary_account_number,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0048,card_number,inamex_primary_account_number,,card_primary_account_number,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0049,card_number,mastercard_primary_account_number,,card_primary_account_number,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0050,card_number,ppvisa_primary_account_number,,card_primary_account_number,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0051,card_number,primary_account_number,,card_primary_account_number,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0052,card_primary_account_number,inamex_primary_account_number,,card_primary_account_number,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0053,card_primary_account_number,mastercard_primary_account_number,,card_primary_account_number,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0054,card_primary_account_number,ppvisa_primary_account_number,,card_primary_account_number,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0055,card_primary_account_number,primary_account_number,,card_primary_account_number,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0056,card_verification_value,inamex_card_verification_value,,card_verification_value,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0057,card_verification_value,ppvisa_verification_value,,card_verification_value,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0058,card_verification_value,security_code,,card_verification_value,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0059,card_verification_value,verification_value,,card_verification_value,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0060,cardholder,cardholder_name,,cardholder_name,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0061,cardholder,inamex_card_holder_name,,cardholder_name,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0062,cardholder,ppvisa_cardholder,,cardholder_name,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0063,cardholder_name,inamex_card_holder_name,,cardholder_name,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0064,cardholder_name,ppvisa_cardholder,,cardholder_name,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0065,contact,customer_contact,,customer_contact,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0066,contact,mobile,,customer_contact,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0067,contact,phone,,customer_contact,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0068,contact,razorpay_contact,,customer_contact,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0069,created,created_at,,created_at,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0070,created,razorpay_created_at,,created_at,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0071,created,stripe_created,,created_at,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0072,created_at,razorpay_created_at,,created_at,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0073,created_at,stripe_created,,created_at,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0074,creditor_account,iso20022_creditor_account,,creditor_account,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0075,creditor_name,iso20022_creditor_name,,creditor_name,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0076,currency,iso20022_currency,,payment_currency,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0077,currency,iso_currency_code,,payment_currency,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0078,currency,payment_currency,,payment_currency,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0079,currency,plaid_currency,,payment_currency,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0080,currency,razorpay_currency,,payment_currency,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0081,currency,stripe_currency,,payment_currency,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0082,currency,upi_currency,,payment_currency,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0083,current_balance,plaid_balance_current,,current_balance,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0084,customer,customer_identifier,,customer_identifier,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0085,customer,stripe_customer_identifier,,customer_identifier,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0086,customer_contact,mobile,,customer_contact,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0087,customer_contact,phone,,customer_contact,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0088,customer_contact,razorpay_contact,,customer_contact,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0089,customer_email,email,,customer_email,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0090,customer_email,razorpay_email,,customer_email,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0091,customer_identifier,stripe_customer_identifier,,customer_identifier,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0092,debtor_account,iso20022_debtor_account,,debtor_account,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0093,debtor_name,iso20022_debtor_name,,debtor_name,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0094,e2e_identifier,end_to_end_identifier,,end_to_end_identifier,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0095,e2e_identifier,iso20022_end_to_end_identifier,,end_to_end_identifier,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0096,email,razorpay_email,,customer_email,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0097,end_to_end_identifier,iso20022_end_to_end_identifier,,end_to_end_identifier,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0098,expiration_date,inamex_expiration_date,,card_expiration_date,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0099,expiration_date,ppvisa_expiration_date,,card_expiration_date,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0100,inamex_card_verification_value,security_code,,card_verification_value,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0101,inamex_card_verification_value,verification_value,,card_verification_value,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0102,inamex_primary_account_number,primary_account_number,,card_primary_account_number,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0103,instructed_amount,iso20022_instructed_amount,,payment_amount,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0104,instructed_amount,mastercard_transaction_amount,,payment_amount,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0105,instructed_amount,payment_amount,,payment_amount,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0106,instructed_amount,plaid_transaction_amount,,payment_amount,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0107,instructed_amount,razorpay_amount,,payment_amount,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0108,instructed_amount,stripe_amount,,payment_amount,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0109,instructed_amount,transaction_amount,,payment_amount,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0110,instructed_amount,upi_transaction_amount,,payment_amount,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0111,iso20022_currency,iso_currency_code,,payment_currency,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0112,iso20022_currency,payment_currency,,payment_currency,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0113,iso20022_instructed_amount,payment_amount,,payment_amount,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0114,iso20022_instructed_amount,transaction_amount,,payment_amount,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0115,iso20022_msg_identifier,message_identifier,,message_identifier,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0116,iso20022_msg_identifier,msg_identifier,,message_identifier,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0117,iso20022_reqd_exctn_dt,reqd_exctn_dt,,requested_execution_date,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0118,iso20022_reqd_exctn_dt,requested_execution_date,,requested_execution_date,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0119,iso_currency_code,payment_currency,,payment_currency,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0120,iso_currency_code,plaid_currency,,payment_currency,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0121,iso_currency_code,razorpay_currency,,payment_currency,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0122,iso_currency_code,stripe_currency,,payment_currency,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0123,iso_currency_code,upi_currency,,payment_currency,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0124,issuer,ppvisa_issuer,,card_issuer,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0125,last4,stripe_card_last4,,card_last4,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0126,mastercard_merchant_category_code,mcc,,merchant_category_code,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0127,mastercard_merchant_category_code,merchant_category_code,,merchant_category_code,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0128,mastercard_primary_account_number,primary_account_number,,card_primary_account_number,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0129,mastercard_processing_code,proc_code,,processing_code,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0130,mastercard_processing_code,processing_code,,processing_code,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0131,mastercard_system_trace_audit_number,stan,,system_trace_audit_number,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0132,mastercard_system_trace_audit_number,system_trace_audit_number,,system_trace_audit_number,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0133,mastercard_transaction_amount,payment_amount,,payment_amount,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0134,mastercard_transaction_amount,transaction_amount,,payment_amount,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0135,mastercard_transmission_datetime,transmission_datetime,,transmission_datetime,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0136,mastercard_transmission_datetime,transmission_ts,,transmission_datetime,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0137,mcc,merchant_category_code,,merchant_category_code,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0138,message_identifier,msg_identifier,,message_identifier,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0139,method,payment_method,,payment_method,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0140,method,razorpay_method,,payment_method,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0141,method,stripe_payment_method,,payment_method,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0142,mobile,phone,,customer_contact,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0143,mobile,razorpay_contact,,customer_contact,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0144,network,stripe_card_brand,,card_brand,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0145,order_identifier,razorpay_order_identifier,,order_identifier,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0146,payee_addr,payee_virtual_payment_address,,payee_vpa,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0147,payee_addr,upi_payee_virtual_payment_address,,payee_vpa,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0148,payee_virtual_payment_address,upi_payee_virtual_payment_address,,payee_vpa,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0149,payer_account,upi_payer_account,,payer_account,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0150,payment_amount,plaid_transaction_amount,,payment_amount,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0151,payment_amount,razorpay_amount,,payment_amount,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0152,payment_amount,stripe_amount,,payment_amount,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0153,payment_amount,transaction_amount,,payment_amount,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0154,payment_amount,upi_transaction_amount,,payment_amount,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0155,payment_currency,plaid_currency,,payment_currency,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0156,payment_currency,razorpay_currency,,payment_currency,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0157,payment_currency,stripe_currency,,payment_currency,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0158,payment_currency,upi_currency,,payment_currency,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0159,payment_identifier,razorpay_identifier,,payment_identifier,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0160,payment_identifier,razorpay_payment_identifier,,payment_identifier,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0161,payment_intent_identifier,pi_identifier,,payment_intent_identifier,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0162,payment_intent_identifier,stripe_payment_intent_identifier,,payment_intent_identifier,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0163,payment_method,razorpay_method,,payment_method,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0164,payment_method,stripe_payment_method,,payment_method,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0165,payment_status,razorpay_status,,payment_status,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0166,payment_status,status,,payment_status,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0167,payment_status,stripe_status,,payment_status,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0168,payment_status,transaction_status,,payment_status,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0169,payment_status,upi_transaction_status,,payment_status,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0170,phone,razorpay_contact,,customer_contact,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0171,pi_identifier,stripe_payment_intent_identifier,,payment_intent_identifier,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0172,plaid_account_type,subtype,,account_type,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0173,plaid_account_type,type,,account_type,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0174,plaid_routing_number,routing,,routing_number,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0175,plaid_routing_number,routing_number,,routing_number,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0176,plaid_transaction_amount,transaction_amount,,payment_amount,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0177,plaid_transaction_identifier,transaction_identifier,,transaction_identifier,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0178,ppvisa_primary_account_number,primary_account_number,,card_primary_account_number,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0179,ppvisa_verification_value,security_code,,card_verification_value,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0180,ppvisa_verification_value,verification_value,,card_verification_value,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0181,proc_code,processing_code,,processing_code,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0182,razorpay_amount,transaction_amount,,payment_amount,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0183,razorpay_identifier,razorpay_payment_identifier,,payment_identifier,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0184,razorpay_status,status,,payment_status,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0185,razorpay_status,transaction_status,,payment_status,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0186,razorpay_virtual_payment_address,virtual_payment_address,,virtual_payment_address,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0187,reqd_exctn_dt,requested_execution_date,,requested_execution_date,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0188,routing,routing_number,,routing_number,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0189,security_code,verification_value,,card_verification_value,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0190,stan,system_trace_audit_number,,system_trace_audit_number,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0191,status,stripe_status,,payment_status,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0192,status,transaction_status,,payment_status,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0193,status,upi_transaction_status,,payment_status,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0194,stripe_amount,transaction_amount,,payment_amount,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0195,stripe_status,transaction_status,,payment_status,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0196,subtype,type,,account_type,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0197,timestamp,transaction_timestamp,,transaction_timestamp,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0198,timestamp,ts,,transaction_timestamp,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0199,timestamp,upi_transaction_timestamp,,transaction_timestamp,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0200,transaction_amount,upi_transaction_amount,,payment_amount,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0201,transaction_identifier,upi_transaction_identifier,,transaction_identifier,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0202,transaction_status,upi_transaction_status,,payment_status,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0203,transaction_timestamp,ts,,transaction_timestamp,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0204,transaction_timestamp,upi_transaction_timestamp,,transaction_timestamp,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0205,transmission_datetime,transmission_ts,,transmission_datetime,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0206,ts,upi_transaction_timestamp,,transaction_timestamp,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+FN_0207,upi_virtual_payment_address,virtual_payment_address,,virtual_payment_address,FN derived from GT (slug-normalized) not present in ACCEPT_MERGE predictions (v18_1),,,FN
+TP_0,INAmex.PrimaryAccountNumber,Mastercard.primary_account_number,,,Model predicted TP (ACCEPT_MERGE),,,TP
+TP_1,INAmex.PrimaryAccountNumber,PPVisa.pan,,,Model predicted TP (ACCEPT_MERGE),,,TP
+TP_2,Mastercard.primary_account_number,PPVisa.pan,,,Model predicted TP (ACCEPT_MERGE),,,TP
+TP_3,INAmex.ExpirationDate,PPVisa.exp,,,Model predicted TP (ACCEPT_MERGE),,,TP
+TP_4,INAmex.CardVerificationValue,PPVisa.cvv,,,Model predicted TP (ACCEPT_MERGE),,,TP
+TP_5,INAmex.CardHolderName,PPVisa.cardholder,,,Model predicted TP (ACCEPT_MERGE),,,TP
+TP_6,ISO20022.instd_amt,Mastercard.transaction_amount,,,Model predicted TP (ACCEPT_MERGE),,,TP
+TP_7,ISO20022.instd_amt,Plaid.transaction_amount,,,Model predicted TP (ACCEPT_MERGE),,,TP
+TP_8,ISO20022.instd_amt,Razorpay.amount,,,Model predicted TP (ACCEPT_MERGE),,,TP
+TP_9,ISO20022.instd_amt,Stripe.amount,,,Model predicted TP (ACCEPT_MERGE),,,TP
+TP_10,ISO20022.instd_amt,UPI.txn_amount,,,Model predicted TP (ACCEPT_MERGE),,,TP
+TP_11,Mastercard.transaction_amount,Plaid.transaction_amount,,,Model predicted TP (ACCEPT_MERGE),,,TP
+TP_12,Mastercard.transaction_amount,Razorpay.amount,,,Model predicted TP (ACCEPT_MERGE),,,TP
+TP_13,Mastercard.transaction_amount,Stripe.amount,,,Model predicted TP (ACCEPT_MERGE),,,TP
+TP_14,Mastercard.transaction_amount,UPI.txn_amount,,,Model predicted TP (ACCEPT_MERGE),,,TP
+TP_15,Plaid.transaction_amount,Razorpay.amount,,,Model predicted TP (ACCEPT_MERGE),,,TP
+TP_16,Plaid.transaction_amount,Stripe.amount,,,Model predicted TP (ACCEPT_MERGE),,,TP
+TP_17,Plaid.transaction_amount,UPI.txn_amount,,,Model predicted TP (ACCEPT_MERGE),,,TP
+TP_18,Razorpay.amount,Stripe.amount,,,Model predicted TP (ACCEPT_MERGE),,,TP
+TP_19,Razorpay.amount,UPI.txn_amount,,,Model predicted TP (ACCEPT_MERGE),,,TP
+TP_20,Stripe.amount,UPI.txn_amount,,,Model predicted TP (ACCEPT_MERGE),,,TP
+TP_21,ISO20022.currency,Plaid.currency,,,Model predicted TP (ACCEPT_MERGE),,,TP
+TP_22,ISO20022.currency,Razorpay.currency,,,Model predicted TP (ACCEPT_MERGE),,,TP
+TP_23,ISO20022.currency,Stripe.currency,,,Model predicted TP (ACCEPT_MERGE),,,TP
+TP_24,ISO20022.currency,UPI.currency,,,Model predicted TP (ACCEPT_MERGE),,,TP
+TP_25,Plaid.currency,Razorpay.currency,,,Model predicted TP (ACCEPT_MERGE),,,TP
+TP_26,Plaid.currency,Stripe.currency,,,Model predicted TP (ACCEPT_MERGE),,,TP
+TP_27,Plaid.currency,UPI.currency,,,Model predicted TP (ACCEPT_MERGE),,,TP
+TP_28,Razorpay.currency,Stripe.currency,,,Model predicted TP (ACCEPT_MERGE),,,TP
+TP_29,Razorpay.currency,UPI.currency,,,Model predicted TP (ACCEPT_MERGE),,,TP
+TP_30,Stripe.currency,UPI.currency,,,Model predicted TP (ACCEPT_MERGE),,,TP
+TP_31,Plaid.transaction_id,UPI.txn_id,,,Model predicted TP (ACCEPT_MERGE),,,TP
+TP_32,Razorpay.method,Stripe.payment_method,,,Model predicted TP (ACCEPT_MERGE),,,TP
+TP_33,Razorpay.vpa,UPI.vpa,,,Model predicted TP (ACCEPT_MERGE),,,TP
+TP_34,Razorpay.status,Stripe.status,,,Model predicted TP (ACCEPT_MERGE),,,TP
+TP_35,Razorpay.status,UPI.txn_status,,,Model predicted TP (ACCEPT_MERGE),,,TP
+TP_36,Stripe.status,UPI.txn_status,,,Model predicted TP (ACCEPT_MERGE),,,TP
+TP_37,Razorpay.created_at,Stripe.created,,,Model predicted TP (ACCEPT_MERGE),,,TP
+TP_100,INAmex.PrimaryAccountNumber,Mastercard.primary_account_number,,,Model predicted TP (ACCEPT_MERGE),,,TP
+TP_101,INAmex.PrimaryAccountNumber,PPVisa.pan,,,Model predicted TP (ACCEPT_MERGE),,,TP
+TP_102,Mastercard.primary_account_number,PPVisa.pan,,,Model predicted TP (ACCEPT_MERGE),,,TP
+TP_103,INAmex.ExpirationDate,PPVisa.exp,,,Model predicted TP (ACCEPT_MERGE),,,TP
+TP_104,INAmex.CardVerificationValue,PPVisa.cvv,,,Model predicted TP (ACCEPT_MERGE),,,TP
+TP_105,INAmex.CardHolderName,PPVisa.cardholder,,,Model predicted TP (ACCEPT_MERGE),,,TP
+TP_106,ISO20022.instd_amt,Mastercard.transaction_amount,,,Model predicted TP (ACCEPT_MERGE),,,TP
+TP_107,ISO20022.instd_amt,Plaid.transaction_amount,,,Model predicted TP (ACCEPT_MERGE),,,TP
+TP_108,ISO20022.instd_amt,Razorpay.amount,,,Model predicted TP (ACCEPT_MERGE),,,TP
+TP_109,ISO20022.instd_amt,Stripe.amount,,,Model predicted TP (ACCEPT_MERGE),,,TP
+TP_110,ISO20022.instd_amt,UPI.txn_amount,,,Model predicted TP (ACCEPT_MERGE),,,TP
+TP_111,Mastercard.transaction_amount,Plaid.transaction_amount,,,Model predicted TP (ACCEPT_MERGE),,,TP
+TP_112,Mastercard.transaction_amount,Razorpay.amount,,,Model predicted TP (ACCEPT_MERGE),,,TP
+TP_113,Mastercard.transaction_amount,Stripe.amount,,,Model predicted TP (ACCEPT_MERGE),,,TP
+TP_114,Mastercard.transaction_amount,UPI.txn_amount,,,Model predicted TP (ACCEPT_MERGE),,,TP
+TP_115,Plaid.transaction_amount,Razorpay.amount,,,Model predicted TP (ACCEPT_MERGE),,,TP
+TP_116,Plaid.transaction_amount,Stripe.amount,,,Model predicted TP (ACCEPT_MERGE),,,TP
+TP_117,Plaid.transaction_amount,UPI.txn_amount,,,Model predicted TP (ACCEPT_MERGE),,,TP
+TP_118,Razorpay.amount,Stripe.amount,,,Model predicted TP (ACCEPT_MERGE),,,TP
+TP_119,Razorpay.amount,UPI.txn_amount,,,Model predicted TP (ACCEPT_MERGE),,,TP
+TP_120,Stripe.amount,UPI.txn_amount,,,Model predicted TP (ACCEPT_MERGE),,,TP
+TP_121,ISO20022.currency,Plaid.currency,,,Model predicted TP (ACCEPT_MERGE),,,TP
+TP_122,ISO20022.currency,Razorpay.currency,,,Model predicted TP (ACCEPT_MERGE),,,TP
+TP_123,ISO20022.currency,Stripe.currency,,,Model predicted TP (ACCEPT_MERGE),,,TP
+TP_124,ISO20022.currency,UPI.currency,,,Model predicted TP (ACCEPT_MERGE),,,TP
+TP_125,Plaid.currency,Razorpay.currency,,,Model predicted TP (ACCEPT_MERGE),,,TP
+TP_126,Plaid.currency,Stripe.currency,,,Model predicted TP (ACCEPT_MERGE),,,TP
+TP_127,Plaid.currency,UPI.currency,,,Model predicted TP (ACCEPT_MERGE),,,TP
+TP_128,Razorpay.currency,Stripe.currency,,,Model predicted TP (ACCEPT_MERGE),,,TP
+TP_129,Razorpay.currency,UPI.currency,,,Model predicted TP (ACCEPT_MERGE),,,TP
+TP_130,Stripe.currency,UPI.currency,,,Model predicted TP (ACCEPT_MERGE),,,TP
+TP_131,Plaid.transaction_id,UPI.txn_id,,,Model predicted TP (ACCEPT_MERGE),,,TP
+TP_132,Razorpay.method,Stripe.payment_method,,,Model predicted TP (ACCEPT_MERGE),,,TP
+TP_133,Razorpay.vpa,UPI.vpa,,,Model predicted TP (ACCEPT_MERGE),,,TP
+TP_134,Razorpay.status,Stripe.status,,,Model predicted TP (ACCEPT_MERGE),,,TP
+TP_135,Razorpay.status,UPI.txn_status,,,Model predicted TP (ACCEPT_MERGE),,,TP
+TP_136,Stripe.status,UPI.txn_status,,,Model predicted TP (ACCEPT_MERGE),,,TP
+TP_137,Razorpay.created_at,Stripe.created,,,Model predicted TP (ACCEPT_MERGE),,,TP
