@@ -1,0 +1,135 @@
+--- a/unified_sdnf_experiment_hybrid_v18_2.py
++++ b/unified_sdnf_experiment_hybrid_v18_2.py
+@@ -437,6 +437,14 @@
+     @property
+     def canonical_key(self) -> str:
+         return slug(self.canonical_hint or canonical_from_family(self.semantic_family, self.name))
++
++    # v18.2 PATCH: lexicon-aligned canonical key (set at runtime after lexicon learning)
++    _lexicon_canonical_key: str = ""
++
++    @property
++    def effective_canonical_key(self) -> str:
++        """Return lexicon-aligned canonical key if available, else raw canonical_key."""
++        return self._lexicon_canonical_key or self.canonical_key
+ 
+ 
+ @dataclass
+@@ -1283,7 +1291,7 @@
+                 # Preserve SDNF safety: do not blindly add every ANN neighbor.
+                 same_family = a.semantic_family == b.semantic_family and a.semantic_family != "unknown"
+                 name_sim = jaccard(toks(a.name), toks(b.name))
+-                same_canonical = a.canonical_key == b.canonical_key
++                same_canonical = a.effective_canonical_key == b.effective_canonical_key
+ 
+                 lexicon_match = False
+                 _ll_h = getattr(args, '_learned_lexicon', None)
+@@ -1305,7 +1313,7 @@
+         # Stage A: Canonical indexing
+         canon_groups: Dict[str, List[SchemaAttribute]] = defaultdict(list)
+         for a in attrs:
+-            canon_groups[a.canonical_key].append(a)
++            canon_groups[a.effective_canonical_key].append(a)
+ 
+         pairs: List[Tuple[SchemaAttribute, SchemaAttribute, str]] = []
+         seen: Set[Tuple[str, str]] = set()
+@@ -1446,7 +1454,7 @@
+     checks = nf_template()
+     pair = Pair.make(a.provider_field, b.provider_field)
+     norm_name_pair = Pair.make(a.name, b.name)
+-    same_canon = a.canonical_key == b.canonical_key  # v18.2: compute early for semantic_vetoes
++    same_canon = a.effective_canonical_key == b.effective_canonical_key  # v18.2: compute early for semantic_vetoes
+     cross_global_families = a.semantic_family in GLOBAL_CROSS_RAIL_FAMILIES and b.semantic_family in GLOBAL_CROSS_RAIL_FAMILIES
+     vetoes = semantic_vetoes(a, b, args.allow_cross_rail_amount_currency or cross_global_families, same_canonical=same_canon)
+     rc = role_conflict(a, b)
+@@ -1471,8 +1479,8 @@
+     cross_global = same_family and a.semantic_family in GLOBAL_CROSS_RAIL_FAMILIES  # v18.2: auto-allow
+ 
+     # v18: Use CMNF_COMPATIBILITY_MATRIX for context-aware cross-rail assessment
+-    cmnf_matrix_entry = CMNF_COMPATIBILITY_MATRIX.get(a.canonical_key if same_canon else "")
+-    cmnf_matrix_applied = a.canonical_key if (same_canon and cmnf_matrix_entry) else ""
++    cmnf_matrix_entry = CMNF_COMPATIBILITY_MATRIX.get(a.effective_canonical_key if same_canon else "")
++    cmnf_matrix_applied = a.effective_canonical_key if (same_canon and cmnf_matrix_entry) else ""
+     cmnf_global_ok = False
+     if cmnf_matrix_entry and same_canon:
+         if cmnf_matrix_entry.get("compatible_across_rails"):
+@@ -1504,7 +1512,7 @@
+     checks["DBNF"] = {"status": "PASS", "reason": "DBNF handled at drift audit level"}
+ 
+     gt_pair = norm_name_pair in true_pairs if true_pairs else False
+-    canonical_conflict = a.canonical_key != b.canonical_key and not alias
++    canonical_conflict = a.effective_canonical_key != b.effective_canonical_key and not alias
+     ambiguous_subtype = is_broad_compatible_but_ambiguous(a, b)
+     low_margin = args.review_threshold <= score < args.auto_merge_threshold
+     uncertain_cross_rail = a.rail != b.rail and not cross_global and not cmnf_global_ok
+@@ -1537,12 +1545,16 @@
+     elif same_canon and not vetoes and score >= (args.auto_merge_threshold - args.review_margin):
+         typ, reason, action = "ACCEPT_MERGE", f"soft_match_zone:score={score:.4f},margin={args.review_margin}", "MERGE_BY_SOFT_MATCH"
+         promotion_rule = "soft_match_zone_promotion"
++    # v18.2 PATCH: Lexicon equivalence promotion — lexicon says tokens are same concept
++    elif not vetoes and _ll_ep and _ll_ep.same_equivalence_class(a.name, b.name) and score >= args.review_threshold:
++        typ, reason, action = "ACCEPT_MERGE", f"lexicon_equivalence:score={score:.4f}", "MERGE_BY_LEXICON_EQUIVALENCE"
++        promotion_rule = "lexicon_equivalence_promotion"
+     elif aanf_pass and ecnf_pass and all(checks[x]["status"] == "PASS" for x in ["RRNF", "CMNF", "PONF"]) and score >= args.auto_merge_threshold and (canon_compat or same_family):
+         typ, reason, action = "ACCEPT_MERGE", "AANF/ECNF/RRNF/CMNF/PONF passed with clear compatibility", "MERGE_INTO_CANONICAL_NODE"
+     elif (aanf_pass and ecnf_pass and (canonical_conflict or ambiguous_subtype or low_margin or uncertain_cross_rail)):
+         # v18: BEFORE routing to HUMAN_REVIEW, try canonical-safe auto-promotion
+         can_promote, promo_rule, promo_flags = CanonicalPromotionPolicy.can_auto_promote(
+-            canonical_node=a.canonical_key if same_canon else "",
++            canonical_node=a.effective_canonical_key if same_canon else "",
+             same_family=same_family,
+             same_canon=same_canon,
+             semantic_family_a=a.semantic_family,
+@@ -1602,7 +1614,7 @@
+         decision_type=typ,
+         raw_attribute_a=a.provider_field,
+         raw_attribute_b=b.provider_field,
+-        canonical_node=a.canonical_key if a.canonical_key == b.canonical_key else f"{a.canonical_key}|{b.canonical_key}",
++        canonical_node=a.effective_canonical_key if a.effective_canonical_key == b.effective_canonical_key else f"{a.effective_canonical_key}|{b.effective_canonical_key}",
+         payment_type_a=a.payment_type,
+         payment_type_b=b.payment_type,
+         semantic_family_a=a.semantic_family,
+@@ -1647,12 +1659,12 @@
+                     "CanonicalNode": dec.canonical_node, "Track": track,
+                     "EvidenceScore": dec.evidence.get("score"), "HardVetoes": dec.hard_vetoes,
+                 })
+-            if dec.hard_vetoes and a.canonical_key == b.canonical_key:
++            if dec.hard_vetoes and a.effective_canonical_key == b.effective_canonical_key:
+                 conflicts.append({"canonical_hint": a.canonical_key, "a": a.provider_field, "b": b.provider_field, "reason": dec.hard_vetoes})
+ 
+     nodes: Dict[str, CanonicalNode] = {}
+     for a in attrs:
+-        n = nodes.setdefault(a.canonical_key, CanonicalNode(f"canon::{a.canonical_key}", a.canonical_key, a.semantic_family, a.role, a.domain))
++        n = nodes.setdefault(a.effective_canonical_key, CanonicalNode(f"canon::{a.effective_canonical_key}", a.effective_canonical_key, a.semantic_family, a.role, a.domain))
+         n.members.append(a)
+         n.rails.add(a.rail)
+         n.providers.add(a.payment_type)
+@@ -1692,7 +1704,7 @@
+     for d in descs:
+         for a in d.attributes:
+             keys = {a.normalized_name, slug(a.name), slug(a.canonical_hint)} | {slug(x) for x in a.aliases}
+-            if a.payment_type == "Stripe" and a.canonical_key == "payment_intent_identifier":
++            if a.payment_type == "Stripe" and a.effective_canonical_key == "payment_intent_identifier":
+                 keys.add("id")
+             for k in keys:
+                 lookup[a.payment_type][k] = a
+@@ -2327,6 +2339,19 @@
+     if not learned_lexicon.load(_lexicon_path, _lexicon_fp):
+         learned_lexicon.learn_from_schemas(descs)
+     args._learned_lexicon = learned_lexicon
++
++    # ── v18.2 PATCH: realign canonical keys via learned lexicon ──────────
++    all_attrs = [a for d in descs for a in d.attributes]
++    if learned_lexicon and learned_lexicon.representative_map:
++        for _attr in all_attrs:
++            raw_ck = _attr.canonical_key          # original @property value
++            rep = learned_lexicon.normalize_token(raw_ck)
++            if rep and rep != raw_ck:
++                _attr._lexicon_canonical_key = rep
++        _realigned = sum(1 for _a in all_attrs if _a._lexicon_canonical_key)
++        print(f"  [lexicon] Realigned {_realigned}/{len(all_attrs)} canonical keys via learned lexicon")
++    # ── end realignment ─────────────────────────────────────────────────
++
+ 
+     # Load payloads
+     obs, files_by_type, payload_audit = load_payloads(Path(args.payloads_root))

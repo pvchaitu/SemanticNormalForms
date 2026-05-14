@@ -1193,3 +1193,86 @@ Recommended README file:
 readMe_v18_2.md
 ```
 
+
+
+## 19. v18.2.1 Patch — Active Lexicon-Driven Merge (Latest Patch)
+
+### 19.1 Overview
+The latest patch introduces **lexicon-driven canonical alignment**, which converts the LearnedLexicon from a passive normalization layer into an **active merge driver**.
+
+### 19.2 Problem Addressed
+Previously:
+- LearnedLexicon improved normalization only.
+- canonical_key remained unchanged.
+- Candidate generation and promotion logic depended strictly on canonical_key equality.
+
+Result:
+- Large FN despite correct lexicon knowledge.
+
+### 19.3 Key Enhancement — effective_canonical_key
+A new property is introduced:
+
+```python
+def effective_canonical_key(self):
+    return _lexicon_canonical_key or canonical_key
+```
+
+This ensures that lexicon-equivalent attributes share the same canonical space at runtime.
+
+### 19.4 Runtime Canonical Realignment
+After lexicon learning, all attributes are updated:
+
+```python
+rep = learned_lexicon.normalize_token(attr.canonical_key)
+attr._lexicon_canonical_key = rep
+```
+
+Impact:
+- amount, transaction_amount, instructed_amount unify under same canonical key
+- CandidateRetriever Stage A groups them together
+
+### 19.5 Candidate Retrieval Impact
+Stage A grouping now uses:
+- effective_canonical_key (not canonical_key)
+
+This ensures lexicon-equivalent fields are **always compared**, eliminating discovery-level FN.
+
+### 19.6 Promotion Layer Enhancement
+A new promotion rule is added:
+
+- **lexicon_equivalence_promotion**
+
+Condition:
+- same_equivalence_class via LearnedLexicon
+- passes review threshold
+- no semantic vetoes
+
+### 19.7 Decision Flow Update
+Merge decision now follows:
+1. Lexicon-aligned canonical matching
+2. CMNF / canonical promotion rules
+3. Lexicon equivalence fallback
+
+### 19.8 Expected Impact
+
+| Metric | Before | After Patch |
+|--------|--------|------------|
+| TP | ~38 | ~180–220 |
+| FN | ~207 | ~25–60 |
+| Recall | 0.15 | 0.75–0.90 |
+| Precision | ~1.0 | ~1.0 |
+
+### 19.9 Key Design Principle
+> Lexicon must participate in **decision geometry**, not just normalization.
+
+### 19.10 Audit Changes
+- New promotion_rule: `lexicon_equivalence_promotion`
+- Canonical nodes reflect lexicon-aligned keys
+- Debug print shows number of canonical keys realigned
+
+### 19.11 Compatibility
+- No changes to input schemas
+- No change to CMNF logic
+- Fully backward compatible
+
+---
