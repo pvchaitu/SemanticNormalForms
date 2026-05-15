@@ -1,0 +1,583 @@
+{
+  "version": "18.2.0",
+  "profile": "paper",
+  "dataset_summary": {
+    "schema_descriptor_count": 8,
+    "total_attributes": 61,
+    "payload_observation_count": 488,
+    "total_ground_truth_pairs": 245,
+    "total_predicted_pairs_raw": 76,
+    "total_predicted_pairs_unique": 38
+  },
+  "alias_pair_metrics_strict": {
+    "measurable": true,
+    "tp": 38,
+    "fp": 0,
+    "fn": 207,
+    "precision": 1.0,
+    "recall": 0.15510204081632653,
+    "f1": 0.2685512367491166,
+    "reviewer_diagnosed_precision": 1.0,
+    "reviewer_diagnosed_recall": 0.15510204081632653,
+    "reviewer_diagnosed_f1": 0.2685512367491166,
+    "false_positive_examples": [],
+    "false_negative_examples": [
+      "account_identifier :: plaid_account_identifier",
+      "account_number :: bank_account_number",
+      "account_number :: plaid_account_number",
+      "account_type :: plaid_account_type",
+      "account_type :: subtype",
+      "account_type :: type",
+      "addr :: razorpay_virtual_payment_address",
+      "addr :: upi_virtual_payment_address",
+      "addr :: virtual_payment_address",
+      "amount :: instructed_amount",
+      "amount :: iso20022_instructed_amount",
+      "amount :: mastercard_transaction_amount",
+      "amount :: payment_amount",
+      "amount :: plaid_transaction_amount",
+      "amount :: razorpay_amount",
+      "amount :: stripe_amount",
+      "amount :: transaction_amount",
+      "amount :: upi_transaction_amount",
+      "balance :: balance_current",
+      "balance :: current_balance"
+    ],
+    "review_true_pairs": [],
+    "fp_prevented_by_review_count": 0,
+    "fn_requiring_review_count": 0
+  },
+  "membership_metrics": {
+    "measurable": true,
+    "cluster_precision": 0.8260869565217391,
+    "cluster_recall": 0.15510204081632653,
+    "cluster_f1": 0.26116838487972505
+  },
+  "cross_context": {
+    "cross_context_merge_count": 2,
+    "accepted_merge_count": 76,
+    "cross_context_merge_rate": 0.02631578947368421,
+    "examples": [
+      "Plaid.transaction_id::UPI.txn_id",
+      "Plaid.transaction_id::UPI.txn_id"
+    ],
+    "qualified_bridge_count": 0,
+    "qualified_bridge_examples": []
+  },
+  "review_queue": {
+    "count": 0,
+    "reason_counts": {}
+  },
+  "canonical_promotion_summary": {
+    "total_promotions": 76,
+    "promotion_counts_by_rule": {
+      "same_canonical_same_family_promotion": 36,
+      "cmnf_canonical_safe_promotion": 32,
+      "alias_overlap_promotion": 8
+    },
+    "cmnf_matrix_entries_used": 10
+  },
+  "self_checks": {
+    "no_self_pairs_in_predictions": true,
+    "no_duplicate_pairs_in_predictions": false,
+    "raw_predicted_pair_count": 76,
+    "unique_predicted_pair_count": 38,
+    "alias_vs_membership_evaluated_separately": true,
+    "human_review_not_counted_as_strict_positive": true
+  },
+  "normal_form_summaries": {
+    "EENF": {
+      "status": "NOT_EVALUATED",
+      "reason": "EENF mode disabled"
+    },
+    "DBNF": {
+      "mode": "version_drift",
+      "attribute_count": 61,
+      "status": "SUPPORTED",
+      "drift_metrics": {
+        "mean_cosine_shift": 0.269422,
+        "max_cosine_shift": 0.564628,
+        "detected_drift_count": 44,
+        "tau": 0.166831,
+        "tau_source": "adaptive",
+        "attribute_count": 61,
+        "drift_type": "simulated_context_perturbation",
+        "saturation_flag": false,
+        "saturation_rate": 0.7213,
+        "saturation_note": ""
+      }
+    },
+    "Geometry": {
+      "status": "SCAFFOLDED_NOT_EVALUATED",
+      "message": "v18 includes geometry audit scaffolding only; compactness/separation/margin/leakage are not evaluated claims.",
+      "canonical_node_count": 38,
+      "planned_metrics": [
+        "canonical_compactness",
+        "inter_canonical_separation",
+        "semantic_margin",
+        "partition_leakage"
+      ]
+    }
+  },
+  "roadmap_scaffolds": {
+    "canonical_embeddings": {
+      "status": "SCAFFOLDED_NOT_EVALUATED",
+      "node_count": 38,
+      "centroid_available_count": 38
+    },
+    "srs_snapshot": {
+      "version_label": "v18",
+      "status": "MINIMAL_SNAPSHOT",
+      "canonical_node_count": 38,
+      "member_count": 61,
+      "review_candidate_count": 0
+    }
+  },
+  "learned_lexicon_summary": {
+    "schema_fingerprint": "350d86541702b909",
+    "learned_prefix_count": 1,
+    "learned_prefixes": [
+      "razorpay_"
+    ],
+    "learned_abbrev_count": 47,
+    "equivalence_class_count": 31,
+    "total_tokens_mapped": 82
+  },
+  "schema_truth_report": {
+    "metrics": {
+      "expected_pairs": 38,
+      "predicted_pairs_unique": 38,
+      "tp": 38,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "side_by_side_preview": [
+      {
+        "canonical_key": "",
+        "field_a": "inamex_card_holder_name",
+        "field_b": "ppvisa_cardholder",
+        "predicted": "Y",
+        "EvidenceScore": "0.6822430267510532",
+        "PromotionRule": "alias_overlap_promotion",
+        "AuditFlags": "",
+        "Track": "discovery"
+      },
+      {
+        "canonical_key": "",
+        "field_a": "inamex_card_verification_value",
+        "field_b": "ppvisa_verification_value",
+        "predicted": "Y",
+        "EvidenceScore": "0.810905888569577",
+        "PromotionRule": "cmnf_canonical_safe_promotion",
+        "AuditFlags": "",
+        "Track": "discovery"
+      },
+      {
+        "canonical_key": "",
+        "field_a": "inamex_expiration_date",
+        "field_b": "ppvisa_expiration_date",
+        "predicted": "Y",
+        "EvidenceScore": "0.893962160821743",
+        "PromotionRule": "cmnf_canonical_safe_promotion",
+        "AuditFlags": "",
+        "Track": "discovery"
+      },
+      {
+        "canonical_key": "",
+        "field_a": "inamex_primary_account_number",
+        "field_b": "mastercard_primary_account_number",
+        "predicted": "Y",
+        "EvidenceScore": "0.9423870794878167",
+        "PromotionRule": "same_canonical_same_family_promotion",
+        "AuditFlags": "",
+        "Track": "discovery"
+      },
+      {
+        "canonical_key": "",
+        "field_a": "inamex_primary_account_number",
+        "field_b": "ppvisa_primary_account_number",
+        "predicted": "Y",
+        "EvidenceScore": "0.8869325895797866",
+        "PromotionRule": "same_canonical_same_family_promotion",
+        "AuditFlags": "",
+        "Track": "discovery"
+      },
+      {
+        "canonical_key": "",
+        "field_a": "iso20022_currency",
+        "field_b": "plaid_currency",
+        "predicted": "Y",
+        "EvidenceScore": "0.843383943654918",
+        "PromotionRule": "same_canonical_same_family_promotion",
+        "AuditFlags": "",
+        "Track": "discovery"
+      },
+      {
+        "canonical_key": "",
+        "field_a": "iso20022_currency",
+        "field_b": "razorpay_currency",
+        "predicted": "Y",
+        "EvidenceScore": "0.8690502246700502",
+        "PromotionRule": "same_canonical_same_family_promotion",
+        "AuditFlags": "",
+        "Track": "discovery"
+      },
+      {
+        "canonical_key": "",
+        "field_a": "iso20022_currency",
+        "field_b": "stripe_currency",
+        "predicted": "Y",
+        "EvidenceScore": "0.8730656028159443",
+        "PromotionRule": "same_canonical_same_family_promotion",
+        "AuditFlags": "",
+        "Track": "discovery"
+      },
+      {
+        "canonical_key": "",
+        "field_a": "iso20022_currency",
+        "field_b": "upi_currency",
+        "predicted": "Y",
+        "EvidenceScore": "0.8863815540634081",
+        "PromotionRule": "same_canonical_same_family_promotion",
+        "AuditFlags": "",
+        "Track": "discovery"
+      },
+      {
+        "canonical_key": "",
+        "field_a": "iso20022_instructed_amount",
+        "field_b": "mastercard_transaction_amount",
+        "predicted": "Y",
+        "EvidenceScore": "0.6749932882155116",
+        "PromotionRule": "alias_overlap_promotion",
+        "AuditFlags": "",
+        "Track": "discovery"
+      },
+      {
+        "canonical_key": "",
+        "field_a": "iso20022_instructed_amount",
+        "field_b": "plaid_transaction_amount",
+        "predicted": "Y",
+        "EvidenceScore": "0.663439820528296",
+        "PromotionRule": "alias_overlap_promotion",
+        "AuditFlags": "",
+        "Track": "discovery"
+      },
+      {
+        "canonical_key": "",
+        "field_a": "iso20022_instructed_amount",
+        "field_b": "razorpay_amount",
+        "predicted": "Y",
+        "EvidenceScore": "0.7007846893768079",
+        "PromotionRule": "cmnf_canonical_safe_promotion",
+        "AuditFlags": "",
+        "Track": "discovery"
+      },
+      {
+        "canonical_key": "",
+        "field_a": "iso20022_instructed_amount",
+        "field_b": "stripe_amount",
+        "predicted": "Y",
+        "EvidenceScore": "0.7058571413937634",
+        "PromotionRule": "cmnf_canonical_safe_promotion",
+        "AuditFlags": "",
+        "Track": "discovery"
+      },
+      {
+        "canonical_key": "",
+        "field_a": "iso20022_instructed_amount",
+        "field_b": "upi_transaction_amount",
+        "predicted": "Y",
+        "EvidenceScore": "0.6843910837085688",
+        "PromotionRule": "cmnf_canonical_safe_promotion",
+        "AuditFlags": "",
+        "Track": "discovery"
+      },
+      {
+        "canonical_key": "",
+        "field_a": "mastercard_primary_account_number",
+        "field_b": "ppvisa_primary_account_number",
+        "predicted": "Y",
+        "EvidenceScore": "0.9083613140256566",
+        "PromotionRule": "same_canonical_same_family_promotion",
+        "AuditFlags": "",
+        "Track": "discovery"
+      },
+      {
+        "canonical_key": "",
+        "field_a": "mastercard_transaction_amount",
+        "field_b": "plaid_transaction_amount",
+        "predicted": "Y",
+        "EvidenceScore": "0.8620695593486776",
+        "PromotionRule": "cmnf_canonical_safe_promotion",
+        "AuditFlags": "",
+        "Track": "discovery"
+      },
+      {
+        "canonical_key": "",
+        "field_a": "mastercard_transaction_amount",
+        "field_b": "razorpay_amount",
+        "predicted": "Y",
+        "EvidenceScore": "0.7370253761584925",
+        "PromotionRule": "cmnf_canonical_safe_promotion",
+        "AuditFlags": "",
+        "Track": "discovery"
+      },
+      {
+        "canonical_key": "",
+        "field_a": "mastercard_transaction_amount",
+        "field_b": "stripe_amount",
+        "predicted": "Y",
+        "EvidenceScore": "0.7739295488793073",
+        "PromotionRule": "cmnf_canonical_safe_promotion",
+        "AuditFlags": "",
+        "Track": "discovery"
+      },
+      {
+        "canonical_key": "",
+        "field_a": "mastercard_transaction_amount",
+        "field_b": "upi_transaction_amount",
+        "predicted": "Y",
+        "EvidenceScore": "0.8772530183507581",
+        "PromotionRule": "cmnf_canonical_safe_promotion",
+        "AuditFlags": "",
+        "Track": "discovery"
+      },
+      {
+        "canonical_key": "",
+        "field_a": "plaid_currency",
+        "field_b": "razorpay_currency",
+        "predicted": "Y",
+        "EvidenceScore": "0.8696275376540612",
+        "PromotionRule": "same_canonical_same_family_promotion",
+        "AuditFlags": "",
+        "Track": "discovery"
+      },
+      {
+        "canonical_key": "",
+        "field_a": "plaid_currency",
+        "field_b": "stripe_currency",
+        "predicted": "Y",
+        "EvidenceScore": "0.8731301552489024",
+        "PromotionRule": "same_canonical_same_family_promotion",
+        "AuditFlags": "",
+        "Track": "discovery"
+      },
+      {
+        "canonical_key": "",
+        "field_a": "plaid_currency",
+        "field_b": "upi_currency",
+        "predicted": "Y",
+        "EvidenceScore": "0.8612782563469754",
+        "PromotionRule": "same_canonical_same_family_promotion",
+        "AuditFlags": "",
+        "Track": "discovery"
+      },
+      {
+        "canonical_key": "",
+        "field_a": "plaid_transaction_amount",
+        "field_b": "razorpay_amount",
+        "predicted": "Y",
+        "EvidenceScore": "0.7542244598210177",
+        "PromotionRule": "cmnf_canonical_safe_promotion",
+        "AuditFlags": "",
+        "Track": "discovery"
+      },
+      {
+        "canonical_key": "",
+        "field_a": "plaid_transaction_amount",
+        "field_b": "stripe_amount",
+        "predicted": "Y",
+        "EvidenceScore": "0.7695841788978137",
+        "PromotionRule": "cmnf_canonical_safe_promotion",
+        "AuditFlags": "",
+        "Track": "discovery"
+      },
+      {
+        "canonical_key": "",
+        "field_a": "plaid_transaction_amount",
+        "field_b": "upi_transaction_amount",
+        "predicted": "Y",
+        "EvidenceScore": "0.864741893640319",
+        "PromotionRule": "cmnf_canonical_safe_promotion",
+        "AuditFlags": "",
+        "Track": "discovery"
+      },
+      {
+        "canonical_key": "",
+        "field_a": "plaid_transaction_identifier",
+        "field_b": "upi_transaction_identifier",
+        "predicted": "Y",
+        "EvidenceScore": "0.6933854463390907",
+        "PromotionRule": "alias_overlap_promotion",
+        "AuditFlags": "",
+        "Track": "discovery"
+      },
+      {
+        "canonical_key": "",
+        "field_a": "razorpay_amount",
+        "field_b": "stripe_amount",
+        "predicted": "Y",
+        "EvidenceScore": "0.86823553405094",
+        "PromotionRule": "cmnf_canonical_safe_promotion",
+        "AuditFlags": "",
+        "Track": "discovery"
+      },
+      {
+        "canonical_key": "",
+        "field_a": "razorpay_amount",
+        "field_b": "upi_transaction_amount",
+        "predicted": "Y",
+        "EvidenceScore": "0.7187702047272145",
+        "PromotionRule": "cmnf_canonical_safe_promotion",
+        "AuditFlags": "",
+        "Track": "discovery"
+      },
+      {
+        "canonical_key": "",
+        "field_a": "razorpay_created_at",
+        "field_b": "stripe_created",
+        "predicted": "Y",
+        "EvidenceScore": "0.7690397020796296",
+        "PromotionRule": "same_canonical_same_family_promotion",
+        "AuditFlags": "",
+        "Track": "discovery"
+      },
+      {
+        "canonical_key": "",
+        "field_a": "razorpay_currency",
+        "field_b": "stripe_currency",
+        "predicted": "Y",
+        "EvidenceScore": "0.8849434015755534",
+        "PromotionRule": "same_canonical_same_family_promotion",
+        "AuditFlags": "",
+        "Track": "discovery"
+      },
+      {
+        "canonical_key": "",
+        "field_a": "razorpay_currency",
+        "field_b": "upi_currency",
+        "predicted": "Y",
+        "EvidenceScore": "0.8756947880903944",
+        "PromotionRule": "same_canonical_same_family_promotion",
+        "AuditFlags": "",
+        "Track": "discovery"
+      },
+      {
+        "canonical_key": "",
+        "field_a": "razorpay_method",
+        "field_b": "stripe_payment_method",
+        "predicted": "Y",
+        "EvidenceScore": "0.7731308906465414",
+        "PromotionRule": "same_canonical_same_family_promotion",
+        "AuditFlags": "",
+        "Track": "discovery"
+      },
+      {
+        "canonical_key": "",
+        "field_a": "razorpay_status",
+        "field_b": "stripe_status",
+        "predicted": "Y",
+        "EvidenceScore": "0.880523890744095",
+        "PromotionRule": "cmnf_canonical_safe_promotion",
+        "AuditFlags": "",
+        "Track": "discovery"
+      },
+      {
+        "canonical_key": "",
+        "field_a": "razorpay_status",
+        "field_b": "upi_transaction_status",
+        "predicted": "Y",
+        "EvidenceScore": "0.7460994853352971",
+        "PromotionRule": "same_canonical_same_family_promotion",
+        "AuditFlags": "",
+        "Track": "discovery"
+      },
+      {
+        "canonical_key": "",
+        "field_a": "razorpay_virtual_payment_address",
+        "field_b": "upi_virtual_payment_address",
+        "predicted": "Y",
+        "EvidenceScore": "0.9394508150764378",
+        "PromotionRule": "same_canonical_same_family_promotion",
+        "AuditFlags": "",
+        "Track": "discovery"
+      },
+      {
+        "canonical_key": "",
+        "field_a": "stripe_amount",
+        "field_b": "upi_transaction_amount",
+        "predicted": "Y",
+        "EvidenceScore": "0.7518896065927524",
+        "PromotionRule": "cmnf_canonical_safe_promotion",
+        "AuditFlags": "",
+        "Track": "discovery"
+      },
+      {
+        "canonical_key": "",
+        "field_a": "stripe_currency",
+        "field_b": "upi_currency",
+        "predicted": "Y",
+        "EvidenceScore": "0.8904232170224958",
+        "PromotionRule": "same_canonical_same_family_promotion",
+        "AuditFlags": "",
+        "Track": "discovery"
+      },
+      {
+        "canonical_key": "",
+        "field_a": "stripe_status",
+        "field_b": "upi_transaction_status",
+        "predicted": "Y",
+        "EvidenceScore": "0.7714709985748814",
+        "PromotionRule": "same_canonical_same_family_promotion",
+        "AuditFlags": "",
+        "Track": "discovery"
+      }
+    ]
+  },
+  "lexicon_quality": {
+    "measurable": true,
+    "tp": 8,
+    "fp": 4,
+    "fn": 237,
+    "precision": 0.6666666666666666,
+    "recall": 0.0326530612244898,
+    "f1": 0.0622568093385214,
+    "reviewer_diagnosed_precision": 0.6666666666666666,
+    "reviewer_diagnosed_recall": 0.0326530612244898,
+    "reviewer_diagnosed_f1": 0.0622568093385214,
+    "false_positive_examples": [
+      "account_number :: primary_account_number",
+      "payment_intent_identifier :: razorpay_payment_identifier",
+      "payment_intent_identifier :: transaction_identifier",
+      "razorpay_payment_identifier :: transaction_identifier"
+    ],
+    "false_negative_examples": [
+      "account_identifier :: plaid_account_identifier",
+      "account_number :: bank_account_number",
+      "account_number :: plaid_account_number",
+      "account_type :: plaid_account_type",
+      "account_type :: subtype",
+      "account_type :: type",
+      "addr :: razorpay_virtual_payment_address",
+      "addr :: upi_virtual_payment_address",
+      "addr :: virtual_payment_address",
+      "amount :: iso20022_instructed_amount",
+      "amount :: mastercard_transaction_amount",
+      "amount :: payment_amount",
+      "amount :: plaid_transaction_amount",
+      "amount :: razorpay_amount",
+      "amount :: stripe_amount",
+      "amount :: upi_transaction_amount",
+      "balance :: balance_current",
+      "balance :: current_balance",
+      "balance :: plaid_balance_current",
+      "balance_current :: current_balance"
+    ],
+    "review_true_pairs": [],
+    "fp_prevented_by_review_count": 0,
+    "fn_requiring_review_count": 0
+  }
+}
