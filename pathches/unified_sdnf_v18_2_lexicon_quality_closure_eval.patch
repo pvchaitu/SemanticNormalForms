@@ -1,0 +1,91 @@
+diff --git a/unified_sdnf_experiment_hybrid_v18_2.py b/unified_sdnf_experiment_hybrid_v18_2.py
+
+--- a/unified_sdnf_experiment_hybrid_v18_2.py
++++ b/unified_sdnf_experiment_hybrid_v18_2.py
+@@ -1856,6 +1856,34 @@
+     return {"measurable": True, "cluster_precision": prec, "cluster_recall": rec, "cluster_f1": f1}
+ 
+ 
++
++def expand_pairs_within_nodes(nodes: Dict[str, CanonicalNode], use_names: bool = True) -> Set[Pair]:
++    """Generate full pairwise closure within each canonical node.
++
++    This is used ONLY for the lexicon-quality evaluation view.
++    It does not change decisions_audit or strict ACCEPT_MERGE edges.
++
++    Args:
++        nodes: canonical node map
++        use_names: if True, generate pairs in attribute.name space; else provider_field space
++
++    Returns:
++        Set of Pair objects representing the full intra-cluster closure.
++    """
++    out: Set[Pair] = set()
++    for node in nodes.values():
++        members = node.members
++        if len(members) < 2:
++            continue
++        for i in range(len(members)):
++            for j in range(i + 1, len(members)):
++                a = members[i].name if use_names else members[i].provider_field
++                b = members[j].name if use_names else members[j].provider_field
++                p = Pair.make(a, b)
++                if p.a != p.b:
++                    out.add(p)
++    return out
++
+ def _is_qualified_transaction_bridge(d: MergeDecision) -> bool:
+     excluded = {"payer", "payee", "debtor", "creditor", "customer", "account",
+                 "routing", "vpa", "pan", "card", "order", "message"}
+@@ -2371,6 +2399,11 @@
+     raw_predicted, unique_predicted = predicted_pairs_from_decisions(decisions)
+     review_set = review_pairs(decisions)
+     alias_metrics = evaluate_alias_metrics(unique_predicted, review_set, true_pairs, args.ground_truth_closed_world)
++    # v18.2 PATCH: Lexicon-quality evaluation uses full intra-canonical closure.
++    # This converts cluster equivalence into the pairwise-complete graph expected by
++    # the ground-truth alias-closure file, without changing strict ACCEPT_MERGE audits.
++    lexicon_predicted_unique = expand_pairs_within_nodes(nodes, use_names=True)
++    lexicon_metrics = evaluate_alias_metrics(lexicon_predicted_unique, set(), true_pairs, args.ground_truth_closed_world)
+     member_metrics = membership_metrics(nodes, true_pairs)
+     xctx = evaluate_cross_context(decisions)
+     eenf = compute_eenf_summary(all_attrs, embedder, args)
+@@ -2473,7 +2506,7 @@
+             "metrics": {k: v for k, v in schema_truth_metrics.items() if k not in ("tp_set", "fp_set", "fn_set")},
+             "side_by_side_preview": schema_truth_side_by_side[:50],
+         },
+-        "lexicon_quality": alias_metrics,
++        "lexicon_quality": lexicon_metrics,
+ 
+     }
+ 
+@@ -2557,7 +2590,7 @@
+         fn_examples = alias_metrics.get("false_negative_examples", [])
+         # Get full FN set for top 50
+         if true_pairs is not None:
+-            lq_fn_set = true_pairs - unique_predicted
++            lq_fn_set = true_pairs - lexicon_predicted_unique
+             for j, p in enumerate(sorted(lq_fn_set)[:50], 1):
+                 lexicon_fn_lines.append(f"  {j:3d}. {p.display()}")
+         else:
+@@ -2648,14 +2681,14 @@
+             alias_rows.append({"Metric": mk, "Value": str(mv)})
+         # v18.2 PATCH: Add lexicon-quality metrics with prefix
+         if alias_metrics.get("measurable"):
+-            lq_true = alias_metrics.get("tp", 0) + alias_metrics.get("fn", 0)
++            lq_true = lexicon_metrics.get("tp", 0) + lexicon_metrics.get("fn", 0)
+             for mk, mv in [("lexicon_quality.true_pairs", lq_true),
+-                            ("lexicon_quality.tp", alias_metrics.get("tp", 0)),
+-                            ("lexicon_quality.fp", alias_metrics.get("fp", 0)),
+-                            ("lexicon_quality.fn", alias_metrics.get("fn", 0)),
+-                            ("lexicon_quality.precision", f"{alias_metrics.get('precision', 0):.6f}"),
+-                            ("lexicon_quality.recall", f"{alias_metrics.get('recall', 0):.6f}"),
+-                            ("lexicon_quality.f1", f"{alias_metrics.get('f1', 0):.6f}")]:
++                            ("lexicon_quality.tp", lexicon_metrics.get("tp", 0)),
++                            ("lexicon_quality.fp", lexicon_metrics.get("fp", 0)),
++                            ("lexicon_quality.fn", lexicon_metrics.get("fn", 0)),
++                            ("lexicon_quality.precision", f"{lexicon_metrics.get('precision', 0):.6f}"),
++                            ("lexicon_quality.recall", f"{lexicon_metrics.get('recall', 0):.6f}"),
++                            ("lexicon_quality.f1", f"{lexicon_metrics.get('f1', 0):.6f}")]:
+                 alias_rows.append({"Metric": mk, "Value": str(mv)})
+ 
+         writer.write_csv("alias_evaluation_audit_v18_2.csv", alias_rows)

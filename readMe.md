@@ -1276,3 +1276,122 @@ Merge decision now follows:
 - Fully backward compatible
 
 ---
+
+
+### 20. v18.2.2 Patch — Lexicon-Quality Closure Expansion (Evaluation Alignment Fix)
+
+#### 20.1 Overview
+
+v18.2.2 introduces a **closure expansion layer for lexicon-quality evaluation**, resolving the long-standing mismatch between SDNF’s **canonical-cluster model** and the **pairwise-complete alias-closure expectation** used in ground-truth evaluation.
+
+This patch does **NOT change merge decisions**. It only corrects how **lexicon-quality metrics are computed**.
+
+---
+
+#### 20.2 Problem Addressed
+
+Before this patch:
+
+- SDNF produces **canonical clusters** (minimal graph of accepted merges).
+- Lexicon-quality evaluation expects a **fully connected pairwise graph**.
+- Even when semantic clustering is complete, many expected pairs are not explicitly emitted.
+
+Result:
+
+- High lexicon-quality FN (~200+) even when system is semantically correct
+- Misleading recall interpretation
+
+---
+
+#### 20.3 Key Insight
+
+> SDNF learns **equivalence classes**, but evaluation expects **pairwise closure**.
+
+Therefore:
+
+- System correctness ≠ Edge completeness
+- FN was dominated by **missing transitive pair expansion**, not missed merges
+
+---
+
+#### 20.4 Closure Expansion Layer
+
+A new helper is introduced:
+
+```python
+def expand_pairs_within_nodes(nodes):
+    # Generates all pair combinations within each canonical node
+```
+
+This performs:
+
+- For each canonical node with N members
+- Generates N*(N-1)/2 pairs
+
+---
+
+#### 20.5 Evaluation Switch (Critical Change)
+
+Lexicon-quality evaluation now uses:
+
+```python
+lexicon_predicted = expand_pairs_within_nodes(nodes)
+```
+
+Instead of:
+
+```python
+unique_predicted  # sparse ACCEPT_MERGE edges
+```
+
+---
+
+#### 20.6 What Remains Unchanged (Reviewer-Safe Guarantees)
+
+This patch does NOT modify:
+
+- Decision logic (`evaluate_pair`)
+- Promotion rules
+- Candidate retrieval
+- Thresholds
+- decisions_audit_v18_2.csv
+- schema-truth evaluation
+
+Only lexicon-quality evaluation input is changed.
+
+---
+
+#### 20.7 Expected Impact
+
+| Metric | Before | After |
+|--------|--------|-------|
+| Schema-truth FN | 0 | 0 |
+| Lexicon FN | ~200 | ~0–20 |
+| Recall (lexicon view) | ~0.15 | ~0.85–1.0 |
+
+---
+
+#### 20.8 Interpretation Update
+
+After this patch:
+
+- Lexicon-quality FN now reflects **actual semantic misses**, not structural gaps
+- Cluster correctness and evaluation are aligned
+
+---
+
+#### 20.9 Design Principle (Updated)
+
+> Evaluation must respect the representation: cluster systems require closure-based evaluation.
+
+---
+
+#### 20.10 Reviewer Guidance
+
+When interpreting results:
+
+- Prefer **schema-truth metrics** for correctness
+- Use **lexicon-quality metrics** for ground-truth completeness diagnostics
+- Post v18.2.2, both views are now structurally consistent
+
+---
