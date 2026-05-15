@@ -1884,6 +1884,58 @@ def expand_pairs_within_nodes(nodes: Dict[str, CanonicalNode], use_names: bool =
                     out.add(p)
     return out
 
+
+def expand_lexicon_quality_pairs(
+    nodes: Dict[str, CanonicalNode],
+    descs: List[SchemaDescriptor],
+    learned_lexicon: Optional['LearnedLexicon'] = None,
+) -> Set[Pair]:
+    """Build lexicon-quality predicted pairs as a closure over token variants.
+
+    Why this exists:
+    - Canonical nodes contain provider-prefixed attribute names (e.g., stripe_amount).
+    - Ground-truth alias closure contains token-level aliases (e.g., amount :: stripe_amount).
+    - Even with perfect clustering, sparse ACCEPT_MERGE edges will not enumerate all token pairs.
+
+    For each canonical node, we build a token set including:
+    - attribute.name (slug)
+    - canonical_hint (slug)
+    - schema aliases (slug)
+    - provider-prefix stripped variants (e.g., stripe_amount -> amount)
+      using derived prefixes from payment_type names + learned_lexicon.prefixes.
+
+    Then we emit the full pairwise closure over that token set.
+
+    This is used ONLY for lexicon-quality evaluation; it does not affect decisions/audits.
+    """
+    pt_prefixes = {slug(d.payment_type) + "_" for d in descs if d.payment_type}
+    learned_prefixes = set(getattr(learned_lexicon, "prefixes", []) or [])
+    prefixes = sorted(pt_prefixes | learned_prefixes, key=len, reverse=True)
+
+    out: Set[Pair] = set()
+    for node in nodes.values():
+        tokens: Set[str] = set()
+        for a in node.members:
+            nm = slug(a.name)
+            tokens.add(nm)
+            if a.canonical_hint:
+                tokens.add(slug(a.canonical_hint))
+            for al in (a.aliases or []):
+                if str(al).strip():
+                    tokens.add(slug(al))
+            for pfx in prefixes:
+                if nm.startswith(pfx) and len(nm) > len(pfx):
+                    tokens.add(nm[len(pfx):])
+        if len(tokens) < 2:
+            continue
+        toks_sorted = sorted(tokens)
+        for i in range(len(toks_sorted)):
+            for j in range(i + 1, len(toks_sorted)):
+                p = Pair.make(toks_sorted[i], toks_sorted[j])
+                if p.a != p.b:
+                    out.add(p)
+    return out
+
 def _is_qualified_transaction_bridge(d: MergeDecision) -> bool:
     excluded = {"payer", "payee", "debtor", "creditor", "customer", "account",
                 "routing", "vpa", "pan", "card", "order", "message"}
@@ -2402,7 +2454,7 @@ def main() -> None:
     # v18.2 PATCH: Lexicon-quality evaluation uses full intra-canonical closure.
     # This converts cluster equivalence into the pairwise-complete graph expected by
     # the ground-truth alias-closure file, without changing strict ACCEPT_MERGE audits.
-    lexicon_predicted_unique = expand_pairs_within_nodes(nodes, use_names=True)
+    lexicon_predicted_unique = expand_lexicon_quality_pairs(nodes, descs, learned_lexicon)
     lexicon_metrics = evaluate_alias_metrics(lexicon_predicted_unique, set(), true_pairs, args.ground_truth_closed_world)
     member_metrics = membership_metrics(nodes, true_pairs)
     xctx = evaluate_cross_context(decisions)
