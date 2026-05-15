@@ -27,9 +27,9 @@ schema_truth.precision,1.000000
 schema_truth.recall,1.000000
 schema_truth.f1,1.000000
 lexicon_quality.true_pairs,245
-lexicon_quality.tp,8
-lexicon_quality.fp,4
-lexicon_quality.fn,237
-lexicon_quality.precision,0.666667
-lexicon_quality.recall,0.032653
-lexicon_quality.f1,0.062257
+lexicon_quality.tp,63
+lexicon_quality.fp,22
+lexicon_quality.fn,182
+lexicon_quality.precision,0.741176
+lexicon_quality.recall,0.257143
+lexicon_quality.f1,0.381818

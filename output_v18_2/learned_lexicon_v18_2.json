@@ -40,12 +40,12 @@
     "proc_code": "processing_code",
     "reqd_exctn_dt": "requested_execution_date",
     "routing": "routing_number",
-    "security_code": "verification_value",
+    "security_code": "card_verification_value",
     "stan": "system_trace_audit_number",
     "subtype": "account_type",
     "timestamp": "transaction_timestamp",
     "transmission_ts": "transmission_datetime",
-    "ts": "timestamp",
+    "ts": "transaction_timestamp",
     "verification_value": "card_verification_value"
   },
   "prefixes": [
