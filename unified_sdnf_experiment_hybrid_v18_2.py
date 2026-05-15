@@ -1584,7 +1584,7 @@ def evaluate_pair(a: SchemaAttribute, b: SchemaAttribute, args: argparse.Namespa
     elif score >= args.review_threshold or gt_pair:
         # v18: Also try promotion for plausible-but-not-safe cases
         can_promote, promo_rule, promo_flags = CanonicalPromotionPolicy.can_auto_promote(
-            canonical_node=a.canonical_key if same_canon else "",
+            canonical_node=a.effective_canonical_key if same_canon else "",
             same_family=same_family,
             same_canon=same_canon,
             semantic_family_a=a.semantic_family,
